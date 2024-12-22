@@ -24,16 +24,16 @@ export const HTTPS: boolean = variables.SSL;
 export const environment: string = process.env.NODE_ENV;
 
 export const typeOrmModuleOptions = (
-  config: IDatabaseVariable,
+  database: IDatabaseVariable,
 ): TypeOrmModuleOptions => ({
-  ...dbOptions(config),
+  ...dbOptions(database),
   retryAttempts: 3,
   retryDelay: 5000,
-  synchronize: environment === 'development',
+  synchronize: database.SINCRONIZE && environment === 'development',
   entities: [
-    join(__dirname, '..', 'entities', config.FOLDER_NAME, '*.entity.js'),
+    join(__dirname, '..', 'entities', database.FOLDER_NAME, '*.entity.js'),
   ],
   migrations: [
-    join(__dirname, '..', 'migrations', config.FOLDER_NAME, '*.migration.js'),
+    join(__dirname, '..', 'migrations', database.FOLDER_NAME, '*.migration.js'),
   ],
 });

@@ -6,6 +6,7 @@ export interface IDatabaseVariable {
   DB_NAME: string;
   FOLDER_NAME: string;
   DB_TYPE: 'postgres' | 'mysql';
+  SINCRONIZE: boolean;
 }
 
 export interface IVariables {

@@ -16,7 +16,8 @@
       "DB_HOST": "localhost",
       "DB_NAME": "contensterdb_dev",
       "FOLDER_NAME": "contensterdb",
-      "DB_TYPE": "postgres"
+      "DB_TYPE": "postgres",
+      "SINCRONIZE": true
     }
   ]
 }
