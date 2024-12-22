@@ -1,0 +1,20 @@
+{
+  "SSL": false,
+  "PORT": 8080,
+  "HOST": "localhost",
+  "COOKIE_NAME": "nB7L4WHA",
+  "COOKIE_KEY": "M8NQBtXQtG5r35bJtCFPGS8NdEKrWC9VwEHNag5mTZPGdFS9m2SRggk9ZKNS",
+  "JWT_TOKEN": "R9bXmBkYrNR8UJE18GsV8dNDQz5yUBBFBScMm5QZm8vmcwAwG3nfaV6F2z58",
+  "API_LOGIN": "TKecJP7K",
+  "API_PASSWORD": "CBftERhZvrV2kpkR",
+  "DATABASES": [
+    {
+      "DB_PORT": 5432,
+      "DB_USERNAME": "postgres",
+      "DB_PASSWORD": "admin",
+      "DB_HOST": "localhost",
+      "DB_NAME": "contensterdb",
+      "FOLDER_NAME": "contensterdb"
+    }
+  ]
+}
