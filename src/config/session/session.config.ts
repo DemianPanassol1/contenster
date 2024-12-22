@@ -4,7 +4,7 @@ import pgSession from 'connect-pg-simple';
 
 import variables from 'src/settings';
 import { HTTPS } from '../constants/constants.config';
-import { IDatabaseVariable } from 'src/shared/types/common.types';
+import { IDatabaseVariable } from 'src/shared/types/system.types';
 
 const PgStore = pgSession(session);
 

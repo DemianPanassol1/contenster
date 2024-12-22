@@ -3,7 +3,7 @@ import { DataSourceOptions } from 'typeorm';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 import variables from 'src/settings';
-import { IDatabaseVariable } from 'src/shared/types/common.types';
+import { IDatabaseVariable } from 'src/shared/types/system.types';
 
 export const dbOptions = (database: IDatabaseVariable): DataSourceOptions => ({
   port: database.DB_PORT,

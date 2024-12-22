@@ -1,7 +1,7 @@
 import { join } from 'path';
 import { readFileSync } from 'fs';
 
-import { IVariables } from 'src/shared/types/common.types';
+import { IVariables } from 'src/shared/types/system.types';
 
 const loadVariables = () => {
   try {
