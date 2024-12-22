@@ -6,7 +6,7 @@ import { IVariables } from 'src/shared/types/common.types';
 const loadVariables = () => {
   try {
     const file = readFileSync(
-      join(__dirname, '..', `${process.env.NODE_ENV}.json`),
+      join(__dirname, `${process.env.NODE_ENV}.json`),
       'utf8',
     );
 
@@ -30,6 +30,7 @@ const emptyVariables: IVariables = {
   API_LOGIN: '',
   API_PASSWORD: '',
   DATABASES: [],
+  SESSION_MAX_AGE: 1000 * 60 * 120,
 };
 
 const variables: IVariables = loadVariables();
