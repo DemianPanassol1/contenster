@@ -55,7 +55,7 @@ import sessionInstance from './config/session/session.config';
         useDefaults: true,
         directives: {
           defaultSrc: ["'self'"],
-          connectSrc: ["'self'", 'https://api.example.com'],
+          connectSrc: ["'self'"],
           styleSrc: ["'self'", "'nonce-<random-value>'"],
           imgSrc: ["'self'", 'data:'],
           scriptSrc: ["'self'", "'nonce-<random-value>'"],
