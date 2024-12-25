@@ -10,16 +10,12 @@ import { createDatabase } from 'typeorm-extension';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
-import {
-  dbOptions,
-  environment,
-  HTTPS,
-} from './config/constants/constants.config';
 import variables from './settings';
 import { AppModule } from './modules/app.module';
 import winstonInstance from './config/winston/winston.config';
 import swaggerInstance from './config/swagger/swagger.config';
 import sessionInstance from './config/session/session.config';
+import { dbOptions, environment, HTTPS } from './config/constants/constants.config';
 
 (async () => {
   await Promise.allSettled(

@@ -1,7 +1,5 @@
 export const parseNum = ({ value }: { value: any }): number | null =>
-  value == null || isNaN(Number.parseInt(value))
-    ? null
-    : Number.parseInt(value);
+  value == null || isNaN(Number.parseInt(value)) ? null : Number.parseInt(value);
 
 export const parseBool = ({ value }: { value: any }): boolean => {
   if (typeof value === 'boolean') return value;

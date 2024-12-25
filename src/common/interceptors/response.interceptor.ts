@@ -1,17 +1,14 @@
-import {
-  CallHandler,
-  ExecutionContext,
-  Injectable,
-  NestInterceptor,
-} from '@nestjs/common';
 import { Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
+
+import { CoreInterceptor } from 'src/core/core.interceptor';
 import { miliToString } from 'src/shared/utils/convertion.utils';
 
 @Injectable()
-export class ResponseInterceptor implements NestInterceptor {
+export class ResponseInterceptor extends CoreInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const now = Date.now();
     const res: Response = context.switchToHttp().getResponse<Response>();
@@ -37,9 +34,7 @@ export class ResponseInterceptor implements NestInterceptor {
               code: 1000, // Código específico para erros de validação
               status_code: statusCode,
               status: 'validation_error',
-              message: Object.values(validationError.constraints || {}).join(
-                '; ',
-              ),
+              message: Object.values(validationError.constraints || {}).join('; '),
               field: validationError.property,
               datetime: new Date().toISOString(),
             }))
