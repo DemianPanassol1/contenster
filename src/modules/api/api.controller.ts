@@ -3,7 +3,7 @@ import { Body, Controller, Get, Post } from '@nestjs/common';
 
 import { ApiService } from './api.service';
 import { GenerateTokenDto } from './dto/generateToken.dto';
-import { Authorize } from 'src/common/interceptors/authorized.interceptor';
+import { Authorize } from 'src/common/interceptors/authorize.interceptor';
 import { GenerateTokenResponseDto } from './dto/generateToken.response.dto';
 import { ValidateTokenResponseDto } from './dto/validateToken.response.dto';
 

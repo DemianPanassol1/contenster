@@ -1,7 +1,7 @@
 {
-  "NOT_EMPTY": "The field '$t(fields.{property})' cannot be empty",
-  "INVALID_EMAIL": "The field '$t(fields.email)' contains an invalid email",
-  "INVALID_BOOLEAN": "The field '$t(fields.{property})' is not a boolean",
-  "MIN": "The field '{property}' with value: \"{value}\" must be at least {constraints.0}",
-  "MAX": "The field '{property}' with value: \"{value}\" must be less than {constraints.0}"
+  "notEmpty": "The field '$t(fields.{property})' cannot be empty",
+  "invalidEmail": "The field '$t(fields.email)' contains an invalid email",
+  "invalidBoolean": "The field '$t(fields.{property})' is not a boolean",
+  "min": "The field '{property}' with value: \"{value}\" must be at least {constraints.0}",
+  "max": "The field '{property}' with value: \"{value}\" must be less than {constraints.0}"
 }

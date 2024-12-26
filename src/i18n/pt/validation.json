@@ -1,7 +1,7 @@
 {
-  "NOT_EMPTY": "O campo '$t(fields.{property})' não pode estar vazio",
-  "INVALID_EMAIL": "O campo '$t(fields.email)' contém um email inválido",
-  "INVALID_BOOLEAN": "O campo '$t(fields.{property})' não é um booleano",
-  "MIN": "O campo '{property}' com valor: \"{value}\" precisa ser pelo menos {constraints.0}",
-  "MAX": "O campo '{property}' com valor: \"{value}\" precisa ser menor que {constraints.0}"
+  "notEmpty": "O campo '$t(fields.{property})' não pode estar vazio",
+  "invalidEmail": "O campo '$t(fields.email)' contém um email inválido",
+  "invalidBoolean": "O campo '$t(fields.{property})' não é um booleano",
+  "min": "O campo '{property}' com valor: \"{value}\" precisa ser pelo menos {constraints.0}",
+  "max": "O campo '{property}' com valor: \"{value}\" precisa ser menor que {constraints.0}"
 }

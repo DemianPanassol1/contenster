@@ -8,8 +8,8 @@ import {
 import { Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import { Observable, of } from 'rxjs';
+import { I18nContext } from 'nestjs-i18n';
 import { catchError, map } from 'rxjs/operators';
-import { I18nContext, I18nService } from 'nestjs-i18n';
 
 import { CoreInterceptor } from 'src/core/core.interceptor';
 import { miliToString } from 'src/shared/utils/convertion.utils';
@@ -17,7 +17,7 @@ import { ErrorItem, ResponseFormat } from 'src/shared/types/api.types';
 
 @Injectable()
 export class ResponseInterceptor extends CoreInterceptor implements NestInterceptor {
-  constructor(private readonly i18n: I18nService) {
+  constructor() {
     super();
   }
 
@@ -25,6 +25,8 @@ export class ResponseInterceptor extends CoreInterceptor implements NestIntercep
     const res: Response = context.switchToHttp().getResponse<Response>();
 
     const now = Date.now();
+
+    const i18n = I18nContext.current();
 
     return next.handle().pipe(
       map((data: any) => {
@@ -52,9 +54,8 @@ export class ResponseInterceptor extends CoreInterceptor implements NestIntercep
           for (const elem of err.errors) {
             errors.push({
               id: uuidv4(),
-              message: this.i18n.t(elem.constraints[Object.keys(elem.constraints)[0]], {
-                lang: I18nContext.current().lang,
-                args: { property: elem.property, value: elem.value },
+              message: i18n.t(elem.constraints[Object.keys(elem.constraints)[0]], {
+                args: { property: elem.property, value: elem.value, constraints: elem.constraints },
               }),
               errorType: 'ValidationError',
             });
@@ -68,7 +69,7 @@ export class ResponseInterceptor extends CoreInterceptor implements NestIntercep
         }
 
         const errorResponse: ResponseFormat<null> = {
-          lang: I18nContext.current().lang,
+          lang: i18n.lang,
           requestId: uuidv4(),
           statusCode: statusCode,
           status: statusDescription,

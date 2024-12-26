@@ -1,0 +1,5 @@
+{
+    "accessDenied": "Acesso negado",
+    "missingAuthorizationToken": "Token de autorização ausente",
+    "invalidAuthorizationToken": "Token de autorização inválido"
+}
