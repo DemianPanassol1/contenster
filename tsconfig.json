@@ -18,7 +18,7 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "esModuleInterop": true,
-    "resolveJsonModule": true
-  },
-  "include": ["src/**/*", "src/settings/*.json"]
+    "resolveJsonModule": true,
+    "typeRoots": ["src/@types", "node_modules/@types"]
+  }
 }

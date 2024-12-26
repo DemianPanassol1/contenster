@@ -6,9 +6,10 @@ import session from 'express-session';
 import { NestFactory } from '@nestjs/core';
 import { WinstonModule } from 'nest-winston';
 import { useContainer } from 'class-validator';
+import { VersioningType } from '@nestjs/common';
 import { createDatabase } from 'typeorm-extension';
-import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { I18nValidationExceptionFilter, I18nValidationPipe } from 'nestjs-i18n';
 
 import variables from './settings';
 import { AppModule } from './modules/app.module';
@@ -37,7 +38,9 @@ import { dbOptions, environment, HTTPS } from './config/constants/constants.conf
 
   swaggerInstance(app);
 
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
+  app.useGlobalPipes(new I18nValidationPipe({ whitelist: true, transform: true }));
+
+  app.useGlobalFilters(new I18nValidationExceptionFilter());
 
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 

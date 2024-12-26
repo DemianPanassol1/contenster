@@ -6,6 +6,17 @@
     "deleteOutDir": true,
     "plugins": [
       "@nestjs/swagger"
+    ],
+    "assets": [
+      {
+        "include": "i18n/**/*",
+        "watchAssets": true
+      },
+      {
+        "include": "settings/**/*",
+        "watchAssets": true,
+        "exclude": "settings/*.ts"
+      }
     ]
   }
 }

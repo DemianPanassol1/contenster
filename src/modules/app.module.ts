@@ -1,15 +1,15 @@
 import { join } from 'path';
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Logger, Module } from '@nestjs/common';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD, APP_INTERCEPTOR, RouterModule } from '@nestjs/core';
+import { AcceptLanguageResolver, CookieResolver, HeaderResolver, I18nModule } from 'nestjs-i18n';
 
 import variables from 'src/settings';
+import { ApiModule } from 'src/modules/api/api.module';
 import { typeOrmModuleOptions } from 'src/config/constants/constants.config';
 import { ResponseInterceptor } from 'src/common/interceptors/response.interceptor';
-
-import { ApiModule } from 'src/modules/api/api.module';
 
 @Module({
   imports: [
@@ -19,6 +19,14 @@ import { ApiModule } from 'src/modules/api/api.module';
       renderPath: '*',
       exclude: ['/api/(.*)'],
       rootPath: join(__dirname.replace('dist', ''), '..', 'client', 'build'),
+    }),
+    I18nModule.forRoot({
+      fallbackLanguage: 'pt',
+      loaderOptions: {
+        path: join(__dirname, '..', '/i18n/'),
+        watch: true,
+      },
+      resolvers: [AcceptLanguageResolver, new HeaderResolver(['x-lang']), new CookieResolver()],
     }),
     ApiModule,
     RouterModule.register([
@@ -31,7 +39,6 @@ import { ApiModule } from 'src/modules/api/api.module';
   ],
   controllers: [],
   providers: [
-    Logger,
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
