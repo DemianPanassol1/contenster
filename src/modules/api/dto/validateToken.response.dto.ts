@@ -1,6 +1,6 @@
-import { IsBoolean } from 'class-validator';
+import { Expose } from 'class-transformer';
 
 export class ValidateTokenResponseDto {
-  @IsBoolean()
-  validated!: boolean;
+  @Expose()
+  validated: boolean;
 }

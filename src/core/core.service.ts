@@ -1,5 +1,6 @@
 import { join } from 'path';
 import { pbkdf2Sync, randomBytes } from 'crypto';
+import { plainToClass } from 'class-transformer';
 
 export class CoreService {
   public static publicPath: string = join(__dirname.replace('dist', ''), '..', '..', 'public');
@@ -27,5 +28,9 @@ export class CoreService {
     const result = `${hashVerify}.${salt}`.trim();
 
     return hash === result;
+  }
+
+  response<T>(dtoClass: { new (): T }, data: any): T {
+    return plainToClass(dtoClass, data, { excludeExtraneousValues: true });
   }
 }

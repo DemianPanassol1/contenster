@@ -25,10 +25,7 @@ export class AuthorizeInterceptor extends CoreInterceptor implements NestInterce
     super();
   }
 
-  intercept(
-    context: ExecutionContext,
-    next: CallHandler<any>,
-  ): Observable<any> | Promise<Observable<any>> {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const req: Request = context.switchToHttp().getRequest<Request>();
 
     const i18n = I18nContext.current();

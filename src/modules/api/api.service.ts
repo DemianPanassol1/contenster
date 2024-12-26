@@ -2,21 +2,20 @@ import jwt from 'jsonwebtoken';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
 import variables from 'src/settings';
+import { CoreService } from 'src/core/core.service';
 import { GenerateTokenDto } from './dto/generateToken.dto';
 import { GenerateTokenResponseDto } from './dto/generateToken.response.dto';
 import { ValidateTokenResponseDto } from './dto/validateToken.response.dto';
 
 @Injectable()
-export class ApiService {
-  getValidateToken(): ValidateTokenResponseDto {
-    const response = new ValidateTokenResponseDto();
+export class ApiService extends CoreService {
+  getValidateToken() {
+    const response = { validated: true };
 
-    response.validated = true;
-
-    return response;
+    return this.response(ValidateTokenResponseDto, response);
   }
 
-  getGenerateToken(body: GenerateTokenDto): GenerateTokenResponseDto {
+  getGenerateToken(body: GenerateTokenDto) {
     const { login, password } = body;
 
     if (login !== variables.API_LOGIN || password !== variables.API_PASSWORD) {
@@ -29,12 +28,10 @@ export class ApiService {
       date: new Date(),
     };
 
-    const response = new GenerateTokenResponseDto();
+    const response = {
+      token: jwt.sign(payload, variables.JWT_TOKEN, { expiresIn: payload.expiresIn }),
+    };
 
-    response.token = jwt.sign(payload, variables.JWT_TOKEN, {
-      expiresIn: payload.expiresIn,
-    });
-
-    return response;
+    return this.response(GenerateTokenResponseDto, response);
   }
 }
