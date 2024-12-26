@@ -7,9 +7,12 @@ import { APP_GUARD, APP_INTERCEPTOR, RouterModule } from '@nestjs/core';
 import { AcceptLanguageResolver, CookieResolver, HeaderResolver, I18nModule } from 'nestjs-i18n';
 
 import variables from 'src/settings';
-import { ApiModule } from 'src/modules/api/api.module';
 import { typeOrmModuleOptions } from 'src/config/constants/constants.config';
 import { ResponseInterceptor } from 'src/common/interceptors/response.interceptor';
+
+import { AuthModule } from './auth/auth.module';
+import { AdminModule } from './admin/admin.module';
+import { ApiModule } from 'src/modules/api/api.module';
 
 @Module({
   imports: [
@@ -29,11 +32,23 @@ import { ResponseInterceptor } from 'src/common/interceptors/response.intercepto
       resolvers: [AcceptLanguageResolver, new HeaderResolver(['x-lang']), new CookieResolver()],
     }),
     ApiModule,
+    AdminModule,
+    AuthModule,
     RouterModule.register([
       {
         path: 'api',
         module: ApiModule,
-        children: [],
+        children: [
+          {
+            path: 'auth',
+            module: AuthModule,
+          },
+          {
+            path: 'admin',
+            module: AdminModule,
+            children: [],
+          },
+        ],
       },
     ]),
   ],
