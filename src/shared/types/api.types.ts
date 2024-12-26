@@ -1,12 +1,11 @@
 export interface ErrorItem {
   id: string;
   message: string;
-  status: string;
-  datetime: string;
+  errorType: string;
 }
 
 export interface ResponseFormat<T> {
-  version: string;
+  lang: string;
   requestId: string;
   statusCode: number;
   status: string;

@@ -27,24 +27,26 @@ export class ResponseInterceptor extends CoreInterceptor implements NestIntercep
     const now = Date.now();
 
     return next.handle().pipe(
-      map((data: any) => ({
-        lang: I18nContext.current().lang,
-        version: '1.0',
-        requestId: uuidv4(),
-        statusCode: res.statusCode,
-        status: HttpStatus[res.statusCode] || 'UNKNOWN_STATUS',
-        body: data || null,
-        errors: { count: 0, items: [] },
-        datetime: new Date().toISOString(),
-        requestTime: miliToString(Date.now() - now),
-      })),
+      map((data: any) => {
+        const response: ResponseFormat<any> = {
+          lang: I18nContext.current().lang,
+          requestId: uuidv4(),
+          statusCode: res.statusCode,
+          status: HttpStatus[res.statusCode] || 'UNKNOWN_STATUS',
+          body: data || null,
+          errors: { count: 0, items: [] },
+          datetime: new Date().toISOString(),
+          requestTime: miliToString(Date.now() - now),
+        };
+
+        return response;
+      }),
+
       catchError((err) => {
         const errors: ErrorItem[] = [];
 
         const statusCode: number = err.getStatus ? err.getStatus() : 500;
         const statusDescription: string = HttpStatus[statusCode] || 'UNKNOWN_STATUS';
-
-        console.log(err.errors);
 
         if (Array.isArray(err?.errors)) {
           for (const elem of err.errors) {
@@ -54,22 +56,19 @@ export class ResponseInterceptor extends CoreInterceptor implements NestIntercep
                 lang: I18nContext.current().lang,
                 args: { property: elem.property, value: elem.value },
               }),
-              status: 'ValidationError',
-              datetime: new Date().toISOString(),
+              errorType: 'ValidationError',
             });
           }
         } else {
           errors.push({
             id: uuidv4(),
             message: err.message || 'Unknown error',
-            status: statusDescription,
-            datetime: new Date().toISOString(),
+            errorType: statusDescription,
           });
         }
 
         const errorResponse: ResponseFormat<null> = {
-          version: '1.0',
-          // lang: I18nContext.current().lang,
+          lang: I18nContext.current().lang,
           requestId: uuidv4(),
           statusCode: statusCode,
           status: statusDescription,

@@ -1,10 +1,7 @@
 {
-  "email": "email",
-  "login": "login",
-  "password": "password",
-  "NOT_EMPTY": "$t(validation.{property}) cannot be empty",
-  "INVALID_EMAIL": "email is invalid",
-  "INVALID_BOOLEAN": "{property} is not a boolean",
-  "MIN": "{property} with value: \"{value}\" needs to be at least {constraints.0}, ow and {message}",
-  "MAX": "{property} with value: \"{value}\" needs to be less than {constraints.0}, ow and {message}"
+  "NOT_EMPTY": "The field '$t(fields.{property})' cannot be empty",
+  "INVALID_EMAIL": "The field '$t(fields.email)' contains an invalid email",
+  "INVALID_BOOLEAN": "The field '$t(fields.{property})' is not a boolean",
+  "MIN": "The field '{property}' with value: \"{value}\" must be at least {constraints.0}",
+  "MAX": "The field '{property}' with value: \"{value}\" must be less than {constraints.0}"
 }

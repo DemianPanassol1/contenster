@@ -1,10 +1,7 @@
 {
-  "email": "correo electrónico",
-  "login": "login",
-  "password": "contraseña",
-  "NOT_EMPTY": "$t(validation.{property}) no puede estar vacío",
-  "INVALID_EMAIL": "correo electrónico no es válido",
-  "INVALID_BOOLEAN": "{property} no es un booleano",
-  "MIN": "{property} con valor: \"{value}\" necesita ser al menos {constraints.0}, ow and {message}",
-  "MAX": "{property} con valor: \"{value}\" necesita ser menor que {constraints.0}, ow and {message}"
+  "NOT_EMPTY": "El campo '$t(fields.{property})' no puede estar vacío",
+  "INVALID_EMAIL": "El campo '$t(fields.email)' contiene un correo electrónico inválido",
+  "INVALID_BOOLEAN": "El campo '$t(fields.{property})' no es un booleano",
+  "MIN": "El campo '{property}' con valor: \"{value}\" debe ser al menos {constraints.0}",
+  "MAX": "El campo '{property}' con valor: \"{value}\" debe ser menor que {constraints.0}"
 }
