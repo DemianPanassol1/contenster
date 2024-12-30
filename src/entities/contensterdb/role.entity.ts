@@ -1,0 +1,48 @@
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+  ManyToMany,
+  JoinTable,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
+
+import { Establishment } from './establishment.entity';
+import { Translation } from './translation.entity';
+import { UserEstablishmentRole } from './userEstablishmentRole.entity';
+import { Permission } from './permission.entity';
+
+@Entity()
+export class Role {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @CreateDateColumn({ type: 'timestamp without time zone' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamp without time zone' })
+  updatedAt: Date | null;
+
+  @DeleteDateColumn({ type: 'timestamp without time zone' })
+  deletedAt: Date | null;
+
+  @ManyToOne(() => Establishment, (establishment) => establishment.role)
+  establishment: Establishment;
+
+  @ManyToMany(() => Translation, { cascade: true })
+  @JoinTable()
+  titles: Translation[];
+
+  @ManyToMany(() => Translation, { cascade: true })
+  @JoinTable()
+  descriptions: Translation[];
+
+  @OneToMany(() => UserEstablishmentRole, (userEstablishmentRole) => userEstablishmentRole.role)
+  userEstablishmentRole: UserEstablishmentRole[];
+
+  @OneToMany(() => Permission, (permission) => permission.role)
+  permission: Permission[];
+}

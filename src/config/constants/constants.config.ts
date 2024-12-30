@@ -28,6 +28,6 @@ export const typeOrmModuleOptions = (database: IDatabaseVariable): TypeOrmModule
   retryAttempts: 3,
   retryDelay: 5000,
   synchronize: database.SINCRONIZE && environment === 'development',
-  entities: [join(__dirname, '..', 'entities', database.FOLDER_NAME, '*.entity.js')],
-  migrations: [join(__dirname, '..', 'migrations', database.FOLDER_NAME, '*.migration.js')],
+  entities: [join(__dirname, '..', '..', 'entities', database.FOLDER_NAME, '*.entity.js')],
+  migrations: [join(__dirname, '..', '..', 'migrations', database.FOLDER_NAME, '*.migration.js')],
 });
