@@ -15,6 +15,12 @@ export class AuthRepository {
     private userEstablishmentRepo: Repository<UserEstablishmentRole>,
   ) {}
 
+  findByEmail(email: string): Promise<User> {
+    return this.userRepo.findOne({
+      where: { email },
+    });
+  }
+
   findByUsername(username: string): Promise<User> {
     return this.userRepo.findOne({
       where: { username },
@@ -53,5 +59,9 @@ export class AuthRepository {
 
   updateUserLastLoggedAt(userId: number): Promise<UpdateResult> {
     return this.userRepo.update(userId, { lastLoggedAt: new Date() });
+  }
+
+  updateUserPassword(userId: number, password: string): Promise<UpdateResult> {
+    return this.userRepo.update(userId, { password });
   }
 }

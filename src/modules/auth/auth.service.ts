@@ -1,3 +1,4 @@
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import { Request } from 'express';
 import { I18nService } from 'nestjs-i18n';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
@@ -10,7 +11,10 @@ import { ResetPasswordReqDto } from './dto/req/resetPassword.req.dto';
 import { CreatePasswordReqDto } from './dto/req/createPassword.req.dto';
 
 import { PostSignInResDto } from './dto/res/postSignIn.res.dto';
+import { GetSignOutResDto } from './dto/res/getSignOut.res.dto';
 import { PostAuthorizeResDto } from './dto/res/postAuthorize.res.dto';
+import { PostCreatePasswordResDto } from './dto/res/postCreatePassword.res.dto';
+import variables from 'src/settings';
 
 @Injectable()
 export class AuthService extends CoreService {
@@ -21,7 +25,7 @@ export class AuthService extends CoreService {
     super(i18n);
   }
 
-  async postAuthorize(body: SignInUserReqDto): Promise<PostAuthorizeResDto> {
+  async postAuthorize(body: SignInUserReqDto) {
     const { username } = body;
 
     const user = await this.repo.findByUsername(username);
@@ -119,21 +123,39 @@ export class AuthService extends CoreService {
     return this.response(PostSignInResDto, response);
   }
 
-  async getSignOut(request: Request): Promise<{ logout: boolean }> {
+  async getSignOut(request: Request) {
     const response = await new Promise<{ logout: boolean }>((resolve) => {
       request.session.destroy((err) => {
         resolve({ logout: true });
       });
     });
 
-    return response;
+    return this.response(GetSignOutResDto, response);
   }
 
-  postResetPassword(request: Request, body: ResetPasswordReqDto) {
+  async postResetPassword(request: Request, body: ResetPasswordReqDto) {
     throw new Error('Method not implemented.');
   }
 
-  postCreatePassword(body: CreatePasswordReqDto) {
-    throw new Error('Method not implemented.');
+  async postCreatePassword(body: CreatePasswordReqDto) {
+    const { password, token } = body;
+
+    const response = await new Promise<{ passwordReseted: boolean }>((resolve, reject) => {
+      return jwt.verify(token, variables.JWT_TOKEN, async (err, decoded) => {
+        if (err) reject(this.i18n.t('errors.invalidToken'));
+
+        const user = await this.repo.findByEmail((decoded as JwtPayload).email);
+
+        if (!user) reject(this.i18n.t('errors.userNotFound'));
+
+        await this.repo.updateUserPassword(user.id, this.generatePassword(password));
+
+        resolve({ passwordReseted: true });
+      });
+    }).catch((error) => {
+      throw new HttpException(error, HttpStatus.BAD_REQUEST);
+    });
+
+    return this.response(PostCreatePasswordResDto, response);
   }
 }

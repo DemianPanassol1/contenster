@@ -3,5 +3,7 @@
     "missingAuthorizationToken": "Token de autorização ausente",
     "invalidAuthorizationToken": "Token de autorização inválido",
     "invalidUserOrPassword": "Usuário e/ou senha inválido(s)",
-    "userBlocked": "Usuário bloqueado"
+    "userBlocked": "Usuário bloqueado",
+    "invalidToken": "Token inválido",
+    "userNotFound": "Usuário não encontrado"
 }
