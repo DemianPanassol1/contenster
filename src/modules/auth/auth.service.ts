@@ -93,7 +93,7 @@ export class AuthService extends CoreService {
         canUpdate: permission.canUpdate,
         canDelete: permission.canDelete,
       })),
-      company: {
+      establishment: {
         id: permissions.establishment.id,
         document: permissions.establishment.document,
         documentType: permissions.establishment.documentType,

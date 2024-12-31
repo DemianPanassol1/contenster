@@ -75,7 +75,7 @@ class EstablishmentDto {
   image: string | null;
 }
 
-export class PostSignInResDto {
+export class ChangeUserEstablishmentResDto {
   @Expose()
   id: number;
 

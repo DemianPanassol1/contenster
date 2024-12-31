@@ -12,6 +12,7 @@ import { ResponseInterceptor } from 'src/common/interceptors/response.intercepto
 
 import { AuthModule } from './auth/auth.module';
 import { AdminModule } from './admin/admin.module';
+import { OptionModule } from './option/option.module';
 import { ApiModule } from 'src/modules/api/api.module';
 
 @Module({
@@ -34,6 +35,7 @@ import { ApiModule } from 'src/modules/api/api.module';
     ApiModule,
     AdminModule,
     AuthModule,
+    OptionModule,
     RouterModule.register([
       {
         path: 'api',
@@ -46,7 +48,12 @@ import { ApiModule } from 'src/modules/api/api.module';
           {
             path: 'admin',
             module: AdminModule,
-            children: [],
+            children: [
+              {
+                path: 'option',
+                module: OptionModule,
+              },
+            ],
           },
         ],
       },
