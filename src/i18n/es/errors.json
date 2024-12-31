@@ -1,5 +1,9 @@
 {
     "accessDenied": "Acceso denegado",
-    "missingAuthorizationToken": "Token de autorización ausente",
-    "invalidAuthorizationToken": "Token de autorización inválido"
+    "missingAuthorizationToken": "Falta el token de autorización",
+    "invalidAuthorizationToken": "Token de autorización inválido",
+    "invalidUserOrPassword": "Usuario y/o contraseña inválido(s)",
+    "userBlocked": "Usuario bloqueado",
+    "invalidToken": "Token inválido",
+    "userNotFound": "Usuario no encontrado"
 }

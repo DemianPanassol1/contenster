@@ -1,5 +1,9 @@
 {
     "accessDenied": "Access denied",
-    "missingAuthorizationToken": "Missing authorization token",
-    "invalidAuthorizationToken": "Invalid authorization token"
+    "missingAuthorizationToken": "Authorization token missing",
+    "invalidAuthorizationToken": "Invalid authorization token",
+    "invalidUserOrPassword": "Invalid username and/or password",
+    "userBlocked": "User blocked",
+    "invalidToken": "Invalid token",
+    "userNotFound": "User not found"
 }

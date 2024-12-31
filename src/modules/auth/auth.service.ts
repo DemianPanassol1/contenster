@@ -3,6 +3,7 @@ import { Request } from 'express';
 import { I18nService } from 'nestjs-i18n';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
+import variables from 'src/settings';
 import { AuthRepository } from './auth.repository';
 import { CoreService } from 'src/core/core.service';
 
@@ -14,7 +15,6 @@ import { PostSignInResDto } from './dto/res/postSignIn.res.dto';
 import { GetSignOutResDto } from './dto/res/getSignOut.res.dto';
 import { PostAuthorizeResDto } from './dto/res/postAuthorize.res.dto';
 import { PostCreatePasswordResDto } from './dto/res/postCreatePassword.res.dto';
-import variables from 'src/settings';
 
 @Injectable()
 export class AuthService extends CoreService {
@@ -124,8 +124,8 @@ export class AuthService extends CoreService {
   }
 
   async getSignOut(request: Request) {
-    const response = await new Promise<{ logout: boolean }>((resolve) => {
-      request.session.destroy((err) => {
+    const response = await new Promise<GetSignOutResDto>((resolve) => {
+      request.session.destroy(() => {
         resolve({ logout: true });
       });
     });
@@ -133,6 +133,7 @@ export class AuthService extends CoreService {
     return this.response(GetSignOutResDto, response);
   }
 
+  // eslint-disable-next-line
   async postResetPassword(request: Request, body: ResetPasswordReqDto) {
     throw new Error('Method not implemented.');
   }
@@ -140,7 +141,7 @@ export class AuthService extends CoreService {
   async postCreatePassword(body: CreatePasswordReqDto) {
     const { password, token } = body;
 
-    const response = await new Promise<{ passwordReseted: boolean }>((resolve, reject) => {
+    const response = await new Promise<PostCreatePasswordResDto>((resolve, reject) => {
       return jwt.verify(token, variables.JWT_TOKEN, async (err, decoded) => {
         if (err) reject(this.i18n.t('errors.invalidToken'));
 
