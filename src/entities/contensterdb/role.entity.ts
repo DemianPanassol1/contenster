@@ -10,10 +10,10 @@ import {
   OneToMany,
 } from 'typeorm';
 
-import { Establishment } from './establishment.entity';
-import { Translation } from './translation.entity';
-import { UserEstablishmentRole } from './userEstablishmentRole.entity';
 import { Permission } from './permission.entity';
+import { Translation } from './translation.entity';
+import { Establishment } from './establishment.entity';
+import { UserEstablishmentRole } from './userEstablishmentRole.entity';
 
 @Entity()
 export class Role {
@@ -32,11 +32,11 @@ export class Role {
   @ManyToOne(() => Establishment, (establishment) => establishment.role)
   establishment: Establishment;
 
-  @ManyToMany(() => Translation, { cascade: true })
+  @ManyToMany(() => Translation, { cascade: true, eager: true })
   @JoinTable()
   titles: Translation[];
 
-  @ManyToMany(() => Translation, { cascade: true })
+  @ManyToMany(() => Translation, { cascade: true, eager: true })
   @JoinTable()
   descriptions: Translation[];
 

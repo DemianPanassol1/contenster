@@ -15,6 +15,7 @@ import {
 
 import { Image } from './image.entity';
 import { Module } from './module.entity';
+import { Preference } from './preference.entity';
 import { Permission } from './permission.entity';
 import { Translation } from './translation.entity';
 import { Establishment } from './establishment.entity';
@@ -42,14 +43,17 @@ export class Functionality {
   @ManyToOne(() => Module, (module) => module.functionality)
   module: Module;
 
-  @ManyToMany(() => Translation, { cascade: true })
+  @ManyToMany(() => Translation, { cascade: true, eager: true })
   @JoinTable()
   titles: Translation[];
 
-  @OneToOne(() => Image, { cascade: true })
+  @OneToOne(() => Image, { cascade: true, eager: true })
   @JoinColumn()
   icon: Image;
 
   @OneToMany(() => Permission, (permission) => permission.functionality)
   permission: Permission[];
+
+  @OneToMany(() => Preference, (preference) => preference.functionality)
+  preference: Preference[];
 }

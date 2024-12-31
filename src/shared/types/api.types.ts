@@ -17,3 +17,8 @@ export interface ResponseFormat<T> {
   datetime: string;
   requestTime: string;
 }
+
+export interface IToOptions {
+  value: string;
+  label: string;
+}

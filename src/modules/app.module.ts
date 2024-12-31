@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
@@ -54,6 +54,7 @@ import { ApiModule } from 'src/modules/api/api.module';
   ],
   controllers: [],
   providers: [
+    Logger,
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,

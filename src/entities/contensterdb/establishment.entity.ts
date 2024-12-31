@@ -69,7 +69,7 @@ export class Establishment {
   @DeleteDateColumn({ type: 'timestamp without time zone' })
   public deletedAt: Date | null;
 
-  @OneToOne(() => Image, { nullable: true, cascade: true })
+  @OneToOne(() => Image, { nullable: true, cascade: true, eager: true })
   @JoinColumn()
   image: Image | null;
 

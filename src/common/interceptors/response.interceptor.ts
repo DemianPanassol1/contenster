@@ -3,6 +3,7 @@ import {
   ExecutionContext,
   HttpStatus,
   Injectable,
+  Logger,
   NestInterceptor,
 } from '@nestjs/common';
 import { Response } from 'express';
@@ -17,7 +18,7 @@ import { ErrorItem, ResponseFormat } from 'src/shared/types/api.types';
 
 @Injectable()
 export class ResponseInterceptor extends CoreInterceptor implements NestInterceptor {
-  constructor() {
+  constructor(private readonly logger: Logger) {
     super();
   }
 
@@ -46,6 +47,8 @@ export class ResponseInterceptor extends CoreInterceptor implements NestIntercep
 
       catchError((err) => {
         const errors: ErrorItem[] = [];
+
+        this.logger.error(`${err.message}}`, err.stack);
 
         const statusCode: number = err.getStatus ? err.getStatus() : 500;
         const statusDescription: string = HttpStatus[statusCode] || 'UNKNOWN_STATUS';

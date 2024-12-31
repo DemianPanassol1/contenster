@@ -11,6 +11,7 @@ import {
 
 import { User } from './user.entity';
 import { Language } from './language.entity';
+import { Functionality } from './functionality.entity';
 
 @Entity()
 export class Preference {
@@ -40,4 +41,10 @@ export class Preference {
 
   @ManyToOne(() => Language, (language) => language.preference)
   language: Language;
+
+  @ManyToOne(() => Functionality, (functionality) => functionality.preference, {
+    cascade: true,
+    nullable: true,
+  })
+  functionality: Functionality | null;
 }

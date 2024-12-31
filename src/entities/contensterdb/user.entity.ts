@@ -9,6 +9,7 @@ import {
   OneToOne,
   OneToMany,
 } from 'typeorm';
+
 import { Image } from './image.entity';
 import { Preference } from './preference.entity';
 import { UserEstablishmentRole } from './userEstablishmentRole.entity';
@@ -51,11 +52,11 @@ export class User {
   @DeleteDateColumn({ type: 'timestamp without time zone' })
   deletedAt: Date | null;
 
-  @OneToOne(() => Image, { nullable: true, cascade: true })
+  @OneToOne(() => Image, { nullable: true, cascade: true, eager: true })
   @JoinColumn()
   image: Image | null;
 
-  @OneToOne(() => Preference, { cascade: true })
+  @OneToOne(() => Preference, { cascade: true, eager: true })
   @JoinColumn()
   preference: Preference;
 

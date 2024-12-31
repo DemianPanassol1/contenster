@@ -1,9 +1,31 @@
 import { join } from 'path';
+import { unlink } from 'fs';
+import { Request } from 'express';
+import { Injectable } from '@nestjs/common';
 import { pbkdf2Sync, randomBytes } from 'crypto';
 import { plainToClass } from 'class-transformer';
+import { I18nContext, I18nService } from 'nestjs-i18n';
 
+import { IToOptions } from 'src/shared/types/api.types';
+import { Translation } from 'src/entities/contensterdb/translation.entity';
+
+@Injectable()
 export class CoreService {
-  public static publicPath: string = join(__dirname.replace('dist', ''), '..', '..', 'public');
+  public publicPath: string = join(__dirname.replace('dist', ''), '..', '..', 'public');
+
+  constructor(public readonly i18n: I18nService) {}
+
+  translate(translations: Translation[]): string | null {
+    const result = translations.find(
+      (elem) => elem.language.languageCode === I18nContext.current().lang,
+    );
+
+    if (!result) {
+      return null;
+    }
+
+    return result.text ? result.text : result.language.default;
+  }
 
   generatePassword(password: string): string {
     if (!password) return null;
@@ -28,6 +50,33 @@ export class CoreService {
     const result = `${hashVerify}.${salt}`.trim();
 
     return hash === result;
+  }
+
+  toOptions(data: any[], value: string, label: string, optional = false): IToOptions[] {
+    const options = data.map((content) => ({
+      value: content[value].toString(),
+      label: content[label].toString(),
+    }));
+
+    if (optional) {
+      options.unshift({ label: this.i18n.t('general.select'), value: '' });
+    }
+
+    return options;
+  }
+
+  generateFilePath(req: Request, path: string): string {
+    return path ? `${req.protocol}://${req.headers.host}/${path}` : null;
+  }
+
+  degenerateFilePath(path: string): string {
+    return path ? path.split('/').slice(-4).join('/') : null;
+  }
+
+  deleteFile(filename: string) {
+    if (filename) {
+      unlink(join(this.publicPath, filename), () => null);
+    }
   }
 
   response<T>(dtoClass: { new (): T }, data: any): T {

@@ -35,7 +35,7 @@ export class AuthenticateInterceptor extends CoreInterceptor implements NestInte
         if (!session || environment !== 'development') throw Error();
 
         req.session.user = session;
-        req.session.save();
+        // req.session.save();
       } catch (error) {
         throw new HttpException(i18n.t('errors.accessDenied'), HttpStatus.UNAUTHORIZED);
       }
