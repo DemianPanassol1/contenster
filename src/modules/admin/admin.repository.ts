@@ -50,4 +50,8 @@ export class AdminRepository {
       },
     });
   }
+
+  updateUserPassword(userId: number, password: string): Promise<UpdateResult> {
+    return this.userRepo.update(userId, { password });
+  }
 }

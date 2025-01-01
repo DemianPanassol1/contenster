@@ -1,13 +1,16 @@
 import { Request } from 'express';
 import { I18nService } from 'nestjs-i18n';
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
 import { CoreService } from 'src/core/core.service';
 import { AdminRepository } from './admin.repository';
 import { ICurrentUser } from 'src/shared/types/api.types';
 
-import { ChangeUserEstablishmentReqDto } from './dto/req/changeUserEstablishment.req.dto';
-import { ChangeUserEstablishmentResDto } from './dto/res/changeUserEstablishment.res.dto';
+import { PutResetPasswordReqDto } from './dto/req/putResetPassword.req.dto';
+import { PostChangeUserEstablishmentReqDto } from './dto/req/postChangeUserEstablishment.req.dto';
+
+import { PutResetPasswordResDto } from './dto/res/putResetPassword.res.dto';
+import { PostChangeUserEstablishmentResDto } from './dto/res/postChangeUserEstablishment.res.dto';
 
 @Injectable()
 export class AdminService extends CoreService {
@@ -72,12 +75,12 @@ export class AdminService extends CoreService {
 
     req.session.user = response;
 
-    return this.response(ChangeUserEstablishmentResDto, response);
+    return this.response(PostChangeUserEstablishmentResDto, response);
   }
 
   async postChangeUserEstablishment(
     req: Request,
-    body: ChangeUserEstablishmentReqDto,
+    body: PostChangeUserEstablishmentReqDto,
     currentUser: ICurrentUser,
   ) {
     const { establishmentId } = body;
@@ -85,5 +88,27 @@ export class AdminService extends CoreService {
     currentUser.establishment.id = establishmentId;
 
     return await this.getSyncUser(req, currentUser);
+  }
+
+  async putResetPassword(body: PutResetPasswordReqDto, currentUser: ICurrentUser) {
+    const { newPassword, oldPassword } = body;
+
+    const user = await this.repo.findByUserId(currentUser.id);
+
+    if (!user) {
+      throw new HttpException(this.i18n.t('errors.userNotFound'), HttpStatus.BAD_REQUEST);
+    }
+
+    const passwordIsValid = this.validatePassword(oldPassword, user.password);
+
+    if (!passwordIsValid) {
+      throw new HttpException(this.i18n.t('errors.incorrectPassword'), HttpStatus.BAD_REQUEST);
+    }
+
+    await this.repo.updateUserPassword(user.id, this.generatePassword(newPassword));
+
+    const response = { passwordReseted: true };
+
+    return this.response(PutResetPasswordResDto, response);
   }
 }

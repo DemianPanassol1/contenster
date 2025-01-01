@@ -1,9 +1,12 @@
 import jwt from 'jsonwebtoken';
+import { Request } from 'express';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
 import variables from 'src/settings';
 import { CoreService } from 'src/core/core.service';
+
 import { GenerateTokenDto } from './dto/generateToken.dto';
+
 import { GenerateTokenResponseDto } from './dto/generateToken.response.dto';
 import { ValidateTokenResponseDto } from './dto/validateToken.response.dto';
 
@@ -33,5 +36,9 @@ export class ApiService extends CoreService {
     };
 
     return this.response(GenerateTokenResponseDto, response);
+  }
+
+  async postUploadImage(req: Request, file: Express.Multer.File) {
+    return file;
   }
 }
