@@ -11,7 +11,7 @@ import { Translation } from 'src/entities/contensterdb/translation.entity';
 
 @Injectable()
 export class CoreService {
-  public publicPath: string = join(__dirname.replace('dist', ''), '..', '..', 'public');
+  public publicPath: string = join(__dirname, '..', '..', 'public');
   public systemIconsPath: string = join(this.publicPath, 'assets', 'icons', 'system');
 
   constructor(public readonly i18n: I18nService) {}

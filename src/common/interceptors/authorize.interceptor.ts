@@ -16,7 +16,7 @@ import settings from 'src/settings';
 import { CoreInterceptor } from 'src/core/core.interceptor';
 
 export function Authorize() {
-  return UseInterceptors(new AuthorizeInterceptor());
+  return UseInterceptors(AuthorizeInterceptor);
 }
 
 @Injectable()

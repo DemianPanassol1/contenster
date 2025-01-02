@@ -6,10 +6,12 @@ import {
   Logger,
   NestInterceptor,
 } from '@nestjs/common';
-import { Response } from 'express';
+
 import { v4 as uuidv4 } from 'uuid';
 import { Observable, of } from 'rxjs';
 import { I18nContext } from 'nestjs-i18n';
+import { existsSync, unlinkSync } from 'fs';
+import { Request, Response } from 'express';
 import { catchError, map } from 'rxjs/operators';
 
 import { CoreInterceptor } from 'src/core/core.interceptor';
@@ -23,6 +25,7 @@ export class ResponseInterceptor extends CoreInterceptor implements NestIntercep
   }
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<ResponseFormat<any>> {
+    const req: Request = context.switchToHttp().getRequest<Request>();
     const res: Response = context.switchToHttp().getResponse<Response>();
 
     const now = Date.now();
@@ -31,11 +34,14 @@ export class ResponseInterceptor extends CoreInterceptor implements NestIntercep
 
     return next.handle().pipe(
       map((data: any) => {
+        const statusCode = res.statusCode === HttpStatus.CREATED ? HttpStatus.OK : res.statusCode;
+        const statusDescription = HttpStatus[statusCode] || 'UNKNOWN_STATUS';
+
         const response: ResponseFormat<any> = {
           lang: I18nContext.current().lang,
           requestId: uuidv4(),
-          statusCode: res.statusCode,
-          status: HttpStatus[res.statusCode] || 'UNKNOWN_STATUS',
+          statusCode: statusCode,
+          status: statusDescription,
           body: data || null,
           errors: { count: 0, items: [] },
           datetime: new Date().toISOString(),
@@ -46,12 +52,20 @@ export class ResponseInterceptor extends CoreInterceptor implements NestIntercep
       }),
 
       catchError((err) => {
-        const errors: ErrorItem[] = [];
+        if (req.file) {
+          if (existsSync(req.file.path)) {
+            unlinkSync(req.file.path);
+          }
+
+          req.file = null;
+        }
 
         this.logger.error(`${err.message}}`, err.stack);
 
-        const statusCode: number = err.getStatus ? err.getStatus() : 500;
-        const statusDescription: string = HttpStatus[statusCode] || 'UNKNOWN_STATUS';
+        const statusCode = err.getStatus ? err.getStatus() : 500;
+        const statusDescription = HttpStatus[statusCode] || 'UNKNOWN_STATUS';
+
+        const errors: ErrorItem[] = [];
 
         if (Array.isArray(err?.errors)) {
           for (const elem of err.errors) {

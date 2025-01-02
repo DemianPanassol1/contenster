@@ -1,5 +1,6 @@
 import { diskStorage } from 'multer';
 import { randomBytes } from 'crypto';
+import { I18nService } from 'nestjs-i18n';
 import { mkdirSync, existsSync } from 'fs';
 import { extname, join, resolve } from 'path';
 import { HttpException, HttpStatus } from '@nestjs/common';
@@ -34,9 +35,13 @@ const fileTypes = [
   'text/html',
 ];
 
-const multerInstance = {
+const multerInstance = (i18n: I18nService) => ({
   storage: diskStorage({
-    destination(_, file, callback) {
+    destination(
+      _: never,
+      file: Express.Multer.File,
+      callback: (error: Error | null, destination: string | null) => void,
+    ) {
       const mimetype = file.mimetype;
       const dir = join(__dirname, '..', '..', '..', 'public', 'assets');
 
@@ -49,18 +54,26 @@ const multerInstance = {
       } else if (fileTypes.includes(mimetype)) {
         destination = join(dir, 'files');
       }
-      
+
       try {
         if (!existsSync(destination)) {
           mkdirSync(destination, { recursive: true, mode: 0o755 });
         }
 
         callback(null, resolve(destination));
+        // eslint-disable-next-line no-unused-vars
       } catch (error) {
-        callback(new HttpException(error.message, HttpStatus.BAD_REQUEST), null);
+        callback(
+          new HttpException(i18n.t('errors.internalServerError'), HttpStatus.INTERNAL_SERVER_ERROR),
+          null,
+        );
       }
     },
-    filename(_, file, callback) {
+    filename(
+      _: never,
+      file: Express.Multer.File,
+      callback: (error: Error | null, filename: string | null) => void,
+    ) {
       const now = new Date();
 
       const date = new Intl.DateTimeFormat('pt-BR', {
@@ -84,7 +97,11 @@ const multerInstance = {
       callback(null, `${newFileName}_${hash}_${date}_${time}${ext}`);
     },
   }),
-  fileFilter: (_, file, callback) => {
+  fileFilter: (
+    _: never,
+    file: Express.Multer.File,
+    callback: (error: Error | null, acceptFile: boolean) => void,
+  ) => {
     const mimetype = file.mimetype;
 
     if (
@@ -94,9 +111,9 @@ const multerInstance = {
     ) {
       callback(null, true);
     } else {
-      callback(new HttpException('Invalid fileType', HttpStatus.BAD_REQUEST), false);
+      callback(new HttpException(i18n.t('errors.invalidFileType'), HttpStatus.BAD_REQUEST), false);
     }
   },
-};
+});
 
 export default multerInstance;

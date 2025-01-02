@@ -5,5 +5,7 @@
     "invalidUserOrPassword": "Usuário e/ou senha inválido(s)",
     "userBlocked": "Usuário bloqueado",
     "invalidToken": "Token inválido",
-    "userNotFound": "Usuário não encontrado"
+    "userNotFound": "Usuário não encontrado",
+    "internalServerError": "Erro interno do servidor",
+    "invalidFileType": "Tipo de arquivo inválido"
 }

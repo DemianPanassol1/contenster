@@ -1,8 +1,12 @@
 import { Request } from 'express';
+import { ApiBody, ApiConsumes } from '@nestjs/swagger';
 import { Body, Controller, Get, Post, Put, Req } from '@nestjs/common';
 
 import { AdminService } from './admin.service';
 import { ICurrentUser } from 'src/shared/types/api.types';
+
+import { File } from 'src/common/decorators/file.decorator';
+import { UploadFile } from 'src/common/interceptors/upload.interceptor';
 import { CurrentUser } from 'src/common/decorators/currentUser.decorator';
 import { Authenticate } from 'src/common/interceptors/authenticate.interceptor';
 
@@ -36,5 +40,25 @@ export class AdminController {
     @CurrentUser() currentUser: ICurrentUser,
   ) {
     return await this.adminService.putResetPassword(body, currentUser);
+  }
+
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Upload de arquivo',
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
+  @Authenticate()
+  @UploadFile()
+  @Post('upload-image')
+  async postUploadImage(@Req() req: Request, @File() file: Express.Multer.File) {
+    return await this.adminService.postUploadImage(req, file);
   }
 }

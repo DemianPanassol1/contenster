@@ -69,7 +69,7 @@ import { dbOptions, environment, HTTPS } from './config/constants/constants.conf
 
   app.use(session(sessionInstance()));
 
-  app.useStaticAssets(join(__dirname.replace('dist', ''), '..', 'public'));
+  app.useStaticAssets(join(__dirname, '..', 'public'));
 
   await app.listen(variables.PORT);
 

@@ -14,7 +14,7 @@ import { CoreInterceptor } from 'src/core/core.interceptor';
 import { environment } from 'src/config/constants/constants.config';
 
 export function Authenticate() {
-  return UseInterceptors(new AuthenticateInterceptor());
+  return UseInterceptors(AuthenticateInterceptor);
 }
 
 @Injectable()
@@ -36,7 +36,7 @@ export class AuthenticateInterceptor extends CoreInterceptor implements NestInte
 
         req.session.user = session;
 
-        // eslint-disable-next-line
+        // eslint-disable-next-line no-unused-vars
       } catch (error) {
         throw new HttpException(i18n.t('errors.accessDenied'), HttpStatus.UNAUTHORIZED);
       }

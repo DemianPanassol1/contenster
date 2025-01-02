@@ -41,3 +41,17 @@ export const miliToString = (timestamp: number): string | null => {
   const min = Math.floor((timestamp % 3600000) / 60000);
   return `${hr}h${min}m`;
 };
+
+export const bytesToString = (bytes: number): string | null => {
+  if (!Number.isFinite(bytes) || bytes < 0) return null;
+
+  const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+  let unitIndex = 0;
+
+  while (bytes >= 1024 && unitIndex < units.length - 1) {
+    bytes /= 1024;
+    unitIndex++;
+  }
+
+  return `${bytes.toFixed(2)}${units[unitIndex]}`;
+};

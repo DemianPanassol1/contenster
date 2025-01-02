@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult } from 'typeorm';
 
 import { User } from 'src/entities/contensterdb/user.entity';
+import { Image } from 'src/entities/contensterdb/image.entity';
 import { Establishment } from 'src/entities/contensterdb/establishment.entity';
 import { UserEstablishmentRole } from 'src/entities/contensterdb/userEstablishmentRole.entity';
 
@@ -10,6 +11,7 @@ import { UserEstablishmentRole } from 'src/entities/contensterdb/userEstablishme
 export class AdminRepository {
   constructor(
     @InjectRepository(User) private userRepo: Repository<User>,
+    @InjectRepository(Image) private imageRepo: Repository<Image>,
     @InjectRepository(Establishment) private establishmentRepo: Repository<Establishment>,
     @InjectRepository(UserEstablishmentRole)
     private userEstablishmentRepo: Repository<UserEstablishmentRole>,
@@ -53,5 +55,15 @@ export class AdminRepository {
 
   updateUserPassword(userId: number, password: string): Promise<UpdateResult> {
     return this.userRepo.update(userId, { password });
+  }
+
+  saveImage(image: Partial<Image>): Promise<Image> {
+    return this.imageRepo.save(image);
+  }
+
+  async removeImage(imageId: number): Promise<Image> {
+    const image = await this.imageRepo.findOneBy({ id: imageId });
+
+    return this.imageRepo.remove(image);
   }
 }

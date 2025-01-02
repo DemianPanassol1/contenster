@@ -1,3 +1,4 @@
+import sharp from 'sharp';
 import { Request } from 'express';
 import { I18nService } from 'nestjs-i18n';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
@@ -9,6 +10,7 @@ import { ICurrentUser } from 'src/shared/types/api.types';
 import { PutResetPasswordReqDto } from './dto/req/putResetPassword.req.dto';
 import { PostChangeUserEstablishmentReqDto } from './dto/req/postChangeUserEstablishment.req.dto';
 
+import { PostUploadImageResDto } from './dto/res/postUploadImage.res.dto';
 import { PutResetPasswordResDto } from './dto/res/putResetPassword.res.dto';
 import { PostChangeUserEstablishmentResDto } from './dto/res/postChangeUserEstablishment.res.dto';
 
@@ -110,5 +112,25 @@ export class AdminService extends CoreService {
     const response = { passwordReseted: true };
 
     return this.response(PutResetPasswordResDto, response);
+  }
+
+  async postUploadImage(req: Request, file: Express.Multer.File) {
+    const image = await sharp(file.path).metadata();
+
+    const response = await this.repo.saveImage({
+      size: file.size,
+      width: image.width,
+      height: image.height,
+      newName: file.filename,
+      mimeType: file.mimetype,
+      originalName: file.originalname,
+      filePath: file.path.split('\\').slice(-3).join('/'),
+    });
+
+    Object.assign(response, {
+      filePath: this.generateFilePath(req, response.filePath),
+    });
+
+    return this.response(PostUploadImageResDto, response);
   }
 }

@@ -8,7 +8,6 @@ import {
   OneToOne,
   AfterRemove,
 } from 'typeorm';
-
 import { unlink } from 'fs';
 import { join } from 'path';
 
@@ -16,20 +15,10 @@ import { User } from './user.entity';
 import { Establishment } from './establishment.entity';
 import { Functionality } from './functionality.entity';
 
-export enum ImageType {
-  image = 'image',
-  video = 'video',
-  icon = 'icon',
-  file = 'file',
-}
-
-@Entity('image')
+@Entity()
 export class Image {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column({ type: 'enum', enum: ImageType })
-  type: ImageType;
 
   @Column({ type: 'varchar', length: 150 })
   originalName: string;
@@ -72,8 +61,8 @@ export class Image {
 
   @AfterRemove()
   removeFile() {
-    if (this.deletedAt) return;
-
-    unlink(join(__dirname, '..', '..', '..', 'public', this.filePath), () => null);
+    unlink(join(__dirname, '..', '..', '..', this.filePath), (err) => {
+      throw new Error('Error on removing file: ' + err.message);
+    });
   }
 }

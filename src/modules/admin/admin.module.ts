@@ -6,11 +6,12 @@ import { AdminController } from './admin.controller';
 import { AdminRepository } from './admin.repository';
 
 import { User } from 'src/entities/contensterdb/user.entity';
+import { Image } from 'src/entities/contensterdb/image.entity';
 import { Establishment } from 'src/entities/contensterdb/establishment.entity';
 import { UserEstablishmentRole } from 'src/entities/contensterdb/userEstablishmentRole.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Establishment, UserEstablishmentRole])],
+  imports: [TypeOrmModule.forFeature([User, Establishment, UserEstablishmentRole, Image])],
   controllers: [AdminController],
   providers: [AdminService, AdminRepository],
 })
