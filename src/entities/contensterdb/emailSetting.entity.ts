@@ -54,19 +54,19 @@ export class EmailSetting {
   @DeleteDateColumn({ type: 'timestamp without time zone' })
   deletedAt: Date | null;
 
-  @ManyToMany(() => Translation, { cascade: true, eager: true })
+  @ManyToMany(() => Translation, { cascade: true })
   @JoinTable()
   subjects: Translation[];
 
-  @ManyToMany(() => Translation, { cascade: true, eager: true })
+  @ManyToMany(() => Translation, { cascade: true })
   @JoinTable()
   titles: Translation[];
 
-  @ManyToMany(() => Translation, { cascade: true, eager: true })
+  @ManyToMany(() => Translation, { cascade: true })
   @JoinTable()
   contents: Translation[];
 
-  @ManyToMany(() => Translation, { cascade: true, eager: true })
+  @ManyToMany(() => Translation, { cascade: true })
   @JoinTable()
   footers: Translation[];
 

@@ -7,5 +7,6 @@
     "invalidToken": "Token inválido",
     "userNotFound": "Usuário não encontrado",
     "internalServerError": "Erro interno do servidor",
-    "invalidFileType": "Tipo de arquivo inválido"
+    "invalidFileType": "Tipo de arquivo inválido",
+    "genericError": "Houve um problema ao processar sua solicitação. Por favor, tente novamente."
 }

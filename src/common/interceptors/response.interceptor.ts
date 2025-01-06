@@ -60,7 +60,7 @@ export class ResponseInterceptor extends CoreInterceptor implements NestIntercep
           req.file = null;
         }
 
-        this.logger.error(`${err.message}}`, err.stack);
+        this.logger.error(err.message, err.stack);
 
         const statusCode = err.getStatus ? err.getStatus() : 500;
         const statusDescription = HttpStatus[statusCode] || 'UNKNOWN_STATUS';
@@ -80,7 +80,7 @@ export class ResponseInterceptor extends CoreInterceptor implements NestIntercep
         } else {
           errors.push({
             id: uuidv4(),
-            message: err.message || 'Unknown error',
+            message: err.message || i18n.t('errors.genericError'),
             errorType: statusDescription,
           });
         }

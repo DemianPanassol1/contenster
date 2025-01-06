@@ -1,34 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { OptionService } from './option.service';
-import { CreateOptionDto } from './dto/create-option.dto';
-import { UpdateOptionDto } from './dto/update-option.dto';
+import { Body, Controller, Post, Query } from '@nestjs/common';
 
-@Controller('option')
+import { OptionService } from './option.service';
+
+import { Authenticate } from 'src/common/interceptors/authenticate.interceptor';
+import { GetModuleOptionsReqDto } from './dto/req/getModuleOptions.req.dto';
+
+@Controller({ version: '1' })
 export class OptionController {
   constructor(private readonly optionService: OptionService) {}
 
-  @Post()
-  create(@Body() createOptionDto: CreateOptionDto) {
-    return this.optionService.create(createOptionDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.optionService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.optionService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateOptionDto: UpdateOptionDto) {
-    return this.optionService.update(+id, updateOptionDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.optionService.remove(+id);
+  @Authenticate()
+  @Post('get-module-options')
+  async getModuleOptions(@Body() body: GetModuleOptionsReqDto) {
+    return await this.optionService.getModuleOptions(body);
   }
 }

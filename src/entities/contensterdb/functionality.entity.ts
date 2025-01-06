@@ -43,11 +43,11 @@ export class Functionality {
   @ManyToOne(() => Module, (module) => module.functionality)
   module: Module;
 
-  @ManyToMany(() => Translation, { cascade: true, eager: true })
+  @ManyToMany(() => Translation, { cascade: true })
   @JoinTable()
   titles: Translation[];
 
-  @OneToOne(() => Image, { cascade: true, eager: true })
+  @OneToOne(() => Image, { cascade: true })
   @JoinColumn()
   icon: Image;
 

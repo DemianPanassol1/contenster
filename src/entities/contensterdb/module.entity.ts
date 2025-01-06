@@ -31,11 +31,11 @@ export class Module {
   @ManyToOne(() => Establishment, (establishment) => establishment.module)
   establishment: Establishment;
 
-  @ManyToMany(() => Translation, { cascade: true, eager: true })
+  @ManyToMany(() => Translation, { cascade: true })
   @JoinTable()
   titles: Translation[];
 
-  @ManyToMany(() => Translation, { cascade: true, eager: true })
+  @ManyToMany(() => Translation, { cascade: true })
   @JoinTable()
   descriptions: Translation[];
 

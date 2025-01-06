@@ -52,11 +52,11 @@ export class User {
   @DeleteDateColumn({ type: 'timestamp without time zone' })
   deletedAt: Date | null;
 
-  @OneToOne(() => Image, { nullable: true, cascade: true, eager: true })
+  @OneToOne(() => Image, { nullable: true, cascade: true })
   @JoinColumn()
   image: Image | null;
 
-  @OneToOne(() => Preference, { cascade: true, eager: true })
+  @OneToOne(() => Preference, { cascade: true })
   @JoinColumn()
   preference: Preference;
 

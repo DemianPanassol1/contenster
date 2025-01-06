@@ -32,11 +32,11 @@ export class Role {
   @ManyToOne(() => Establishment, (establishment) => establishment.role)
   establishment: Establishment;
 
-  @ManyToMany(() => Translation, { cascade: true, eager: true })
+  @ManyToMany(() => Translation, { cascade: true })
   @JoinTable()
   titles: Translation[];
 
-  @ManyToMany(() => Translation, { cascade: true, eager: true })
+  @ManyToMany(() => Translation, { cascade: true })
   @JoinTable()
   descriptions: Translation[];
 
