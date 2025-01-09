@@ -8,6 +8,7 @@ import {
   JoinTable,
   ManyToOne,
   OneToMany,
+  Column,
 } from 'typeorm';
 
 import { Translation } from './translation.entity';
@@ -18,6 +19,9 @@ import { Establishment } from './establishment.entity';
 export class Module {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column({ type: 'integer', default: 0 })
+  position: number;
 
   @CreateDateColumn({ type: 'timestamp without time zone' })
   createdAt: Date;

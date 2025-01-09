@@ -28,6 +28,9 @@ export class Functionality {
   @Column({ length: 25, type: 'varchar' })
   slug: string;
 
+  @Column({ type: 'integer', default: 0 })
+  position: number;
+
   @CreateDateColumn({ type: 'timestamp without time zone' })
   createdAt: Date;
 
