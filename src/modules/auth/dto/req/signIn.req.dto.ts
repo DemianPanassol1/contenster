@@ -4,20 +4,20 @@ import { MinLength, IsBoolean, IsNotEmpty, IsString, Allow } from 'class-validat
 import { parseBool, parseNum } from 'src/shared/utils/convertion.utils';
 
 export class SignInUserReqDto {
-  @IsString()
-  @IsNotEmpty({ message: 'validation.notEmpty' })
+  @IsString({ message: 'validation.invalidString' })
+  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
   username: string;
 
-  @IsString()
+  @IsString({ message: 'validation.invalidString' })
   @MinLength(5, { message: 'validation.min' })
   password: string;
 
   @Allow()
   @Transform(parseNum)
-  establishmentId: number;
+  establishmentId: number = null;
 
-  @IsBoolean()
-  @IsNotEmpty({ message: 'validation.notEmpty' })
+  @IsBoolean({ message: 'validation.invalidBoolean' })
+  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
   @Transform(parseBool)
   staySign: boolean;
 }

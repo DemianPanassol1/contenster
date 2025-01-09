@@ -6,7 +6,7 @@ import { parseBool } from '../utils/convertion.utils';
 
 export class OptionsReqDto extends PaginateReqDto {
   @IsOptional()
-  @IsBoolean()
+  @IsBoolean({ message: 'validation.invalidBoolean' })
   @Transform(parseBool)
   optional: boolean = false;
 }

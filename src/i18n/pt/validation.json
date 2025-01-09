@@ -1,7 +1,15 @@
 {
-  "notEmpty": "O campo '$t(fields.{property})' não pode estar vazio",
+  "notEmpty": "O campo '{property}' não pode estar vazio",
+  "notEmptyTranslated": "O campo '$t(fields.{property})' não pode estar vazio",
+  "invalidString": "O campo '$t(fields.{property})' não é uma string",
+  "invalidStringOrArrayOf": "O campo '$t(fields.{property})' deve ser uma string ou uma lista de strings",
   "invalidEmail": "O campo '$t(fields.email)' contém um email inválido",
   "invalidBoolean": "O campo '$t(fields.{property})' não é um booleano",
-  "min": "O campo '{property}' com valor: \"{value}\" precisa ser pelo menos {constraints.0}",
-  "max": "O campo '{property}' com valor: \"{value}\" precisa ser menor que {constraints.0}"
+  "invalidArray": "O campo '$t(fields.{property})' não é uma lista",
+  "invalidInteger": "O campo '$t(fields.{property})' não é um número inteiro",
+  "invalidOrderField": "O campo '{property}' deve ser um dos seguintes valores: 'ASC' ou 'DESC'",
+  "invalidTypeField": "O campo '{property}' deve ser um dos seguintes valores: 'STRING', 'NUMBER' ou 'DATE'",
+  "invalidOperationField": "O campo '{property}' deve ser um dos seguintes valores: 'EQUALS', 'NOT_EQUALS', 'GREATER_THAN', 'GREATER_THAN_OR_EQUAL', 'LESS_THAN', 'LESS_THAN_OR_EQUAL', 'IN', 'NOT_IN', 'BETWEEN', 'NOT_BETWEEN', 'LIKE', 'NOT_LIKE', 'IS_NULL' ou 'IS_NOT_NULL'",
+  "equalOrHigherThanOne": "O campo '{property}' com valor: \"{value}\" precisa ser maior ou igual a 1",
+  "equalOrHigherThanZero": "O campo '{property}' com valor: \"{value}\" precisa ser maior ou igual a 0"
 }

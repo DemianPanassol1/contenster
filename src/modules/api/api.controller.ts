@@ -4,14 +4,14 @@ import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ApiService } from './api.service';
 import { Authorize } from 'src/common/interceptors/authorize.interceptor';
 
-import { GenerateTokenDto } from './dto/generateToken.dto';
+import { GenerateTokenReqDto } from './dto/req/generateToken.req.dto';
 
 @Controller({ version: '1' })
 export class ApiController {
   constructor(private readonly apiService: ApiService) {}
 
   @Post('generate-token')
-  getGenerateToken(@Body() body: GenerateTokenDto) {
+  getGenerateToken(@Body() body: GenerateTokenReqDto) {
     return this.apiService.getGenerateToken(body);
   }
 

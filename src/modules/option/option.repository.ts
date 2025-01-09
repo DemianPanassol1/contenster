@@ -10,21 +10,23 @@ import { Establishment } from 'src/entities/contensterdb/establishment.entity';
 
 import { GetModuleOptionsReqDto } from './dto/req/getModuleOptions.req.dto';
 
-import { buildFilter } from 'src/shared/utils/filter.utils';
+import { CoreRepository } from 'src/core/core.repository';
 
 @Injectable()
-export class OptionRepository {
+export class OptionRepository extends CoreRepository {
   constructor(
-    private readonly i18n: I18nService,
+    public readonly i18n: I18nService,
     @InjectRepository(User) private userRepo: Repository<User>,
     @InjectRepository(Role) private roleRepo: Repository<Role>,
     @InjectRepository(Module) private moduleRepo: Repository<Module>,
     @InjectRepository(Establishment) private establishmentRepo: Repository<Establishment>,
-  ) {}
+  ) {
+    super(i18n);
+  }
 
   getModulesPaginated(query: GetModuleOptionsReqDto): Promise<[Module[], number]> {
     return this.moduleRepo.findAndCount({
-      ...buildFilter(query, {
+      ...this.buildFilter(query, {
         establishment: { id: query.establishmentId },
         titles: { language: { languageCode: I18nContext.current().lang } },
         descriptions: { language: { languageCode: I18nContext.current().lang } },

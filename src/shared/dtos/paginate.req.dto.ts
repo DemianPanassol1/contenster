@@ -40,54 +40,48 @@ export enum Operation {
 }
 
 export class Sort {
-  @IsString({ message: 'O campo "field" deve ser uma string.' })
-  @IsNotEmpty({ message: 'O campo "field" não pode estar vazio.' })
+  @IsString({ message: 'validation.invalidString' })
+  @IsNotEmpty({ message: 'validation.notEmprt' })
   field: string;
 
-  @IsEnum(Order, {
-    message: `O campo "order" deve ser um dos seguintes valores: ${Object.values(Order).join(', ')}`,
-  })
+  @IsEnum(Order, { message: 'validation.invalidOrderField' })
   order: Order;
 }
 
 export class Filter {
-  @IsString({ message: 'O campo "field" deve ser uma string.' })
-  @IsNotEmpty({ message: 'O campo "field" não pode estar vazio.' })
+  @IsString({ message: 'validation.invalidString' })
+  @IsNotEmpty({ message: 'validation.notEmprt' })
   field: string;
 
-  @IsString({ each: true, message: 'Cada item no campo "value" deve ser uma string.' })
+  @IsString({ each: true, message: 'validation.invalidStringOrArrayOf' })
   value: string | string[] = '';
 
-  @IsBoolean({ message: 'O campo "disjunctive" deve ser um booleano.' })
+  @IsBoolean({ message: 'validation.invalidBoolean' })
   disjunctive: boolean;
 
-  @IsEnum(FieldType, {
-    message: `O campo "type" deve ser um dos seguintes valores: ${Object.values(FieldType).join(', ')}`,
-  })
+  @IsEnum(FieldType, { message: 'validation.invalidTypeField' })
   type: FieldType;
 
-  @IsEnum(Operation, {
-    message: `O campo "operation" deve ser um dos seguintes valores: ${Object.values(Operation).join(', ')}`,
-  })
+  @IsEnum(Operation, { message: 'validation.invalidOperationField' })
   operation: Operation;
 }
 
 export class PaginateReqDto {
-  @IsArray({ message: 'O campo "sortBy" deve ser um array.' })
+  @IsArray({ message: 'validation.invalidArray' })
   @ValidateNested({ each: true })
   @Type(() => Sort)
   @IsOptional()
   sortBy?: Sort[];
 
-  @IsInt({ message: 'O campo "pageNumber" deve ser um número inteiro.' })
-  @Min(0, { message: 'O campo "pageNumber" deve ser maior ou igual a 0.' })
+  @IsInt({ message: 'validation.invalidInteger' })
+  @Min(0, { message: 'validation.equalOrHigherThanZero' })
   pageNumber: number = 0;
 
-  @IsInt({ message: 'O campo "pageSize" deve ser um número inteiro.' })
-  @Min(1, { message: 'O campo "pageSize" deve ser maior ou igual a 1.' })
+  @IsInt({ message: 'validation.invalidInteger' })
+  @Min(1, { message: 'validation.equalOrHigherThanOne' })
   pageSize: number = Number.MAX_SAFE_INTEGER;
 
-  @IsArray({ message: 'O campo "filters" deve ser um array.' })
+  @IsArray({ message: 'validation.invalidArray' })
   @ValidateNested({ each: true })
   @Type(() => Filter)
   @IsOptional()

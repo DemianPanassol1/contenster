@@ -5,20 +5,19 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import variables from 'src/settings';
 import { CoreService } from 'src/core/core.service';
 
-import { GenerateTokenDto } from './dto/generateToken.dto';
-
-import { GenerateTokenResponseDto } from './dto/generateToken.response.dto';
-import { ValidateTokenResponseDto } from './dto/validateToken.response.dto';
+import { GenerateTokenReqDto } from './dto/req/generateToken.req.dto';
+import { GenerateTokenResDto } from './dto/res/generateToken.res.dto';
+import { ValidateTokenResDto } from './dto/res/validateToken.res.dto';
 
 @Injectable()
 export class ApiService extends CoreService {
   getValidateToken() {
     const response = { validated: true };
 
-    return this.response(ValidateTokenResponseDto, response);
+    return this.response(ValidateTokenResDto, response);
   }
 
-  getGenerateToken(body: GenerateTokenDto) {
+  getGenerateToken(body: GenerateTokenReqDto) {
     const { login, password } = body;
 
     if (login !== variables.API_LOGIN || password !== variables.API_PASSWORD) {
@@ -35,7 +34,7 @@ export class ApiService extends CoreService {
       token: jwt.sign(payload, variables.JWT_TOKEN, { expiresIn: payload.expiresIn }),
     };
 
-    return this.response(GenerateTokenResponseDto, response);
+    return this.response(GenerateTokenResDto, response);
   }
 
   async postUploadImage(req: Request, file: Express.Multer.File) {

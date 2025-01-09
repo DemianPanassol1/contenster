@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
 
-export class ValidateTokenResponseDto {
+export class ValidateTokenResDto {
   @Expose()
   validated: boolean;
 }

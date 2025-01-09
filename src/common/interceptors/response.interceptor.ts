@@ -1,18 +1,18 @@
 import {
   CallHandler,
   ExecutionContext,
+  HttpException,
   HttpStatus,
   Injectable,
   Logger,
   NestInterceptor,
 } from '@nestjs/common';
-
 import { v4 as uuidv4 } from 'uuid';
 import { Observable, of } from 'rxjs';
-import { I18nContext } from 'nestjs-i18n';
 import { existsSync, unlinkSync } from 'fs';
 import { Request, Response } from 'express';
 import { catchError, map } from 'rxjs/operators';
+import { I18nContext, I18nService } from 'nestjs-i18n';
 
 import { CoreInterceptor } from 'src/core/core.interceptor';
 import { miliToString } from 'src/shared/utils/convertion.utils';
@@ -20,7 +20,10 @@ import { ErrorItem, ResponseFormat } from 'src/shared/types/api.types';
 
 @Injectable()
 export class ResponseInterceptor extends CoreInterceptor implements NestInterceptor {
-  constructor(private readonly logger: Logger) {
+  constructor(
+    private readonly logger: Logger,
+    private readonly i18n: I18nService,
+  ) {
     super();
   }
 
@@ -29,8 +32,6 @@ export class ResponseInterceptor extends CoreInterceptor implements NestIntercep
     const res: Response = context.switchToHttp().getResponse<Response>();
 
     const now = Date.now();
-
-    const i18n = I18nContext.current();
 
     return next.handle().pipe(
       map((data: any) => {
@@ -59,6 +60,7 @@ export class ResponseInterceptor extends CoreInterceptor implements NestIntercep
 
           req.file = null;
         }
+        console.log(JSON.stringify(err));
 
         this.logger.error(err.message, err.stack);
 
@@ -66,27 +68,26 @@ export class ResponseInterceptor extends CoreInterceptor implements NestIntercep
         const statusDescription = HttpStatus[statusCode] || 'UNKNOWN_STATUS';
 
         const errors: ErrorItem[] = [];
+        const regex = /^(?=.*\.)[a-z.]+$/;
 
-        if (Array.isArray(err?.errors)) {
-          for (const elem of err.errors) {
-            errors.push({
-              id: uuidv4(),
-              message: i18n.t(elem.constraints[Object.keys(elem.constraints)[0]], {
-                args: { property: elem.property, value: elem.value, constraints: elem.constraints },
-              }),
-              errorType: 'ValidationError',
-            });
-          }
+        if (err.name === 'HttpException') {
+          errors.push({
+            id: uuidv4(),
+            message: regex.test(err.message) ? this.i18n.t(err.message) : err.message,
+            errorType: err.name,
+          });
+        } else if (err.name === 'I18nValidationException') {
+          this.processValidationErrors(err.errors, errors, err.name);
         } else {
           errors.push({
             id: uuidv4(),
-            message: err.message || i18n.t('errors.genericError'),
-            errorType: statusDescription,
+            message: this.i18n.t('errors.genericError'),
+            errorType: err.name,
           });
         }
 
         const errorResponse: ResponseFormat<null> = {
-          lang: i18n.lang,
+          lang: I18nContext.current().lang,
           requestId: uuidv4(),
           statusCode: statusCode,
           status: statusDescription,
@@ -102,5 +103,28 @@ export class ResponseInterceptor extends CoreInterceptor implements NestIntercep
         return of(errorResponse);
       }),
     );
+  }
+
+  private processValidationErrors(errorList: any[], errors: ErrorItem[], errorType: string) {
+    for (const error of errorList) {
+      if (error.children && error.children.length > 0) {
+        // Chama recursivamente para processar filhos
+        this.processValidationErrors(error.children, errors, errorType);
+      } else if (error.constraints) {
+        // Processa constraints, traduzindo as mensagens
+        for (const constraintKey in error.constraints) {
+          errors.push({
+            id: uuidv4(),
+            message: this.i18n.t(error.constraints[constraintKey], {
+              args: {
+                property: error.property,
+                value: error.value,
+              },
+            }),
+            errorType,
+          });
+        }
+      }
+    }
   }
 }
