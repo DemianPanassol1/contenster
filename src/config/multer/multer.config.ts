@@ -61,7 +61,7 @@ const multerInstance = (i18n: I18nService) => ({
         }
 
         callback(null, resolve(destination));
-        // eslint-disable-next-line no-unused-vars
+        // eslint-disable-next-line
       } catch (error) {
         callback(
           new HttpException(i18n.t('errors.internalServerError'), HttpStatus.INTERNAL_SERVER_ERROR),

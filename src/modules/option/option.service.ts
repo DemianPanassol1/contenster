@@ -3,7 +3,9 @@ import { Injectable } from '@nestjs/common';
 
 import { CoreService } from 'src/core/core.service';
 import { OptionRepository } from './option.repository';
+
 import { GetModuleOptionsReqDto } from './dto/req/getModuleOptions.req.dto';
+import { GetModuleOptionsResDto } from './dto/res/getModuleOptions.res.dto';
 
 @Injectable()
 export class OptionService extends CoreService {
@@ -32,6 +34,6 @@ export class OptionService extends CoreService {
       },
     };
 
-    return response;
+    return this.response(GetModuleOptionsResDto, response);
   }
 }

@@ -36,7 +36,7 @@ export class AuthenticateInterceptor extends CoreInterceptor implements NestInte
 
         req.session.user = session;
 
-        // eslint-disable-next-line no-unused-vars
+        // eslint-disable-next-line
       } catch (error) {
         throw new HttpException(i18n.t('errors.accessDenied'), HttpStatus.UNAUTHORIZED);
       }

@@ -1,7 +1,6 @@
 import {
   CallHandler,
   ExecutionContext,
-  HttpException,
   HttpStatus,
   Injectable,
   Logger,
@@ -60,7 +59,6 @@ export class ResponseInterceptor extends CoreInterceptor implements NestIntercep
 
           req.file = null;
         }
-        console.log(JSON.stringify(err));
 
         this.logger.error(err.message, err.stack);
 
