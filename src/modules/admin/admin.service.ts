@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import sharp from 'sharp';
 import { Request } from 'express';
 import { readdir } from 'fs/promises';
@@ -13,6 +14,7 @@ import { PutResetPasswordReqDto } from './dto/req/putResetPassword.req.dto';
 import { PostChangeUserEstablishmentReqDto } from './dto/req/postChangeUserEstablishment.req.dto';
 
 import { GetIconListResDto } from './dto/res/getIconList.res.dto';
+import { GetModulesListResDto } from './dto/res/getModulesList.res.dto';
 import { PostUploadImageResDto } from './dto/res/postUploadImage.res.dto';
 import { PutResetPasswordResDto } from './dto/res/putResetPassword.res.dto';
 import { PostChangeUserEstablishmentResDto } from './dto/res/postChangeUserEstablishment.res.dto';
@@ -184,5 +186,45 @@ export class AdminService extends CoreService {
     };
 
     return this.response(GetIconListResDto, response);
+  }
+
+  async getModulesList(req: Request, currentUser: ICurrentUser) {
+    const query = await this.repo.findFunctionalitiesByRole(currentUser.role.id);
+
+    const data = {
+      functionalities: query.permission.map((p) => ({
+        id: p.functionality.id,
+        slug: p.functionality.slug,
+        title: this.translate(p.functionality.titles),
+        icon: this.generateFilePath(req, p.functionality.icon?.filePath),
+        position: p.functionality.position,
+        moduleId: p.functionality.module.id,
+        permissions: {
+          id: p.id,
+          canRead: p.canRead,
+          canCreate: p.canCreate,
+          canUpdate: p.canUpdate,
+          canDelete: p.canDelete,
+          type: p.permissionType,
+        },
+      })),
+      modules: query.permission.map((p) => ({
+        id: p.functionality.module.id,
+        position: p.functionality.module.position,
+        title: this.translate(p.functionality.module.titles),
+        description: this.translate(p.functionality.module.descriptions),
+      })),
+    };
+
+    const response = _.uniqBy(data.modules, 'id')
+      .map((m) => ({
+        ...m,
+        functionalities: data.functionalities
+          .filter((f) => f.moduleId === m.id)
+          .sort((a, b) => a.position - b.position),
+      }))
+      .sort((a, b) => a.position - b.position);
+
+    return this.response(GetModulesListResDto, response);
   }
 }

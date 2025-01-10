@@ -10,9 +10,9 @@ import { UploadFile } from 'src/common/interceptors/upload.interceptor';
 import { CurrentUser } from 'src/common/decorators/currentUser.decorator';
 import { Authenticate } from 'src/common/interceptors/authenticate.interceptor';
 
+import { GetIconsListReqDto } from './dto/req/getModuleOptions.req.dto';
 import { PutResetPasswordReqDto } from './dto/req/putResetPassword.req.dto';
 import { PostChangeUserEstablishmentReqDto } from './dto/req/postChangeUserEstablishment.req.dto';
-import { GetIconsListReqDto } from './dto/req/getModuleOptions.req.dto';
 
 @Controller({ version: '1' })
 export class AdminController {
@@ -67,5 +67,11 @@ export class AdminController {
   @Post('get-icons-list')
   async getIconList(@Req() req: Request, @Body() body: GetIconsListReqDto) {
     return await this.adminService.getIconList(req, body);
+  }
+
+  @Authenticate()
+  @Get('get-modules-list')
+  async getModulesList(@Req() req: Request, @CurrentUser() currentUser: ICurrentUser) {
+    return await this.adminService.getModulesList(req, currentUser);
   }
 }
