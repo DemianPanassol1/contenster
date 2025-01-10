@@ -1,15 +1,18 @@
 import sharp from 'sharp';
 import { Request } from 'express';
+import { readdir } from 'fs/promises';
 import { I18nService } from 'nestjs-i18n';
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 
 import { CoreService } from 'src/core/core.service';
 import { AdminRepository } from './admin.repository';
 import { ICurrentUser } from 'src/shared/types/api.types';
 
+import { GetIconsListReqDto } from './dto/req/getModuleOptions.req.dto';
 import { PutResetPasswordReqDto } from './dto/req/putResetPassword.req.dto';
 import { PostChangeUserEstablishmentReqDto } from './dto/req/postChangeUserEstablishment.req.dto';
 
+import { GetIconListResDto } from './dto/res/getIconList.res.dto';
 import { PostUploadImageResDto } from './dto/res/postUploadImage.res.dto';
 import { PutResetPasswordResDto } from './dto/res/putResetPassword.res.dto';
 import { PostChangeUserEstablishmentResDto } from './dto/res/postChangeUserEstablishment.res.dto';
@@ -18,6 +21,7 @@ import { PostChangeUserEstablishmentResDto } from './dto/res/postChangeUserEstab
 export class AdminService extends CoreService {
   constructor(
     i18n: I18nService,
+    private readonly logger: Logger,
     private readonly repo: AdminRepository,
   ) {
     super(i18n);
@@ -132,5 +136,53 @@ export class AdminService extends CoreService {
     });
 
     return this.response(PostUploadImageResDto, response);
+  }
+
+  async getIconList(req: Request, body: GetIconsListReqDto) {
+    let systemIconsList = [];
+    let iconsCount = 0;
+    let filteredCount = 0;
+
+    try {
+      const dirEntries = await readdir(this.systemIconsPath, { withFileTypes: true });
+
+      systemIconsList = dirEntries.map((systemIcon) => ({
+        name: systemIcon.name,
+        path: this.generateFilePath(req, 'assets/icons/system/' + systemIcon.name),
+      }));
+
+      const filter = body.filters.find(
+        (elem) => elem.operation === 'LIKE' && elem.type === 'STRING' && elem.value,
+      );
+
+      if (filter) {
+        systemIconsList = this.filterDataByField(
+          systemIconsList,
+          filter.field,
+          filter.value as string,
+        );
+      }
+
+      filteredCount = systemIconsList.length;
+
+      iconsCount = dirEntries.length;
+
+      systemIconsList = this.paginateData(systemIconsList, body.pageNumber, body.pageSize);
+    } catch (error) {
+      this.logger.error(error.message, error.stack);
+    }
+
+    const response = {
+      data: systemIconsList,
+      meta: {
+        ...body,
+        totalItems: iconsCount,
+        totalFiltered: filteredCount,
+        totalPages: Math.ceil(filteredCount / body.pageSize),
+        hasNextPage: filteredCount > (body.pageNumber + 1) * body.pageSize,
+      },
+    };
+
+    return this.response(GetIconListResDto, response);
   }
 }

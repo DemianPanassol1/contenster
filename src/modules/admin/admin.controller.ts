@@ -12,6 +12,7 @@ import { Authenticate } from 'src/common/interceptors/authenticate.interceptor';
 
 import { PutResetPasswordReqDto } from './dto/req/putResetPassword.req.dto';
 import { PostChangeUserEstablishmentReqDto } from './dto/req/postChangeUserEstablishment.req.dto';
+import { GetIconsListReqDto } from './dto/req/getModuleOptions.req.dto';
 
 @Controller({ version: '1' })
 export class AdminController {
@@ -60,5 +61,11 @@ export class AdminController {
   @Post('upload-image')
   async postUploadImage(@Req() req: Request, @File() file: Express.Multer.File) {
     return await this.adminService.postUploadImage(req, file);
+  }
+
+  @Authenticate()
+  @Post('get-icons-list')
+  async getIconList(@Req() req: Request, @Body() body: GetIconsListReqDto) {
+    return await this.adminService.getIconList(req, body);
   }
 }

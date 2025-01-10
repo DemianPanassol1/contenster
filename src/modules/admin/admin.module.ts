@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AdminService } from './admin.service';
@@ -13,6 +13,6 @@ import { UserEstablishmentRole } from 'src/entities/contensterdb/userEstablishme
 @Module({
   imports: [TypeOrmModule.forFeature([User, Establishment, UserEstablishmentRole, Image])],
   controllers: [AdminController],
-  providers: [AdminService, AdminRepository],
+  providers: [Logger, AdminService, AdminRepository],
 })
 export class AdminModule {}

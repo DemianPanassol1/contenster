@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { join } from 'path';
 import { unlink } from 'fs';
 import { Request } from 'express';
@@ -82,5 +83,17 @@ export class CoreService {
 
   response<T>(dtoClass: { new (): T }, data: any): T {
     return plainToClass(dtoClass, data, { excludeExtraneousValues: true });
+  }
+
+  paginateData(data: any[], currentPage: number, pageSize: number): any[] {
+    const startIndex = currentPage * pageSize;
+    const endIndex = startIndex + pageSize;
+    return _.slice(data, startIndex, endIndex);
+  }
+
+  filterDataByField(data: any[], field: string | string[], searchTerm: string): any[] {
+    const fields = Array.isArray(field) ? field.flat() : [field];
+
+    return _.filter(data, (item) => fields.some((field) => item[field].includes(searchTerm)));
   }
 }
