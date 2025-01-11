@@ -9,9 +9,10 @@ import { User } from 'src/entities/contensterdb/user.entity';
 import { Role } from 'src/entities/contensterdb/role.entity';
 import { Module } from 'src/entities/contensterdb/module.entity';
 import { Establishment } from 'src/entities/contensterdb/establishment.entity';
+import { Functionality } from 'src/entities/contensterdb/functionality.entity';
 
 @ModuleMod({
-  imports: [TypeOrmModule.forFeature([User, Establishment, Module, Role])],
+  imports: [TypeOrmModule.forFeature([User, Establishment, Module, Role, Functionality])],
   controllers: [OptionController],
   providers: [OptionService, OptionRepository],
 })

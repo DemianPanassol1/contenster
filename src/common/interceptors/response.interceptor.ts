@@ -76,6 +76,12 @@ export class ResponseInterceptor extends CoreInterceptor implements NestIntercep
           });
         } else if (err.name === 'I18nValidationException') {
           this.processValidationErrors(err.errors, errors, err.name);
+        } else if (err.name === 'EntityPropertyNotFoundError') {
+          errors.push({
+            id: uuidv4(),
+            message: err.message,
+            errorType: err.name,
+          });
         } else {
           errors.push({
             id: uuidv4(),
