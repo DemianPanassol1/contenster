@@ -1,0 +1,7 @@
+build
+public/fonts
+public/style.css
+public/index.html
+public/manifest.json
+public/robots.txt
+node_modules
