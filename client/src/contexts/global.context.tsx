@@ -1,11 +1,18 @@
+import React, {
+  createContext,
+  useContext,
+  useReducer,
+  ReactNode,
+  useEffect,
+  useMemo,
+} from 'react';
 import { Theme } from '@emotion/react';
-import React, { createContext, useContext, useReducer, ReactNode } from 'react';
 
 import theme from '../settings/themes.setting';
 
 interface GlobalState {
   mode: 'light' | 'dark';
-  theme: Partial<Theme> | ((outerTheme: Theme) => Theme) | null;
+  theme: Theme;
   loading: boolean;
   drawerState: boolean;
   dialogState: boolean;
@@ -14,6 +21,13 @@ interface GlobalState {
 interface GlobalContextProps {
   state: GlobalState;
   dispatch: React.Dispatch<Action>;
+  getTheme: () => Theme;
+  getDrawerState: () => boolean;
+  getDialogState: () => boolean;
+  setTheme: (mode: 'light' | 'dark') => void;
+  toggleDrawer: () => void;
+  toggleDialog: () => void;
+  resetSettings: () => void;
 }
 
 interface GlobalProviderProps {
@@ -22,17 +36,18 @@ interface GlobalProviderProps {
 
 type Action =
   | { type: 'CHANGE_MODE'; payload: GlobalState['mode'] }
-  | { type: 'CHANGE_THEME'; payload: GlobalState['theme'] }
+  | { type: 'CHANGE_THEME'; payload: Theme }
   | { type: 'TOGGLE_DRAWER' }
   | { type: 'TOGGLE_DIALOG' }
-  | { type: 'RESET_THEME' }
-  | { type: 'RESET_MODE' };
+  | { type: 'RESET_SETTINGS' };
 
-const mode = (localStorage.getItem('mode') as GlobalState['mode']) || 'light';
+const getInitialMode = (): GlobalState['mode'] => {
+  return (localStorage.getItem('mode') as GlobalState['mode']) || 'light';
+};
 
 const initialState: GlobalState = {
-  mode: mode,
-  theme: theme[mode],
+  mode: getInitialMode(),
+  theme: theme[getInitialMode()] || theme.light,
   loading: false,
   drawerState: false,
   dialogState: false,
@@ -45,22 +60,15 @@ const globalReducer = (state: GlobalState, action: Action): GlobalState => {
       return {
         ...state,
         mode: action.payload,
+        theme: theme[action.payload] || theme.light,
       };
     case 'CHANGE_THEME':
       return {
         ...state,
         theme: action.payload,
       };
-    case 'RESET_MODE':
-      return {
-        ...state,
-        mode: initialState.mode,
-      };
-    case 'RESET_THEME':
-      return {
-        ...state,
-        theme: initialState.theme,
-      };
+    case 'RESET_SETTINGS':
+      return initialState;
     case 'TOGGLE_DRAWER':
       return {
         ...state,
@@ -81,11 +89,44 @@ const GlobalContext = createContext<GlobalContextProps | undefined>(undefined);
 export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(globalReducer, initialState);
 
-  return (
-    <GlobalContext.Provider value={{ state, dispatch }}>
-      {children}
-    </GlobalContext.Provider>
+  const getTheme = () => state.theme;
+
+  const getDrawerState = () => state.drawerState;
+
+  const getDialogState = () => state.dialogState;
+
+  const setTheme = (mode: 'light' | 'dark') => {
+    dispatch({ type: 'CHANGE_MODE', payload: mode });
+  };
+
+  const toggleDrawer = () => dispatch({ type: 'TOGGLE_DRAWER' });
+
+  const toggleDialog = () => dispatch({ type: 'TOGGLE_DIALOG' });
+
+  const resetSettings = () => dispatch({ type: 'RESET_SETTINGS' });
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('mode', state.mode);
+    }
+  }, [state.mode]);
+
+  const value = useMemo(
+    () => ({
+      state,
+      dispatch,
+      getTheme,
+      getDrawerState,
+      getDialogState,
+      setTheme,
+      toggleDrawer,
+      toggleDialog,
+      resetSettings,
+    }),
+    [state, dispatch],
   );
+
+  return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;
 };
 
 export const useGlobalContext = () => {
@@ -95,28 +136,5 @@ export const useGlobalContext = () => {
     throw new Error('useGlobalContext must be used within a GlobalProvider');
   }
 
-  const getTheme = () => context.state.theme;
-
-  const getDrawerState = () => context.state.drawerState;
-
-  const getDialogState = () => context.state.dialogState;
-
-  const setTheme = (mode: GlobalState['mode']) => {
-    context.dispatch({ type: 'CHANGE_MODE', payload: mode });
-    context.dispatch({ type: 'CHANGE_THEME', payload: theme[mode] });
-  };
-
-  const toggleDrawer = () => context.dispatch({ type: 'TOGGLE_DRAWER' });
-
-  const toggleDialog = () => context.dispatch({ type: 'TOGGLE_DIALOG' });
-
-  return {
-    ...context,
-    getTheme,
-    getDrawerState,
-    getDialogState,
-    setTheme,
-    toggleDrawer,
-    toggleDialog,
-  };
+  return context;
 };
