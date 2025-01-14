@@ -19,5 +19,5 @@ root.render(
       </GlobalProvider>
     </SnackbarProvider>
     <CssBaseline />
-  </React.StrictMode>,
+  </React.StrictMode>
 );

@@ -1,20 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { useSnackbar } from 'notistack';
+import { IconButton } from '@mui/material';
 import useSWR, { useSWRConfig } from 'swr';
 import { useMemo, useRef, useCallback } from 'react';
-import { IconButton, useMediaQuery } from '@mui/material';
 import { useNavigate as useNavigateHook } from 'react-router-dom';
+import { useMediaQuery, useSessionStorage } from '@uidotdev/usehooks';
 
 import CloseIcon from '@mui/icons-material/Close';
 
 import { ApiRequest } from '../settings/services.setting';
-
-interface UseGETReturn<T> {
-  data: T | null;
-  isLoading: boolean;
-  refresh: (key?: string) => Promise<void>;
-}
 
 interface PageKey {
   key1: number;
@@ -38,10 +31,51 @@ interface ToastOptions {
   action: (snackId: string | number) => JSX.Element;
 }
 
+interface Session {
+  id: number;
+  name: string;
+  email: string;
+  image: string;
+  username: string;
+  isActive: boolean;
+  phone: string;
+  homePage: string;
+  establishmentCount: number;
+  role: {
+    id: number;
+    title: string;
+    description: string;
+  };
+  permissions: {
+    id: number;
+    slug: string;
+    title: string;
+    canRead: boolean;
+    canCreate: boolean;
+    canUpdate: boolean;
+    canDelete: boolean;
+  }[];
+  establishment: {
+    id: number;
+    document: string;
+    documentType: string;
+    email: string;
+    phone1: string;
+    phone2: string;
+    address: string;
+    addressNumber: string;
+    zipCode: string;
+    district: string;
+    corporateName: string;
+    fantasyName: string;
+    image: string;
+  };
+}
+
 export const useMobileScreen = (): boolean =>
   useMediaQuery('only screen and (max-width : 768px)');
 
-export const useGET = <T = any>(url: string, revalidate = false): UseGETReturn<T> => {
+export const useGET = (url: string, revalidate = false) => {
   const { mutate } = useSWRConfig();
 
   const ApiGetRequest = (url = '') => ApiRequest('get', url);
@@ -82,6 +116,29 @@ export const useRouteParams = (): RouteParams => {
   };
 };
 
+export const useUserSession = (): Session | null => {
+  const [session] = useSessionStorage<Session | null>('session', null);
+
+  return session;
+};
+
+export const usePermissions = (searchSlug = null) => {
+  const session = useUserSession();
+  const { slug } = useRouteParams();
+
+  return (
+    session?.permissions?.find((item) => item.slug === (searchSlug || slug)) ?? {
+      id: 0,
+      slug,
+      title: null,
+      canRead: true,
+      canCreate: true,
+      canUpdate: true,
+      canDelete: true,
+    }
+  );
+};
+
 export const useNavigate = (): NavigateFunction => {
   const { slug } = useRouteParams();
   const navigate = useNavigateHook();
@@ -90,7 +147,7 @@ export const useNavigate = (): NavigateFunction => {
     (url?: string) => {
       navigate(url || `/${slug}`);
     },
-    [navigate, slug],
+    [navigate, slug]
   );
 };
 
@@ -115,23 +172,23 @@ export const useToast = () => {
 
   const defaultMessage = useCallback(
     (text: string) => enqueueSnackbar(text, { variant: 'default', ...toastOptions }),
-    [enqueueSnackbar],
+    [enqueueSnackbar]
   );
   const warnMessage = useCallback(
     (text: string) => enqueueSnackbar(text, { variant: 'warning', ...toastOptions }),
-    [enqueueSnackbar],
+    [enqueueSnackbar]
   );
   const infoMessage = useCallback(
     (text: string) => enqueueSnackbar(text, { variant: 'info', ...toastOptions }),
-    [enqueueSnackbar],
+    [enqueueSnackbar]
   );
   const successMessage = useCallback(
     (text: string) => enqueueSnackbar(text, { variant: 'success', ...toastOptions }),
-    [enqueueSnackbar],
+    [enqueueSnackbar]
   );
   const errorMessage = useCallback(
     (text: string) => enqueueSnackbar(text, { variant: 'error', ...toastOptions }),
-    [enqueueSnackbar],
+    [enqueueSnackbar]
   );
 
   return {

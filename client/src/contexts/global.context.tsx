@@ -21,7 +21,7 @@ interface GlobalState {
 interface GlobalContextProps {
   state: GlobalState;
   dispatch: React.Dispatch<Action>;
-  getTheme: () => Theme;
+  getTheme: () => Partial<Theme> | ((outerTheme: Theme) => Theme);
   getDrawerState: () => boolean;
   getDialogState: () => boolean;
   setTheme: (mode: 'light' | 'dark') => void;
@@ -111,6 +111,10 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
     }
   }, [state.mode]);
 
+  useEffect(() => {
+    console.log('carregou');
+  }, []);
+
   const value = useMemo(
     () => ({
       state,
@@ -123,7 +127,7 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
       toggleDialog,
       resetSettings,
     }),
-    [state, dispatch],
+    [state, dispatch]
   );
 
   return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;

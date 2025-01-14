@@ -26,7 +26,7 @@ const ApiLogin = async (): Promise<string> => {
     {
       login: LOGIN,
       password: PASSWORD,
-    },
+    }
   );
 
   return res.data.body.token;
@@ -74,7 +74,7 @@ export const ApiRequest = async (
   method: 'get' | 'post' | 'put' | 'delete',
   url: string = '',
   data: Record<string, any> = {},
-  options: ApiRequestOptions = {},
+  options: ApiRequestOptions = {}
 ): Promise<AxiosResponse<any>> => {
   await HandleAuthorizationToken();
 

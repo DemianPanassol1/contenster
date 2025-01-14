@@ -5,12 +5,14 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { useGlobalContext } from './contexts/global.context';
 
 const router = createBrowserRouter([
-  // {
-  //   path: '/',
-  //   element: <Admin />,
-  //   errorElement: <Error />,
-  //   children: [...adminViews],
-  // },
+  {
+    path: '/',
+    element: <h1>teste</h1>, // {/* <Admin /> */},
+    // errorElement: <Error />,
+    children: [
+      /* ...adminViews */
+    ],
+  },
   // {
   //   path: '/auth',
   //   element: <Auth />,
@@ -25,7 +27,7 @@ const App = () => {
   const theme = getTheme();
 
   return (
-    <ThemeProvider theme={theme as Partial<Theme> | ((outerTheme: Theme) => Theme)}>
+    <ThemeProvider theme={theme}>
       <AnimatePresence>
         <RouterProvider router={router} />
       </AnimatePresence>
