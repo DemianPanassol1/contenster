@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
+import { I18nService } from 'nestjs-i18n';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { I18nContext, I18nService } from 'nestjs-i18n';
 
 import { Role } from 'src/entities/contensterdb/role.entity';
 import { User } from 'src/entities/contensterdb/user.entity';
@@ -13,6 +13,7 @@ import { GetModuleOptionsReqDto } from './dto/req/getModuleOptions.req.dto';
 
 import { CoreRepository } from 'src/core/core.repository';
 import { Functionality } from 'src/entities/contensterdb/functionality.entity';
+
 import { GetPermissionByFunctionalityOptionsReqDto } from './dto/req/getPermissionByFunctionalityOptions.req.dto';
 
 @Injectable()
@@ -32,8 +33,6 @@ export class OptionRepository extends CoreRepository {
     return this.moduleRepo.findAndCount({
       ...this.buildFilter(query, {
         establishment: { id: query.establishmentId },
-        titles: { language: { languageCode: I18nContext.current().lang } },
-        descriptions: { language: { languageCode: I18nContext.current().lang } },
       }),
       relations: {
         establishment: true,
@@ -47,8 +46,6 @@ export class OptionRepository extends CoreRepository {
     return this.roleRepo.findAndCount({
       ...this.buildFilter(query, {
         establishment: { id: query.establishmentId },
-        titles: { language: { languageCode: I18nContext.current().lang } },
-        descriptions: { language: { languageCode: I18nContext.current().lang } },
       }),
       relations: {
         establishment: true,
@@ -67,16 +64,9 @@ export class OptionRepository extends CoreRepository {
         permission: {
           role: {
             id: query.roleId,
-            titles: { language: { languageCode: I18nContext.current().lang } },
-            descriptions: { language: { languageCode: I18nContext.current().lang } },
           },
         },
         establishment: { id: query.establishmentId },
-        titles: { language: { languageCode: I18nContext.current().lang } },
-        module: {
-          titles: { language: { languageCode: I18nContext.current().lang } },
-          descriptions: { language: { languageCode: I18nContext.current().lang } },
-        },
       }),
       relations: {
         icon: true,

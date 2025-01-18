@@ -1,3 +1,4 @@
 {
-    "select": "seleccionar"
+    "select": "seleccionar",
+    "languageNotTranslated": "El texto no está disponible en este idioma ({lang})"
 }

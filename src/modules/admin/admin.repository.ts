@@ -1,15 +1,16 @@
-import { I18nContext, I18nService } from 'nestjs-i18n';
+import { I18nService } from 'nestjs-i18n';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult } from 'typeorm';
 
+import { CoreRepository } from 'src/core/core.repository';
+
 import { User } from 'src/entities/contensterdb/user.entity';
+import { Role } from 'src/entities/contensterdb/role.entity';
 import { Image } from 'src/entities/contensterdb/image.entity';
+import { Functionality } from 'src/entities/contensterdb/functionality.entity';
 import { Establishment } from 'src/entities/contensterdb/establishment.entity';
 import { UserEstablishmentRole } from 'src/entities/contensterdb/userEstablishmentRole.entity';
-import { Functionality } from 'src/entities/contensterdb/functionality.entity';
-import { Role } from 'src/entities/contensterdb/role.entity';
-import { CoreRepository } from 'src/core/core.repository';
 
 @Injectable()
 export class AdminRepository extends CoreRepository {
@@ -78,22 +79,7 @@ export class AdminRepository extends CoreRepository {
 
   findFunctionalitiesByRole(roleId: number) {
     return this.roleRepo.findOne({
-      where: {
-        id: roleId,
-        titles: { language: { languageCode: I18nContext.current().lang } },
-        descriptions: { language: { languageCode: I18nContext.current().lang } },
-        permission: {
-          functionality: {
-            titles: {
-              language: { languageCode: I18nContext.current().lang },
-            },
-            module: {
-              titles: { language: { languageCode: I18nContext.current().lang } },
-              descriptions: { language: { languageCode: I18nContext.current().lang } },
-            },
-          },
-        },
-      },
+      where: { id: roleId },
       relations: {
         titles: { language: true },
         descriptions: { language: true },

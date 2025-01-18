@@ -12,6 +12,7 @@ import { unlink } from 'fs';
 import { join } from 'path';
 
 import { User } from './user.entity';
+import { Language } from './language.entity';
 import { Establishment } from './establishment.entity';
 import { Functionality } from './functionality.entity';
 
@@ -58,6 +59,9 @@ export class Image {
 
   @OneToOne(() => Functionality, (functionality) => functionality.icon)
   functionality: Functionality;
+
+  @OneToOne(() => Language, (language) => language.icon)
+  language: Language;
 
   @AfterRemove()
   removeFile() {

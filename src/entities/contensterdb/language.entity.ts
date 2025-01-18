@@ -6,8 +6,11 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   OneToMany,
+  JoinColumn,
+  OneToOne,
 } from 'typeorm';
 
+import { Image } from './image.entity';
 import { Preference } from './preference.entity';
 import { Translation } from './translation.entity';
 
@@ -15,6 +18,7 @@ export enum LanguageType {
   console = 'console',
   site = 'site',
   both = 'both',
+  none = 'none',
 }
 
 @Entity()
@@ -30,9 +34,6 @@ export class Language {
 
   @Column({ type: 'char', length: 2, nullable: true, default: null })
   regionCode: string | null;
-
-  @Column({ type: 'text', nullable: true, default: null })
-  default: string;
 
   @Column({ type: 'enum', enum: LanguageType })
   purpose: LanguageType;
@@ -51,4 +52,8 @@ export class Language {
 
   @OneToMany(() => Preference, (user) => user.language)
   preference: Preference[];
+
+  @OneToOne(() => Image, { nullable: true, cascade: true })
+  @JoinColumn()
+  icon: Image | null;
 }

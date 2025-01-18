@@ -18,15 +18,15 @@ export class CoreService {
   constructor(public readonly i18n: I18nService) {}
 
   translate(translations: Translation[]): string | null {
-    const result = translations.find(
-      (elem) => elem.language.languageCode === I18nContext.current().lang,
-    );
+    const currentLang = I18nContext.current().lang;
 
-    if (!result) {
-      return null;
+    const result = translations.find((elem) => elem.language.languageCode === currentLang);
+
+    if (typeof result === 'undefined' || result.text === '') {
+      return this.i18n.t('general.languageNotTranslated', { args: { lang: currentLang } });
     }
 
-    return result.text ? result.text : result.language.default;
+    return result.text;
   }
 
   generatePassword(password: string): string {
