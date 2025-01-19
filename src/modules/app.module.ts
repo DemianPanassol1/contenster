@@ -7,8 +7,8 @@ import { APP_GUARD, APP_INTERCEPTOR, RouterModule } from '@nestjs/core';
 import { AcceptLanguageResolver, CookieResolver, HeaderResolver, I18nModule } from 'nestjs-i18n';
 
 import variables from 'src/settings';
-import { typeOrmModuleOptions } from 'src/config/constants/constants.config';
 import { ResponseInterceptor } from 'src/common/interceptors/response.interceptor';
+import { defaultLanguage, typeOrmModuleOptions } from 'src/config/constants/constants.config';
 
 import { AuthModule } from './auth/auth.module';
 import { AdminModule } from './admin/admin.module';
@@ -25,7 +25,7 @@ import { ApiModule } from 'src/modules/api/api.module';
       rootPath: join(__dirname.replace('dist', ''), '..', 'client', 'build'),
     }),
     I18nModule.forRoot({
-      fallbackLanguage: 'pt',
+      fallbackLanguage: defaultLanguage,
       loaderOptions: {
         path: join(__dirname, '..', '/i18n/'),
         watch: true,

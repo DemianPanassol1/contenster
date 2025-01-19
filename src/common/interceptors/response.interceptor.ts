@@ -16,6 +16,7 @@ import { I18nContext, I18nService } from 'nestjs-i18n';
 import { CoreInterceptor } from 'src/core/core.interceptor';
 import { miliToString } from 'src/shared/utils/convertion.utils';
 import { ErrorItem, ResponseFormat } from 'src/shared/types/api.types';
+import { environment, typeormErrors } from 'src/config/constants/constants.config';
 
 @Injectable()
 export class ResponseInterceptor extends CoreInterceptor implements NestInterceptor {
@@ -76,7 +77,7 @@ export class ResponseInterceptor extends CoreInterceptor implements NestIntercep
           });
         } else if (err.name === 'I18nValidationException') {
           this.processValidationErrors(err.errors, errors, err.name);
-        } else if (err.name === 'EntityPropertyNotFoundError') {
+        } else if (typeormErrors.includes(err.name) && environment !== 'production') {
           errors.push({
             id: uuidv4(),
             message: err.message,

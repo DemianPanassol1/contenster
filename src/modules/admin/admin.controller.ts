@@ -74,4 +74,10 @@ export class AdminController {
   async getModulesList(@Req() req: Request, @CurrentUser() currentUser: ICurrentUser) {
     return await this.adminService.getModulesList(req, currentUser);
   }
+
+  @Authenticate()
+  @Get('get-config-info')
+  async getConfigInfo(@Req() req: Request) {
+    return await this.adminService.getConfigInfo(req);
+  }
 }

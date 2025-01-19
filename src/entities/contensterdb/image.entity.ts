@@ -58,7 +58,7 @@ export class Image {
   @OneToOne(() => User, (user) => user.image)
   user: User;
 
-  @OneToOne(() => Functionality, (functionality) => functionality.icon) 
+  @OneToOne(() => Functionality, (functionality) => functionality.icon)
   functionality: Functionality;
 
   @OneToOne(() => Language, (language) => language.icon)

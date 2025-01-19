@@ -8,6 +8,7 @@ import { AdminRepository } from './admin.repository';
 import { Role } from 'src/entities/contensterdb/role.entity';
 import { User } from 'src/entities/contensterdb/user.entity';
 import { Image } from 'src/entities/contensterdb/image.entity';
+import { Configuration } from 'src/entities/contensterdb/configuration.entity';
 import { Functionality } from 'src/entities/contensterdb/functionality.entity';
 import { Establishment } from 'src/entities/contensterdb/establishment.entity';
 import { UserEstablishmentRole } from 'src/entities/contensterdb/userEstablishmentRole.entity';
@@ -20,6 +21,7 @@ import { UserEstablishmentRole } from 'src/entities/contensterdb/userEstablishme
       Image,
       Establishment,
       Functionality,
+      Configuration,
       UserEstablishmentRole,
     ]),
   ],

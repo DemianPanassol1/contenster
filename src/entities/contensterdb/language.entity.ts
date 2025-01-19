@@ -53,7 +53,7 @@ export class Language {
   @OneToMany(() => Preference, (user) => user.language)
   preference: Preference[];
 
-  @OneToOne(() => Image, (icon) => icon.language, { nullable: true, cascade: true })
+  @OneToOne(() => Image, (icon) => icon.language, { cascade: true })
   @JoinColumn()
   icon: Image | null;
 }

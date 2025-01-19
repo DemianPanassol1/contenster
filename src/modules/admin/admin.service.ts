@@ -8,12 +8,14 @@ import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { CoreService } from 'src/core/core.service';
 import { AdminRepository } from './admin.repository';
 import { ICurrentUser } from 'src/shared/types/api.types';
+import { defaultLanguage } from 'src/config/constants/constants.config';
 
 import { GetIconsListReqDto } from './dto/req/getModuleOptions.req.dto';
 import { PutResetPasswordReqDto } from './dto/req/putResetPassword.req.dto';
 import { PostChangeUserEstablishmentReqDto } from './dto/req/postChangeUserEstablishment.req.dto';
 
 import { GetIconListResDto } from './dto/res/getIconList.res.dto';
+import { GetConfigInfoResDto } from './dto/res/getConfigInfo.res.dto';
 import { GetModulesListResDto } from './dto/res/getModulesList.res.dto';
 import { PostUploadImageResDto } from './dto/res/postUploadImage.res.dto';
 import { PutResetPasswordResDto } from './dto/res/putResetPassword.res.dto';
@@ -230,5 +232,26 @@ export class AdminService extends CoreService {
       .sort((a, b) => a.position - b.position);
 
     return this.response(GetModulesListResDto, response);
+  }
+
+  async getConfigInfo(req: Request) {
+    const query = await this.repo.findConfiguration();
+
+    const response = {
+      id: query.id,
+      favicon: this.generateFilePath(req, query.favicon.filePath),
+      loginLogo: this.generateFilePath(req, query.loginLogo.filePath),
+      loginBanner: this.generateFilePath(req, query.loginBanner.filePath),
+      languages: query.languages.map((l) => ({
+        id: l.id,
+        name: l.name,
+        purpose: l.purpose,
+        code: l.languageCode,
+        icon: this.generateFilePath(req, l.icon?.filePath),
+        default: l.languageCode === defaultLanguage,
+      })),
+    };
+
+    return this.response(GetConfigInfoResDto, response);
   }
 }
