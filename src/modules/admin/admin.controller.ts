@@ -7,6 +7,7 @@ import { ICurrentUser } from 'src/shared/types/api.types';
 
 import { File } from 'src/common/decorators/file.decorator';
 import { UploadFile } from 'src/common/interceptors/upload.interceptor';
+import { Authorize } from 'src/common/interceptors/authorize.interceptor';
 import { CurrentUser } from 'src/common/decorators/currentUser.decorator';
 import { Authenticate } from 'src/common/interceptors/authenticate.interceptor';
 
@@ -75,7 +76,7 @@ export class AdminController {
     return await this.adminService.getModulesList(req, currentUser);
   }
 
-  @Authenticate()
+  @Authorize()
   @Get('get-config-info')
   async getConfigInfo(@Req() req: Request) {
     return await this.adminService.getConfigInfo(req);

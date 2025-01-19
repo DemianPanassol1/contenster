@@ -46,35 +46,49 @@ interface Session {
     title: string;
     description: string;
   };
-  permissions: {
-    id: number;
-    slug: string;
-    title: string;
-    canRead: boolean;
-    canCreate: boolean;
-    canUpdate: boolean;
-    canDelete: boolean;
-  }[];
-  establishment: {
-    id: number;
-    document: string;
-    documentType: string;
-    email: string;
-    phone1: string;
-    phone2: string;
-    address: string;
-    addressNumber: string;
-    zipCode: string;
-    district: string;
-    corporateName: string;
-    fantasyName: string;
-    image: string;
-  };
+  permissions: Permission[];
+  establishment: Establishment;
 }
 
+interface Permission {
+  id: number;
+  slug: string;
+  title: string | null;
+  canRead: boolean;
+  canCreate: boolean;
+  canUpdate: boolean;
+  canDelete: boolean;
+}
+
+interface Establishment {
+  id: number;
+  document: string;
+  documentType: string;
+  email: string;
+  phone1: string;
+  phone2: string;
+  address: string;
+  addressNumber: string;
+  zipCode: string;
+  district: string;
+  corporateName: string;
+  fantasyName: string;
+  image: string;
+}
+
+/**
+ * Hook to detect if the screen is mobile.
+ */
 export const useMobileScreen = (): boolean =>
   useMediaQuery('only screen and (max-width : 768px)');
 
+/**
+ * Hook to perform GET requests with SWR.
+ *
+ * @param url - Endpoint for the request.
+ * @param revalidate - Defines if revalidation should occur.
+ * @returns Request data, loading state, and function to force update.
+ */
 export const useGET = (url: string, revalidate = false) => {
   const { mutate } = useSWRConfig();
 
@@ -90,11 +104,16 @@ export const useGET = (url: string, revalidate = false) => {
 
   return {
     data: data?.data?.body ?? null,
-    isLoading: Boolean(isLoading || error || !data?.data.success),
+    isLoading: Boolean(isLoading || error || !data?.data?.success),
     refresh: async (key: string | undefined) => mutate(key || url),
   };
 };
 
+/**
+ * Hook to generate a unique page key.
+ *
+ * @returns Object containing the generated keys.
+ */
 export const useGenPageKey = (): PageKey => {
   const { current } = useRef({
     key1: Math.random() * 100,
@@ -105,8 +124,13 @@ export const useGenPageKey = (): PageKey => {
   return useMemo(() => current, [current]);
 };
 
+/**
+ * Hook to get route parameters.
+ *
+ * @returns Object containing the parameters id, type, and slug.
+ */
 export const useRouteParams = (): RouteParams => {
-  const { pathname } = new URL(location.href);
+  const { pathname } = new URL(window.location.href);
   const [slug, type, id] = pathname.split('/').filter(Boolean);
 
   return {
@@ -116,20 +140,31 @@ export const useRouteParams = (): RouteParams => {
   };
 };
 
+/**
+ * Hook to access the user session.
+ *
+ * @returns User session or null if there is no session.
+ */
 export const useUserSession = (): Session | null => {
   const [session] = useSessionStorage<Session | null>('session', null);
 
   return session;
 };
 
-export const usePermissions = (searchSlug = null) => {
+/**
+ * Hook to get permissions based on the current or searched slug.
+ *
+ * @param searchSlug - Optional slug to search for permissions.
+ * @returns Corresponding permission object.
+ */
+export const usePermissions = (searchSlug: string | null = null): Permission => {
   const session = useUserSession();
   const { slug } = useRouteParams();
 
   return (
     session?.permissions?.find((item) => item.slug === (searchSlug || slug)) ?? {
       id: 0,
-      slug,
+      slug: slug || '',
       title: null,
       canRead: true,
       canCreate: true,
@@ -139,6 +174,11 @@ export const usePermissions = (searchSlug = null) => {
   );
 };
 
+/**
+ * Hook for simplified navigation.
+ *
+ * @returns Navigation function with fallback to the current slug.
+ */
 export const useNavigate = (): NavigateFunction => {
   const { slug } = useRouteParams();
   const navigate = useNavigateHook();
@@ -151,6 +191,11 @@ export const useNavigate = (): NavigateFunction => {
   );
 };
 
+/**
+ * Hook to display toast messages.
+ *
+ * @returns Functions to display messages of different types.
+ */
 export const useToast = () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 

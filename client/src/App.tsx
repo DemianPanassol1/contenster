@@ -1,5 +1,5 @@
+import { ThemeProvider } from '@emotion/react';
 import { AnimatePresence } from 'framer-motion';
-import { Theme, ThemeProvider } from '@emotion/react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { useGlobalContext } from './contexts/global.context';

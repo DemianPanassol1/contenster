@@ -9,6 +9,8 @@ import React, {
 import { Theme } from '@emotion/react';
 
 import theme from '../settings/themes.setting';
+import { useGET } from '../utils/hooks.util';
+import { GET_CONFIG_INFO } from '../routes/contenster/global';
 
 interface GlobalState {
   mode: 'light' | 'dark';
@@ -16,6 +18,23 @@ interface GlobalState {
   loading: boolean;
   drawerState: boolean;
   dialogState: boolean;
+  configInfo: Configuration | null;
+}
+
+interface Configuration {
+  id: number;
+  favicon: string;
+  loginLogo: string;
+  loginBanner: string;
+  languages: Language[];
+}
+interface Language {
+  id: number;
+  name: string;
+  purpose: 'both' | 'console' | 'site' | 'none';
+  code: string;
+  icon: string;
+  default: boolean;
 }
 
 interface GlobalContextProps {
@@ -39,10 +58,17 @@ type Action =
   | { type: 'CHANGE_THEME'; payload: Theme }
   | { type: 'TOGGLE_DRAWER' }
   | { type: 'TOGGLE_DIALOG' }
-  | { type: 'RESET_SETTINGS' };
+  | { type: 'RESET_SETTINGS' }
+  | { type: 'SET_CONFIG_INFO'; payload: GlobalState['configInfo'] };
 
 const getInitialMode = (): GlobalState['mode'] => {
   return (localStorage.getItem('mode') as GlobalState['mode']) || 'light';
+};
+
+const getConfigInfo = (): GlobalState['configInfo'] => {
+  const configInfo = localStorage.getItem('configInfo');
+
+  return configInfo ? (JSON.parse(configInfo) as GlobalState['configInfo']) : null;
 };
 
 const initialState: GlobalState = {
@@ -51,6 +77,7 @@ const initialState: GlobalState = {
   loading: false,
   drawerState: false,
   dialogState: false,
+  configInfo: getConfigInfo(),
 };
 
 const globalReducer = (state: GlobalState, action: Action): GlobalState => {
@@ -79,6 +106,12 @@ const globalReducer = (state: GlobalState, action: Action): GlobalState => {
         ...state,
         dialogState: !state.dialogState,
       };
+    case 'SET_CONFIG_INFO':
+      localStorage.setItem('configInfo', JSON.stringify(action.payload));
+      return {
+        ...state,
+        configInfo: action.payload,
+      };
     default:
       return state;
   }
@@ -89,11 +122,15 @@ const GlobalContext = createContext<GlobalContextProps | undefined>(undefined);
 export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(globalReducer, initialState);
 
+  const { data, isLoading } = useGET(GET_CONFIG_INFO, true);
+
   const getTheme = () => state.theme;
 
   const getDrawerState = () => state.drawerState;
 
   const getDialogState = () => state.dialogState;
+
+  const getConfigInfo = () => state.configInfo;
 
   const setTheme = (mode: 'light' | 'dark') => {
     dispatch({ type: 'CHANGE_MODE', payload: mode });
@@ -112,14 +149,15 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
   }, [state.mode]);
 
   useEffect(() => {
-    console.log('carregou');
-  }, []);
+    dispatch({ type: 'SET_CONFIG_INFO', payload: data });
+  }, [isLoading, data]);
 
   const value = useMemo(
     () => ({
       state,
       dispatch,
       getTheme,
+      getConfigInfo,
       getDrawerState,
       getDialogState,
       setTheme,
