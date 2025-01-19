@@ -4,7 +4,7 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  DeleteDateColumn,
+  // DeleteDateColumn,
   OneToOne,
   AfterRemove,
 } from 'typeorm';
@@ -15,6 +15,7 @@ import { User } from './user.entity';
 import { Language } from './language.entity';
 import { Establishment } from './establishment.entity';
 import { Functionality } from './functionality.entity';
+import { Configuration } from './configuration.entity';
 
 @Entity()
 export class Image {
@@ -48,8 +49,8 @@ export class Image {
   @UpdateDateColumn({ type: 'timestamp without time zone' })
   public updatedAt: Date | null;
 
-  @DeleteDateColumn({ type: 'timestamp without time zone' })
-  public deletedAt: Date | null;
+  // @DeleteDateColumn({ type: 'timestamp without time zone' })
+  // public deletedAt: Date | null;
 
   @OneToOne(() => Establishment, (establishment) => establishment.image)
   establishment: Establishment;
@@ -57,11 +58,20 @@ export class Image {
   @OneToOne(() => User, (user) => user.image)
   user: User;
 
-  @OneToOne(() => Functionality, (functionality) => functionality.icon)
+  @OneToOne(() => Functionality, (functionality) => functionality.icon) 
   functionality: Functionality;
 
   @OneToOne(() => Language, (language) => language.icon)
   language: Language;
+
+  @OneToOne(() => Configuration, (configuration) => configuration.loginBanner)
+  loginBanner: Configuration;
+
+  @OneToOne(() => Configuration, (configuration) => configuration.loginLogo)
+  loginLogo: Configuration;
+
+  @OneToOne(() => Configuration, (configuration) => configuration.favicon)
+  favicon: Configuration;
 
   @AfterRemove()
   removeFile() {

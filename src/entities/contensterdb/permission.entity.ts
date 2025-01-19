@@ -3,7 +3,7 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  DeleteDateColumn,
+  // DeleteDateColumn,
   ManyToOne,
   Column,
 } from 'typeorm';
@@ -42,8 +42,8 @@ export class Permission {
   @UpdateDateColumn({ type: 'timestamp without time zone' })
   updatedAt: Date | null;
 
-  @DeleteDateColumn({ type: 'timestamp without time zone' })
-  deletedAt: Date | null;
+  // @DeleteDateColumn({ type: 'timestamp without time zone' })
+  // deletedAt: Date | null;
 
   @ManyToOne(() => Functionality, (functionality) => functionality.permission)
   functionality: Functionality;

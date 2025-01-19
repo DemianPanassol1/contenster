@@ -3,7 +3,7 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  DeleteDateColumn,
+  // DeleteDateColumn,
   ManyToOne,
 } from 'typeorm';
 
@@ -22,8 +22,8 @@ export class UserEstablishmentRole {
   @UpdateDateColumn({ type: 'timestamp without time zone' })
   updatedAt: Date | null;
 
-  @DeleteDateColumn({ type: 'timestamp without time zone' })
-  deletedAt: Date | null;
+  // @DeleteDateColumn({ type: 'timestamp without time zone' })
+  // deletedAt: Date | null;
 
   @ManyToOne(() => Establishment, (establishment) => establishment.userEstablishmentRole)
   establishment: Establishment;

@@ -4,7 +4,7 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  DeleteDateColumn,
+  // DeleteDateColumn,
   OneToOne,
   ManyToOne,
 } from 'typeorm';
@@ -33,8 +33,8 @@ export class Preference {
   @UpdateDateColumn({ type: 'timestamp without time zone' })
   updatedAt: Date | null;
 
-  @DeleteDateColumn({ type: 'timestamp without time zone' })
-  deletedAt: Date | null;
+  // @DeleteDateColumn({ type: 'timestamp without time zone' })
+  // deletedAt: Date | null;
 
   @OneToOne(() => User, (user) => user.preference)
   user: User;

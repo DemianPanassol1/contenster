@@ -11,11 +11,11 @@ export class PostUploadImageResDto {
   size: string;
 
   @Expose()
-  @Transform(({ value }) => `${value}px`)
+  @Transform(({ value }) => (value ? `${value}px` : value))
   width: string;
 
   @Expose()
-  @Transform(({ value }) => `${value}px`)
+  @Transform(({ value }) => (value ? `${value}px` : value))
   height: string;
 
   @Expose()

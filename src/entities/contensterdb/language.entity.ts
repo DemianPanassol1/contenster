@@ -4,7 +4,7 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  DeleteDateColumn,
+  // DeleteDateColumn,
   OneToMany,
   JoinColumn,
   OneToOne,
@@ -44,8 +44,8 @@ export class Language {
   @UpdateDateColumn({ type: 'timestamp without time zone' })
   updatedAt: Date | null;
 
-  @DeleteDateColumn({ type: 'timestamp without time zone' })
-  deletedAt: Date | null;
+  // @DeleteDateColumn({ type: 'timestamp without time zone' })
+  // deletedAt: Date | null;
 
   @OneToMany(() => Translation, (translation) => translation.language)
   translations: Translation[];
@@ -53,7 +53,7 @@ export class Language {
   @OneToMany(() => Preference, (user) => user.language)
   preference: Preference[];
 
-  @OneToOne(() => Image, { nullable: true, cascade: true })
+  @OneToOne(() => Image, (icon) => icon.language, { nullable: true, cascade: true })
   @JoinColumn()
   icon: Image | null;
 }

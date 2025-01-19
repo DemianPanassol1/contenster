@@ -3,7 +3,7 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  DeleteDateColumn,
+  // DeleteDateColumn,
   JoinColumn,
   OneToOne,
   ManyToMany,
@@ -37,8 +37,8 @@ export class Functionality {
   @UpdateDateColumn({ type: 'timestamp without time zone' })
   updatedAt: Date | null;
 
-  @DeleteDateColumn({ type: 'timestamp without time zone' })
-  deletedAt: Date | null;
+  // @DeleteDateColumn({ type: 'timestamp without time zone' })
+  // deletedAt: Date | null;
 
   @ManyToOne(() => Establishment, (establishment) => establishment.functionality)
   establishment: Establishment;
@@ -50,7 +50,7 @@ export class Functionality {
   @JoinTable()
   titles: Translation[];
 
-  @OneToOne(() => Image, { cascade: true })
+  @OneToOne(() => Image, (icon) => icon.functionality, { cascade: true })
   @JoinColumn()
   icon: Image;
 

@@ -4,7 +4,7 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  DeleteDateColumn,
+  // DeleteDateColumn,
   OneToOne,
   JoinColumn,
   OneToMany,
@@ -66,10 +66,10 @@ export class Establishment {
   @UpdateDateColumn({ type: 'timestamp without time zone' })
   public updatedAt: Date | null;
 
-  @DeleteDateColumn({ type: 'timestamp without time zone' })
-  public deletedAt: Date | null;
+  // @DeleteDateColumn({ type: 'timestamp without time zone' })
+  // public deletedAt: Date | null;
 
-  @OneToOne(() => Image, { nullable: true, cascade: true })
+  @OneToOne(() => Image, (image) => image.establishment, { nullable: true, cascade: true })
   @JoinColumn()
   image: Image | null;
 

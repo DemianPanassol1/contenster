@@ -121,12 +121,16 @@ export class AdminService extends CoreService {
   }
 
   async postUploadImage(req: Request, file: Express.Multer.File) {
-    const image = await sharp(file.path).metadata();
+    let image = null;
+
+    if (!file.filename.endsWith('.ico') || file.mimetype !== 'image/vnd.microsoft.icon') {
+      image = await sharp(file.path).metadata();
+    }
 
     const response = await this.repo.saveImage({
       size: file.size,
-      width: image.width,
-      height: image.height,
+      width: image?.width ?? null,
+      height: image?.height ?? null,
       newName: file.filename,
       mimeType: file.mimetype,
       originalName: file.originalname,
