@@ -7,9 +7,11 @@ import React, {
   useMemo,
 } from 'react';
 import { Theme } from '@emotion/react';
+import { useTranslation } from 'react-i18next';
 
-import theme from '../settings/themes.setting';
 import { useGET } from '../utils/hooks.util';
+import config from '../config/settings.json';
+import theme from '../settings/themes.setting';
 import { GET_CONFIG_INFO } from '../routes/contenster/global';
 
 interface GlobalState {
@@ -19,6 +21,7 @@ interface GlobalState {
   drawerState: boolean;
   dialogState: boolean;
   configInfo: Configuration | null;
+  i18nextLng: Language['code'];
 }
 
 interface Configuration {
@@ -28,11 +31,12 @@ interface Configuration {
   loginBanner: string;
   languages: Language[];
 }
+
 interface Language {
   id: number;
   name: string;
   purpose: 'both' | 'console' | 'site' | 'none';
-  code: string;
+  code: 'en' | 'es' | 'pt';
   icon: string;
   default: boolean;
 }
@@ -47,6 +51,8 @@ interface GlobalContextProps {
   toggleDrawer: () => void;
   toggleDialog: () => void;
   resetSettings: () => void;
+  getConfigInfo: () => Configuration | null;
+  changeLanguage: (code: Language['code']) => void;
 }
 
 interface GlobalProviderProps {
@@ -71,6 +77,13 @@ const getConfigInfo = (): GlobalState['configInfo'] => {
   return configInfo ? (JSON.parse(configInfo) as GlobalState['configInfo']) : null;
 };
 
+const getActiveLanguage = (): GlobalState['i18nextLng'] => {
+  return (
+    (localStorage.getItem('i18nextLng') as GlobalState['i18nextLng']) ||
+    config.DEFAULT_LANGUAGE
+  );
+};
+
 const initialState: GlobalState = {
   mode: getInitialMode(),
   theme: theme[getInitialMode()] || theme.light,
@@ -78,6 +91,7 @@ const initialState: GlobalState = {
   drawerState: false,
   dialogState: false,
   configInfo: getConfigInfo(),
+  i18nextLng: getActiveLanguage(),
 };
 
 const globalReducer = (state: GlobalState, action: Action): GlobalState => {
@@ -120,9 +134,9 @@ const globalReducer = (state: GlobalState, action: Action): GlobalState => {
 const GlobalContext = createContext<GlobalContextProps | undefined>(undefined);
 
 export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
-  const [state, dispatch] = useReducer(globalReducer, initialState);
-
+  const { i18n } = useTranslation();
   const { data, isLoading } = useGET(GET_CONFIG_INFO, true);
+  const [state, dispatch] = useReducer(globalReducer, initialState);
 
   const getTheme = () => state.theme;
 
@@ -135,6 +149,8 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
   const setTheme = (mode: 'light' | 'dark') => {
     dispatch({ type: 'CHANGE_MODE', payload: mode });
   };
+
+  const changeLanguage = (code: Language['code']) => i18n.changeLanguage(code);
 
   const toggleDrawer = () => dispatch({ type: 'TOGGLE_DRAWER' });
 
@@ -152,6 +168,12 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
     dispatch({ type: 'SET_CONFIG_INFO', payload: data });
   }, [isLoading, data]);
 
+  useEffect(() => {
+    if (state.i18nextLng !== i18n.language) {
+      i18n.changeLanguage(state.i18nextLng);
+    }
+  }, []);
+
   const value = useMemo(
     () => ({
       state,
@@ -164,6 +186,7 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
       toggleDrawer,
       toggleDialog,
       resetSettings,
+      changeLanguage,
     }),
     [state, dispatch]
   );

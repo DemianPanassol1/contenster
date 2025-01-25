@@ -1,5 +1,7 @@
 {
   "API_LOGIN": "W5xr4Mwz",
   "API_PASSWORD": "RDBwdsT5J7Z8XPkh",
-  "API_BASE_URL": "http://localhost:8080"
+  "API_BASE_URL": "http://localhost:8080",
+  "ACCEPTED_LANGUAGES": ["en", "es", "pt"],
+  "DEFAULT_LANGUAGE": "pt"
 }
