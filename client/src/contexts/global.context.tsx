@@ -9,10 +9,26 @@ import React, {
 import { Theme } from '@emotion/react';
 import { useTranslation } from 'react-i18next';
 
-import { useGET } from '../utils/hooks.util';
+import {
+  fetchGET,
+  fetchPOST,
+  fetchPUT,
+  fetchDELETE,
+  fetchFILE,
+} from '../utils/functions.util';
 import config from '../config/settings.json';
 import theme from '../settings/themes.setting';
+import { useGET, useToast } from '../utils/hooks.util';
 import { GET_CONFIG_INFO } from '../routes/contenster/global';
+
+interface HandleSubmitProps {
+  type?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'POST/FILE';
+  url: string;
+  body?: Record<string, any> | null;
+  message?: boolean | string;
+  onSuccess?: (data: Record<string, any>) => void;
+  onError?: (error: Record<string, any>) => void;
+}
 
 interface GlobalState {
   mode: 'light' | 'dark';
@@ -53,6 +69,7 @@ interface GlobalContextProps {
   resetSettings: () => void;
   getConfigInfo: () => Configuration | null;
   changeLanguage: (code: Language['code']) => void;
+  handleOnSubmit: (props: HandleSubmitProps) => void;
 }
 
 interface GlobalProviderProps {
@@ -65,6 +82,7 @@ type Action =
   | { type: 'TOGGLE_DRAWER' }
   | { type: 'TOGGLE_DIALOG' }
   | { type: 'RESET_SETTINGS' }
+  | { type: 'TOOGLE_LOADING'; payload: boolean }
   | { type: 'SET_CONFIG_INFO'; payload: GlobalState['configInfo'] };
 
 const getInitialMode = (): GlobalState['mode'] => {
@@ -126,6 +144,11 @@ const globalReducer = (state: GlobalState, action: Action): GlobalState => {
         ...state,
         configInfo: action.payload,
       };
+    case 'TOOGLE_LOADING':
+      return {
+        ...state,
+        loading: action.payload,
+      };
     default:
       return state;
   }
@@ -134,9 +157,11 @@ const globalReducer = (state: GlobalState, action: Action): GlobalState => {
 const GlobalContext = createContext<GlobalContextProps | undefined>(undefined);
 
 export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation(['common']);
   const { data, isLoading } = useGET(GET_CONFIG_INFO, true);
   const [state, dispatch] = useReducer(globalReducer, initialState);
+
+  const { successMessage, errorMessage, warnMessage } = useToast();
 
   const getTheme = () => state.theme;
 
@@ -157,6 +182,81 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
   const toggleDialog = () => dispatch({ type: 'TOGGLE_DIALOG' });
 
   const resetSettings = () => dispatch({ type: 'RESET_SETTINGS' });
+
+  const handleOnSubmit = async ({
+    type = 'GET',
+    url,
+    body = null,
+    message = true,
+    onSuccess = () => null,
+    onError = () => null,
+  }: HandleSubmitProps) => {
+    try {
+      dispatch({ type: 'TOOGLE_LOADING', payload: true });
+
+      let response;
+
+      switch (type) {
+        case 'GET':
+          response = await fetchGET(url);
+          break;
+        case 'POST':
+          response = await fetchPOST(url, body as Record<string, any>);
+          break;
+        case 'PUT':
+          response = await fetchPUT(url, body as Record<string, any>);
+          break;
+        case 'DELETE':
+          response = await fetchDELETE(url);
+          break;
+        case 'POST/FILE':
+          response = await fetchFILE(url, body as Record<string, any>);
+          break;
+        default:
+          response = null;
+          break;
+      }
+
+      if (!response) throw new Error();
+
+      if (response.success) {
+        if (typeof message === 'string') {
+          successMessage(message);
+        } else if (message) {
+          switch (type) {
+            case 'GET':
+              successMessage(t('common:registerAquired'));
+              break;
+            case 'POST':
+            case 'POST/FILE':
+              successMessage(t('common:registerSaved'));
+              break;
+            case 'PUT':
+              successMessage(t('common:registerUpdated'));
+              break;
+            case 'DELETE':
+              successMessage(t('common:registerDeleted'));
+              break;
+            default:
+              break;
+          }
+        }
+
+        onSuccess(response.body);
+      } else {
+        response.errors.forEach((error: { message: string }) => {
+          warnMessage(error.message);
+        });
+
+        onError(response.errors);
+      }
+    } catch (error) {
+      console.error(error);
+      errorMessage(t('common:internalError'));
+    } finally {
+      dispatch({ type: 'TOOGLE_LOADING', payload: false });
+    }
+  };
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -187,6 +287,7 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
       toggleDialog,
       resetSettings,
       changeLanguage,
+      handleOnSubmit,
     }),
     [state, dispatch]
   );

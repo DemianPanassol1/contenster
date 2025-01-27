@@ -1,10 +1,10 @@
 import { join } from 'path';
 import { Logger, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { HeaderResolver, I18nModule } from 'nestjs-i18n';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD, APP_INTERCEPTOR, RouterModule } from '@nestjs/core';
-import { AcceptLanguageResolver, CookieResolver, HeaderResolver, I18nModule } from 'nestjs-i18n';
 
 import variables from 'src/settings';
 import { ResponseInterceptor } from 'src/common/interceptors/response.interceptor';
@@ -30,7 +30,7 @@ import { ApiModule } from 'src/modules/api/api.module';
         path: join(__dirname, '..', '/i18n/'),
         watch: true,
       },
-      resolvers: [AcceptLanguageResolver, new HeaderResolver(['x-lang']), new CookieResolver()],
+      resolvers: [new HeaderResolver(['x-lang'])],
     }),
     ApiModule,
     AdminModule,

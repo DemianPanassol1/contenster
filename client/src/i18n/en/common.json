@@ -1,3 +1,9 @@
 {
-    "test": "Teste EN"
+    "test": "Teste EN",
+    "internalError": "Internal error",
+    "registerSaved": "Record saved successfully!",
+    "registerUpdated": "Record updated successfully!",
+    "registerDeleted": "Record deleted successfully!",
+    "registerNotFound": "Record not found!",
+    "registerAquired": "Record acquired successfully!"
 }

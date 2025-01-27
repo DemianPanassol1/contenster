@@ -14,6 +14,7 @@ const instance: AxiosInstance = axios.create({
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
+    'x-lang': localStorage.getItem('i18nextLng') ?? config.DEFAULT_LANGUAGE,
   },
   validateStatus: (status) => {
     return status >= 200 && status <= 500;

@@ -1,3 +1,9 @@
 {
-    "test": "Teste ES"
+    "test": "Teste ES",
+    "internalError": "Error interno",
+    "registerSaved": "¡Registro guardado con éxito!",
+    "registerUpdated": "¡Registro actualizado con éxito!",
+    "registerDeleted": "¡Registro eliminado con éxito!",
+    "registerNotFound": "¡Registro no encontrado!",
+    "registerAquired": "¡Registro adquirido con éxito!"
 }
