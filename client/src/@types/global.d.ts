@@ -67,3 +67,8 @@ declare interface ToastOptions {
   };
   action: (snackId: string | number) => JSX.Element;
 }
+
+declare interface SelectOption {
+  value: string;
+  label: string;
+}

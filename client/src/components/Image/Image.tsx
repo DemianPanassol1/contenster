@@ -2,8 +2,8 @@ import React from 'react';
 import { Box, Skeleton } from '@mui/material';
 
 interface ImageProps {
-  alt: string;
-  title: string;
+  alt?: string;
+  title?: string;
   dimensions: React.CSSProperties;
   src?: string;
   isLoading?: boolean;
@@ -18,7 +18,15 @@ const Image: React.FC<ImageProps> = ({
   isLoading = false,
   variant = 'rounded',
 }) => {
-  return isLoading ? (
+  const extractAltFromSrc = (src: string) => {
+    const parts = src.split('/');
+    return parts[parts.length - 1].split('.')[0];
+  };
+
+  const computedAlt = alt || extractAltFromSrc(src);
+  const computedTitle = title || `Image of ${computedAlt}`;
+
+  return isLoading || !src ? (
     <Skeleton
       variant={variant}
       sx={{
@@ -29,8 +37,8 @@ const Image: React.FC<ImageProps> = ({
   ) : (
     <Box
       src={src}
-      alt={alt}
-      title={title}
+      alt={computedAlt}
+      title={computedTitle}
       component="img"
       sx={{
         width: '100%',

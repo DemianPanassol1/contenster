@@ -9,12 +9,16 @@ import commonEn from '../i18n/en/common.json';
 import commonPt from '../i18n/pt/common.json';
 import commonEs from '../i18n/es/common.json';
 
+import validationsPt from '../i18n/pt/validations.json';
+import validationsEn from '../i18n/en/validations.json';
+import validationsEs from '../i18n/es/validations.json';
+
 export const defaultNS = 'common';
 
 export const resources = {
-  en: { common: commonEn },
-  pt: { common: commonPt },
-  es: { common: commonEs },
+  en: { common: commonEn, validations: validationsEn },
+  pt: { common: commonPt, validations: validationsPt },
+  es: { common: commonEs, validations: validationsEs },
 } as const;
 
 i18next
@@ -24,7 +28,7 @@ i18next
   .init({
     resources,
     debug: true,
-    ns: ['common'],
+    ns: ['common', 'validations'],
     defaultNS: 'common',
     fallbackLng: config.DEFAULT_LANGUAGE,
   });

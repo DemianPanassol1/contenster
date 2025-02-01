@@ -11,7 +11,7 @@ export const fetchGET = async (url: string) => {
   const res = await ApiRequest('get', url);
 
   return {
-    success: res?.data?.success ?? false,
+    success: res?.data?.statusCode === 200,
     body: res?.data?.body ?? null,
     errors: res?.data?.errors ?? { count: 0, items: [] },
   };
@@ -28,7 +28,7 @@ export const fetchPOST = async (url: string, data: Record<string, any>) => {
   const res = await ApiRequest('post', url, data);
 
   return {
-    success: res?.data?.success ?? false,
+    success: res?.data?.statusCode === 200,
     body: res?.data?.body ?? null,
     errors: res?.data?.errors ?? { count: 0, items: [] },
   };
@@ -45,7 +45,7 @@ export const fetchPUT = async (url: string, data: Record<string, any>) => {
   const res = await ApiRequest('put', url, data);
 
   return {
-    success: res?.data?.success ?? false,
+    success: res?.data?.statusCode === 200,
     body: res?.data?.body ?? null,
     errors: res?.data?.errors ?? { count: 0, items: [] },
   };
@@ -61,7 +61,7 @@ export const fetchDELETE = async (url: string) => {
   const res = await ApiRequest('delete', url);
 
   return {
-    success: res?.data?.success ?? false,
+    success: res?.data?.statusCode === 200,
     body: res?.data?.body ?? null,
     errors: res?.data?.errors ?? { count: 0, items: [] },
   };
@@ -80,7 +80,7 @@ export const fetchFILE = async (url: string, data: Record<string, any>) => {
   });
 
   return {
-    success: res?.data?.success ?? false,
+    success: res?.data?.statusCode === 200,
     body: res?.data?.body ?? null,
     errors: res?.data?.errors ?? { count: 0, items: [] },
   };

@@ -1,0 +1,32 @@
+{
+    "email": {
+        "field": "Email",
+        "required": "Email is required",
+        "pattern": "Email must be valid"
+    },
+    "generic": {
+        "required": "This field is required",
+        "maxLength": "This field must have a maximum of {{length}} characters"
+    },
+    "password": {
+        "field": "Password",
+        "required": "Password is required",
+        "minLength": "Password must have at least {{length}} characters"
+    },
+    "phone": {
+        "field": "Phone",
+        "required": "Phone is required",
+        "pattern": "Phone must be valid"
+    },
+    "user": {
+        "field": "User",
+        "required": "User is required"
+    },
+    "establishment": {
+        "field": "Establishment",
+        "required": "Establishment is required"
+    },
+    "staySignedIn": {
+        "field": "Stay signed in"
+    }
+}

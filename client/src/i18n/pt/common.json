@@ -15,5 +15,8 @@
     "projectRedeemPassword": "Contenster Project - Redefinir senha",
     "projectContenster": "Contenster Project",
     "profile": "Perfil",
-    "create": "Criar"
+    "create": "Criar",
+    "loggedSuccessfully": "Logado com sucesso!",
+    "forgotPassword": "Esqueceu a senha?",
+    "loginButton": "Entrar"
 }

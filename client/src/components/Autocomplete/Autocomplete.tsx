@@ -63,13 +63,10 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   };
 
   useEffect(() => {
-    const time = fixedData.length ? 100 : 0;
-    const timeout = setTimeout(() => populateField(), time);
-
-    data && timeout;
+    const timeout = setTimeout(populateField, fixedData.length ? 100 : 0);
 
     return () => clearTimeout(timeout);
-  }, [data]);
+  }, [data, fixedData]);
 
   useEffect(() => {
     refresh(urlData);

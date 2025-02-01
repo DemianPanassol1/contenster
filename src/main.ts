@@ -60,7 +60,7 @@ import { dbOptions, environment, HTTPS } from './config/constants/constants.conf
           scriptSrc: ["'self'", "'nonce-<random-value>'"],
         },
       },
-      crossOriginResourcePolicy: { policy: 'same-origin' },
+      crossOriginResourcePolicy: { policy: HTTPS ? 'same-origin' : 'cross-origin' },
       frameguard: { action: 'sameorigin' },
     }),
   );

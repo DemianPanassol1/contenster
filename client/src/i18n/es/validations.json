@@ -1,0 +1,32 @@
+{
+    "email": {
+        "field": "Correo electrónico",
+        "required": "El correo electrónico es obligatorio",
+        "pattern": "El correo electrónico debe ser válido"
+    },
+    "generic": {
+        "required": "Este campo es obligatorio",
+        "maxLength": "Este campo debe tener un máximo de {{length}} caracteres"
+    },
+    "password": {
+        "field": "Contraseña",
+        "required": "La contraseña es obligatoria",
+        "minLength": "La contraseña debe tener al menos {{length}} caracteres"
+    },
+    "phone": {
+        "field": "Teléfono",
+        "required": "El teléfono es obligatorio",
+        "pattern": "El teléfono debe ser válido"
+    },
+    "user": {
+        "field": "Usuario",
+        "required": "El usuario es obligatorio"
+    },
+    "establishment": {
+        "field": "Establecimiento",
+        "required": "El establecimiento es obligatorio"
+    },
+    "staySignedIn": {
+        "field": "Permanecer conectado"
+    }
+}

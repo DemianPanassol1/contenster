@@ -15,5 +15,8 @@
     "projectRedeemPassword": "Contenster Project - Restablecer contraseña",
     "projectContenster": "Contenster Project",
     "profile": "Perfil",
-    "create": "Criar"
+    "create": "Criar",
+    "loggedSuccessfully": "¡Inició sesión con éxito!",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "loginButton": "Iniciar sesión"
 }
