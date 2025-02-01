@@ -5,7 +5,7 @@ import Page from '../../../../components/Page';
 
 import Main from './Main';
 
-const SignIn: React.FC = () => {
+const ResetPassword: React.FC = () => {
   const { type } = useParams();
 
   return (
@@ -23,4 +23,4 @@ const SignIn: React.FC = () => {
   );
 };
 
-export default SignIn;
+export default ResetPassword;
