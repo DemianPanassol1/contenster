@@ -1,16 +1,11 @@
 import React, { useEffect } from 'react';
-import { useSessionStorage } from '@uidotdev/usehooks';
-
-import { GET_SYNC_USER } from '../../../../routes/contenster/global';
-import { Session, useGET, useNavigate } from '../../../../utils/hooks.util';
 import { Box, Drawer } from '@mui/material';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Navigate, Outlet } from 'react-router-dom';
+import { useSessionStorage } from '@uidotdev/usehooks';
+import { motion, AnimatePresence } from 'framer-motion';
 
-interface HomePage {
-  redirect: boolean;
-  homePage: string;
-}
+import { useGET, useNavigate } from '../../../../utils/hooks.util';
+import { GET_SYNC_USER } from '../../../../routes/contenster/global';
 
 const Admin: React.FC = () => {
   const navigate = useNavigate();
