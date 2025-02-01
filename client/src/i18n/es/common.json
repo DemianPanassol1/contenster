@@ -1,9 +1,19 @@
 {
-    "test": "Teste ES",
+    "test": "Prueba ES",
     "internalError": "Error interno",
     "registerSaved": "¡Registro guardado con éxito!",
     "registerUpdated": "¡Registro actualizado con éxito!",
     "registerDeleted": "¡Registro eliminado con éxito!",
     "registerNotFound": "¡Registro no encontrado!",
-    "registerAquired": "¡Registro adquirido con éxito!"
+    "registerAquired": "¡Registro adquirido con éxito!",
+    "backToStart": "De vuelta al inicio",
+    "pageNotFoundTitle": "¡Ups! La página se fue a tomar un café.",
+    "pageNotFoundMessage": "Lo siento, no encontramos la página que buscabas. Tal vez se fue a descansar.",
+    "takeMeBack": "Llévame de vuelta",
+    "projectLogin": "Contenster Project - Login",
+    "projectRecoverPassword": "Contenster Project - Recuperar contraseña",
+    "projectRedeemPassword": "Contenster Project - Restablecer contraseña",
+    "projectContenster": "Contenster Project",
+    "profile": "Perfil",
+    "create": "Criar"
 }

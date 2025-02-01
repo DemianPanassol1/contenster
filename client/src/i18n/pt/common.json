@@ -5,5 +5,15 @@
     "registerUpdated": "Registro atualizado com sucesso!",
     "registerDeleted": "Registro excluído com sucesso!",
     "registerNotFound": "Registro não encontrado!",
-    "registerAquired": "Registro adquirido com sucesso!"
+    "registerAquired": "Registro adquirido com sucesso!",
+    "backToStart": "De volta ao inicio",
+    "pageNotFoundTitle": "Ops! A página saiu para tomar um café.",
+    "pageNotFoundMessage": "Desculpe, não encontramos a página que você queria. Talvez ela tenha ido descansar.",
+    "takeMeBack": "Me leve de volta",
+    "projectLogin": "Contenster Project - Login",
+    "projectRecoverPassword": "Contenster Project - Recuperar senha",
+    "projectRedeemPassword": "Contenster Project - Redefinir senha",
+    "projectContenster": "Contenster Project",
+    "profile": "Perfil",
+    "create": "Criar"
 }

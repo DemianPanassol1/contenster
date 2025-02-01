@@ -1,0 +1,87 @@
+import React, { useEffect } from 'react';
+import { useSessionStorage } from '@uidotdev/usehooks';
+
+import { GET_SYNC_USER } from '../../../../routes/contenster/global';
+import { Session, useGET, useNavigate } from '../../../../utils/hooks.util';
+import { Box, Drawer } from '@mui/material';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Navigate, Outlet } from 'react-router-dom';
+
+interface HomePage {
+  redirect: boolean;
+  homePage: string;
+}
+
+const Admin: React.FC = () => {
+  const navigate = useNavigate();
+  const { data, isLoading } = useGET(GET_SYNC_USER, true);
+  const [session, setSession] = useSessionStorage<Session | null>('session', null);
+  const [homePage, setHomePage] = useSessionStorage<HomePage | null>('homePage', null);
+
+  useEffect(() => {
+    if (!isLoading && data) setSession(data);
+  }, [data, isLoading]);
+
+  useEffect(() => {
+    if (homePage && 'redirect' in homePage && 'homePage' in homePage) {
+      if (homePage.redirect === true) {
+        Object.assign(homePage, { redirect: false });
+        setHomePage(homePage);
+        navigate(`/${homePage.homePage}`);
+      }
+    }
+  }, [homePage, navigate, setHomePage]);
+
+  if (!session) {
+    return (
+      <Navigate
+        replace
+        to="/auth/sign-in"
+      />
+    );
+  }
+
+  return (
+    <Box
+      id="main"
+      exit="exit"
+      initial="initial"
+      animate="animate"
+      component={motion.section}
+      variants={{
+        initial: { opacity: 0 },
+        animate: { opacity: 1 },
+        exit: { opacity: 0 },
+      }}
+      sx={{ display: 'flex' }}
+    >
+      <Drawer />
+      <Box
+        component="section"
+        sx={{
+          flexGrow: 1,
+          minHeight: '100vh',
+          overflowX: 'hidden',
+        }}
+      >
+        {/* <Header />
+          <ChangePasswordDialog />
+          <ChangeCompanyDialog /> */}
+        <Box
+          component="section"
+          sx={{ minHeight: 'calc(100vh - 64px)' }}
+        >
+          <AnimatePresence
+            mode="wait"
+            initial={false}
+          >
+            <Outlet />
+          </AnimatePresence>
+        </Box>
+        {/* <Footer /> */}
+      </Box>
+    </Box>
+  );
+};
+
+export default Admin;

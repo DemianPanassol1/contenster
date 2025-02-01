@@ -21,7 +21,7 @@ interface RouteParams {
   slug: string | null;
 }
 
-type NavigateFunction = (url?: string) => void;
+type NavigateFunction = (url?: string | number) => void;
 
 interface ToastOptions {
   anchorOrigin: {
@@ -31,7 +31,7 @@ interface ToastOptions {
   action: (snackId: string | number) => JSX.Element;
 }
 
-interface Session {
+export interface Session {
   id: number;
   name: string;
   email: string;
@@ -184,7 +184,11 @@ export const useNavigate = (): NavigateFunction => {
   const navigate = useNavigateHook();
 
   return useCallback(
-    (url?: string) => {
+    (url?: string | number) => {
+      if (typeof url === 'number') {
+        return navigate(url);
+      }
+
       navigate(url || `/${slug}`);
     },
     [navigate, slug]

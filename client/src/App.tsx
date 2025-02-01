@@ -1,49 +1,44 @@
 import { ThemeProvider } from '@emotion/react';
-import { useTranslation } from 'react-i18next';
 import { AnimatePresence } from 'framer-motion';
-// import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { useGlobalContext } from './contexts/global.context';
 
-// const router = createBrowserRouter([
-//   {
-//     path: '/',
-//     element: <h1>teste</h1>, // {/* <Admin /> */},
-//     // errorElement: <Error />,
-//     children: [
-//       /* ...adminViews */
-//     ],
-//   },
-//   // {
-//   //   path: '/auth',
-//   //   element: <Auth />,
-//   //   errorElement: <Error />,
-//   //   children: [...authViews],
-//   // },
-// ]);
-
 import './settings/i18n.setting';
 
+import Auth from './views/contenster/common/Auth';
+import Admin from './views/contenster/common/Admin';
+import Error from './views/contenster/common/Error';
+
+import { authViews } from './views/contenster/public';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Admin />,
+    errorElement: <Error />,
+    children: [],
+  },
+  {
+    path: '/auth',
+    element: <Auth />,
+    errorElement: <Error />,
+    children: [...authViews],
+  },
+]);
+
 const App = () => {
-  const { getTheme, changeLanguage } = useGlobalContext();
-
-  const theme = getTheme();
-
-  const { t } = useTranslation(['common']);
+  const { getTheme } = useGlobalContext();
 
   return (
-    <ThemeProvider theme={theme}>
-      <AnimatePresence>
-        <p key={1}>{t('common:test')}</p>
-        <button
-          key={2}
-          onClick={() => changeLanguage('es')}
-        >
-          teste
-        </button>
-        {/* <RouterProvider router={router} /> */}
-      </AnimatePresence>
-    </ThemeProvider>
+    <HelmetProvider>
+      <ThemeProvider theme={getTheme()}>
+        <AnimatePresence>
+          <RouterProvider router={router} />
+        </AnimatePresence>
+      </ThemeProvider>
+    </HelmetProvider>
   );
 };
 

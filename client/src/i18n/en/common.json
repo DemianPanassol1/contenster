@@ -1,9 +1,19 @@
 {
-    "test": "Teste EN",
+    "test": "Test",
     "internalError": "Internal error",
     "registerSaved": "Record saved successfully!",
     "registerUpdated": "Record updated successfully!",
     "registerDeleted": "Record deleted successfully!",
     "registerNotFound": "Record not found!",
-    "registerAquired": "Record acquired successfully!"
+    "registerAquired": "Record acquired successfully!",
+    "backToStart": "Back to start",
+    "pageNotFoundTitle": "Oops! The page went out for a coffee.",
+    "pageNotFoundMessage": "Sorry, we couldn't find the page you were looking for. Maybe it went to rest.",
+    "takeMeBack": "Take me back",
+    "projectLogin": "Contenster Project - Login",
+    "projectRecoverPassword": "Contenster Project - Recover password",
+    "projectRedeemPassword": "Contenster Project - Reset password",
+    "projectContenster": "Contenster Project",
+    "profile": "Perfil",
+    "create": "Criar"
 }
