@@ -36,7 +36,7 @@ interface GlobalState {
   theme: Theme;
   loading: boolean;
   drawerState: boolean;
-  dialogState: boolean;
+  dialogState: string | boolean;
   configInfo: Configuration | null;
   i18nextLng: Language['code'];
 }
@@ -63,10 +63,10 @@ interface GlobalContextProps {
   dispatch: React.Dispatch<Action>;
   getTheme: () => Partial<Theme> | ((outerTheme: Theme) => Theme);
   getDrawerState: () => boolean;
-  getDialogState: () => boolean;
+  getDialogState: () => string | boolean;
   setTheme: (mode: 'light' | 'dark') => void;
   toggleDrawer: () => void;
-  toggleDialog: () => void;
+  toggleDialog: (dialog?: string) => void;
   resetSettings: () => void;
   getConfigInfo: () => Configuration | null;
   changeLanguage: (code: Language['code']) => void;
@@ -81,7 +81,7 @@ type Action =
   | { type: 'CHANGE_MODE'; payload: GlobalState['mode'] }
   | { type: 'CHANGE_THEME'; payload: Theme }
   | { type: 'TOGGLE_DRAWER' }
-  | { type: 'TOGGLE_DIALOG' }
+  | { type: 'TOGGLE_DIALOG'; payload: string }
   | { type: 'RESET_SETTINGS' }
   | { type: 'TOOGLE_LOADING'; payload: boolean }
   | { type: 'SET_CONFIG_INFO'; payload: GlobalState['configInfo'] };
@@ -137,7 +137,7 @@ const globalReducer = (state: GlobalState, action: Action): GlobalState => {
     case 'TOGGLE_DIALOG':
       return {
         ...state,
-        dialogState: !state.dialogState,
+        dialogState: action.payload,
       };
     case 'SET_CONFIG_INFO':
       localStorage.setItem('configInfo', JSON.stringify(action.payload));
@@ -180,7 +180,8 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
 
   const toggleDrawer = () => dispatch({ type: 'TOGGLE_DRAWER' });
 
-  const toggleDialog = () => dispatch({ type: 'TOGGLE_DIALOG' });
+  const toggleDialog = (dialog: string = '') =>
+    dispatch({ type: 'TOGGLE_DIALOG', payload: dialog });
 
   const resetSettings = () => dispatch({ type: 'RESET_SETTINGS' });
 

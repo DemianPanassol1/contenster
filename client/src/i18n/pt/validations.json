@@ -18,6 +18,15 @@
         "required": "A repetição da senha é obrigatória",
         "mustMatch": "As senhas devem ser iguais"
     },
+    "oldPassword": {
+        "field": "Senha antiga",
+        "required": "A senha antiga é obrigatória"
+    },
+    "newPassword": {
+        "field": "Nova senha",
+        "required": "A nova senha é obrigatória",
+        "minLength": "A nova senha deve ter no mínimo {{length}} caracteres"
+    },
     "phone": {
         "field": "Telefone",
         "required": "O telefone é obrigatório",

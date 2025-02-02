@@ -7,6 +7,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useGET, useNavigate } from '../../../../utils/hooks.util';
 import { GET_SYNC_USER } from '../../../../routes/contenster/global';
 
+import Header from './Header';
+import Footer from './Footer';
+import ChangePassword from './ChangePassword';
+import ChangeEstablishment from './ChangeEstablishment';
+
 const Admin: React.FC = () => {
   const navigate = useNavigate();
   const { data, isLoading } = useGET(GET_SYNC_USER, true);
@@ -59,9 +64,9 @@ const Admin: React.FC = () => {
           overflowX: 'hidden',
         }}
       >
-        {/* <Header />
-          <ChangePasswordDialog />
-          <ChangeCompanyDialog /> */}
+        <Header />
+        <ChangePassword />
+        <ChangeEstablishment />
         <Box
           component="section"
           sx={{ minHeight: 'calc(100vh - 64px)' }}
@@ -73,7 +78,7 @@ const Admin: React.FC = () => {
             <Outlet />
           </AnimatePresence>
         </Box>
-        {/* <Footer /> */}
+        <Footer />
       </Box>
     </Box>
   );

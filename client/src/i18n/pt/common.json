@@ -29,5 +29,14 @@
     "goBack": "Voltar",
     "passwordResetSuccess": "Senha redefinida com sucesso",
     "resetPasswordButton": "Recuperar senha",
-    "emailSentSuccess": "Email enviado com sucesso"
+    "emailSentSuccess": "Email enviado com sucesso",
+    "copyRight": "Copyright © {{year}} Todos os direitos reservados",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu",
+    "changeEstablishment": "Trocar estabelecimento",
+    "logout": "Sair",
+    "changePassword": "Alterar senha",
+    "changeLanguage": "Alterar idioma",
+    "cancel": "Cancelar",
+    "save": "Salvar"
 }
