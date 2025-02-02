@@ -54,7 +54,7 @@ const Main: React.FC = () => {
     handleOnSubmit,
   } = useGlobalContext();
 
-  const onSubmit: SubmitHandler<FormFields> = async (content) => {
+  const onSubmit: SubmitHandler<FormFields> = (content) => {
     // eslint-disable-next-line
     const handleResponse = (response: any) => {
       if (Array.isArray(response) && response.length > 1 && !content.establishmentId) {
@@ -129,8 +129,7 @@ const Main: React.FC = () => {
     >
       <Image
         src={configInfo?.loginBanner}
-        alt="login banner"
-        title="log yourself in"
+        title={t('common:signInBannerTitle')}
         dimensions={{
           display: 'none',
           height: '100%',
@@ -161,8 +160,7 @@ const Main: React.FC = () => {
       >
         <Image
           src={configInfo?.loginLogo}
-          alt="main logo"
-          title="main logo"
+          title={t('common:signInLogoTitle')} 
           dimensions={{
             height: '3.5rem',
             objectFit: 'contain',

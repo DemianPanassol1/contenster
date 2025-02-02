@@ -18,5 +18,10 @@
     "create": "Criar",
     "loggedSuccessfully": "Logado com sucesso!",
     "forgotPassword": "Esqueceu a senha?",
-    "loginButton": "Entrar"
+    "loginButton": "Entrar",
+    "resetPasswordText": "Digite seu e-mail abaixo. Se uma conta estiver associada a este endereço, enviaremos um link para recuperação de senha",
+    "signInLogoTitle": "Logo da tela de login",
+    "signInBannerTitle": "Faça o login ao lado",
+    "recoverPasswordBannerTitle": "Crie uma nova senha",
+    "resetPasswordBannerTitle": "Recupere sua senha"
 }
