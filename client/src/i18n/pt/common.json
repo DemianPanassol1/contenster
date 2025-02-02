@@ -19,9 +19,15 @@
     "loggedSuccessfully": "Logado com sucesso!",
     "forgotPassword": "Esqueceu a senha?",
     "loginButton": "Entrar",
-    "resetPasswordText": "Digite seu e-mail abaixo. Se uma conta estiver associada a este endereço, enviaremos um link para recuperação de senha",
+    "resetPasswordText": "Digite seu e-mail abaixo. Se houver uma conta associada a este endereço, enviaremos um link para redefinir sua senha.",
     "signInLogoTitle": "Logo da tela de login",
     "signInBannerTitle": "Faça o login ao lado",
     "recoverPasswordBannerTitle": "Crie uma nova senha",
-    "resetPasswordBannerTitle": "Recupere sua senha"
+    "resetPasswordBannerTitle": "Recupere sua senha",
+    "createPasswordText": "Digite sua nova senha abaixo. Lembre-se de usar uma senha segura com pelo menos {{length}} caracteres",
+    "createPasswordButton": "Redefinir senha",
+    "goBack": "Voltar",
+    "passwordResetSuccess": "Senha redefinida com sucesso",
+    "resetPasswordButton": "Recuperar senha",
+    "emailSentSuccess": "Email enviado com sucesso"
 }

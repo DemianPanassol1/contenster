@@ -14,9 +14,20 @@
     "projectRecoverPassword": "Contenster Project - Recover password",
     "projectRedeemPassword": "Contenster Project - Reset password",
     "projectContenster": "Contenster Project",
-    "profile": "Perfil",
-    "create": "Criar",
+    "profile": "Profile",
+    "create": "Create",
     "loggedSuccessfully": "Logged in successfully!",
     "forgotPassword": "Forgot your password?",
-    "loginButton": "Login"
+    "loginButton": "Login",
+    "resetPasswordText": "Enter your email below. If there is an account associated with this address, we will send a link to reset your password.",
+    "signInLogoTitle": "Login screen logo",
+    "signInBannerTitle": "Sign in next to",
+    "recoverPasswordBannerTitle": "Create a new password",
+    "resetPasswordBannerTitle": "Recover your password",
+    "createPasswordText": "Enter your new password below. Remember to use a secure password with at least {{length}} characters",
+    "createPasswordButton": "Reset password",
+    "goBack": "Go back",
+    "passwordResetSuccess": "Password reset successfully",
+    "resetPasswordButton": "Recover password",
+    "emailSentSuccess": "Email sent successfully"
 }

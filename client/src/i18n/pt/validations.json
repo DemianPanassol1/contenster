@@ -13,6 +13,11 @@
         "required": "A senha é obrigatória",
         "minLength": "A senha deve ter no mínimo {{length}} caracteres"
     },
+    "repeatPassword": {
+        "field": "Repita a senha",
+        "required": "A repetição da senha é obrigatória",
+        "mustMatch": "As senhas devem ser iguais"
+    },
     "phone": {
         "field": "Telefone",
         "required": "O telefone é obrigatório",

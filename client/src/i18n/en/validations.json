@@ -13,6 +13,11 @@
         "required": "Password is required",
         "minLength": "Password must have at least {{length}} characters"
     },
+    "repeatPassword": {
+        "field": "Repeat Password",
+        "required": "Repeat Password is required",
+        "mustMatch": "Passwords must match"
+    },
     "phone": {
         "field": "Phone",
         "required": "Phone is required",

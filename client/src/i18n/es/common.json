@@ -15,8 +15,19 @@
     "projectRedeemPassword": "Contenster Project - Restablecer contraseña",
     "projectContenster": "Contenster Project",
     "profile": "Perfil",
-    "create": "Criar",
+    "create": "Crear",
     "loggedSuccessfully": "¡Inició sesión con éxito!",
     "forgotPassword": "¿Olvidaste tu contraseña?",
-    "loginButton": "Iniciar sesión"
+    "loginButton": "Iniciar sesión",
+    "resetPasswordText": "Ingrese su correo electrónico a continuación. Si hay una cuenta asociada con esta dirección, le enviaremos un enlace para restablecer su contraseña.",
+    "signInLogoTitle": "Logo de la pantalla de inicio de sesión",
+    "signInBannerTitle": "Inicie sesión al lado",
+    "recoverPasswordBannerTitle": "Crea una nueva contraseña",
+    "resetPasswordBannerTitle": "Recupera tu contraseña",
+    "createPasswordText": "Ingrese su nueva contraseña a continuación. Recuerde usar una contraseña segura con al menos {{length}} caracteres",
+    "createPasswordButton": "Restablecer contraseña",
+    "goBack": "Volver",
+    "passwordResetSuccess": "Contraseña restablecida con éxito",
+    "resetPasswordButton": "Recuperar contraseña",
+    "emailSentSuccess": "Correo electrónico enviado con éxito"
 }

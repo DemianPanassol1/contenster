@@ -40,7 +40,7 @@ const Main: React.FC = () => {
       url: POST_RESET_PASSWORD,
       type: 'POST',
       body: content,
-      message: 'Email enviado com sucesso',
+      message: t('common:emailSentSuccess'),
     });
   };
 
@@ -66,7 +66,7 @@ const Main: React.FC = () => {
       }}
     >
       <Wrapper
-        submitButtonContent="Recuperar senha"
+        submitButtonContent={t('common:resetPasswordButton')}
         onSubmit={handleSubmit(onSubmit)}
         customStyles={{
           position: 'relative',
@@ -124,7 +124,7 @@ const Main: React.FC = () => {
             transform: 'translateX(-50%)',
           }}
         >
-          Voltar
+          {t('common:goBack')}
         </Link>
       </Wrapper>
       <Image
