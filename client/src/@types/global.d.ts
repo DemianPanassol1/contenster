@@ -1,9 +1,9 @@
-declare interface HomePage {
+interface HomePage {
   redirect: boolean;
   homePage: string;
 }
 
-declare interface Session {
+interface Session {
   id: number;
   name: string;
   email: string;
@@ -22,7 +22,7 @@ declare interface Session {
   establishment: Establishment;
 }
 
-declare interface Establishment {
+interface Establishment {
   id: number;
   document: string;
   documentType: string;
@@ -38,7 +38,7 @@ declare interface Establishment {
   image: string;
 }
 
-declare interface Permission {
+interface Permission {
   id: number;
   slug: string;
   title: string | null;
@@ -48,19 +48,19 @@ declare interface Permission {
   canDelete: boolean;
 }
 
-declare interface PageKey {
+interface PageKey {
   key1: number;
   key2: number;
   key3: number;
 }
 
-declare interface RouteParams {
+interface RouteParams {
   id: string | null;
   type: string | null;
   slug: string | null;
 }
 
-declare interface ToastOptions {
+interface ToastOptions {
   anchorOrigin: {
     horizontal: 'right' | 'left' | 'center';
     vertical: 'top' | 'bottom';
@@ -68,7 +68,60 @@ declare interface ToastOptions {
   action: (snackId: string | number) => JSX.Element;
 }
 
-declare interface SelectOption {
+interface SelectOption {
   value: string;
   label: string;
+}
+
+interface GlobalState {
+  mode: 'light' | 'dark';
+  theme: Theme;
+  loading: boolean;
+  drawerState: boolean;
+  dialogState: string | boolean;
+  configInfo: Configuration | null;
+  i18nextLng: Language['code'];
+}
+
+interface Configuration {
+  id: number;
+  favicon: string;
+  loginLogo: string;
+  loginBanner: string;
+  languages: Language[];
+}
+
+interface Language {
+  id: number;
+  name: string;
+  purpose: 'both' | 'console' | 'site' | 'none';
+  code: 'pt' | 'en' | 'es';
+  icon: string;
+  default: boolean;
+}
+
+interface SortBy {
+  order: 'ASC' | 'DESC';
+  field: string;
+}
+interface Filter {
+  field: string;
+  value: string;
+  disjunctive: boolean;
+  type: 'STRING' | 'NUMBER' | 'DATE';
+  operation:
+    | 'EQUALS'
+    | 'NOT_EQUALS'
+    | 'GREATER_THAN'
+    | 'GREATER_THAN_OR_EQUAL'
+    | 'LESS_THAN'
+    | 'LESS_THAN_OR_EQUAL'
+    | 'IN'
+    | 'NOT_IN'
+    | 'BETWEEN'
+    | 'NOT_BETWEEN'
+    | 'LIKE'
+    | 'NOT_LIKE'
+    | 'IS_NULL'
+    | 'IS_NOT_NULL';
 }

@@ -146,3 +146,28 @@ export const handlePopulateFields = (
     }
   });
 };
+
+export const buildReqFilter = ({
+  pageSize = 0,
+  pageNumber = Number.MAX_SAFE_INTEGER,
+  optional = false,
+  customFields = {},
+  sortBy = [],
+  filters = [],
+}: {
+  pageSize?: number;
+  pageNumber?: number;
+  optional?: boolean;
+  customFields?: Record<string, string>;
+  sortBy?: SortBy[];
+  filters?: Filter[];
+}) => {
+  return {
+    sortBy,
+    filters,
+    optional,
+    pageSize,
+    pageNumber,
+    ...customFields,
+  };
+};

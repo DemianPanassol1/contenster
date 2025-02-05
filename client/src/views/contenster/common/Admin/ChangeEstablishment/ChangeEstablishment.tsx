@@ -43,7 +43,7 @@ const ChangeEstablishment: React.FC = () => {
   const [session, setSession] = useSessionStorage<Session | null>('session', null);
 
   const navigate = useNavigate();
-  const { refresh } = useGET(GET_SYNC_USER);
+  const { refresh }: GetSyncUser = useGET(GET_SYNC_USER);
 
   const onSubmit: SubmitHandler<FormFields> = (content) => {
     handleOnSubmit({

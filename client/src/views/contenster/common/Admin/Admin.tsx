@@ -1,5 +1,5 @@
+import { Box } from '@mui/material';
 import React, { useEffect } from 'react';
-import { Box, Drawer } from '@mui/material';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useSessionStorage } from '@uidotdev/usehooks';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -9,12 +9,13 @@ import { GET_SYNC_USER } from '../../../../routes/contenster/global';
 
 import Header from './Header';
 import Footer from './Footer';
+import Drawer from './Drawer';
 import ChangePassword from './ChangePassword';
 import ChangeEstablishment from './ChangeEstablishment';
 
 const Admin: React.FC = () => {
   const navigate = useNavigate();
-  const { data, isLoading } = useGET(GET_SYNC_USER, true);
+  const { data, isLoading }: GetSyncUser = useGET(GET_SYNC_USER, true);
   const [session, setSession] = useSessionStorage<Session | null>('session', null);
   const [homePage, setHomePage] = useSessionStorage<HomePage | null>('homePage', null);
 

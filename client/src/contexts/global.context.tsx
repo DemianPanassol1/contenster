@@ -19,8 +19,8 @@ import {
 } from '../utils/functions.util';
 import config from '../config/settings.json';
 import theme from '../settings/themes.setting';
-import { useGET, useToast } from '../utils/hooks.util';
 import { GET_CONFIG_INFO } from '../routes/contenster/global';
+import { useGET, useMobileScreen, useToast } from '../utils/hooks.util';
 
 interface HandleSubmitProps {
   type?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'POST/FILE';
@@ -29,33 +29,6 @@ interface HandleSubmitProps {
   message?: boolean | string;
   onSuccess?: (data: Record<string, any>) => void;
   onError?: (error: Record<string, any>) => void;
-}
-
-interface GlobalState {
-  mode: 'light' | 'dark';
-  theme: Theme;
-  loading: boolean;
-  drawerState: boolean;
-  dialogState: string | boolean;
-  configInfo: Configuration | null;
-  i18nextLng: Language['code'];
-}
-
-interface Configuration {
-  id: number;
-  favicon: string;
-  loginLogo: string;
-  loginBanner: string;
-  languages: Language[];
-}
-
-interface Language {
-  id: number;
-  name: string;
-  purpose: 'both' | 'console' | 'site' | 'none';
-  code: 'en' | 'es' | 'pt';
-  icon: string;
-  default: boolean;
 }
 
 interface GlobalContextProps {
@@ -158,9 +131,13 @@ const globalReducer = (state: GlobalState, action: Action): GlobalState => {
 const GlobalContext = createContext<GlobalContextProps | undefined>(undefined);
 
 export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
+  const isMobile = useMobileScreen();
   const { i18n, t } = useTranslation(['common']);
-  const { data, isLoading } = useGET(GET_CONFIG_INFO, true);
+
+  initialState.drawerState = !isMobile;
+
   const [state, dispatch] = useReducer(globalReducer, initialState);
+  const { data, isLoading }: GetConfigInfo = useGET(GET_CONFIG_INFO, true);
 
   const { successMessage, errorMessage, warnMessage } = useToast();
 

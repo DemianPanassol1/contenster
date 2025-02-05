@@ -39,7 +39,44 @@ export const useGET = (url: string, revalidate = false) => {
 
   return {
     data: data?.data?.body ?? null,
-    isLoading: Boolean(isLoading || error || !data?.data?.success),
+    isLoading: Boolean(isLoading || error),
+    refresh: async (key: string | undefined) => mutate(key || url),
+  };
+};
+
+/**
+ * Hook to perform POST requests with SWR.
+ *
+ * @param url - Endpoint for the request.
+ * @param body - Request body.
+ * @param revalidate - Defines if revalidation should occur.
+ * @returns Request data, loading state, and function to force update.
+ */
+export const usePOST = (
+  url: string,
+  body: Record<string, unknown>,
+  revalidate = false
+) => {
+  const { mutate } = useSWRConfig();
+
+  const ApiPostRequest = (url: string, body: Record<string, unknown>) =>
+    ApiRequest('post', url, body);
+
+  const { data, error, isLoading } = useSWR(
+    [url, body],
+    ([url, data]) => ApiPostRequest(url, data),
+    {
+      keepPreviousData: true,
+      revalidateOnMount: true,
+      revalidateIfStale: revalidate,
+      revalidateOnFocus: revalidate,
+      revalidateOnReconnect: revalidate,
+    }
+  );
+
+  return {
+    data: data?.data?.body ?? null,
+    isLoading: Boolean(isLoading || error),
     refresh: async (key: string | undefined) => mutate(key || url),
   };
 };
