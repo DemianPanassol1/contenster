@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { CssBaseline } from '@mui/material';
 import { SnackbarProvider } from 'notistack';
 
 import { GlobalProvider } from './contexts/global.context';
@@ -18,6 +17,5 @@ root.render(
         <App />
       </GlobalProvider>
     </SnackbarProvider>
-    <CssBaseline />
   </React.StrictMode>
 );

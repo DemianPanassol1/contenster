@@ -1,6 +1,7 @@
 import { ThemeProvider } from '@emotion/react';
 import { AnimatePresence } from 'framer-motion';
 import { HelmetProvider } from 'react-helmet-async';
+import { CssBaseline, GlobalStyles } from '@mui/material';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { useGlobalContext } from './contexts/global.context';
@@ -37,6 +38,26 @@ const App = () => {
         <AnimatePresence>
           <RouterProvider router={router} />
         </AnimatePresence>
+        <CssBaseline />
+        <GlobalStyles
+          styles={(theme) => ({
+            body: {
+              backgroundColor: theme.palette.background.default,
+              color: theme.palette.text.primary,
+              '::-webkit-scrollbar-track': {
+                backgroundColor: theme.palette.grey[300],
+              },
+              '::-webkit-scrollbar': {
+                width: '6px',
+                backgroundColor: theme.palette.grey[300],
+              },
+              '::-webkit-scrollbar-thumb': {
+                cursor: 'pointer',
+                backgroundColor: theme.palette.primary.main,
+              },
+            },
+          })}
+        />
       </ThemeProvider>
     </HelmetProvider>
   );
