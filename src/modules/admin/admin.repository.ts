@@ -87,7 +87,6 @@ export class AdminRepository extends CoreRepository {
         descriptions: { language: true },
         permission: {
           functionality: {
-            icon: true,
             titles: { language: true },
             module: { titles: { language: true }, descriptions: { language: true } },
           },

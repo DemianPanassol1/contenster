@@ -202,7 +202,7 @@ export class AdminService extends CoreService {
         id: p.functionality.id,
         slug: p.functionality.slug,
         title: this.translate(p.functionality.titles),
-        icon: this.generateFilePath(req, p.functionality.icon?.filePath),
+        icon: this.generateFilePath(req, p.functionality.icon),
         position: p.functionality.position,
         moduleId: p.functionality.module.id,
         permissions: {

@@ -4,8 +4,6 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   // DeleteDateColumn,
-  JoinColumn,
-  OneToOne,
   ManyToMany,
   JoinTable,
   ManyToOne,
@@ -13,7 +11,6 @@ import {
   OneToMany,
 } from 'typeorm';
 
-import { Image } from './image.entity';
 import { Module } from './module.entity';
 import { Preference } from './preference.entity';
 import { Permission } from './permission.entity';
@@ -30,6 +27,9 @@ export class Functionality {
 
   @Column({ type: 'integer', default: 0 })
   position: number;
+
+  @Column({ length: 75, type: 'varchar', nullable: true })
+  icon: string;
 
   @CreateDateColumn({ type: 'timestamp without time zone' })
   createdAt: Date;
@@ -49,10 +49,6 @@ export class Functionality {
   @ManyToMany(() => Translation, { cascade: true })
   @JoinTable()
   titles: Translation[];
-
-  @OneToOne(() => Image, (icon) => icon.functionality, { cascade: true })
-  @JoinColumn()
-  icon: Image;
 
   @OneToMany(() => Permission, (permission) => permission.functionality)
   permission: Permission[];
