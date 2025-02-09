@@ -2,7 +2,7 @@ import { Expose, Transform } from 'class-transformer';
 
 import { bytesToString } from 'src/shared/utils/convertion.utils';
 
-export class PostUploadImageResDto {
+export class PostUploadFileResDto {
   @Expose()
   id: number;
 

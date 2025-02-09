@@ -8,6 +8,7 @@ import { WinstonModule } from 'nest-winston';
 import { useContainer } from 'class-validator';
 import { VersioningType } from '@nestjs/common';
 import { createDatabase } from 'typeorm-extension';
+import { NextFunction, Request, Response } from 'express';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { I18nValidationExceptionFilter, I18nValidationPipe } from 'nestjs-i18n';
 
@@ -48,22 +49,24 @@ import { dbOptions, environment, HTTPS } from './config/constants/constants.conf
     app.use(enforce.HTTPS({ trustProtoHeader: false }));
   }
 
-  app.use(
+  app.use((req: Request, res: Response, next: NextFunction) => {
     helmet({
       contentSecurityPolicy: {
         useDefaults: true,
         directives: {
           defaultSrc: ["'self'"],
           connectSrc: ["'self'"],
-          styleSrc: ["'self'", "'nonce-<random-value>'"],
+          styleSrc: ["'self'", "'unsafe-inline'"],
           imgSrc: ["'self'", 'data:'],
-          scriptSrc: ["'self'", "'nonce-<random-value>'"],
+          mediaSrc: ["'self'", 'blob:'],
+          scriptSrc: ["'self'"],
+          objectSrc: ["'self'"],
         },
       },
       crossOriginResourcePolicy: { policy: HTTPS ? 'same-origin' : 'cross-origin' },
       frameguard: { action: 'sameorigin' },
-    }),
-  );
+    })(req, res, next);
+  });
 
   app.use(compression());
 

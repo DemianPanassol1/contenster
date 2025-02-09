@@ -37,7 +37,7 @@ export class ApiService extends CoreService {
     return this.response(GenerateTokenResDto, response);
   }
 
-  async postUploadImage(req: Request, file: Express.Multer.File) {
+  async postUploadFile(req: Request, file: Express.Multer.File) {
     return file;
   }
 }

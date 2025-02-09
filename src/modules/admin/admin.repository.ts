@@ -107,4 +107,10 @@ export class AdminRepository extends CoreRepository {
       },
     });
   }
+
+  findImageById(imageId: number): Promise<Image> {
+    return this.imageRepo.findOne({
+      where: { id: imageId },
+    });
+  }
 }

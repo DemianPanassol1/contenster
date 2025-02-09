@@ -1,6 +1,6 @@
 import { Request } from 'express';
 import { ApiBody, ApiConsumes } from '@nestjs/swagger';
-import { Body, Controller, Get, Post, Put, Req } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, Query, Req } from '@nestjs/common';
 
 import { AdminService } from './admin.service';
 import { ICurrentUser } from 'src/shared/types/api.types';
@@ -11,6 +11,7 @@ import { Authorize } from 'src/common/interceptors/authorize.interceptor';
 import { CurrentUser } from 'src/common/decorators/currentUser.decorator';
 import { Authenticate } from 'src/common/interceptors/authenticate.interceptor';
 
+import { GetFileByIdReqDto } from './dto/req/getFileById.req.dto';
 import { GetIconsListReqDto } from './dto/req/getModuleOptions.req.dto';
 import { PutResetPasswordReqDto } from './dto/req/putResetPassword.req.dto';
 import { PostChangeUserEstablishmentReqDto } from './dto/req/postChangeUserEstablishment.req.dto';
@@ -57,14 +58,14 @@ export class AdminController {
       },
     },
   })
-  @Authenticate()
+  @Authorize()
   @UploadFile()
-  @Post('upload-image')
-  async postUploadImage(@Req() req: Request, @File() file: Express.Multer.File) {
-    return await this.adminService.postUploadImage(req, file);
+  @Post('upload-file')
+  async postUploadFile(@Req() req: Request, @File() file: Express.Multer.File) {
+    return await this.adminService.postUploadFile(req, file);
   }
 
-  @Authenticate()
+  @Authorize()
   @Post('get-icons-list')
   async getIconList(@Req() req: Request, @Body() body: GetIconsListReqDto) {
     return await this.adminService.getIconList(req, body);
@@ -80,5 +81,11 @@ export class AdminController {
   @Get('get-config-info')
   async getConfigInfo(@Req() req: Request) {
     return await this.adminService.getConfigInfo(req);
+  }
+
+  @Authorize()
+  @Get('get-file-by-id')
+  async getFileById(@Req() req: Request, @Query() query: GetFileByIdReqDto) {
+    return await this.adminService.getFileById(req, query);
   }
 }

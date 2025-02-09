@@ -38,3 +38,14 @@ interface Module {
     };
   }[];
 }
+
+interface PostUploadFile {
+  id: number;
+  size: string;
+  width: string;
+  height: string;
+  newName: string;
+  mimeType: string;
+  originalName: string;
+  filePath: string;
+}

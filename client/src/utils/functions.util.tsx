@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { UseFormSetValue } from 'react-hook-form';
+
 import { ApiRequest } from '../settings/services.setting';
 
 /**
@@ -118,12 +120,6 @@ export const formatStringToMask = (string: string, mask: string): string => {
   return formattedString;
 };
 
-type SetFieldsFunction = (
-  field: string,
-  value: any,
-  options?: { shouldValidate?: boolean }
-) => void;
-
 /**
  * Populates fields with values from a given content object.
  *
@@ -132,7 +128,7 @@ type SetFieldsFunction = (
  * @param content - An object containing the values to populate the fields with.
  */
 export const handlePopulateFields = (
-  setFields: SetFieldsFunction,
+  setFields: UseFormSetValue<any>,
   fields: Record<string, any>,
   content: Record<string, any>
 ): void => {

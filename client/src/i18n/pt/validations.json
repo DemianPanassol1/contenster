@@ -42,5 +42,18 @@
     },
     "staySignedIn": {
         "field": "Permanecer conectado"
+    },
+    "completeName": {
+        "field": "Nome completo",
+        "required": "O nome completo é obrigatório"
+    },
+    "username": {
+        "field": "Nome de usuário",
+        "required": "O nome de usuário é obrigatório",
+        "minLength": "O nome de usuário deve ter no mínimo {{length}} caracteres"
+    },
+    "preferencialPage": {
+        "field": "Página preferencial",
+        "required": "A página preferencial é obrigatória"
     }
 }

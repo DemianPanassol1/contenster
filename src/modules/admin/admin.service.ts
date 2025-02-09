@@ -10,14 +10,17 @@ import { AdminRepository } from './admin.repository';
 import { ICurrentUser } from 'src/shared/types/api.types';
 import { defaultLanguage } from 'src/config/constants/constants.config';
 
+import { GetFileByIdReqDto } from './dto/req/getFileById.req.dto';
 import { GetIconsListReqDto } from './dto/req/getModuleOptions.req.dto';
 import { PutResetPasswordReqDto } from './dto/req/putResetPassword.req.dto';
 import { PostChangeUserEstablishmentReqDto } from './dto/req/postChangeUserEstablishment.req.dto';
 
+import { GetFileByIdResDto } from './dto/res/getFileById.res.dto';
 import { GetIconListResDto } from './dto/res/getIconList.res.dto';
 import { GetConfigInfoResDto } from './dto/res/getConfigInfo.res.dto';
+import { PostUploadFileResDto } from './dto/res/postUploadFile.res.dto';
 import { GetModulesListResDto } from './dto/res/getModulesList.res.dto';
-import { PostUploadImageResDto } from './dto/res/postUploadImage.res.dto';
+
 import { PutResetPasswordResDto } from './dto/res/putResetPassword.res.dto';
 import { PostChangeUserEstablishmentResDto } from './dto/res/postChangeUserEstablishment.res.dto';
 
@@ -122,7 +125,7 @@ export class AdminService extends CoreService {
     return this.response(PutResetPasswordResDto, response);
   }
 
-  async postUploadImage(req: Request, file: Express.Multer.File) {
+  async postUploadFile(req: Request, file: Express.Multer.File) {
     let image = null;
 
     if (!file.filename.endsWith('.ico') || file.mimetype !== 'image/vnd.microsoft.icon') {
@@ -143,7 +146,7 @@ export class AdminService extends CoreService {
       filePath: this.generateFilePath(req, response.filePath),
     });
 
-    return this.response(PostUploadImageResDto, response);
+    return this.response(PostUploadFileResDto, response);
   }
 
   async getIconList(req: Request, body: GetIconsListReqDto) {
@@ -253,5 +256,20 @@ export class AdminService extends CoreService {
     };
 
     return this.response(GetConfigInfoResDto, response);
+  }
+
+  async getFileById(req: Request, query: GetFileByIdReqDto) {
+    const image = await this.repo.findImageById(query.id);
+
+    if (!image) {
+      throw new HttpException(this.i18n.t('errors.imageNotFound'), HttpStatus.BAD_REQUEST);
+    }
+
+    const response = {
+      ...image,
+      filePath: this.generateFilePath(req, image.filePath),
+    };
+
+    return this.response(GetFileByIdResDto, response);
   }
 }

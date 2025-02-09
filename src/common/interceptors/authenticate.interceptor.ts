@@ -30,9 +30,11 @@ export class AuthenticateInterceptor extends CoreInterceptor implements NestInte
 
     if (!req.session || !req.session?.user) {
       try {
+        if (environment !== 'development') throw Error();
+
         const session = JSON.parse(req.get('Session'));
 
-        if (!session || environment !== 'development') throw Error();
+        if (!session) throw Error();
 
         req.session.user = session;
 

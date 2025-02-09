@@ -38,5 +38,10 @@
     "changePassword": "Alterar senha",
     "changeLanguage": "Alterar idioma",
     "cancel": "Cancelar",
-    "save": "Salvar"
+    "save": "Salvar",
+    "select": "Selecionar",
+    "ProfilePicture": "Foto de Perfil",
+    "size": "Tamanho",
+    "dimensions": "Dimensões",
+    "errorOnDownloadFile": "Erro ao baixar o arquivo"
 }
