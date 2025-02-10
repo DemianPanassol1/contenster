@@ -10,19 +10,24 @@ import { AdminRepository } from './admin.repository';
 import { ICurrentUser } from 'src/shared/types/api.types';
 import { defaultLanguage } from 'src/config/constants/constants.config';
 
+import { PutUserInfoReqDto } from './dto/req/putUserInfo.req.dto';
 import { GetFileByIdReqDto } from './dto/req/getFileById.req.dto';
-import { GetIconsListReqDto } from './dto/req/getModuleOptions.req.dto';
+import { GetIconsListReqDto } from './dto/req/getIconsList.req.dto';
 import { PutResetPasswordReqDto } from './dto/req/putResetPassword.req.dto';
 import { PostChangeUserEstablishmentReqDto } from './dto/req/postChangeUserEstablishment.req.dto';
 
+import { GetUserInfoResDto } from './dto/res/getUserInfo.res.dto';
+import { PutUserInfoResDto } from './dto/res/putUserInfo.res.dto';
 import { GetFileByIdResDto } from './dto/res/getFileById.res.dto';
 import { GetIconListResDto } from './dto/res/getIconList.res.dto';
 import { GetConfigInfoResDto } from './dto/res/getConfigInfo.res.dto';
 import { PostUploadFileResDto } from './dto/res/postUploadFile.res.dto';
 import { GetModulesListResDto } from './dto/res/getModulesList.res.dto';
-
 import { PutResetPasswordResDto } from './dto/res/putResetPassword.res.dto';
 import { PostChangeUserEstablishmentResDto } from './dto/res/postChangeUserEstablishment.res.dto';
+
+import { User } from 'src/entities/contensterdb/user.entity';
+import { Preference } from 'src/entities/contensterdb/preference.entity';
 
 @Injectable()
 export class AdminService extends CoreService {
@@ -271,5 +276,52 @@ export class AdminService extends CoreService {
     };
 
     return this.response(GetFileByIdResDto, response);
+  }
+
+  async getUserInfo(currentUser: ICurrentUser) {
+    const user = await this.repo.findByUserId(currentUser.id);
+
+    if (!user) {
+      throw new HttpException(this.i18n.t('errors.userNotFound'), HttpStatus.BAD_REQUEST);
+    }
+
+    const response = {
+      ...user,
+      imageId: user.image?.id ?? '',
+      preferenceId: user.preference?.functionality?.id ?? '',
+    };
+
+    return this.response(GetUserInfoResDto, response);
+  }
+
+  async putUserInfo(body: PutUserInfoReqDto) {
+    const user = await this.repo.findByUserId(body.id);
+
+    if (!user) {
+      throw new HttpException(this.i18n.t('errors.userNotFound'), HttpStatus.BAD_REQUEST);
+    }
+
+    const updateUser: Partial<User> = {
+      name: body.name,
+      phone: body.phone,
+      email: body.email,
+      username: body.username,
+    };
+
+    const updatePreference: Partial<Preference> = {};
+
+    Object.assign(updateUser, { image: { id: body.imageId } });
+    Object.assign(updatePreference, { functionality: { id: body.preferenceId } });
+
+    await this.repo.updateUser(body.id, updateUser);
+    await this.repo.updateUserPreference(user.preference.id, updatePreference);
+
+    const response = {
+      ...user,
+      ...updateUser,
+      ...updatePreference,
+    };
+
+    return this.response(PutUserInfoResDto, response);
   }
 }

@@ -4,7 +4,7 @@ import { Transform } from 'class-transformer';
 import { parseNum } from 'src/shared/utils/convertion.utils';
 
 export class PostChangeUserEstablishmentReqDto {
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
   @Transform(parseNum)
+  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
   establishmentId: number;
 }

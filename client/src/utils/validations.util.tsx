@@ -33,10 +33,10 @@ const passwordValidation = (
 
 const phoneValidation = (t: TFunction<['common', 'validations'], undefined>) => ({
   required: t('validations:phone.required'),
-  pattern: {
-    value: /(?:\()[0-9]{2}(?:\))\s[0-9]{4,5}\s[0-9]{4,5}/,
-    message: t('validations:phone.pattern'),
-  },
+  // pattern: {
+  //   value: /^\(?(\d{2})\)?(\d{4,5})(\d{4})$/,
+  //   message: t('validations:phone.pattern'),
+  // },
 });
 
 export { emailValidation, passwordValidation, phoneValidation, genericInputValidation };

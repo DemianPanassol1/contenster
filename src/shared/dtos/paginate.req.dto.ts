@@ -41,7 +41,7 @@ export enum Operation {
 
 export class Sort {
   @IsString({ message: 'validation.invalidString' })
-  @IsNotEmpty({ message: 'validation.notEmprt' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   field: string;
 
   @IsEnum(Order, { message: 'validation.invalidOrderField' })
@@ -50,11 +50,12 @@ export class Sort {
 
 export class Filter {
   @IsString({ message: 'validation.invalidString' })
-  @IsNotEmpty({ message: 'validation.notEmprt' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   field: string;
 
+  @IsOptional()
   @IsString({ each: true, message: 'validation.invalidStringOrArrayOf' })
-  value: string | string[] = '';
+  value?: string | string[];
 
   @IsBoolean({ message: 'validation.invalidBoolean' })
   disjunctive: boolean;

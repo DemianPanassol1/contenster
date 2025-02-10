@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
 import { Box, InputLabel, styled, Typography } from '@mui/material';
@@ -99,7 +98,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
   };
 
   useEffect(() => {
-    if (fileId) {
+    if (fileId && imagePreview === null) {
       handleOnSubmit({
         type: 'GET',
         url: GET_FILE_BY_ID(fileId),
@@ -109,11 +108,16 @@ const FileUpload: React.FC<FileUploadProps> = ({
         },
       });
     }
-  }, []);
+  }, [fileId]);
 
   return (
     <Box>
-      <InputLabel htmlFor="upload-input">{label}</InputLabel>
+      <InputLabel
+        htmlFor="upload-input"
+        sx={{ width: 'fit-content' }}
+      >
+        {label}
+      </InputLabel>
       <Box sx={{ mt: '1rem' }}>
         {imagePreview && (
           <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>

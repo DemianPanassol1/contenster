@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import React, { useEffect } from 'react';
 import { Box, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -25,7 +23,6 @@ interface FormFields {
   id: string;
   name: string;
   email: string;
-  image: string;
   username: string;
   phone: string;
   imageId: string;
@@ -36,7 +33,6 @@ const fields: FormFields = {
   id: '',
   name: '',
   email: '',
-  image: '',
   username: '',
   phone: '',
   imageId: '',
@@ -45,9 +41,9 @@ const fields: FormFields = {
 
 const Main: React.FC = () => {
   const {
+    watch,
     control,
     setValue,
-    getValues,
     handleSubmit,
     formState: { errors },
   } = useForm<FormFields>({ defaultValues: fields });
@@ -63,7 +59,6 @@ const Main: React.FC = () => {
       type: 'PUT',
       url: PUT_USER_INFO,
       body: content,
-      message: false,
       onSuccess() {
         refresh();
         refresh(GET_SYNC_USER);
@@ -136,8 +131,8 @@ const Main: React.FC = () => {
         />
       </Box>
       <FileUpload
+        fileId={watch('imageId')}
         label={t('common:ProfilePicture')}
-        fileId={getValues('imageId')}
         onImageUpload={(fileId) => setValue('imageId', fileId)}
       />
     </Wrapper>

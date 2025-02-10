@@ -1,5 +1,11 @@
 {
     "email": "email",
     "login": "login",
-    "password": "senha"
+    "password": "senha",
+    "username": "Nome de usuário",
+    "name": "Nome",
+    "phone": "Telefone",
+    "establishment": "Estabelecimento",
+    "establishmentId": "Estabelecimento",
+    "preferenceId": "Página preferencial"
 }
