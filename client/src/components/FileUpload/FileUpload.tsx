@@ -99,14 +99,18 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
   useEffect(() => {
     if (fileId && imagePreview === null) {
-      handleOnSubmit({
-        type: 'GET',
-        url: GET_FILE_BY_ID(fileId),
-        message: false,
-        onSuccess: (data) => {
-          setImagePreview(data as PostUploadFile);
-        },
-      });
+      const delayDebounceFn = setTimeout(() => {
+        handleOnSubmit({
+          type: 'GET',
+          url: GET_FILE_BY_ID(fileId),
+          message: false,
+          onSuccess: (data) => {
+            setImagePreview(data as PostUploadFile);
+          },
+        });
+      }, 500);
+
+      return () => clearTimeout(delayDebounceFn);
     }
   }, [fileId]);
 
