@@ -1,3 +1,3 @@
-import Permissions from './Permissions';
+import Establishments from './Establishments';
 
-export default Permissions;
+export default Establishments;

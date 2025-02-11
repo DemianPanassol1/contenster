@@ -5,7 +5,7 @@ import Main from './Main';
 import Save from './Save';
 import Page from '../../../../components/Page';
 
-const Permissions: React.FC = () => {
+const EstablishmentUsers: React.FC = () => {
   const { /* id, */ type } = useParams();
 
   return (
@@ -35,4 +35,4 @@ const Permissions: React.FC = () => {
   );
 };
 
-export default Permissions;
+export default EstablishmentUsers;

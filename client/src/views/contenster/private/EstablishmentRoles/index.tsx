@@ -1,3 +1,3 @@
-import Permissions from './Permissions';
+import EstablishmentRoles from './EstablishmentRoles';
 
-export default Permissions;
+export default EstablishmentRoles;

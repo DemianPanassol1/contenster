@@ -1,3 +1,3 @@
-import Permissions from './Permissions';
+import Users from './Users';
 
-export default Permissions;
+export default Users;

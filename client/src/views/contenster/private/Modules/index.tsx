@@ -1,3 +1,3 @@
-import Permissions from './Permissions';
+import Modules from './Modules';
 
-export default Permissions;
+export default Modules;

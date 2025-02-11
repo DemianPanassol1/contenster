@@ -1,3 +1,3 @@
-import Permissions from './Permissions';
+import Functionalities from './Functionalities';
 
-export default Permissions;
+export default Functionalities;
