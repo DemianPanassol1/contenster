@@ -154,7 +154,7 @@ export const buildReqFilter = ({
   pageSize?: number;
   pageNumber?: number;
   optional?: boolean;
-  customFields?: Record<string, string>;
+  customFields?: Record<string, string | null>;
   sortBy?: SortBy[];
   filters?: Filter[];
 }) => {
@@ -166,4 +166,20 @@ export const buildReqFilter = ({
     pageNumber,
     ...customFields,
   };
+};
+
+/**
+ * Parses a string by normalizing and converting it to lowercase.
+ *
+ * @param value - The input string to be parsed.
+ * @returns The parsed string.
+ */
+export const parseString = (value: string): string => {
+  let normalizedString = value;
+
+  if (!normalizedString) return '';
+
+  normalizedString = normalizedString.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+  return normalizedString.toLowerCase().trim();
 };

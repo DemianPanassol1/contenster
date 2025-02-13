@@ -1,6 +1,10 @@
 import React, { ReactNode, CSSProperties } from 'react';
 import { Tooltip, IconButton as IconButtonComponent } from '@mui/material';
 
+interface ExtendedCSSProperties extends CSSProperties {
+  [key: string]: any;
+}
+
 interface IconButtonProps {
   icon: ReactNode;
   edge?: 'start' | 'end';
@@ -16,7 +20,7 @@ interface IconButtonProps {
     | 'info'
     | 'success'
     | 'warning';
-  customStyles?: CSSProperties;
+  customStyles?: ExtendedCSSProperties;
   onClick?: () => void;
 }
 

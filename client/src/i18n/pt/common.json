@@ -43,5 +43,9 @@
     "ProfilePicture": "Foto de Perfil",
     "size": "Tamanho",
     "dimensions": "Dimensões",
-    "errorOnDownloadFile": "Erro ao baixar o arquivo"
+    "errorOnDownloadFile": "Erro ao baixar o arquivo",
+    "noRecordsFound": "Nenhum registro encontrado",
+    "areYouSure": "Você tem certeza?",
+    "yesDeleteRecord": "Sim, excluir registro",
+    "deleteDialogMessage": "Você realmente quer excluir este registro? Não será possível restaurar este item após a exclusão."
 }

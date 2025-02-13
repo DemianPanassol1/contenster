@@ -77,7 +77,7 @@ export const usePOST = (
   return {
     data: data?.data?.body ?? null,
     isLoading: Boolean(isLoading || error),
-    refresh: async (key: string | undefined) => mutate(key || url),
+    refresh: async (key: string | undefined = undefined) => mutate(key || url),
   };
 };
 
