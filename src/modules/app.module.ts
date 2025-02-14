@@ -14,6 +14,14 @@ import { AuthModule } from './auth/auth.module';
 import { AdminModule } from './admin/admin.module';
 import { OptionModule } from './option/option.module';
 import { ApiModule } from 'src/modules/api/api.module';
+import { RolesModule } from './roles/roles.module';
+import { FunctionalitiesModule } from './functionalities/functionalities.module';
+import { PermissionsModule } from './permissions/permissions.module';
+import { EstablishmentsModule } from './establishments/establishments.module';
+import { ModulesModule } from './modules/modules.module';
+import { UsersModule } from './users/users.module';
+import { EstablishmentRolesModule } from './establishment-roles/establishment-roles.module';
+import { EstablishmentUsersModule } from './establishment-users/establishment-users.module';
 
 @Module({
   imports: [
@@ -36,6 +44,14 @@ import { ApiModule } from 'src/modules/api/api.module';
     AdminModule,
     AuthModule,
     OptionModule,
+    RolesModule,
+    FunctionalitiesModule,
+    PermissionsModule,
+    EstablishmentsModule,
+    ModulesModule,
+    UsersModule,
+    EstablishmentRolesModule,
+    EstablishmentUsersModule,
     RouterModule.register([
       {
         path: 'api',
@@ -52,6 +68,38 @@ import { ApiModule } from 'src/modules/api/api.module';
               {
                 path: 'option',
                 module: OptionModule,
+              },
+              {
+                path: 'roles',
+                module: RolesModule,
+              },
+              {
+                path: 'functionalities',
+                module: FunctionalitiesModule,
+              },
+              {
+                path: 'permissions',
+                module: PermissionsModule,
+              },
+              {
+                path: 'establishments',
+                module: EstablishmentsModule,
+              },
+              {
+                path: 'modules',
+                module: ModulesModule,
+              },
+              {
+                path: 'users',
+                module: UsersModule,
+              },
+              {
+                path: 'establishment-roles',
+                module: EstablishmentRolesModule,
+              },
+              {
+                path: 'establishment-users',
+                module: EstablishmentUsersModule,
               },
             ],
           },
