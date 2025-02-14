@@ -2,23 +2,26 @@ import { Expose, Type } from 'class-transformer';
 
 import { Meta } from 'src/shared/dtos/paginate.res.dto';
 
-class GetRoleOptionsData {
+class GetRolesListData {
   @Expose()
-  value: string;
+  id: number;
 
   @Expose()
-  label: string;
+  title: string;
+
+  @Expose()
+  description: string;
 }
 
 class CustomMeta extends Meta {
   @Expose()
-  establishmentId: number | null;
+  establishmentId: number;
 }
 
-export class GetRoleOptionsResDto {
+export class GetRolesListResDto {
   @Expose()
-  @Type(() => GetRoleOptionsData)
-  data: GetRoleOptionsData[];
+  @Type(() => GetRolesListData)
+  data: GetRolesListData[];
 
   @Expose()
   @Type(() => CustomMeta)

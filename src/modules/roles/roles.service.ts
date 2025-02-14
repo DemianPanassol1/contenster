@@ -10,6 +10,8 @@ import { PostRoleReqDto } from './dto/req/postRole.req.dto';
 import { DeleteRoleReqDto } from './dto/req/deleteRole.req.dto';
 import { GetRolesListReqDto } from './dto/req/getRolesList.req.dto';
 
+import { GetRolesListResDto } from './dto/res/getRolesList.res.dto';
+
 @Injectable()
 export class RolesService extends CoreService {
   constructor(
@@ -20,7 +22,23 @@ export class RolesService extends CoreService {
   }
 
   async getRolesList(body: GetRolesListReqDto) {
-    throw new Error('Method not implemented.');
+    const [data, total] = await this.repo.getRolesPaginated(body);
+
+    const response = {
+      data: data.map((item) => ({
+        id: item.id,
+        title: this.translate(item.titles),
+        description: this.translate(item.descriptions),
+      })),
+      meta: {
+        ...body,
+        totalItems: total,
+        totalPages: Math.ceil(total / body.pageSize),
+        hasNextPage: total > (body.pageNumber + 1) * body.pageSize,
+      },
+    };
+
+    return this.response(GetRolesListResDto, response);
   }
 
   async getRole(query: GetRoleReqDto) {

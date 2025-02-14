@@ -5,8 +5,10 @@ import { RolesService } from './roles.service';
 import { RolesController } from './roles.controller';
 import { RolesRepository } from './roles.repository';
 
+import { Role } from 'src/entities/contensterdb/role.entity';
+
 @Module({
-  imports: [TypeOrmModule.forFeature([])],
+  imports: [TypeOrmModule.forFeature([Role])],
   controllers: [RolesController],
   providers: [RolesService, RolesRepository],
 })
