@@ -19,6 +19,8 @@ export default [
     files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'],
     settings: { react: { version: 'detect' } },
     languageOptions: { globals: { ...globals.browser, ...globals.node } },
-    rules: { 'prettier/prettier': ['error', {}, { usePrettierrc: true }] },
+    rules: {
+      'prettier/prettier': ['error', {}, { usePrettierrc: true }],
+    },
   },
 ];

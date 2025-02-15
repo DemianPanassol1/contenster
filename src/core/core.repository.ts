@@ -157,7 +157,7 @@ export class CoreRepository {
       where,
       order,
       take: query.pageSize,
-      skip: query.pageNumber * query.pageSize,
+      skip: (query.pageNumber - 1) * query.pageSize,
     };
   }
 

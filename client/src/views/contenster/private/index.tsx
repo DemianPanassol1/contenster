@@ -10,39 +10,39 @@ import EstablishmentUsers from './EstablishmentUsers';
 
 export const adminViews = [
   {
-    path: 'users',
+    path: 'users/:type?/:id?',
     element: <Users />,
   },
   {
-    path: 'roles',
+    path: 'roles/:type?/:id?',
     element: <Roles />,
   },
   {
-    path: 'profile',
+    path: 'profile/:type?/:id?',
     element: <Profile />,
   },
   {
-    path: 'modules',
+    path: 'modules/:type?/:id?',
     element: <Modules />,
   },
   {
-    path: 'permissions',
+    path: 'permissions/:type?/:id?',
     element: <Permissions />,
   },
   {
-    path: 'establishments',
+    path: 'establishments/:type?/:id?',
     element: <Establishments />,
   },
   {
-    path: 'functionalities',
+    path: 'functionalities/:type?/:id?',
     element: <Functionalities />,
   },
   {
-    path: 'establishment-roles',
+    path: 'establishment-roles/:type?/:id?',
     element: <EstablishmentRoles />,
   },
   {
-    path: 'establishment-users',
+    path: 'establishment-users/:type?/:id?',
     element: <EstablishmentUsers />,
   },
 ];

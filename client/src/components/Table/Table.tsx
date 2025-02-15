@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import {
   Avatar,
   Box,
@@ -12,6 +11,7 @@ import {
 } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { useDebounce } from '@uidotdev/usehooks';
+import React, { useEffect, useState } from 'react';
 import DataTable, { TableColumn } from 'react-data-table-component';
 
 import AddIcon from '@mui/icons-material/Add';
@@ -31,14 +31,15 @@ import {
 import { useGlobalContext } from '../../contexts/global.context';
 import { useNavigate, usePermissions, usePOST } from '../../utils/hooks.util';
 
-import DeleteDialog from './DeleteDialog';
-import IconButton from '../IconButton';
-import LoadingComponent from './LoadingComponent';
-import EmptyRow from './EmptyRow';
-import ActionComponent from './ActionComponent';
 import Icon from '../Icon';
+import EmptyRow from './EmptyRow';
+import IconButton from '../IconButton';
+import DeleteDialog from './DeleteDialog';
+import ActionComponent from './ActionComponent';
+import LoadingComponent from './LoadingComponent';
 
 interface Columns {
+  name: string;
   field: string;
   selector: string;
   sortable: boolean;
@@ -65,6 +66,7 @@ interface TableProps {
   hasFilter?: boolean;
   hasAddButton?: boolean;
   urlRefreshOnDelete?: string | string[] | null;
+  bodyContent?: Record<string, string>;
 }
 
 const Table: React.FC<TableProps> = ({
@@ -76,6 +78,7 @@ const Table: React.FC<TableProps> = ({
   hasFilter = true,
   hasAddButton = true,
   urlRefreshOnDelete = null,
+  bodyContent = {},
 }) => {
   const theme = useTheme();
   const location = useLocation();
@@ -87,15 +90,29 @@ const Table: React.FC<TableProps> = ({
   const [page, setPage] = useState<number>(defaultPage);
   const [qnt, setQnt] = useState<number>(defaultPageSize);
   const [search, setSearch] = useState<string | null>(null);
+  const [orderList, setOrderList] = useState<SortBy[]>([]);
   const [deleteDialog, setDeleteDialog] = useState<{ id: number } | null>(null);
   const [contentList, setContentList] = useState<Record<string, unknown>[]>([]);
 
   const debouncedSearch = useDebounce(search, 800);
-  console.log(debouncedSearch);
 
   const requestFilter = buildReqFilter({
     pageSize: qnt,
     pageNumber: page,
+    customFields: bodyContent,
+    filters: columns
+      .filter((col) => col.searchable)
+      .map((col, index) => ({
+        field: col.selector,
+        operation: 'LIKE',
+        type: 'STRING',
+        value: (col.mask
+          ? debouncedSearch?.replace(/[.-]/g, '')
+          : debouncedSearch) as string,
+        disjunctive: index !== 0,
+      }))
+      .filter((item) => item.value) as Filter[],
+    sortBy: orderList,
   });
 
   const { data, isLoading, refresh } = usePOST(urlList, requestFilter, true);
@@ -205,7 +222,7 @@ const Table: React.FC<TableProps> = ({
           persistTableHead
           paginationServer
           data={contentList}
-          paginationPerPage={5}
+          paginationPerPage={10}
           progressPending={isLoading}
           noDataComponent={<EmptyRow />}
           onChangePage={(page) => setPage(page)}
@@ -226,26 +243,26 @@ const Table: React.FC<TableProps> = ({
           }}
           columns={
             [
-              columns.map(({ field, selector, sortable, type, mask, width }) => {
+              columns.map(({ name, field, sortable, type, mask, width }) => {
                 switch (type) {
                   case 'checkbox':
                     return {
-                      name: field,
-                      selector: (row: Record<string, unknown>) => row[selector],
+                      name: name,
+                      selector: (row: Record<string, unknown>) => row[field],
                       sortable: sortable,
                       maxWidth: width ?? '64px',
-                      cell: (row: { [key: string]: any }) => (
+                      cell: (row: { [key: string]: unknown }) => (
                         <Checkbox
                           disabled
                           size="small"
-                          checked={row[selector] as boolean}
+                          checked={row[field] as boolean}
                         />
                       ),
                     };
                   case 'icon':
                     return {
-                      name: field,
-                      selector: (row: Record<string, unknown>) => row[selector],
+                      name: name,
+                      selector: (row: Record<string, unknown>) => row[field],
                       sortable: sortable,
                       maxWidth: width ?? '64px',
                       cell: (row: { icon: string }) => (
@@ -256,8 +273,8 @@ const Table: React.FC<TableProps> = ({
                     };
                   case 'image':
                     return {
-                      name: field,
-                      selector: (row: Record<string, unknown>) => row[selector],
+                      name: name,
+                      selector: (row: Record<string, unknown>) => row[field],
                       sortable: sortable,
                       maxWidth: width ?? '125px',
                       cell: (row: { name: string; image: string }) => (
@@ -270,9 +287,9 @@ const Table: React.FC<TableProps> = ({
                     };
                   default:
                     return {
-                      name: field,
+                      name: name,
                       selector: (row: Record<string, unknown>) =>
-                        formatStringToMask(row[selector] as string, mask as string),
+                        formatStringToMask(row[field] as string, mask as string),
                       sortable: sortable,
                       maxWidth: width,
                     };
@@ -291,7 +308,21 @@ const Table: React.FC<TableProps> = ({
               },
             ].flat() as TableColumn<unknown>[]
           }
-          // onSort={(column, sortDirection) => { }}
+          sortServer
+          onSort={(column, sortDirection) => {
+            const item = columns.find((col) => col.name === column.name);
+
+            if (item && item.sortable) {
+              setOrderList([
+                {
+                  field: item.selector,
+                  order: sortDirection.toUpperCase() as SortBy['order'],
+                },
+              ]);
+            } else {
+              setOrderList([]);
+            }
+          }}
         />
       </Paper>
     </>

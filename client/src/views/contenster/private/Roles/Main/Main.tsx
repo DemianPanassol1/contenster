@@ -1,43 +1,39 @@
 import React from 'react';
 
-import Wrapper from '../../../../../components/Wrapper';
-import Table from '../../../../../components/Table';
+import { DELETE_ROLES, GET_ROLES_LIST } from '../../../../../routes/contenster/roles';
 
-const columns = [
-  {
-    name: 'Título',
-    selector: 'title',
-  },
-  {
-    name: 'Descrição',
-    selector: 'description',
-  },
-];
+import { useUserSession } from '../../../../../utils/hooks.util';
+
+import Table from '../../../../../components/Table';
+import Wrapper from '../../../../../components/Wrapper';
 
 const Main: React.FC = () => {
-  console.log(columns);
+  const session = useUserSession();
 
   return (
     <Wrapper hasSubmitButton={false}>
       <Table
         columns={[
           {
+            name: 'Título',
             field: 'title',
-            selector: 'title',
+            selector: 'titles.text',
             sortable: true,
             searchable: true,
             type: 'text',
           },
           {
+            name: 'Descrição',
             field: 'description',
-            selector: 'description',
+            selector: 'descriptions.text',
             sortable: true,
             searchable: true,
             type: 'text',
           },
         ]}
-        urlList={''}
-        urlDelete={''}
+        urlList={GET_ROLES_LIST}
+        urlDelete={DELETE_ROLES}
+        bodyContent={{ establishmentId: (session?.establishment.id ?? '').toString() }}
       />
     </Wrapper>
   );

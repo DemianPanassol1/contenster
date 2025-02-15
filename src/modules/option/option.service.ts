@@ -35,7 +35,7 @@ export class OptionService extends CoreService {
         ...body,
         totalItems: total,
         totalPages: Math.ceil(total / body.pageSize),
-        hasNextPage: total > (body.pageNumber + 1) * body.pageSize,
+        hasNextPage: total > body.pageNumber * body.pageSize,
       },
     };
 
@@ -56,7 +56,7 @@ export class OptionService extends CoreService {
         ...body,
         totalItems: total,
         totalPages: Math.ceil(total / body.pageSize),
-        hasNextPage: total > (body.pageNumber + 1) * body.pageSize,
+        hasNextPage: total > body.pageNumber * body.pageSize,
       },
     };
 
@@ -77,7 +77,7 @@ export class OptionService extends CoreService {
         ...body,
         totalItems: total,
         totalPages: Math.ceil(total / body.pageSize),
-        hasNextPage: total > (body.pageNumber + 1) * body.pageSize,
+        hasNextPage: total > body.pageNumber * body.pageSize,
       },
     };
 

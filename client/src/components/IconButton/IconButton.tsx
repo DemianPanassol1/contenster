@@ -2,7 +2,7 @@ import React, { ReactNode, CSSProperties } from 'react';
 import { Tooltip, IconButton as IconButtonComponent } from '@mui/material';
 
 interface ExtendedCSSProperties extends CSSProperties {
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface IconButtonProps {
