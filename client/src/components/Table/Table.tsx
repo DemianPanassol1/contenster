@@ -207,9 +207,9 @@ const Table: React.FC<TableProps> = ({
             icon={<AddIcon fontSize="small" />}
             customStyles={{
               color: theme.palette.common.white,
-              backgroundColor: theme.palette.primary.main,
+              backgroundColor: theme.palette.info.main,
               ':hover': {
-                backgroundColor: theme.palette.primary.dark,
+                backgroundColor: theme.palette.info.dark,
               },
             }}
             onClick={() => navigate(`${location.pathname}/create`)}

@@ -1,9 +1,14 @@
-import { Module } from '@nestjs/common';
-import { ModulesController } from './modules.controller';
-import { ModulesService } from './modules.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Module as NestModule } from '@nestjs/common';
 
-@Module({
+import { ModulesService } from './modules.service';
+import { ModulesController } from './modules.controller';
+import { ModulesRepository } from './modules.repository';
+import { Module } from 'src/entities/contensterdb/module.entity';
+
+@NestModule({
+  imports: [TypeOrmModule.forFeature([Module])],
   controllers: [ModulesController],
-  providers: [ModulesService],
+  providers: [ModulesService, ModulesRepository],
 })
 export class ModulesModule {}

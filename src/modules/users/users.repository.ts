@@ -33,13 +33,13 @@ export class UsersRepository extends CoreRepository {
       }),
       relations: {
         image: true,
-        userEstablishmentRole: {
-          role: {
-            titles: true,
-            descriptions: true,
-          },
-          establishment: true,
-        },
+        // userEstablishmentRole: {
+        //   role: {
+        //     titles: { language: true },
+        //     descriptions: { language: true },
+        //   },
+        //   establishment: true,
+        // },
       },
     });
   }

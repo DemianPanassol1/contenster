@@ -9,7 +9,7 @@ const themes = {
         white: '#fcfcfc',
       },
       primary: {
-        main: '#3f4d67',
+        main: '#212121',
         contrastText: '#FCFCFC',
       },
       secondary: {
@@ -37,7 +37,7 @@ const themes = {
     },
     typography: {
       allVariants: {
-        fontWeight: 'lighter',
+        // fontWeight: 'lighter',
       },
       body1: {
         fontSize: '15px',
@@ -64,6 +64,7 @@ const themes = {
         styleOverrides: {
           root: ({ theme }) =>
             theme.unstable_sx({
+              backgroundColor: theme.palette.info.main,
               fontWeight: theme.typography.fontWeightRegular,
               padding: '0.55rem 1rem',
             }),
