@@ -109,7 +109,7 @@ const Table: React.FC<TableProps> = ({
         operation: 'LIKE',
         type: 'STRING',
         value: (col.mask
-          ? debouncedSearch?.replace(/[.-]/g, '')
+          ? debouncedSearch?.replace(/[^a-zA-Z0-9]/g, '')
           : debouncedSearch) as string,
         disjunctive: index !== 0,
       }))
@@ -173,16 +173,21 @@ const Table: React.FC<TableProps> = ({
             variant="standard"
             sx={{ margin: '0 0.5rem 0 0' }}
           >
-            <InputLabel htmlFor="table-filter">{t('common:filter')}</InputLabel>
+            <InputLabel
+              shrink={!!search}
+              htmlFor="table-filter"
+            >
+              {t('common:filter')}
+            </InputLabel>
             <Input
               size="small"
-              value={search}
+              value={search ?? ''}
               id="table-filter"
               onChange={handleSearchTerm}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
-                    onClick={() => search && setSearch('')}
+                    onClick={() => setSearch(null)}
                     tippy={t(search ? 'common:clearFilter' : 'common:filter')}
                     icon={
                       search ? (

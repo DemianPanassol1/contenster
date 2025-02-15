@@ -63,5 +63,13 @@
     "description": {
         "field": "Descrição",
         "required": "A descrição é obrigatória"
+    },
+    "document": {
+        "field": "Documento",
+        "required": "O documento é obrigatório"
+    },
+    "corporateName": {
+        "field": "Razão Social",
+        "required": "A Razão Social é obrigatória"
     }
 }
