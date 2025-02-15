@@ -20,8 +20,6 @@ import { PermissionsModule } from './permissions/permissions.module';
 import { EstablishmentsModule } from './establishments/establishments.module';
 import { ModulesModule } from './modules/modules.module';
 import { UsersModule } from './users/users.module';
-import { EstablishmentRolesModule } from './establishment-roles/establishment-roles.module';
-import { EstablishmentUsersModule } from './establishment-users/establishment-users.module';
 
 @Module({
   imports: [
@@ -50,8 +48,6 @@ import { EstablishmentUsersModule } from './establishment-users/establishment-us
     EstablishmentsModule,
     ModulesModule,
     UsersModule,
-    EstablishmentRolesModule,
-    EstablishmentUsersModule,
     RouterModule.register([
       {
         path: 'api',
@@ -92,14 +88,6 @@ import { EstablishmentUsersModule } from './establishment-users/establishment-us
               {
                 path: 'users',
                 module: UsersModule,
-              },
-              {
-                path: 'establishment-roles',
-                module: EstablishmentRolesModule,
-              },
-              {
-                path: 'establishment-users',
-                module: EstablishmentUsersModule,
               },
             ],
           },
