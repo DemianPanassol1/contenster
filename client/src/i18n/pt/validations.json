@@ -98,5 +98,17 @@
     },
     "permissionType": {
         "field": "Tipo de permissão"
+    },
+    "slug": {
+        "field": "Slug",
+        "required": "O slug é obrigatório"
+    },
+    "icon": {
+        "field": "Ícone",
+        "required": "O ícone é obrigatório"
+    },
+    "position": {
+        "field": "Posição",
+        "required": "A posição é obrigatória"
     }
 }
