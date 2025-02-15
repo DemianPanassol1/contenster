@@ -13,7 +13,7 @@ import { GetPermissionsListReqDto } from './dto/req/getPermissionsList.req.dto';
 export class PermissionsRepository extends CoreRepository {
   constructor(
     public readonly i18n: I18nService,
-    @InjectRepository(Permission) private roleRepo: Repository<Permission>,
+    @InjectRepository(Permission) private permissionRepo: Repository<Permission>,
   ) {
     super(i18n);
   }
@@ -21,7 +21,7 @@ export class PermissionsRepository extends CoreRepository {
   getPermissionsPaginated(query: GetPermissionsListReqDto): Promise<[Permission[], number]> {
     const { permissionType, establishmentId } = query;
 
-    return this.roleRepo.findAndCount({
+    return this.permissionRepo.findAndCount({
       ...this.buildFilter(query, {
         role: {
           establishment: {

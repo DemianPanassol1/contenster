@@ -83,7 +83,7 @@ const Table: React.FC<TableProps> = ({
 
   const { canCreate } = usePermissions();
   const { handleOnSubmit } = useGlobalContext();
-  const { t } = useTranslation(['common', 'validations']);
+  const { t, i18n } = useTranslation(['common', 'validations']);
 
   const [page, setPage] = useState<number>(defaultPage);
   const [qnt, setQnt] = useState<number>(defaultPageSize);
@@ -287,6 +287,38 @@ const Table: React.FC<TableProps> = ({
                           title=""
                         />
                       ),
+                    };
+                  case 'datetime':
+                    return {
+                      name: name,
+                      selector: (row: Record<string, unknown>) =>
+                        new Date(row[field] as string).toLocaleString(i18n.language),
+                      sortable: sortable,
+                      maxWidth: width,
+                    };
+                  case 'date':
+                    return {
+                      name: name,
+                      selector: (row: Record<string, unknown>) =>
+                        new Date(row[field] as string).toLocaleDateString(i18n.language, {
+                          year: 'numeric',
+                          month: '2-digit',
+                          day: '2-digit',
+                        }),
+                      sortable: sortable,
+                      maxWidth: width,
+                    };
+                  case 'time':
+                    return {
+                      name: name,
+                      selector: (row: Record<string, unknown>) =>
+                        new Date(row[field] as string).toLocaleTimeString(i18n.language, {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          second: '2-digit',
+                        }),
+                      sortable: sortable,
+                      maxWidth: width,
                     };
                   default:
                     return {

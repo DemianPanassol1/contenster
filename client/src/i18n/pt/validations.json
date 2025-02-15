@@ -110,5 +110,22 @@
     "position": {
         "field": "Posição",
         "required": "A posição é obrigatória"
+    },
+    "isActive": {
+        "field": "Ativo"
+    },
+    "isBlocked": {
+        "field": "Bloqueado"
+    },
+    "name": {
+        "field": "Nome",
+        "required": "O nome é obrigatório"
+    },
+    "image": {
+        "field": "Imagem",
+        "required": "A imagem é obrigatória"
+    },
+    "lastLoggedAt": {
+        "field": "Último acesso"
     }
 }
