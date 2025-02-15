@@ -37,6 +37,7 @@ import IconButton from '../IconButton';
 import DeleteDialog from './DeleteDialog';
 import ActionComponent from './ActionComponent';
 import LoadingComponent from './LoadingComponent';
+import { useTranslation } from 'react-i18next';
 
 interface Columns {
   name: string;
@@ -86,6 +87,7 @@ const Table: React.FC<TableProps> = ({
 
   const { canCreate } = usePermissions();
   const { handleOnSubmit } = useGlobalContext();
+  const { t } = useTranslation(['common', 'validations']);
 
   const [page, setPage] = useState<number>(defaultPage);
   const [qnt, setQnt] = useState<number>(defaultPageSize);
@@ -171,7 +173,7 @@ const Table: React.FC<TableProps> = ({
             variant="standard"
             sx={{ margin: '0 0.5rem 0 0' }}
           >
-            <InputLabel htmlFor="table-filter">Filtrar</InputLabel>
+            <InputLabel htmlFor="table-filter">{t('common:filter')}</InputLabel>
             <Input
               size="small"
               value={search}
@@ -181,7 +183,7 @@ const Table: React.FC<TableProps> = ({
                 <InputAdornment position="end">
                   <IconButton
                     onClick={() => search && setSearch('')}
-                    tippy={search ? 'Limpar filtro' : 'Filtrar'}
+                    tippy={t(search ? 'common:clearFilter' : 'common:filter')}
                     icon={
                       search ? (
                         <ClearIcon fontSize="small" />
@@ -200,7 +202,7 @@ const Table: React.FC<TableProps> = ({
         {hasAddButton && canCreate && (
           <IconButton
             disabled={!canCreate}
-            tippy="Criar registro"
+            tippy={t('common:createRecord')}
             icon={<AddIcon fontSize="small" />}
             customStyles={{
               color: theme.palette.common.white,
@@ -237,9 +239,9 @@ const Table: React.FC<TableProps> = ({
           paginationIconPrevious={<NavigateBeforeOutlinedIcon />}
           onRowClicked={(row: unknown) => handleUpdateClick(row as { id: number })}
           paginationComponentOptions={{
-            rowsPerPageText: 'Linhas por página',
-            selectAllRowsItemText: 'Todos',
-            rangeSeparatorText: 'de',
+            rowsPerPageText: t('common:rowsPerPage'),
+            selectAllRowsItemText: t('common:all'),
+            rangeSeparatorText: t('common:of'),
           }}
           columns={
             [
@@ -297,7 +299,7 @@ const Table: React.FC<TableProps> = ({
               }),
               {
                 center: true,
-                name: 'Ações',
+                name: t('common:actions'),
                 maxWidth: '100px',
                 cell: (row: { id: number }) => (
                   <ActionComponent

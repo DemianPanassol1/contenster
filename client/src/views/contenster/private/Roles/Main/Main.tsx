@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { DELETE_ROLES, GET_ROLES_LIST } from '../../../../../routes/contenster/roles';
 
@@ -9,13 +10,14 @@ import Wrapper from '../../../../../components/Wrapper';
 
 const Main: React.FC = () => {
   const session = useUserSession();
+  const { t } = useTranslation(['common', 'validations']);
 
   return (
     <Wrapper hasSubmitButton={false}>
       <Table
         columns={[
           {
-            name: 'Título',
+            name: t('validations:title.field'),
             field: 'title',
             selector: 'titles.text',
             sortable: true,
@@ -23,7 +25,7 @@ const Main: React.FC = () => {
             type: 'text',
           },
           {
-            name: 'Descrição',
+            name: t('validations:description.field'),
             field: 'description',
             selector: 'descriptions.text',
             sortable: true,

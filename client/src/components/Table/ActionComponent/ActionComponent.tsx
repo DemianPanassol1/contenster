@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Box, IconButton } from '@mui/material';
 
 import EditIcon from '@mui/icons-material/Edit';
@@ -19,6 +20,7 @@ const ActionComponent: React.FC<ActionComponentProps> = ({
   canUpdate = true,
   canDelete = true,
 }) => {
+  const { t } = useTranslation(['common']);
   const { canUpdate: canUpdatePerm, canDelete: canDeletePerm } = usePermissions();
 
   return (
@@ -32,7 +34,7 @@ const ActionComponent: React.FC<ActionComponentProps> = ({
         <IconButton
           size="small"
           color="info"
-          title="Editar"
+          title={t('common:edit')}
           disabled={!canUpdatePerm}
           onClick={onUpdateClick}
         >
@@ -44,7 +46,7 @@ const ActionComponent: React.FC<ActionComponentProps> = ({
         <IconButton
           size="small"
           color="error"
-          title="Excluir"
+          title={t('common:delete')}
           disabled={!canDeletePerm}
           onClick={onDeleteClick}
         >

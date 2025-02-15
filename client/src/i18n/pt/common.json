@@ -47,5 +47,21 @@
     "noRecordsFound": "Nenhum registro encontrado",
     "areYouSure": "Você tem certeza?",
     "yesDeleteRecord": "Sim, excluir registro",
-    "deleteDialogMessage": "Você realmente quer excluir este registro? Não será possível restaurar este item após a exclusão."
+    "deleteDialogMessage": "Você realmente quer excluir este registro? Não será possível restaurar este item após a exclusão.",
+    "filter": "Filtrar",
+    "clearFilter": "Limpar filtro",
+    "search": "Pesquisar",
+    "searchPlaceholder": "Pesquisar...",
+    "noData": "Sem dados",
+    "noDataFound": "Nenhum dado encontrado",
+    "createRecord": "Criar registro",
+    "editRecord": "Editar registro",
+    "deleteRecord": "Excluir registro",
+    "rowsPerPage": "Linhas por página",
+    "of": "de",
+    "all": "Todos",
+    "loading": "Carregando...",
+    "actions": "Ações",
+    "edit": "Editar",
+    "delete": "Excluir"
 }

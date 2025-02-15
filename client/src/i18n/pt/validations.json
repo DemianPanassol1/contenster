@@ -55,5 +55,13 @@
     "preferencialPage": {
         "field": "Página preferencial",
         "required": "A página preferencial é obrigatória"
+    },
+    "title": {
+        "field": "Título",
+        "required": "O título é obrigatório"
+    },
+    "description": {
+        "field": "Descrição",
+        "required": "A descrição é obrigatória"
     }
 }
