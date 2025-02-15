@@ -1,3 +1,5 @@
+import { PermissionType } from '../enums/common.enums';
+
 export interface ErrorItem {
   id: string;
   message: string;
@@ -50,6 +52,7 @@ export interface IPermissions {
   canCreate: boolean;
   canUpdate: boolean;
   canDelete: boolean;
+  type: PermissionType;
 }
 
 export interface IEstablishmentInfo {

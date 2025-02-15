@@ -1,11 +1,11 @@
-export const PUT_ESTABLISHMENTS = '/v1/api/admin/establishments/put-establishments';
+export const PUT_ESTABLISHMENT = '/v1/api/admin/establishments/put-establishment';
 
-export const POST_ESTABLISHMENTS = '/v1/api/admin/establishments/post-establishments';
+export const POST_ESTABLISHMENT = '/v1/api/admin/establishments/post-establishment';
 
-export const DELETE_ESTABLISHMENTS = '/v1/api/admin/establishments/delete-establishments';
+export const DELETE_ESTABLISHMENT = '/v1/api/admin/establishments/delete-establishment';
 
 export const GET_ESTABLISHMENTS_LIST =
   '/v1/api/admin/establishments/get-establishments-list';
 
-export const GET_ESTABLISHMENTS = (id: string) =>
-  `/v1/api/admin/establishments/get-establishments?id=${id}`;
+export const GET_ESTABLISHMENT = (id: string) =>
+  `/v1/api/admin/establishments/get-establishment?id=${id}`;

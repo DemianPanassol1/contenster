@@ -15,7 +15,7 @@ import { Module } from './module.entity';
 import { Preference } from './preference.entity';
 import { Permission } from './permission.entity';
 import { Translation } from './translation.entity';
-import { Establishment } from './establishment.entity';
+// import { Establishment } from './establishment.entity';
 
 @Entity()
 export class Functionality {
@@ -40,8 +40,8 @@ export class Functionality {
   // @DeleteDateColumn({ type: 'timestamp without time zone' })
   // deletedAt: Date | null;
 
-  @ManyToOne(() => Establishment, (establishment) => establishment.functionality)
-  establishment: Establishment;
+  // @ManyToOne(() => Establishment, (establishment) => establishment.functionality)
+  // establishment: Establishment;
 
   @ManyToOne(() => Module, (module) => module.functionality)
   module: Module;

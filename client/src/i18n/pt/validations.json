@@ -71,5 +71,32 @@
     "corporateName": {
         "field": "Razão Social",
         "required": "A Razão Social é obrigatória"
+    },
+    "functionality": {
+        "field": "Funcionalidade",
+        "required": "A funcionalidade é obrigatória"
+    },
+    "role": {
+        "field": "Perfil",
+        "required": "O perfil é obrigatório"
+    },
+    "permission": {
+        "field": "Permissão",
+        "required": "A permissão é obrigatória"
+    },
+    "canCreate": {
+        "field": "Criar"
+    },
+    "canRead": {
+        "field": "Visualizar"
+    },
+    "canUpdate": {
+        "field": "Editar"
+    },
+    "canDelete": {
+        "field": "Deletar"
+    },
+    "permissionType": {
+        "field": "Tipo de permissão"
     }
 }

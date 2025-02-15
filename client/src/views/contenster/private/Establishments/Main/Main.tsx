@@ -2,14 +2,17 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
-  DELETE_ESTABLISHMENTS,
+  DELETE_ESTABLISHMENT,
   GET_ESTABLISHMENTS_LIST,
 } from '../../../../../routes/contenster/establishments';
+import { usePermissions, useUserSession } from '../../../../../utils/hooks.util';
 
 import Table from '../../../../../components/Table';
 import Wrapper from '../../../../../components/Wrapper';
 
 const Main: React.FC = () => {
+  const session = useUserSession();
+  const permission = usePermissions();
   const { t } = useTranslation(['common', 'validations']);
 
   return (
@@ -35,7 +38,11 @@ const Main: React.FC = () => {
           },
         ]}
         urlList={GET_ESTABLISHMENTS_LIST}
-        urlDelete={DELETE_ESTABLISHMENTS}
+        urlDelete={DELETE_ESTABLISHMENT}
+        bodyContent={{
+          permissionType: permission.type,
+          establishmentId: (session?.establishment.id ?? '').toString(),
+        }}
       />
     </Wrapper>
   );

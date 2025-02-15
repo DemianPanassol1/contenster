@@ -32,6 +32,9 @@ class PermissionDto {
 
   @Expose()
   canDelete: boolean;
+
+  @Expose()
+  type: string;
 }
 
 class EstablishmentDto {

@@ -46,6 +46,7 @@ interface Permission {
   canCreate: boolean;
   canUpdate: boolean;
   canDelete: boolean;
+  type: 'general' | 'establishment';
 }
 
 interface PageKey {

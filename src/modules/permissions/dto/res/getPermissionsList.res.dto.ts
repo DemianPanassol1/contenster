@@ -2,21 +2,33 @@ import { Expose, Type } from 'class-transformer';
 
 import { Meta } from 'src/shared/dtos/paginate.res.dto';
 
-class GetEstablishmentsListData {
+class GetPermissionsListData {
   @Expose()
   id: number;
 
   @Expose()
-  document: string;
+  canRead: boolean;
 
   @Expose()
-  documentType: string;
+  canCreate: boolean;
 
   @Expose()
-  fantasyName: string;
+  canUpdate: boolean;
 
   @Expose()
-  corporateName: string;
+  canDelete: boolean;
+
+  @Expose()
+  permissionType: string;
+
+  @Expose()
+  role: string;
+
+  @Expose()
+  functionality: string;
+
+  @Expose()
+  establishment: string;
 }
 
 class CustomMeta extends Meta {
@@ -27,10 +39,10 @@ class CustomMeta extends Meta {
   permissionType: string;
 }
 
-export class GetEstablishmentsListResDto {
+export class GetPermissionsListResDto {
   @Expose()
-  @Type(() => GetEstablishmentsListData)
-  data: GetEstablishmentsListData[];
+  @Type(() => GetPermissionsListData)
+  data: GetPermissionsListData[];
 
   @Expose()
   @Type(() => CustomMeta)

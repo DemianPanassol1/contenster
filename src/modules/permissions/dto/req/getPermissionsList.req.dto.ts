@@ -2,10 +2,10 @@ import { Transform } from 'class-transformer';
 import { Allow, IsEnum, IsNumber, ValidateIf } from 'class-validator';
 
 import { parseNum } from 'src/shared/utils/convertion.utils';
-import { PermissionType } from 'src/shared/enums/common.enums';
 import { OptionsReqDto } from 'src/shared/dtos/options.req.dto';
+import { PermissionType } from 'src/shared/enums/common.enums';
 
-export class GetRolesListReqDto extends OptionsReqDto {
+export class GetPermissionsListReqDto extends OptionsReqDto {
   @Allow()
   @Transform(parseNum)
   @ValidateIf(

@@ -1,15 +1,16 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { DELETE_ROLES, GET_ROLES_LIST } from '../../../../../routes/contenster/roles';
+import { DELETE_ROLE, GET_ROLES_LIST } from '../../../../../routes/contenster/roles';
 
-import { useUserSession } from '../../../../../utils/hooks.util';
+import { usePermissions, useUserSession } from '../../../../../utils/hooks.util';
 
 import Table from '../../../../../components/Table';
 import Wrapper from '../../../../../components/Wrapper';
 
 const Main: React.FC = () => {
   const session = useUserSession();
+  const permission = usePermissions();
   const { t } = useTranslation(['common', 'validations']);
 
   return (
@@ -34,8 +35,11 @@ const Main: React.FC = () => {
           },
         ]}
         urlList={GET_ROLES_LIST}
-        urlDelete={DELETE_ROLES}
-        bodyContent={{ establishmentId: (session?.establishment.id ?? '').toString() }}
+        urlDelete={DELETE_ROLE}
+        bodyContent={{
+          permissionType: permission.type,
+          establishmentId: (session?.establishment.id ?? '').toString(),
+        }}
       />
     </Wrapper>
   );

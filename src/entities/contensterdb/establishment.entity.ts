@@ -14,7 +14,7 @@ import { Role } from './role.entity';
 import { Image } from './image.entity';
 import { Module } from './module.entity';
 import { EmailSetting } from './emailSetting.entity';
-import { Functionality } from './functionality.entity';
+// import { Functionality } from './functionality.entity';
 import { UserEstablishmentRole } from './userEstablishmentRole.entity';
 
 export enum DocumentType {
@@ -82,8 +82,8 @@ export class Establishment {
   @OneToMany(() => Role, (role) => role.establishment)
   role: Role[];
 
-  @OneToMany(() => Functionality, (functionality) => functionality.establishment)
-  functionality: Functionality[];
+  // @OneToMany(() => Functionality, (functionality) => functionality.establishment)
+  // functionality: Functionality[];
 
   @OneToMany(
     () => UserEstablishmentRole,

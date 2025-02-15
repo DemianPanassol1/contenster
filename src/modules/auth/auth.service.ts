@@ -92,6 +92,7 @@ export class AuthService extends CoreService {
         canCreate: permission.canCreate,
         canUpdate: permission.canUpdate,
         canDelete: permission.canDelete,
+        type: permission.permissionType,
       })),
       establishment: {
         id: permissions.establishment.id,

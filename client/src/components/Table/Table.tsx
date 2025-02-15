@@ -9,6 +9,7 @@ import {
   Paper,
   useTheme,
 } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { useDebounce } from '@uidotdev/usehooks';
 import React, { useEffect, useState } from 'react';
@@ -23,13 +24,9 @@ import FirstPageOutlinedIcon from '@mui/icons-material/FirstPageOutlined';
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined';
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined';
 
-import {
-  buildReqFilter,
-  formatStringToMask,
-  parseString,
-} from '../../utils/functions.util';
 import { useGlobalContext } from '../../contexts/global.context';
 import { useNavigate, usePermissions, usePOST } from '../../utils/hooks.util';
+import { buildReqFilter, formatStringToMask } from '../../utils/functions.util';
 
 import Icon from '../Icon';
 import EmptyRow from './EmptyRow';
@@ -37,7 +34,6 @@ import IconButton from '../IconButton';
 import DeleteDialog from './DeleteDialog';
 import ActionComponent from './ActionComponent';
 import LoadingComponent from './LoadingComponent';
-import { useTranslation } from 'react-i18next';
 
 interface Columns {
   name: string;
@@ -123,7 +119,7 @@ const Table: React.FC<TableProps> = ({
   const handleOpenDialog = (row: { id: number }) => setDeleteDialog(row);
 
   const handleSearchTerm = (event: React.ChangeEvent<HTMLInputElement>) =>
-    setSearch(parseString(event.target.value));
+    setSearch(event.target.value);
 
   const handleUpdateClick = (row: { id: number }) =>
     navigate(`${location.pathname}/edit/${row?.id}`);

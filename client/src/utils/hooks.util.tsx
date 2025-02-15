@@ -142,6 +142,7 @@ export const usePermissions = (searchSlug: string | null = null): Permission => 
       canCreate: true,
       canUpdate: true,
       canDelete: true,
+      type: 'general',
     }
   );
 };

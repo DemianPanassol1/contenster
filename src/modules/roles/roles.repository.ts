@@ -4,8 +4,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { CoreRepository } from 'src/core/core.repository';
-
 import { Role } from 'src/entities/contensterdb/role.entity';
+import { PermissionType } from 'src/shared/enums/common.enums';
+
 import { GetRolesListReqDto } from './dto/req/getRolesList.req.dto';
 
 @Injectable()
@@ -18,9 +19,13 @@ export class RolesRepository extends CoreRepository {
   }
 
   getRolesPaginated(query: GetRolesListReqDto): Promise<[Role[], number]> {
+    const { permissionType, establishmentId } = query;
+
     return this.roleRepo.findAndCount({
       ...this.buildFilter(query, {
-        establishment: { id: query.establishmentId },
+        establishment: {
+          id: permissionType === PermissionType['establishment'] ? establishmentId : null,
+        },
       }),
       relations: {
         establishment: true,

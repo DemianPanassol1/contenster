@@ -69,7 +69,6 @@ export class OptionRepository extends CoreRepository {
         establishment: { id: query.establishmentId },
       }),
       relations: {
-        establishment: true,
         titles: { language: true },
         module: { titles: { language: true }, descriptions: { language: true } },
         permission: { role: { titles: { language: true }, descriptions: { language: true } } },

@@ -2,7 +2,6 @@ import _ from 'lodash';
 import { join } from 'path';
 import { unlink } from 'fs';
 import { Request } from 'express';
-import { Injectable } from '@nestjs/common';
 import { pbkdf2Sync, randomBytes } from 'crypto';
 import { plainToClass } from 'class-transformer';
 import { I18nContext, I18nService } from 'nestjs-i18n';
@@ -10,7 +9,6 @@ import { I18nContext, I18nService } from 'nestjs-i18n';
 import { IToOptions } from 'src/shared/types/api.types';
 import { Translation } from 'src/entities/contensterdb/translation.entity';
 
-@Injectable()
 export class CoreService {
   public publicPath: string = join(__dirname, '..', '..', 'public');
   public systemIconsPath: string = join(this.publicPath, 'assets', 'icons', 'system');

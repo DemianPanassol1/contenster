@@ -16,6 +16,9 @@ class GetRolesListData {
 class CustomMeta extends Meta {
   @Expose()
   establishmentId: number;
+
+  @Expose()
+  permissionType: string;
 }
 
 export class GetRolesListResDto {

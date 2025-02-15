@@ -11,11 +11,9 @@ import {
 } from 'typeorm';
 import { join } from 'path';
 import { I18nService } from 'nestjs-i18n';
-import { Injectable } from '@nestjs/common';
 
 import { FieldType, Operation } from 'src/shared/dtos/paginate.req.dto';
 
-@Injectable()
 export class CoreRepository {
   public publicPath: string = join(__dirname, '..', '..', 'public');
 

@@ -10,11 +10,7 @@ import {
 
 import { Role } from './role.entity';
 import { Functionality } from './functionality.entity';
-
-export enum PermissionType {
-  general = 'general',
-  establishment = 'establishment',
-}
+import { PermissionType } from 'src/shared/enums/common.enums';
 
 @Entity()
 export class Permission {
