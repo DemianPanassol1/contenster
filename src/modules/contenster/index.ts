@@ -13,15 +13,15 @@ import { FunctionalitiesModule } from './functionalities/functionalities.module'
 
 export default [
   ApiModule,
-  AdminModule,
   AuthModule,
-  OptionModule,
+  AdminModule,
   RolesModule,
-  FunctionalitiesModule,
+  OptionModule,
+  UsersModule,
+  ModulesModule,
   PermissionsModule,
   EstablishmentsModule,
-  ModulesModule,
-  UsersModule,
+  FunctionalitiesModule,
   RouterModule.register([
     {
       path: 'api',
@@ -36,16 +36,20 @@ export default [
           module: AdminModule,
           children: [
             {
-              path: 'option',
-              module: OptionModule,
-            },
-            {
               path: 'roles',
               module: RolesModule,
             },
             {
-              path: 'functionalities',
-              module: FunctionalitiesModule,
+              path: 'option',
+              module: OptionModule,
+            },
+            {
+              path: 'users',
+              module: UsersModule,
+            },
+            {
+              path: 'modules',
+              module: ModulesModule,
             },
             {
               path: 'permissions',
@@ -56,12 +60,8 @@ export default [
               module: EstablishmentsModule,
             },
             {
-              path: 'modules',
-              module: ModulesModule,
-            },
-            {
-              path: 'users',
-              module: UsersModule,
+              path: 'functionalities',
+              module: FunctionalitiesModule,
             },
           ],
         },
