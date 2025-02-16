@@ -11,6 +11,9 @@ class GetRolesListData {
 
   @Expose()
   description: string;
+
+  @Expose()
+  establishment: string;
 }
 
 class CustomMeta extends Meta {
