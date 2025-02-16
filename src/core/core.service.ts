@@ -7,6 +7,7 @@ import { plainToClass } from 'class-transformer';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 
 import { IToOptions } from 'src/shared/types/api.types';
+import { defaultLanguage } from 'src/config/constants/constants.config';
 import { Translation } from 'src/entities/contensterdb/translation.entity';
 
 export class CoreService {
@@ -18,9 +19,13 @@ export class CoreService {
   translate(translations: Translation[]): string | null {
     const currentLang = I18nContext.current().lang;
 
-    const result = translations.find((elem) => elem.language.languageCode === currentLang);
+    let result = translations.find((elem) => elem.language.languageCode === currentLang);
 
-    if (typeof result === 'undefined' || result.text === '') {
+    if (result === undefined || result.text === '') {
+      result = translations.find((elem) => elem.language.languageCode === defaultLanguage);
+    }
+
+    if (result === undefined || result.text === '') {
       return this.i18n.t('general.languageNotTranslated', { args: { lang: currentLang } });
     }
 
