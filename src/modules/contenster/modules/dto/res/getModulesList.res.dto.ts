@@ -11,6 +11,9 @@ class GetModulesListData {
 
   @Expose()
   position: number;
+
+  @Expose()
+  establishment: string;
 }
 
 class CustomMeta extends Meta {

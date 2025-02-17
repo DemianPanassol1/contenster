@@ -34,4 +34,24 @@ export class ModulesRepository extends CoreRepository {
       },
     });
   }
+
+  getModuleById(id: number): Promise<Module> {
+    return this.moduleRepo.findOne({
+      where: { id },
+      relations: {
+        establishment: true,
+        functionality: true,
+        titles: { language: true },
+        descriptions: { language: true },
+      },
+    });
+  }
+
+  saveModule(module: Partial<Module>): Promise<Module> {
+    return this.moduleRepo.save(module);
+  }
+
+  removeModule(module: Module): Promise<Module> {
+    return this.moduleRepo.remove(module);
+  }
 }

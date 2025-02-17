@@ -20,6 +20,14 @@ const Main: React.FC = () => {
       <Table
         columns={[
           {
+            name: t('validations:establishment.field'),
+            field: 'establishment',
+            selector: 'establishment.corporateName',
+            sortable: true,
+            searchable: true,
+            type: 'text',
+          },
+          {
             name: t('validations:title.field'),
             field: 'title',
             selector: 'titles.text',
