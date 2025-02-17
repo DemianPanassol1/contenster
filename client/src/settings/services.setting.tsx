@@ -38,7 +38,7 @@ const ApiTokenChecked = (): boolean => {
   const tenMin = 1000 * 60 * 10;
   const lastUpdated = sessionStorage.getItem('lastUpdated');
 
-  if (Number(lastUpdated) + tenMin > Number(now)) {
+  if (lastUpdated && Number(lastUpdated) + tenMin > now) {
     return true;
   }
 

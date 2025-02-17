@@ -198,7 +198,7 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
 
       if (!response) throw new Error();
 
-      if (response.success) {
+      if (response.success === true) {
         if (typeof message === 'string') {
           successMessage(message);
         } else if (message) {
@@ -223,7 +223,7 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
 
         onSuccess(response.body);
       } else {
-        response.errors.forEach((error: { message: string }) => {
+        response.errors.items.forEach((error: { message: string }) => {
           warnMessage(error.message);
         });
 
