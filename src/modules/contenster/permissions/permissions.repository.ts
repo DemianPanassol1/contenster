@@ -41,4 +41,35 @@ export class PermissionsRepository extends CoreRepository {
       },
     });
   }
+
+  getPermissionById(id: number): Promise<Permission> {
+    return this.permissionRepo.findOne({
+      where: { id },
+      relations: {
+        functionality: true,
+        role: true,
+      },
+    });
+  }
+
+  countPermissionByRoleAndFunctionality(
+    roleId: number,
+    functionalityId: number,
+  ): Promise<[Permission[], number]> {
+    return this.permissionRepo.findAndCount({
+      where: { role: { id: roleId }, functionality: { id: functionalityId } },
+      relations: {
+        role: true,
+        functionality: true,
+      },
+    });
+  }
+
+  savePermission(permission: Partial<Permission>): Promise<Permission> {
+    return this.permissionRepo.save(permission);
+  }
+
+  removePermission(permission: Permission): Promise<Permission> {
+    return this.permissionRepo.remove(permission);
+  }
 }
