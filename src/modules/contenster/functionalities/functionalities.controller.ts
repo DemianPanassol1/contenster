@@ -6,10 +6,10 @@ import { FunctionalitiesService } from './functionalities.service';
 import { Authorize } from 'src/common/interceptors/authorize.interceptor';
 
 import { GetFunctionalityReqDto } from './dto/req/getFunctionality.req.dto';
-import { GetFunctionalitiesListReqDto } from './dto/req/getFunctionalitiesList.req.dto';
-import { PostFunctionalityReqDto } from './dto/req/postFunctionality.req.dto';
 import { PutFunctionalityReqDto } from './dto/req/putFunctionality.req.dto';
+import { PostFunctionalityReqDto } from './dto/req/postFunctionality.req.dto';
 import { DeleteFunctionalityReqDto } from './dto/req/deleteFunctionality.req.dto';
+import { GetFunctionalitiesListReqDto } from './dto/req/getFunctionalitiesList.req.dto';
 
 @Authorize()
 @Controller({ version: '1' })

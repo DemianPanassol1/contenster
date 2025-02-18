@@ -17,11 +17,7 @@ import { EmailSetting } from './emailSetting.entity';
 // import { Functionality } from './functionality.entity';
 import { UserEstablishmentRole } from './userEstablishmentRole.entity';
 
-export enum DocumentType {
-  cpf = 'cpf',
-  cnpj = 'cnpj',
-}
-
+import { DocumentType } from 'src/shared/enums/common.enums';
 @Entity()
 export class Establishment {
   @PrimaryGeneratedColumn()

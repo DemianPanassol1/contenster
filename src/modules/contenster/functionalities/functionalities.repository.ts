@@ -14,8 +14,8 @@ import { GetFunctionalitiesListReqDto } from './dto/req/getFunctionalitiesList.r
 export class FunctionalitiesRepository extends CoreRepository {
   constructor(
     public readonly i18n: I18nService,
-    @InjectRepository(Functionality) private roleRepo: Repository<Functionality>,
     @InjectRepository(Permission) private permissionRepo: Repository<Permission>,
+    @InjectRepository(Functionality) private functionalityRepo: Repository<Functionality>,
   ) {
     super(i18n);
   }
@@ -25,7 +25,7 @@ export class FunctionalitiesRepository extends CoreRepository {
   ): Promise<[Functionality[], number]> {
     const { permissionType, establishmentId } = query;
 
-    return this.roleRepo.findAndCount({
+    return this.functionalityRepo.findAndCount({
       ...this.buildFilter(query, {
         module: {
           establishment: {
@@ -43,7 +43,7 @@ export class FunctionalitiesRepository extends CoreRepository {
   }
 
   getFunctionalityById(id: number): Promise<Functionality> {
-    return this.roleRepo.findOne({
+    return this.functionalityRepo.findOne({
       where: { id },
       relations: {
         module: {
@@ -58,7 +58,7 @@ export class FunctionalitiesRepository extends CoreRepository {
     slug: string,
     establishmentId: number,
   ): Promise<[Functionality[], number]> {
-    return this.roleRepo.findAndCount({
+    return this.functionalityRepo.findAndCount({
       where: { slug, module: { establishment: { id: establishmentId } } },
       relations: {
         module: {
@@ -69,7 +69,7 @@ export class FunctionalitiesRepository extends CoreRepository {
   }
 
   saveFunctionality(functionality: Partial<Functionality>): Promise<Functionality> {
-    return this.roleRepo.save(functionality);
+    return this.functionalityRepo.save(functionality);
   }
 
   async removeFunctionality(functionality: Functionality): Promise<Functionality> {
@@ -79,6 +79,6 @@ export class FunctionalitiesRepository extends CoreRepository {
 
     await this.permissionRepo.remove(permissions);
 
-    return this.roleRepo.remove(functionality);
+    return this.functionalityRepo.remove(functionality);
   }
 }
