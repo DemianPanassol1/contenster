@@ -72,10 +72,12 @@ export class ModulesService extends CoreService {
       titles: titles.map((title) => ({
         id: title.id,
         text: title.text,
+        language: { id: title.language.id },
       })) as Translation[],
       descriptions: descriptions.map((description) => ({
         id: description.id,
         text: description.text,
+        language: { id: description.language.id },
       })) as Translation[],
     };
 

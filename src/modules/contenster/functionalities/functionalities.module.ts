@@ -5,10 +5,11 @@ import { FunctionalitiesService } from './functionalities.service';
 import { FunctionalitiesController } from './functionalities.controller';
 import { FunctionalitiesRepository } from './functionalities.repository';
 
+import { Permission } from 'src/entities/contensterdb/permission.entity';
 import { Functionality } from 'src/entities/contensterdb/functionality.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Functionality])],
+  imports: [TypeOrmModule.forFeature([Functionality, Permission])],
   controllers: [FunctionalitiesController],
   providers: [FunctionalitiesService, FunctionalitiesRepository],
 })

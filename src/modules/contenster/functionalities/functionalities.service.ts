@@ -1,12 +1,26 @@
 import { Request } from 'express';
 import { I18nService } from 'nestjs-i18n';
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
 import { CoreService } from 'src/core/core.service';
+
 import { FunctionalitiesRepository } from './functionalities.repository';
 
+import { GetFunctionalityReqDto } from './dto/req/getFunctionality.req.dto';
+import { PutFunctionalityReqDto } from './dto/req/putFunctionality.req.dto';
+import { PostFunctionalityReqDto } from './dto/req/postFunctionality.req.dto';
+import { DeleteFunctionalityReqDto } from './dto/req/deleteFunctionality.req.dto';
 import { GetFunctionalitiesListReqDto } from './dto/req/getFunctionalitiesList.req.dto';
+
+import { PutFunctionalityResDto } from './dto/res/putFunctionality.res.dto';
+import { GetFunctionalityResDto } from './dto/res/getFunctionality.res.dto';
+import { PostFunctionalityResDto } from './dto/res/postFunctionality.res.dto';
+import { DeleteFunctionalityResDto } from './dto/res/deleteFunctionality.res.dto';
 import { GetFunctionalitiesListResDto } from './dto/res/getFunctionalitiesList.res.dto';
+
+import { Module } from 'src/entities/contensterdb/module.entity';
+import { Translation } from 'src/entities/contensterdb/translation.entity';
+import { Functionality } from 'src/entities/contensterdb/functionality.entity';
 
 @Injectable()
 export class FunctionalitiesService extends CoreService {
@@ -35,5 +49,94 @@ export class FunctionalitiesService extends CoreService {
     };
 
     return this.response(GetFunctionalitiesListResDto, response);
+  }
+
+  async getFunctionality(req: Request, query: GetFunctionalityReqDto) {
+    const { id } = query;
+
+    const functionality = await this.repo.getFunctionalityById(id);
+
+    if (!functionality) {
+      throw new HttpException(this.i18n.t('errors.functionalityNotFound'), HttpStatus.BAD_REQUEST);
+    }
+
+    const response = {
+      ...functionality,
+      icon: this.generateFilePath(req, functionality.icon),
+    };
+
+    return this.response(GetFunctionalityResDto, response);
+  }
+
+  async postFunctionality(body: PostFunctionalityReqDto) {
+    const { moduleId, establishmentId, icon, position, slug, titles } = body;
+
+    const [_, count] = await this.repo.getBySlugAndEstablishment(slug, establishmentId);
+
+    if (count > 0) {
+      throw new HttpException(this.i18n.t('errors.slugAlreadyExists'), HttpStatus.BAD_REQUEST);
+    }
+
+    const saveFunctionality: Partial<Functionality> = {
+      icon,
+      position,
+      slug,
+      module: { id: moduleId } as Module,
+      titles: titles.map((title) => ({
+        id: title.id,
+        text: title.text,
+        language: { id: title.language.id },
+      })) as Translation[],
+    };
+
+    const response = await this.repo.saveFunctionality(saveFunctionality);
+
+    return this.response(PostFunctionalityResDto, response);
+  }
+
+  async putFunctionality(body: PutFunctionalityReqDto) {
+    const { id, moduleId, establishmentId, icon, position, slug, titles } = body;
+
+    const functionality = await this.repo.getFunctionalityById(id);
+
+    if (!functionality) {
+      throw new HttpException(this.i18n.t('errors.functionalityNotFound'), HttpStatus.BAD_REQUEST);
+    }
+
+    const [functionalities] = await this.repo.getBySlugAndEstablishment(slug, establishmentId);
+
+    if (functionalities.filter((item) => item.id !== id).length > 0) {
+      throw new HttpException(this.i18n.t('errors.slugAlreadyExists'), HttpStatus.BAD_REQUEST);
+    }
+
+    const updateFunctionality: Partial<Functionality> = {
+      id,
+      icon,
+      position,
+      slug,
+      module: { id: moduleId } as Module,
+      titles: titles.map((title) => ({
+        id: title.id,
+        text: title.text,
+      })) as Translation[],
+    };
+
+    const response = await this.repo.saveFunctionality(updateFunctionality);
+
+    return this.response(PutFunctionalityResDto, response);
+  }
+
+  async deleteFunctionality(query: DeleteFunctionalityReqDto) {
+    const { id } = query;
+
+    const functionality = await this.repo.getFunctionalityById(id);
+
+    if (!functionality) {
+      throw new HttpException(this.i18n.t('errors.functionalityNotFound'), HttpStatus.BAD_REQUEST);
+    }
+
+    const response = await this.repo.removeFunctionality(functionality);
+
+    return this.response(DeleteFunctionalityResDto, response);
   }
 }

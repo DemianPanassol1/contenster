@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { CoreRepository } from 'src/core/core.repository';
 import { PermissionType } from 'src/shared/enums/common.enums';
+import { Permission } from 'src/entities/contensterdb/permission.entity';
 import { Functionality } from 'src/entities/contensterdb/functionality.entity';
 
 import { GetFunctionalitiesListReqDto } from './dto/req/getFunctionalitiesList.req.dto';
@@ -14,6 +15,7 @@ export class FunctionalitiesRepository extends CoreRepository {
   constructor(
     public readonly i18n: I18nService,
     @InjectRepository(Functionality) private roleRepo: Repository<Functionality>,
+    @InjectRepository(Permission) private permissionRepo: Repository<Permission>,
   ) {
     super(i18n);
   }
@@ -38,5 +40,45 @@ export class FunctionalitiesRepository extends CoreRepository {
         titles: { language: true },
       },
     });
+  }
+
+  getFunctionalityById(id: number): Promise<Functionality> {
+    return this.roleRepo.findOne({
+      where: { id },
+      relations: {
+        module: {
+          establishment: true,
+        },
+        titles: { language: true },
+      },
+    });
+  }
+
+  getBySlugAndEstablishment(
+    slug: string,
+    establishmentId: number,
+  ): Promise<[Functionality[], number]> {
+    return this.roleRepo.findAndCount({
+      where: { slug, module: { establishment: { id: establishmentId } } },
+      relations: {
+        module: {
+          establishment: true,
+        },
+      },
+    });
+  }
+
+  saveFunctionality(functionality: Partial<Functionality>): Promise<Functionality> {
+    return this.roleRepo.save(functionality);
+  }
+
+  async removeFunctionality(functionality: Functionality): Promise<Functionality> {
+    const permissions = await this.permissionRepo.find({
+      where: { functionality: { id: functionality.id } },
+    });
+
+    await this.permissionRepo.remove(permissions);
+
+    return this.roleRepo.remove(functionality);
   }
 }
