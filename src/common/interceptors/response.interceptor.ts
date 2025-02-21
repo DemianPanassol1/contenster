@@ -34,11 +34,11 @@ export class ResponseInterceptor extends CoreInterceptor implements NestIntercep
     const now = Date.now();
 
     return next.handle().pipe(
-      map((data: any) => {
+      map((data: unknown) => {
         const statusCode = res.statusCode === HttpStatus.CREATED ? HttpStatus.OK : res.statusCode;
         const statusDescription = HttpStatus[statusCode] || 'UNKNOWN_STATUS';
 
-        const response: ResponseFormat<any> = {
+        const response: ResponseFormat<unknown> = {
           lang: I18nContext.current().lang,
           requestId: uuidv4(),
           statusCode: statusCode,
