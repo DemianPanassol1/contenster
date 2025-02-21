@@ -101,10 +101,12 @@ export const ApiRequest = async (
 };
 
 instance.interceptors.response.use((res: AxiosResponse): AxiosResponse => {
-  if (res.status === 401) {
+  if (res.status === 403) {
     sessionStorage.removeItem('session');
 
     window.location.replace('/auth');
+  } else if (res.status === 401) {
+    sessionStorage.removeItem('lastUpdated');
   }
 
   return res;

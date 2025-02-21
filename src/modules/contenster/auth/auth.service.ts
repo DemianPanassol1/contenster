@@ -1,6 +1,6 @@
-import jwt, { JwtPayload } from 'jsonwebtoken';
 import { Request } from 'express';
 import { I18nService } from 'nestjs-i18n';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
 import variables from 'src/settings';
@@ -31,7 +31,7 @@ export class AuthService extends CoreService {
     const user = await this.repo.findByUsername(username);
 
     if (!user) {
-      throw new HttpException(this.i18n.t('errors.invalidUserOrPassword'), HttpStatus.BAD_REQUEST);
+      throw new HttpException(this.i18n.t('errors.invalidUserOrPassword'), HttpStatus.UNAUTHORIZED);
     }
 
     const response = this.toOptions(
@@ -52,15 +52,15 @@ export class AuthService extends CoreService {
     const user = await this.repo.findByUsername(username);
 
     if (!user) {
-      throw new HttpException(this.i18n.t('errors.invalidUserOrPassword'), HttpStatus.BAD_REQUEST);
+      throw new HttpException(this.i18n.t('errors.invalidUserOrPassword'), HttpStatus.UNAUTHORIZED);
     }
 
     if (user.isBlocked) {
-      throw new HttpException(this.i18n.t('errors.userBlocked'), HttpStatus.BAD_REQUEST);
+      throw new HttpException(this.i18n.t('errors.userBlocked'), HttpStatus.UNAUTHORIZED);
     }
 
     if (!this.validatePassword(password, user.password)) {
-      throw new HttpException(this.i18n.t('errors.invalidUserOrPassword'), HttpStatus.BAD_REQUEST);
+      throw new HttpException(this.i18n.t('errors.invalidUserOrPassword'), HttpStatus.UNAUTHORIZED);
     }
 
     const roleId = user.userEstablishmentRole.find(

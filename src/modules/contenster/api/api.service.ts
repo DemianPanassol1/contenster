@@ -21,7 +21,7 @@ export class ApiService extends CoreService {
     const { login, password } = body;
 
     if (login !== variables.API_LOGIN || password !== variables.API_PASSWORD) {
-      throw new HttpException('Unauthorized Message', HttpStatus.BAD_REQUEST);
+      throw new HttpException('Unauthorized Message', HttpStatus.UNAUTHORIZED);
     }
 
     const payload = {

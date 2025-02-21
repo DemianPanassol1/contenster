@@ -33,18 +33,18 @@ export class AuthorizeInterceptor extends CoreInterceptor implements NestInterce
     let token = req.get('Authorization');
 
     if (!token) {
-      throw new HttpException(i18n.t('errors.missingAuthorizationToken'), HttpStatus.BAD_REQUEST);
+      throw new HttpException(i18n.t('errors.missingAuthorizationToken'), HttpStatus.UNAUTHORIZED);
     }
 
     token = token.split(' ').pop();
 
     if (!token) {
-      throw new HttpException(i18n.t('errors.missingAuthorizationToken'), HttpStatus.BAD_REQUEST);
+      throw new HttpException(i18n.t('errors.missingAuthorizationToken'), HttpStatus.UNAUTHORIZED);
     }
 
     jwt.verify(token, settings.JWT_TOKEN, (err: string | object) => {
       if (err) {
-        throw new HttpException(i18n.t('errors.invalidAuthorizationToken'), HttpStatus.BAD_REQUEST);
+        throw new HttpException(i18n.t('errors.invalidAuthorizationToken'), HttpStatus.UNAUTHORIZED);
       }
     });
 

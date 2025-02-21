@@ -40,7 +40,7 @@ export class AuthenticateInterceptor extends CoreInterceptor implements NestInte
 
         // eslint-disable-next-line
       } catch (error) {
-        throw new HttpException(i18n.t('errors.accessDenied'), HttpStatus.UNAUTHORIZED);
+        throw new HttpException(i18n.t('errors.userMustBeLogged'), HttpStatus.FORBIDDEN);
       }
     }
 
