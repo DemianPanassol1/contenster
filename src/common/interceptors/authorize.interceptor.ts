@@ -44,7 +44,10 @@ export class AuthorizeInterceptor extends CoreInterceptor implements NestInterce
 
     jwt.verify(token, settings.JWT_TOKEN, (err: string | object) => {
       if (err) {
-        throw new HttpException(i18n.t('errors.invalidAuthorizationToken'), HttpStatus.UNAUTHORIZED);
+        throw new HttpException(
+          i18n.t('errors.invalidAuthorizationToken'),
+          HttpStatus.UNAUTHORIZED,
+        );
       }
     });
 

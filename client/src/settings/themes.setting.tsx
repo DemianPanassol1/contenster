@@ -37,7 +37,7 @@ const themes = {
     },
     typography: {
       allVariants: {
-        // fontWeight: 'lighter',
+        fontWeight: 'lighter',
       },
       body1: {
         fontSize: '15px',
@@ -64,8 +64,7 @@ const themes = {
         styleOverrides: {
           root: ({ theme }) =>
             theme.unstable_sx({
-              backgroundColor: theme.palette.info.main,
-              fontWeight: theme.typography.fontWeightRegular,
+              fontWeight: theme.typography.fontWeightLight,
               padding: '0.55rem 1rem',
             }),
           text: ({ theme }) =>

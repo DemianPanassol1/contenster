@@ -8,6 +8,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import SimCardDownloadIcon from '@mui/icons-material/SimCardDownload';
 
 import { useToast } from '../../utils/hooks.util';
+import { fetchGET } from '../../utils/functions.util';
 import { useGlobalContext } from '../../contexts/global.context';
 import { GET_FILE_BY_ID, UPLOAD_FILE } from '../../routes/contenster/global';
 
@@ -99,18 +100,15 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
   useEffect(() => {
     if (fileId && imagePreview === null) {
-      const delayDebounceFn = setTimeout(() => {
-        handleOnSubmit({
-          type: 'GET',
-          url: GET_FILE_BY_ID(fileId),
-          message: false,
-          onSuccess: (data) => {
-            setImagePreview(data as PostUploadFile);
-          },
-        });
-      }, 500);
+      fetchGET(GET_FILE_BY_ID(fileId)).then((res) => {
+        const { success, body, errors } = res;
 
-      return () => clearTimeout(delayDebounceFn);
+        if (!success || errors.count > 0 || !body) {
+          errorMessage(t('common:errorOnGetFile'));
+          return;
+        }
+        setImagePreview(body as PostUploadFile);
+      });
     }
   }, [fileId]);
 
@@ -145,10 +143,12 @@ const FileUpload: React.FC<FileUploadProps> = ({
               </Typography>
               <Box sx={{ mt: '0.5rem' }}>
                 <IconButton
+                  color="info"
                   icon={<FullscreenIcon />}
                   onClick={handleFullScreenFile}
                 />
                 <IconButton
+                  color="success"
                   icon={<SimCardDownloadIcon />}
                   onClick={handleDownloadFile}
                 />

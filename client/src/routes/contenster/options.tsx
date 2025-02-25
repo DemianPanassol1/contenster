@@ -15,11 +15,9 @@ export const GET_PERMISSION_OPTIONS = (
 ) =>
   `/v1/api/admin/option/get-permission-options?userId=${userId}&roleId=${roleId}&establishmentId=${establishmentId}&optional=${optional}`;
 
-export const GET_MODULE_OPTIONS = (optional: boolean, establishmentId: string = '') =>
-  `/v1/api/admin/option/get-module-options?establishmentId=${establishmentId}&optional=${optional}`;
+export const GET_MODULE_OPTIONS = `/v1/api/admin/option/get-module-options`;
 
-export const GET_ROLE_OPTIONS = (optional: boolean, establishmentId: string = '') =>
-  `/v1/api/admin/option/get-role-options?establishmentId=${establishmentId}&optional=${optional}`;
+export const GET_ROLE_OPTIONS = `/v1/api/admin/option/get-role-options`;
 
 export const GET_PERMISSION_BY_FUNCTIONALITY_OPTIONS = (
   optional: boolean,

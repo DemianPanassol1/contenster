@@ -43,4 +43,28 @@ export class UsersRepository extends CoreRepository {
       },
     });
   }
+
+  getUserById(id: number): Promise<User> {
+    return this.userRepo.findOne({
+      where: { id },
+      relations: {
+        image: true,
+        preference: true,
+        userEstablishmentRole: {
+          role: true,
+          establishment: true,
+        },
+      },
+    });
+  }
+
+  saveUser(user: Partial<User>): Promise<User> {
+    return this.userRepo.save(user);
+  }
+
+  getUserByUserName(userName: string): Promise<User> {
+    return this.userRepo.findOne({
+      where: { username: userName },
+    });
+  }
 }

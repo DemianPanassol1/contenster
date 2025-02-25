@@ -1,4 +1,4 @@
-import { Box, Paper } from '@mui/material';
+import { Box, Paper, useTheme } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useEffect, useState, ReactNode, CSSProperties } from 'react';
@@ -42,6 +42,7 @@ const Wrapper: React.FC<WrapperProps> = ({
   const {
     state: { loading },
   } = useGlobalContext();
+  const theme = useTheme();
   const { type } = useParams<{ type: string }>();
   const [view, setView] = useState(false);
   const { canCreate, canUpdate } = usePermissions();
@@ -50,8 +51,10 @@ const Wrapper: React.FC<WrapperProps> = ({
     setTimeout(() => setView(true), delay);
   }, [delay]);
 
-  const canSubmit: boolean =
-    (type === 'create' && canCreate) || (type === 'edit' && canUpdate);
+  const canSubmit: boolean = !(
+    (type === 'create' && canCreate) ||
+    (type === 'edit' && canUpdate)
+  );
 
   return (
     <AnimatePresence
@@ -126,7 +129,7 @@ const Wrapper: React.FC<WrapperProps> = ({
                     borderRadius: '0.25rem',
                     padding: '0.5rem 1.5rem',
                     margin: '0 0 0 1rem',
-                    textTransform: 'capitalize',
+                    textTransform: 'uppercase',
                     ...customCancelButtonStyles,
                   }}
                 />
@@ -144,7 +147,8 @@ const Wrapper: React.FC<WrapperProps> = ({
                     borderRadius: '0.25rem',
                     padding: '0.5rem 1.5rem',
                     margin: '0 0 0 1rem',
-                    textTransform: 'capitalize',
+                    textTransform: 'uppercase',
+                    backgroundColor: theme.palette.info.main,
                     ...customSubmitButtonStyles,
                   }}
                 />

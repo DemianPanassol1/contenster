@@ -63,5 +63,7 @@
     "loading": "Carregando...",
     "actions": "Ações",
     "edit": "Editar",
-    "delete": "Excluir"
+    "delete": "Excluir",
+    "errorOnGetFile": "Erro ao obter o arquivo do registro",
+    "errorOnUploadFile": "Erro ao enviar o arquivo"
 }

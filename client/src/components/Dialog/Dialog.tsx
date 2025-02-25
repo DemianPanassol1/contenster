@@ -4,6 +4,7 @@ import {
   DialogContent,
   DialogTitle,
   Slide,
+  useTheme,
 } from '@mui/material';
 import React, { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -53,6 +54,7 @@ const Dialog: React.FC<DialogProps> = ({
     state: { dialogState },
     toggleDialog,
   } = useGlobalContext();
+  const theme = useTheme();
   const { t } = useTranslation(['common']);
 
   const onCloseDialog = () => {
@@ -84,7 +86,7 @@ const Dialog: React.FC<DialogProps> = ({
             borderRadius: '0.25rem',
             padding: '0.5rem 1.5rem',
             margin: '0 0 0 1rem',
-            textTransform: 'capitalize',
+            textTransform: 'uppercase',
           }}
         />
         <Button
@@ -99,7 +101,8 @@ const Dialog: React.FC<DialogProps> = ({
             borderRadius: '0.25rem',
             padding: '0.5rem 1.5rem',
             margin: '0 0 0 1rem',
-            textTransform: 'capitalize',
+            textTransform: 'uppercase',
+            backgroundColor: theme.palette.info.main,
           }}
         />
       </DialogActions>

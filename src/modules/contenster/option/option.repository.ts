@@ -8,12 +8,12 @@ import { User } from 'src/entities/contensterdb/user.entity';
 import { Module } from 'src/entities/contensterdb/module.entity';
 import { Establishment } from 'src/entities/contensterdb/establishment.entity';
 
-import { GetRoleOptionsReqDto } from './dto/req/getRoleOptions.req.dto';
-import { GetModuleOptionsReqDto } from './dto/req/getModuleOptions.req.dto';
-
 import { CoreRepository } from 'src/core/core.repository';
 import { Functionality } from 'src/entities/contensterdb/functionality.entity';
 
+import { GetRoleOptionsReqDto } from './dto/req/getRoleOptions.req.dto';
+import { GetModuleOptionsReqDto } from './dto/req/getModuleOptions.req.dto';
+import { GetEstablishmentOptionsReqDto } from './dto/req/getEstablishmentOptions.req.dto';
 import { GetPermissionByFunctionalityOptionsReqDto } from './dto/req/getPermissionByFunctionalityOptions.req.dto';
 
 @Injectable()
@@ -73,6 +73,15 @@ export class OptionRepository extends CoreRepository {
         module: { titles: { language: true }, descriptions: { language: true } },
         permission: { role: { titles: { language: true }, descriptions: { language: true } } },
       },
+    });
+  }
+
+  getEstablishmentsPaginated(
+    query: GetEstablishmentOptionsReqDto,
+  ): Promise<[Establishment[], number]> {
+    return this.establishmentRepo.findAndCount({
+      ...this.buildFilter(query),
+      relations: {},
     });
   }
 }

@@ -1,4 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+import some from 'lodash/some';
+import filter from 'lodash/filter';
 import { UseFormSetValue } from 'react-hook-form';
 
 import { ApiRequest } from '../settings/services.setting';
@@ -121,7 +124,7 @@ export const formatStringToMask = (string: string, mask: string): string => {
 };
 
 /**
- * Populates fields with values from a given content object.
+ * Populates fields with values from a given content object, including nested properties.
  *
  * @param setFields - A function to set the field values.
  * @param fields - An object representing the fields to be populated.
@@ -132,20 +135,42 @@ export const handlePopulateFields = (
   fields: Record<string, any>,
   content: Record<string, any>
 ): void => {
-  const fieldsArray = Object.keys(fields);
+  const populate = (fieldKey: string, value: unknown) => {
+    setFields(fieldKey, value, { shouldValidate: true });
+  };
 
-  Object.keys(content).forEach((key) => {
-    if (fieldsArray.includes(key)) {
-      if (content[key] !== null) {
-        setFields(key, content[key], { shouldValidate: true });
+  const populateFields = (
+    fields: Record<string, any>,
+    content: Record<string, any>,
+    parentKey = ''
+  ) => {
+    Object.keys(content).forEach((key) => {
+      const fieldKey = parentKey ? `${parentKey}.${key}` : key;
+
+      if (fields.hasOwnProperty(key)) {
+        if (
+          content[key] !== null &&
+          typeof content[key] === 'object' &&
+          !Array.isArray(content[key])
+        ) {
+          populateFields(fields[key], content[key], fieldKey);
+        } else {
+          if (typeof content[key] === 'boolean') {
+            populate(fieldKey, content[key]);
+          } else {
+            populate(fieldKey, content[key].toString());
+          }
+        }
       }
-    }
-  });
+    });
+  };
+
+  populateFields(fields, content);
 };
 
 export const buildReqFilter = ({
-  pageSize = 0,
-  pageNumber = Number.MAX_SAFE_INTEGER,
+  pageSize = Number.MAX_SAFE_INTEGER,
+  pageNumber = 1,
   optional = false,
   customFields = {},
   sortBy = [],
@@ -182,4 +207,52 @@ export const parseString = (value: string): string => {
   normalizedString = normalizedString.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
   return normalizedString.toLowerCase().trim();
+};
+
+/**
+ * Filters an array of data objects based on specified fields and a search term.
+ *
+ * @param data - The array of data objects to filter.
+ * @param fields - The fields to search within each data object.
+ * @param searchTerm - The term to search for within the specified fields.
+ * @returns  The filtered array of data objects.
+ */
+export const filterDataByField = (
+  data: Record<string, any>,
+  fields: string[],
+  searchTerm: string
+) => {
+  let fieldArray = fields;
+
+  if (!Array.isArray(fields)) {
+    fieldArray = [fields];
+  }
+
+  return filter(data, (item) => {
+    return fieldArray.some((f) => {
+      if (typeof item[f] === 'object') {
+        return some(
+          Object.values(item[f]),
+          (value) => typeof value === 'string' && value.includes(searchTerm)
+        );
+      }
+
+      if (typeof item[f] === 'string') {
+        return item[f].includes(searchTerm);
+      }
+      return false;
+    });
+  });
+};
+
+/**
+ * Generates a unique identifier string.
+ *
+ * @param {string} [prefix='id'] - The prefix to be added to the unique identifier.
+ * @returns {string} A unique identifier string composed of the prefix, current timestamp, and a random number.
+ */
+export const generateUniqueId = (prefix: string = 'id'): string => {
+  const randomNumber = Math.floor(Math.random() * 1000000);
+  const timestamp = new Date().getTime();
+  return `${prefix}_${timestamp}_${randomNumber}`;
 };

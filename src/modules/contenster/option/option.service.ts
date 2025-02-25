@@ -6,10 +6,12 @@ import { OptionRepository } from './option.repository';
 
 import { GetRoleOptionsReqDto } from './dto/req/getRoleOptions.req.dto';
 import { GetModuleOptionsReqDto } from './dto/req/getModuleOptions.req.dto';
+import { GetEstablishmentOptionsReqDto } from './dto/req/getEstablishmentOptions.req.dto';
 import { GetPermissionByFunctionalityOptionsReqDto } from './dto/req/getPermissionByFunctionalityOptions.req.dto';
 
 import { GetRoleOptionsResDto } from './dto/res/getRoleOptions.res.dto';
 import { GetModuleOptionsResDto } from './dto/res/getModuleOptions.res.dto';
+import { GetEstablishmentOptionsResDto } from './dto/res/getEstablishmentOptions.res.dto';
 import { GetPermissionByFunctionalityOptionsResDto } from './dto/res/getPermissionByFunctionalityOptions.res.dto';
 
 @Injectable()
@@ -43,7 +45,7 @@ export class OptionService extends CoreService {
   }
 
   async getRoleOptions(body: GetRoleOptionsReqDto) {
-    const [data, total] = await this.repo.getModulesPaginated(body);
+    const [data, total] = await this.repo.getRolesPaginated(body);
 
     const response = {
       data: this.toOptions(
@@ -82,5 +84,21 @@ export class OptionService extends CoreService {
     };
 
     return this.response(GetPermissionByFunctionalityOptionsResDto, response);
+  }
+
+  async getEstablishmentOptions(body: GetEstablishmentOptionsReqDto) {
+    const [data, total] = await this.repo.getEstablishmentsPaginated(body);
+
+    const response = {
+      data: this.toOptions(data, 'id', 'corporateName', body.optional),
+      meta: {
+        ...body,
+        totalItems: total,
+        totalPages: Math.ceil(total / body.pageSize),
+        hasNextPage: total > body.pageNumber * body.pageSize,
+      },
+    };
+
+    return this.response(GetEstablishmentOptionsResDto, response);
   }
 }

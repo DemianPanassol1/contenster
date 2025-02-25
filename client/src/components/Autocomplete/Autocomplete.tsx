@@ -7,7 +7,8 @@ import {
 import React, { useEffect, useState } from 'react';
 import { Controller, Control, FieldValues } from 'react-hook-form';
 
-import { useGET } from '../../utils/hooks.util';
+import { usePOST } from '../../utils/hooks.util';
+import { buildReqFilter } from '../../utils/functions.util';
 
 interface Option {
   label: string;
@@ -24,6 +25,7 @@ interface AutocompleteProps {
   inputStyle?: React.CSSProperties;
   disabled?: boolean;
   helperText?: string | null;
+  bodyContent?: Record<string, string | null>;
 }
 
 const Autocomplete: React.FC<AutocompleteProps> = ({
@@ -36,14 +38,20 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   inputStyle = {},
   disabled = false,
   helperText = null,
+  bodyContent = {},
 }) => {
   const theme = useTheme();
-  const { data, refresh } = useGET(urlData);
+
+  const requestFilter = buildReqFilter({
+    customFields: bodyContent,
+  });
+
+  const { data, refresh } = usePOST(urlData, requestFilter);
 
   const [fieldValue, setFieldValue] = useState<Option | null>(null);
   const [inputValue, setInputValue] = useState('');
 
-  const options = [fixedData, data].flat().filter(Boolean) as Option[];
+  const options = [fixedData, data?.data].flat().filter(Boolean) as Option[];
 
   const populateField = () => {
     const [first, second] = name.split('.');
@@ -63,6 +71,8 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   };
 
   useEffect(() => {
+    console.log(data);
+
     const timeout = setTimeout(populateField, fixedData.length ? 100 : 0);
 
     return () => clearTimeout(timeout);

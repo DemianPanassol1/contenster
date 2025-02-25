@@ -1,6 +1,7 @@
 export const GET_USERS_LIST = '/v1/api/admin/users/get-users-list';
 
-export const GET_USER = (id: string) => `/v1/api/admin/users/get-user?id=${id}`;
+export const GET_USER = (id: string, establishmentId: string) =>
+  `/v1/api/admin/users/get-user?id=${id}&establishmentId=${establishmentId}`;
 
 export const PUT_USER = '/v1/api/admin/users/put-user';
 
