@@ -9,20 +9,20 @@ export class PutUserInfoReqDto {
   @IsNumber({}, { message: 'validation.invalidNumber' })
   id: number;
 
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsString({ message: 'validation.invalidString' })
   name: string;
 
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsString({ message: 'validation.invalidString' })
   username: string;
 
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @Transform(({ value }) => value.replace(/[^\d]/g, ''))
   @IsString({ message: 'validation.invalidString' })
   phone: string;
 
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsEmail({}, { message: 'validation.invalidEmail' })
   email: string;
 

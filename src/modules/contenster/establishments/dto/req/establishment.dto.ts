@@ -19,47 +19,47 @@ export class EstablishmentDto {
   @IsNumber({}, { message: 'validation.invalidNumber' })
   id: number;
 
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsString({ message: 'validation.invalidString' })
   corporateName: string;
 
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsString({ message: 'validation.invalidString' })
   fantasyName: string;
 
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsString({ message: 'validation.invalidString' })
   address: string;
 
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsString({ message: 'validation.invalidString' })
   addressNumber: string;
 
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsString({ message: 'validation.invalidString' })
   zipCode: string;
 
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsString({ message: 'validation.invalidString' })
   district: string;
 
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsString({ message: 'validation.invalidString' })
   document: string;
 
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsEnum(DocumentType, { message: 'validation.invalidDocumentType' })
   documentType: DocumentType;
 
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsString({ message: 'validation.invalidString' })
   phone1: string;
 
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsString({ message: 'validation.invalidString' })
   phone2: string;
 
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsEmail({}, { message: 'validation.invalidEmail' })
   email: string;
 

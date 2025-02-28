@@ -36,29 +36,29 @@ export class UserDto {
   @IsNumber({}, { message: 'validation.invalidNumber' })
   id: number;
 
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsString({ message: 'validation.invalidString' })
   name: string;
 
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsString({ message: 'validation.invalidString' })
   email: string;
 
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsString({ message: 'validation.invalidString' })
   username: string;
 
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsString({ message: 'validation.invalidString' })
   phone: string;
 
   @Transform(parseBool)
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsBoolean({ message: 'validation.invalidBoolean' })
   isActive: boolean;
 
   @Transform(parseBool)
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsBoolean({ message: 'validation.invalidBoolean' })
   isBlocked: boolean;
 

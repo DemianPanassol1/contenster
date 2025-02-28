@@ -7,5 +7,10 @@
     "phone": "Telefone",
     "establishment": "Estabelecimento",
     "establishmentId": "Estabelecimento",
-    "preferenceId": "Página preferencial"
+    "preferenceId": "Página preferencial",
+    "isActive": "Ativo",
+    "isBlocked": "Bloqueado",
+    "repeatPassword": "Repita a senha",
+    "roleId": "Função",
+    "imageId": "Imagem"
 }

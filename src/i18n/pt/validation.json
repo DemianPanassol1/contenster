@@ -12,5 +12,7 @@
   "invalidOperationField": "O campo '{property}' deve ser um dos seguintes valores: 'EQUALS', 'NOT_EQUALS', 'GREATER_THAN', 'GREATER_THAN_OR_EQUAL', 'LESS_THAN', 'LESS_THAN_OR_EQUAL', 'IN', 'NOT_IN', 'BETWEEN', 'NOT_BETWEEN', 'LIKE', 'NOT_LIKE', 'IS_NULL' ou 'IS_NOT_NULL'",
   "equalOrHigherThanOne": "O campo '{property}' com valor: \"{value}\" precisa ser maior ou igual a 1",
   "equalOrHigherThanZero": "O campo '{property}' com valor: \"{value}\" precisa ser maior ou igual a 0",
-  "invalidPermissionType": "O campo '{property}' deve ser um dos seguintes valores: 'general', 'establishment'"
+  "invalidPermissionType": "O campo '{property}' deve ser um dos seguintes valores: 'general', 'establishment'",
+  "invalidNumber": "O campo '{property}' não é um número",
+  "invalidDate": "O campo '{property}' não é uma data válida"
 }

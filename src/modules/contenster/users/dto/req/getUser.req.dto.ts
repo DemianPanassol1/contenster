@@ -6,7 +6,7 @@ import { GetByIdReqDto } from 'src/shared/dtos/getById.req.dto';
 
 export class GetUserReqDto extends GetByIdReqDto {
   @Transform(parseNum)
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsNumber({}, { message: 'validation.invalidNumber' })
   establishmentId: number;
 }

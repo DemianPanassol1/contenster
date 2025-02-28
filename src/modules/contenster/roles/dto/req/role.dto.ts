@@ -11,7 +11,7 @@ export class RoleDto {
   @IsNumber({}, { message: 'validation.invalidNumber' })
   id: number;
 
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @Transform(parseNum)
   @IsNumber({}, { message: 'validation.invalidNumber' })
   establishmentId: number;

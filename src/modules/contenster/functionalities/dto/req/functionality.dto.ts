@@ -11,11 +11,11 @@ export class FunctionalityDto {
   @IsNumber({}, { message: 'validation.invalidNumber' })
   id: number;
 
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsString({ message: 'validation.invalidString' })
   slug: string;
 
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsString({ message: 'validation.invalidString' })
   icon: string;
 
@@ -24,12 +24,12 @@ export class FunctionalityDto {
   @IsNumber({}, { message: 'validation.invalidNumber' })
   position: number;
 
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @Transform(parseNum)
   @IsNumber({}, { message: 'validation.invalidNumber' })
   moduleId: number;
 
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @Transform(parseNum)
   @IsNumber({}, { message: 'validation.invalidNumber' })
   establishmentId: number;

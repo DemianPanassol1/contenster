@@ -16,7 +16,7 @@ export class ModuleDto {
   @IsNumber({}, { message: 'validation.invalidNumber' })
   position: number;
 
-  @IsNotEmpty({ message: 'validation.notEmptyTranslated' })
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @Transform(parseNum)
   @IsNumber({}, { message: 'validation.invalidNumber' })
   establishmentId: number;
