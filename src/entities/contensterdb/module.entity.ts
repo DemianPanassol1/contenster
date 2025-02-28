@@ -3,7 +3,6 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  // DeleteDateColumn,
   ManyToMany,
   JoinTable,
   ManyToOne,
@@ -18,31 +17,28 @@ import { Establishment } from './establishment.entity';
 @Entity()
 export class Module {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
   @Column({ type: 'integer', default: 0 })
-  position: number;
+  position?: number;
 
   @CreateDateColumn({ type: 'timestamp without time zone' })
-  createdAt: Date;
+  createdAt?: Date;
 
   @UpdateDateColumn({ type: 'timestamp without time zone' })
-  updatedAt: Date | null;
-
-  // @DeleteDateColumn({ type: 'timestamp without time zone' })
-  // deletedAt: Date | null;
+  updatedAt?: Date;
 
   @ManyToOne(() => Establishment, (establishment) => establishment.module)
-  establishment: Establishment;
+  establishment?: Establishment;
 
   @ManyToMany(() => Translation, { cascade: true })
   @JoinTable()
-  titles: Translation[];
+  titles?: Translation[];
 
   @ManyToMany(() => Translation, { cascade: true })
   @JoinTable()
-  descriptions: Translation[];
+  descriptions?: Translation[];
 
   @OneToMany(() => Functionality, (functionality) => functionality.module)
-  functionality: Functionality[];
+  functionality?: Functionality[];
 }

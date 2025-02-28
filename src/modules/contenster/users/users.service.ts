@@ -19,11 +19,6 @@ import { DeleteUserResDto } from './dto/res/deleteUser.res.dto';
 import { GetUsersListResDto } from './dto/res/getUsersList.res.dto';
 
 import { User } from 'src/entities/contensterdb/user.entity';
-import { Role } from 'src/entities/contensterdb/role.entity';
-import { Image } from 'src/entities/contensterdb/image.entity';
-import { Preference } from 'src/entities/contensterdb/preference.entity';
-import { Establishment } from 'src/entities/contensterdb/establishment.entity';
-import { UserEstablishmentRole } from 'src/entities/contensterdb/userEstablishmentRole.entity';
 
 @Injectable()
 export class UsersService extends CoreService {
@@ -120,19 +115,19 @@ export class UsersService extends CoreService {
     if (!userEstablishmentRole.length || permissionType === 'establishment') {
       saveUser.userEstablishmentRole = [
         {
-          user: new User(),
-          role: { id: roleId } as Role,
-          establishment: { id: establishmentId } as Establishment,
+          id: null,
+          role: { id: roleId },
+          establishment: { id: establishmentId },
         },
-      ] as UserEstablishmentRole[];
+      ];
     } else if (permissionType === 'general' && userEstablishmentRole.length) {
       saveUser.userEstablishmentRole = userEstablishmentRole.map((item) => ({
         id: item.id,
         role: {
           id: item.establishmentId === establishmentId ? roleId : item.roleId,
-        } as Role,
-        establishment: { id: item.establishmentId } as Establishment,
-      })) as UserEstablishmentRole[];
+        },
+        establishment: { id: item.establishmentId },
+      }));
     }
 
     if (password) {
@@ -140,7 +135,7 @@ export class UsersService extends CoreService {
     }
 
     if (imageId) {
-      saveUser.image = { id: imageId } as Image;
+      saveUser.image = { id: imageId };
     }
 
     const response = await this.repo.saveUser(saveUser);
@@ -185,7 +180,6 @@ export class UsersService extends CoreService {
       username,
       image: null,
       preference: null,
-      userEstablishmentRole: [],
     };
 
     if (password) {
@@ -193,29 +187,29 @@ export class UsersService extends CoreService {
     }
 
     if (imageId) {
-      updateUser.image = { id: imageId } as Image;
+      updateUser.image = { id: imageId };
     }
 
     if (preferenceId) {
-      updateUser.preference = { id: preferenceId } as Preference;
+      updateUser.preference = { id: preferenceId };
     }
 
     if (!userEstablishmentRole.length || permissionType === 'establishment') {
       updateUser.userEstablishmentRole = [
         {
           id: null,
-          role: { id: roleId } as Role,
-          establishment: { id: establishmentId } as Establishment,
+          role: { id: roleId },
+          establishment: { id: establishmentId },
         },
-      ] as UserEstablishmentRole[];
+      ];
     } else if (permissionType === 'general' && userEstablishmentRole.length) {
       updateUser.userEstablishmentRole = userEstablishmentRole.map((item) => ({
         id: item.id,
         role: {
           id: item.establishmentId === establishmentId ? roleId : item.roleId,
-        } as Role,
-        establishment: { id: item.establishmentId } as Establishment,
-      })) as UserEstablishmentRole[];
+        },
+        establishment: { id: item.establishmentId },
+      }));
     }
 
     const response = await this.repo.saveUser(updateUser);

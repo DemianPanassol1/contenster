@@ -131,7 +131,6 @@ const Table: React.FC<TableProps> = ({
       message: true,
       onSuccess: () => {
         refresh();
-
         if (typeof urlRefreshOnDelete === 'string') {
           refresh(urlRefreshOnDelete);
         } else if (Array.isArray(urlRefreshOnDelete)) {

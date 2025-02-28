@@ -4,7 +4,6 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  // DeleteDateColumn,
   OneToMany,
   JoinColumn,
   OneToOne,
@@ -24,36 +23,33 @@ export enum LanguageType {
 @Entity()
 export class Language {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
   @Column({ type: 'varchar', length: 75 })
-  name: string;
+  name?: string;
 
   @Column({ type: 'char', length: 2 })
-  languageCode: string;
+  languageCode?: string;
 
   @Column({ type: 'char', length: 2, nullable: true, default: null })
-  regionCode: string | null;
+  regionCode?: string;
 
   @Column({ type: 'enum', enum: LanguageType })
-  purpose: LanguageType;
+  purpose?: LanguageType;
 
   @CreateDateColumn({ type: 'timestamp without time zone' })
-  createdAt: Date;
+  createdAt?: Date;
 
   @UpdateDateColumn({ type: 'timestamp without time zone' })
-  updatedAt: Date | null;
-
-  // @DeleteDateColumn({ type: 'timestamp without time zone' })
-  // deletedAt: Date | null;
+  updatedAt?: Date;
 
   @OneToMany(() => Translation, (translation) => translation.language)
-  translations: Translation[];
+  translations?: Translation[];
 
   @OneToMany(() => Preference, (user) => user.language)
-  preference: Preference[];
+  preference?: Preference[];
 
   @OneToOne(() => Image, (icon) => icon.language, { cascade: true })
   @JoinColumn()
-  icon: Image | null;
+  icon?: Image;
 }

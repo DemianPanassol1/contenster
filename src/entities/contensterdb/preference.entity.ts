@@ -37,7 +37,7 @@ export class Preference {
   user?: User;
 
   @ManyToOne(() => Language, (language) => language.preference)
-  language: Language;
+  language?: Language;
 
   @ManyToOne(() => Functionality, (functionality) => functionality.preference, {
     nullable: true,

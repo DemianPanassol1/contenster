@@ -87,12 +87,12 @@ export class UsersRepository extends CoreRepository {
   }
 
   async removeUser(user: User): Promise<User> {
-    await this.userEstablishmentRoleRepo.remove(user?.userEstablishmentRole);
+    await this.userEstablishmentRoleRepo.remove(user.userEstablishmentRole);
 
     await this.userRepo.remove(user);
 
-    await this.imageRepo.remove(user?.image);
-    await this.preferenceRepo.remove(user?.preference);
+    if (user?.image) await this.imageRepo.remove(user.image);
+    if (user?.preference) await this.preferenceRepo.remove(user.preference);
 
     return user;
   }

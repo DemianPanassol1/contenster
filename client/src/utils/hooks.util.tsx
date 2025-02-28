@@ -40,7 +40,7 @@ export const useGET = (url: string, revalidate = false) => {
   return {
     data: data?.data?.body ?? null,
     isLoading: Boolean(isLoading || error),
-    refresh: async (key: string | undefined = undefined) => mutate(key || url),
+    refresh: async (key?: string) => mutate(key || url),
   };
 };
 
@@ -77,7 +77,16 @@ export const usePOST = (
   return {
     data: data?.data?.body ?? null,
     isLoading: Boolean(isLoading || error),
-    refresh: async (key: string | undefined = undefined) => mutate(key || url, body),
+    refresh: async (key?: string, payload?: Record<string, unknown>) => {
+      if (key && payload) {
+        return mutate([key, payload]);
+      } else if (key) {
+        return mutate(key);
+      } else if (payload) {
+        return mutate([url, payload]);
+      }
+      return mutate([url, body]);
+    },
   };
 };
 

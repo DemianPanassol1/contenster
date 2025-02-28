@@ -3,7 +3,6 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  // DeleteDateColumn,
   ManyToMany,
   JoinTable,
   ManyToOne,
@@ -15,44 +14,37 @@ import { Module } from './module.entity';
 import { Preference } from './preference.entity';
 import { Permission } from './permission.entity';
 import { Translation } from './translation.entity';
-// import { Establishment } from './establishment.entity';
 
 @Entity()
 export class Functionality {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
   @Column({ length: 25, type: 'varchar' })
-  slug: string;
+  slug?: string;
 
   @Column({ type: 'integer', default: 0 })
-  position: number;
+  position?: number;
 
   @Column({ length: 75, type: 'varchar', nullable: true })
-  icon: string;
+  icon?: string;
 
   @CreateDateColumn({ type: 'timestamp without time zone' })
-  createdAt: Date;
+  createdAt?: Date;
 
   @UpdateDateColumn({ type: 'timestamp without time zone' })
-  updatedAt: Date | null;
-
-  // @DeleteDateColumn({ type: 'timestamp without time zone' })
-  // deletedAt: Date | null;
-
-  // @ManyToOne(() => Establishment, (establishment) => establishment.functionality)
-  // establishment: Establishment;
+  updatedAt?: Date;
 
   @ManyToOne(() => Module, (module) => module.functionality)
-  module: Module;
+  module?: Module;
 
   @ManyToMany(() => Translation, { cascade: true })
   @JoinTable()
-  titles: Translation[];
+  titles?: Translation[];
 
   @OneToMany(() => Permission, (permission) => permission.functionality)
-  permission: Permission[];
+  permission?: Permission[];
 
   @OneToMany(() => Preference, (preference) => preference.functionality)
-  preference: Preference[];
+  preference?: Preference[];
 }

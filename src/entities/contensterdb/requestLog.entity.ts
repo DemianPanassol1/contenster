@@ -16,41 +16,41 @@ export enum LoglevelType {
 @Entity()
 export class RequestLog {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
   @Column({ type: 'enum', enum: LoglevelType })
-  logLevel: LoglevelType;
+  logLevel?: LoglevelType;
 
   @Column({ type: 'char', length: 36 })
-  requestId: string;
+  requestId?: string;
 
   @Column({ type: 'varchar', length: 10 })
-  httpMethod: string;
+  httpMethod?: string;
 
   @Column({ type: 'float' })
-  responseTime: number;
+  responseTime?: number;
 
   @Column({ type: 'text', nullable: true, default: null })
-  requestHeader: string;
+  requestHeader?: string;
 
   @Column({ type: 'text', nullable: true, default: null })
-  requestBody: string;
+  requestBody?: string;
 
   @Column({ type: 'int' })
-  responseStatusCode: number;
+  responseStatusCode?: number;
 
   @Column({ type: 'text', nullable: true, default: null })
-  responseBody: string;
+  responseBody?: string;
 
   @Column({ type: 'varchar', length: 45, nullable: true, default: null })
-  ipAddress: string;
+  ipAddress?: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true, default: null })
-  userAgent: string;
+  userAgent?: string;
 
   @CreateDateColumn({ type: 'timestamp without time zone' })
-  createdAt: Date;
+  createdAt?: Date;
 
   @UpdateDateColumn({ type: 'timestamp without time zone' })
-  updatedAt: Date | null;
+  updatedAt?: Date;
 }

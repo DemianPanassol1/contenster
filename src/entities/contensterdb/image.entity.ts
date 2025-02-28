@@ -4,7 +4,6 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  // DeleteDateColumn,
   OneToOne,
   AfterRemove,
 } from 'typeorm';
@@ -19,22 +18,22 @@ import { Configuration } from './configuration.entity';
 @Entity()
 export class Image {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
   @Column({ type: 'varchar', length: 150 })
-  originalName: string;
+  originalName?: string;
 
   @Column({ type: 'varchar', length: 75 })
-  newName: string;
+  newName?: string;
 
   @Column({ type: 'varchar', length: 150 })
-  filePath: string;
+  filePath?: string;
 
   @Column({ type: 'varchar', length: 25 })
-  mimeType: string;
+  mimeType?: string;
 
   @Column({ type: 'int' })
-  size: number;
+  size?: number;
 
   @Column({ type: 'int', nullable: true, default: null })
   width?: number;
@@ -49,25 +48,25 @@ export class Image {
   public updatedAt?: Date;
 
   @OneToOne(() => Establishment, (establishment) => establishment.image)
-  establishment: Establishment;
+  establishment?: Establishment;
 
   @OneToOne(() => User, (user) => user.image)
-  user: User;
+  user?: User;
 
   @OneToOne(() => Language, (language) => language.icon)
-  language: Language;
+  language?: Language;
 
   @OneToOne(() => Configuration, (configuration) => configuration.loginBanner)
-  loginBanner: Configuration;
+  loginBanner?: Configuration;
 
   @OneToOne(() => Configuration, (configuration) => configuration.loginLogo)
-  loginLogo: Configuration;
+  loginLogo?: Configuration;
 
   @OneToOne(() => Configuration, (configuration) => configuration.favicon)
-  favicon: Configuration;
+  favicon?: Configuration;
 
   @AfterRemove()
-  removeFile() {
+  removeFile?() {
     unlink(join(__dirname, '..', '..', '..', 'public', this.filePath), (err) => {
       if (err) throw new Error('Error on removing file: ' + err.message);
     });

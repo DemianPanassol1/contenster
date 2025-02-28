@@ -4,7 +4,6 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  // DeleteDateColumn,
   ManyToMany,
   JoinTable,
   ManyToOne,
@@ -16,60 +15,57 @@ import { Establishment } from './establishment.entity';
 @Entity()
 export class EmailSetting {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
   @Column({ type: 'varchar', length: 75 })
-  server: string;
+  server?: string;
 
   @Column({ type: 'varchar', length: 75 })
-  username: string;
+  username?: string;
 
   @Column({ type: 'varchar', length: 75 })
-  password: string;
+  password?: string;
 
   @Column({ type: 'int', default: 465 })
-  port: number;
+  port?: number;
 
   @Column({ type: 'bool', default: false })
-  tls: boolean;
+  tls?: boolean;
 
   @Column({ type: 'bool', default: false })
-  ssl: boolean;
+  ssl?: boolean;
 
   @Column({ type: 'varchar', length: 75 })
-  sender: string;
+  sender?: string;
 
   @Column({ type: 'varchar', length: 75 })
-  recipient: string;
+  recipient?: string;
 
   @Column({ type: 'varchar', length: 75, nullable: true, default: null })
-  recipientCopy: string | null;
+  recipientCopy?: string;
 
   @CreateDateColumn({ type: 'timestamp without time zone' })
-  createdAt: Date;
+  createdAt?: Date;
 
   @UpdateDateColumn({ type: 'timestamp without time zone' })
-  updatedAt: Date | null;
-
-  // @DeleteDateColumn({ type: 'timestamp without time zone' })
-  // deletedAt: Date | null;
+  updatedAt?: Date;
 
   @ManyToMany(() => Translation, { cascade: true })
   @JoinTable()
-  subjects: Translation[];
+  subjects?: Translation[];
 
   @ManyToMany(() => Translation, { cascade: true })
   @JoinTable()
-  titles: Translation[];
+  titles?: Translation[];
 
   @ManyToMany(() => Translation, { cascade: true })
   @JoinTable()
-  contents: Translation[];
+  contents?: Translation[];
 
   @ManyToMany(() => Translation, { cascade: true })
   @JoinTable()
-  footers: Translation[];
+  footers?: Translation[];
 
   @ManyToOne(() => Establishment, (establishment) => establishment.emailSetting)
-  establishment: Establishment;
+  establishment?: Establishment;
 }

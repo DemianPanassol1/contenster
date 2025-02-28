@@ -3,7 +3,6 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  // DeleteDateColumn,
   ManyToMany,
   JoinTable,
   ManyToOne,
@@ -18,31 +17,28 @@ import { UserEstablishmentRole } from './userEstablishmentRole.entity';
 @Entity()
 export class Role {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
   @CreateDateColumn({ type: 'timestamp without time zone' })
-  createdAt: Date;
+  createdAt?: Date;
 
   @UpdateDateColumn({ type: 'timestamp without time zone' })
-  updatedAt: Date | null;
-
-  // @DeleteDateColumn({ type: 'timestamp without time zone' })
-  // deletedAt: Date | null;
+  updatedAt?: Date;
 
   @ManyToOne(() => Establishment, (establishment) => establishment.role)
-  establishment: Establishment;
+  establishment?: Establishment;
 
   @ManyToMany(() => Translation, { cascade: true })
   @JoinTable()
-  titles: Translation[];
+  titles?: Translation[];
 
   @ManyToMany(() => Translation, { cascade: true })
   @JoinTable()
-  descriptions: Translation[];
+  descriptions?: Translation[];
 
   @OneToMany(() => UserEstablishmentRole, (userEstablishmentRole) => userEstablishmentRole.role)
-  userEstablishmentRole: UserEstablishmentRole[];
+  userEstablishmentRole?: UserEstablishmentRole[];
 
   @OneToMany(() => Permission, (permission) => permission.role)
-  permission: Permission[];
+  permission?: Permission[];
 }

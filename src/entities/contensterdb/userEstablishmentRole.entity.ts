@@ -3,7 +3,6 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  // DeleteDateColumn,
   ManyToOne,
 } from 'typeorm';
 
@@ -14,7 +13,7 @@ import { Establishment } from './establishment.entity';
 @Entity()
 export class UserEstablishmentRole {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
   @CreateDateColumn({ type: 'timestamp without time zone' })
   createdAt?: Date;
@@ -23,11 +22,11 @@ export class UserEstablishmentRole {
   updatedAt?: Date;
 
   @ManyToOne(() => Establishment, (establishment) => establishment.userEstablishmentRole)
-  establishment: Establishment;
+  establishment?: Establishment;
 
   @ManyToOne(() => User, (user) => user.userEstablishmentRole)
-  user: User;
+  user?: User;
 
   @ManyToOne(() => Role, (role) => role.userEstablishmentRole)
-  role: Role;
+  role?: Role;
 }

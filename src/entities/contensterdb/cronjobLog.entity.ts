@@ -9,23 +9,23 @@ import {
 @Entity()
 export class CronJobLog {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
   @Column({ type: 'varchar', length: 70 })
-  jobName: string;
+  jobName?: string;
 
   @Column({ type: 'float' })
-  executionTime: number;
+  executionTime?: number;
 
   @Column({ type: 'text', nullable: true, default: null })
-  result: string;
+  result?: string;
 
   @Column({ type: 'text', nullable: true, default: null })
-  error: string;
+  error?: string;
 
   @CreateDateColumn({ type: 'timestamp without time zone' })
-  createdAt: Date;
+  createdAt?: Date;
 
   @UpdateDateColumn({ type: 'timestamp without time zone' })
-  updatedAt: Date | null;
+  updatedAt?: Date;
 }

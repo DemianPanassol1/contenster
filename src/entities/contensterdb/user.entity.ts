@@ -16,28 +16,28 @@ import { UserEstablishmentRole } from './userEstablishmentRole.entity';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
   @Column({ length: 75, type: 'varchar' })
-  name: string;
+  name?: string;
 
   @Column({ length: 75, type: 'varchar', unique: true })
-  email: string;
+  email?: string;
 
   @Column({ length: 75, type: 'varchar', unique: true })
-  username: string;
+  username?: string;
 
   @Column({ length: 25, type: 'varchar' })
-  phone: string;
+  phone?: string;
 
   @Column({ length: 300, type: 'varchar' })
-  password: string;
+  password?: string;
 
   @Column({ default: true })
-  isActive: boolean;
+  isActive?: boolean;
 
   @Column({ default: true })
-  isBlocked: boolean;
+  isBlocked?: boolean;
 
   @Column({ type: 'timestamp without time zone', nullable: true, default: null })
   lastLoggedAt?: Date;
@@ -54,10 +54,10 @@ export class User {
 
   @OneToOne(() => Preference, (preference) => preference.user, { cascade: true })
   @JoinColumn()
-  preference: Preference;
+  preference?: Preference;
 
   @OneToMany(() => UserEstablishmentRole, (userEstablishmentRole) => userEstablishmentRole.user, {
     cascade: true,
   })
-  userEstablishmentRole: UserEstablishmentRole[];
+  userEstablishmentRole?: UserEstablishmentRole[];
 }

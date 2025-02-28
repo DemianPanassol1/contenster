@@ -3,7 +3,6 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  // DeleteDateColumn,
   ManyToOne,
   Column,
 } from 'typeorm';
@@ -15,35 +14,32 @@ import { PermissionType } from 'src/shared/enums/common.enums';
 @Entity()
 export class Permission {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
   @Column({ type: 'enum', enum: PermissionType })
-  permissionType: PermissionType;
+  permissionType?: PermissionType;
 
   @Column({ type: 'boolean', default: true })
-  canRead: boolean;
+  canRead?: boolean;
 
   @Column({ type: 'boolean', default: false })
-  canCreate: boolean;
+  canCreate?: boolean;
 
   @Column({ type: 'boolean', default: false })
-  canUpdate: boolean;
+  canUpdate?: boolean;
 
   @Column({ type: 'boolean', default: false })
-  canDelete: boolean;
+  canDelete?: boolean;
 
   @CreateDateColumn({ type: 'timestamp without time zone' })
-  createdAt: Date;
+  createdAt?: Date;
 
   @UpdateDateColumn({ type: 'timestamp without time zone' })
-  updatedAt: Date | null;
-
-  // @DeleteDateColumn({ type: 'timestamp without time zone' })
-  // deletedAt: Date | null;
+  updatedAt?: Date;
 
   @ManyToOne(() => Functionality, (functionality) => functionality.permission)
-  functionality: Functionality;
+  functionality?: Functionality;
 
   @ManyToOne(() => Role, (role) => role.permission)
-  role: Role;
+  role?: Role;
 }
