@@ -60,10 +60,12 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
 
     if (second) {
       filteredOptions = options.find(
-        (i) => i.value === controller._formValues[first][second]
+        (i) => i.value.toString() === controller._formValues[first][second].toString()
       );
     } else {
-      filteredOptions = options.find((i) => i.value === controller._formValues[first]);
+      filteredOptions = options.find(
+        (i) => i.value.toString() === controller._formValues[first].toString()
+      );
     }
 
     setFieldValue(filteredOptions ?? null);
