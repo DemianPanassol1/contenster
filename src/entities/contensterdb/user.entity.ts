@@ -4,7 +4,6 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  // DeleteDateColumn,
   JoinColumn,
   OneToOne,
   OneToMany,
@@ -41,25 +40,24 @@ export class User {
   isBlocked: boolean;
 
   @Column({ type: 'timestamp without time zone', nullable: true, default: null })
-  lastLoggedAt: Date | null;
+  lastLoggedAt?: Date;
 
   @CreateDateColumn({ type: 'timestamp without time zone' })
-  createdAt: Date;
+  createdAt?: Date;
 
   @UpdateDateColumn({ type: 'timestamp without time zone' })
-  updatedAt: Date | null;
-
-  // @DeleteDateColumn({ type: 'timestamp without time zone' })
-  // deletedAt: Date | null;
+  updatedAt?: Date;
 
   @OneToOne(() => Image, (image) => image.user, { nullable: true, cascade: true })
   @JoinColumn()
-  image: Image | null;
+  image?: Image;
 
   @OneToOne(() => Preference, (preference) => preference.user, { cascade: true })
   @JoinColumn()
   preference: Preference;
 
-  @OneToMany(() => UserEstablishmentRole, (userEstablishmentRole) => userEstablishmentRole.user)
+  @OneToMany(() => UserEstablishmentRole, (userEstablishmentRole) => userEstablishmentRole.user, {
+    cascade: true,
+  })
   userEstablishmentRole: UserEstablishmentRole[];
 }

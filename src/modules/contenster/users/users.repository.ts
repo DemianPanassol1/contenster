@@ -9,14 +9,21 @@ import { PermissionType } from 'src/shared/enums/common.enums';
 import { GetUsersListReqDto } from './dto/req/getUsersList.req.dto';
 
 import { User } from 'src/entities/contensterdb/user.entity';
+import { Image } from 'src/entities/contensterdb/image.entity';
 import { Language } from 'src/entities/contensterdb/language.entity';
+import { Preference } from 'src/entities/contensterdb/preference.entity';
+import { UserEstablishmentRole } from 'src/entities/contensterdb/userEstablishmentRole.entity';
 
 @Injectable()
 export class UsersRepository extends CoreRepository {
   constructor(
     public readonly i18n: I18nService,
     @InjectRepository(User) private userRepo: Repository<User>,
+    @InjectRepository(Image) private imageRepo: Repository<Image>,
     @InjectRepository(Language) private languageRepo: Repository<Language>,
+    @InjectRepository(Preference) private preferenceRepo: Repository<Preference>,
+    @InjectRepository(UserEstablishmentRole)
+    private userEstablishmentRoleRepo: Repository<UserEstablishmentRole>,
   ) {
     super(i18n);
   }
@@ -36,13 +43,6 @@ export class UsersRepository extends CoreRepository {
       }),
       relations: {
         image: true,
-        // userEstablishmentRole: {
-        //   role: {
-        //     titles: { language: true },
-        //     descriptions: { language: true },
-        //   },
-        //   establishment: true,
-        // },
       },
     });
   }
@@ -74,9 +74,26 @@ export class UsersRepository extends CoreRepository {
     });
   }
 
+  getUserByEmail(email: string): Promise<User> {
+    return this.userRepo.findOne({
+      where: { email },
+    });
+  }
+
   getLanguageByCode(code: string): Promise<Language> {
     return this.languageRepo.findOne({
       where: { languageCode: code },
     });
+  }
+
+  async removeUser(user: User): Promise<User> {
+    await this.userEstablishmentRoleRepo.remove(user?.userEstablishmentRole);
+
+    await this.userRepo.remove(user);
+
+    await this.imageRepo.remove(user?.image);
+    await this.preferenceRepo.remove(user?.preference);
+
+    return user;
   }
 }

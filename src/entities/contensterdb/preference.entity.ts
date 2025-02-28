@@ -16,35 +16,31 @@ import { Functionality } from './functionality.entity';
 @Entity()
 export class Preference {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
-  @Column({ type: 'int', array: true })
-  moduleOrder: number[];
+  @Column({ type: 'int', array: true, default: [] })
+  moduleOrder?: number[];
 
-  @Column({ type: 'int', array: true })
-  functionalityOrder: number[];
+  @Column({ type: 'int', array: true, default: [] })
+  functionalityOrder?: number[];
 
-  @Column({ type: 'jsonb' }) // isso provalvemente vai mudar
-  preferences: object;
+  @Column({ type: 'jsonb', default: {} })
+  preferences?: Record<string, unknown>;
 
   @CreateDateColumn({ type: 'timestamp without time zone' })
-  createdAt: Date;
+  createdAt?: Date;
 
   @UpdateDateColumn({ type: 'timestamp without time zone' })
-  updatedAt: Date | null;
-
-  // @DeleteDateColumn({ type: 'timestamp without time zone' })
-  // deletedAt: Date | null;
+  updatedAt?: Date;
 
   @OneToOne(() => User, (user) => user.preference)
-  user: User;
+  user?: User;
 
   @ManyToOne(() => Language, (language) => language.preference)
   language: Language;
 
   @ManyToOne(() => Functionality, (functionality) => functionality.preference, {
-    cascade: true,
     nullable: true,
   })
-  functionality: Functionality | null;
+  functionality?: Functionality;
 }

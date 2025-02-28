@@ -43,13 +43,10 @@ export class Image {
   height?: number;
 
   @CreateDateColumn({ type: 'timestamp without time zone' })
-  public createdAt: Date;
+  public createdAt?: Date;
 
   @UpdateDateColumn({ type: 'timestamp without time zone' })
-  public updatedAt: Date;
-
-  // @DeleteDateColumn({ type: 'timestamp without time zone' })
-  // public deletedAt: Date;
+  public updatedAt?: Date;
 
   @OneToOne(() => Establishment, (establishment) => establishment.image)
   establishment: Establishment;
@@ -71,8 +68,8 @@ export class Image {
 
   @AfterRemove()
   removeFile() {
-    unlink(join(__dirname, '..', '..', '..', this.filePath), (err) => {
-      throw new Error('Error on removing file: ' + err.message);
+    unlink(join(__dirname, '..', '..', '..', 'public', this.filePath), (err) => {
+      if (err) throw new Error('Error on removing file: ' + err.message);
     });
   }
 }

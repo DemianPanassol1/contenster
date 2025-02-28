@@ -71,6 +71,7 @@ const Main: React.FC = () => {
           permissionType: permission.type,
           establishmentId: (session?.establishment.id ?? '').toString(),
         }}
+        urlRefreshOnDelete={GET_USERS_LIST}
       />
     </Wrapper>
   );

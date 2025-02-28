@@ -15,6 +15,7 @@ import { GetUsersListReqDto } from './dto/req/getUsersList.req.dto';
 import { GetUserResDto } from './dto/res/getUser.res.dto';
 import { PutUserResDto } from './dto/res/putUser.res.dto';
 import { PostUserResDto } from './dto/res/postUser.res.dto';
+import { DeleteUserResDto } from './dto/res/deleteUser.res.dto';
 import { GetUsersListResDto } from './dto/res/getUsersList.res.dto';
 
 import { User } from 'src/entities/contensterdb/user.entity';
@@ -56,8 +57,7 @@ export class UsersService extends CoreService {
     const { id, establishmentId } = query;
 
     const user = await this.repo.getUserById(id);
-    console.log(user);
-    
+
     if (!user) {
       throw new HttpException(this.i18n.t('errors.userNotFound'), HttpStatus.BAD_REQUEST);
     }
@@ -66,9 +66,7 @@ export class UsersService extends CoreService {
       ...user,
       roleId: user.userEstablishmentRole.find((role) => role.establishment.id === establishmentId)
         ?.role.id,
-      establishmentId: user.userEstablishmentRole.find(
-        (role) => role.establishment.id === establishmentId,
-      ).establishment.id,
+      establishmentId,
       imageId: user.image?.id,
       preferenceId: user.preference?.id,
       userEstablishmentRole: user.userEstablishmentRole.map((item) => ({
@@ -93,6 +91,18 @@ export class UsersService extends CoreService {
       throw new HttpException(this.i18n.t('errors.passwordsNotMatch'), HttpStatus.BAD_REQUEST);
     }
 
+    const checkUsername = await this.repo.getUserByUserName(username);
+
+    if (checkUsername) {
+      throw new HttpException(this.i18n.t('errors.usernameAlreadyExists'), HttpStatus.BAD_REQUEST);
+    }
+
+    const checkEmail = await this.repo.getUserByEmail(email);
+
+    if (checkEmail) {
+      throw new HttpException(this.i18n.t('errors.emailAlreadyExists'), HttpStatus.BAD_REQUEST);
+    }
+
     const language = await this.repo.getLanguageByCode(I18nContext.current().lang);
 
     const saveUser: Partial<User> = {
@@ -103,14 +113,27 @@ export class UsersService extends CoreService {
       phone,
       username,
       image: null,
-      preference: {
-        id: null,
-        language,
-        preferences: {},
-        moduleOrder: [],
-        functionalityOrder: [],
-      } as Preference,
+      preference: { language },
+      userEstablishmentRole: [],
     };
+
+    if (!userEstablishmentRole.length || permissionType === 'establishment') {
+      saveUser.userEstablishmentRole = [
+        {
+          user: new User(),
+          role: { id: roleId } as Role,
+          establishment: { id: establishmentId } as Establishment,
+        },
+      ] as UserEstablishmentRole[];
+    } else if (permissionType === 'general' && userEstablishmentRole.length) {
+      saveUser.userEstablishmentRole = userEstablishmentRole.map((item) => ({
+        id: item.id,
+        role: {
+          id: item.establishmentId === establishmentId ? roleId : item.roleId,
+        } as Role,
+        establishment: { id: item.establishmentId } as Establishment,
+      })) as UserEstablishmentRole[];
+    }
 
     if (password) {
       saveUser.password = this.generatePassword(password);
@@ -120,39 +143,7 @@ export class UsersService extends CoreService {
       saveUser.image = { id: imageId } as Image;
     }
 
-    const checkUsername = await this.repo.getUserByUserName(username);
-
-    if (checkUsername) {
-      throw new HttpException(this.i18n.t('errors.usernameAlreadyExists'), HttpStatus.BAD_REQUEST);
-    }
-
     const response = await this.repo.saveUser(saveUser);
-
-    const updateUser: Partial<User> = {
-      id: response.id,
-    };
-
-    if (!userEstablishmentRole.length || permissionType === 'establishment') {
-      updateUser.userEstablishmentRole = [
-        {
-          id: null,
-          role: { id: roleId } as Role,
-          user: { id: response.id } as User,
-          establishment: { id: establishmentId } as Establishment,
-        } as UserEstablishmentRole,
-      ];
-    } else if (permissionType === 'general' && userEstablishmentRole.length) {
-      updateUser.userEstablishmentRole = userEstablishmentRole.map((item) => ({
-        id: item.id,
-        role: {
-          id: item.establishmentId === establishmentId ? roleId : item.roleId,
-        } as Role,
-        user: { id: response.id } as User,
-        establishment: { id: item.establishmentId } as Establishment,
-      })) as UserEstablishmentRole[];
-    }
-
-    await this.repo.saveUser(updateUser);
 
     return this.response(PostUserResDto, response);
   }
@@ -174,6 +165,12 @@ export class UsersService extends CoreService {
       throw new HttpException(this.i18n.t('errors.usernameAlreadyExists'), HttpStatus.BAD_REQUEST);
     }
 
+    const checkEmail = await this.repo.getUserByEmail(email);
+
+    if (checkEmail && checkEmail.id !== id) {
+      throw new HttpException(this.i18n.t('errors.emailAlreadyExists'), HttpStatus.BAD_REQUEST);
+    }
+
     if (password && password !== repeatPassword) {
       throw new HttpException(this.i18n.t('errors.passwordsNotMatch'), HttpStatus.BAD_REQUEST);
     }
@@ -188,23 +185,7 @@ export class UsersService extends CoreService {
       username,
       image: null,
       preference: null,
-      ...((permissionType === 'establishment' || !userEstablishmentRole.length) && {
-        userEstablishmentRole: userEstablishmentRole.map((item) => ({
-          id: item.id,
-          user: { id: user.id } as User,
-          establishment: { id: item.establishmentId } as Establishment,
-        })) as UserEstablishmentRole[],
-      }),
-      ...(permissionType === 'general' && {
-        userEstablishmentRole: userEstablishmentRole.map((item) => ({
-          id: item.id,
-          role: {
-            id: item.establishmentId === establishmentId ? roleId : item.roleId,
-          } as Role,
-          user: { id: user.id } as User,
-          establishment: { id: item.establishmentId } as Establishment,
-        })) as UserEstablishmentRole[],
-      }),
+      userEstablishmentRole: [],
     };
 
     if (password) {
@@ -219,12 +200,40 @@ export class UsersService extends CoreService {
       updateUser.preference = { id: preferenceId } as Preference;
     }
 
+    if (!userEstablishmentRole.length || permissionType === 'establishment') {
+      updateUser.userEstablishmentRole = [
+        {
+          id: null,
+          role: { id: roleId } as Role,
+          establishment: { id: establishmentId } as Establishment,
+        },
+      ] as UserEstablishmentRole[];
+    } else if (permissionType === 'general' && userEstablishmentRole.length) {
+      updateUser.userEstablishmentRole = userEstablishmentRole.map((item) => ({
+        id: item.id,
+        role: {
+          id: item.establishmentId === establishmentId ? roleId : item.roleId,
+        } as Role,
+        establishment: { id: item.establishmentId } as Establishment,
+      })) as UserEstablishmentRole[];
+    }
+
     const response = await this.repo.saveUser(updateUser);
 
     return this.response(PutUserResDto, response);
   }
 
   async deleteUser(query: DeleteUserReqDto) {
-    throw new Error('Method not implemented.');
+    const { id } = query;
+
+    const user = await this.repo.getUserById(id);
+
+    if (!user) {
+      throw new HttpException(this.i18n.t('errors.userNotFound'), HttpStatus.BAD_REQUEST);
+    }
+
+    const response = await this.repo.removeUser(user);
+
+    return this.response(DeleteUserResDto, response);
   }
 }

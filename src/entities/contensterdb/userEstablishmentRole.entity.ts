@@ -17,13 +17,10 @@ export class UserEstablishmentRole {
   id: number;
 
   @CreateDateColumn({ type: 'timestamp without time zone' })
-  createdAt: Date;
+  createdAt?: Date;
 
   @UpdateDateColumn({ type: 'timestamp without time zone' })
-  updatedAt: Date | null;
-
-  // @DeleteDateColumn({ type: 'timestamp without time zone' })
-  // deletedAt: Date | null;
+  updatedAt?: Date;
 
   @ManyToOne(() => Establishment, (establishment) => establishment.userEstablishmentRole)
   establishment: Establishment;
