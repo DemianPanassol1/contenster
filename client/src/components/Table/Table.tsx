@@ -291,32 +291,54 @@ const Table: React.FC<TableProps> = ({
                   case 'datetime':
                     return {
                       name: name,
-                      selector: (row: Record<string, unknown>) =>
-                        new Date(row[field] as string).toLocaleString(i18n.language),
+                      selector: (row: Record<string, unknown>) => {
+                        if (!row[field]) {
+                          return '-';
+                        }
+                        return new Date(row[field] as string).toLocaleString(
+                          i18n.language
+                        );
+                      },
                       sortable: sortable,
                       maxWidth: width,
                     };
                   case 'date':
                     return {
                       name: name,
-                      selector: (row: Record<string, unknown>) =>
-                        new Date(row[field] as string).toLocaleDateString(i18n.language, {
-                          year: 'numeric',
-                          month: '2-digit',
-                          day: '2-digit',
-                        }),
+                      selector: (row: Record<string, unknown>) => {
+                        if (!row[field]) {
+                          return '-';
+                        }
+
+                        return new Date(row[field] as string).toLocaleDateString(
+                          i18n.language,
+                          {
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit',
+                          }
+                        );
+                      },
                       sortable: sortable,
                       maxWidth: width,
                     };
                   case 'time':
                     return {
                       name: name,
-                      selector: (row: Record<string, unknown>) =>
-                        new Date(row[field] as string).toLocaleTimeString(i18n.language, {
-                          hour: '2-digit',
-                          minute: '2-digit',
-                          second: '2-digit',
-                        }),
+                      selector: (row: Record<string, unknown>) => {
+                        if (!row[field]) {
+                          return '-';
+                        }
+
+                        return new Date(row[field] as string).toLocaleTimeString(
+                          i18n.language,
+                          {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            second: '2-digit',
+                          }
+                        );
+                      },
                       sortable: sortable,
                       maxWidth: width,
                     };

@@ -157,6 +157,8 @@ export const handlePopulateFields = (
         } else {
           if (typeof content[key] === 'boolean') {
             populate(fieldKey, content[key]);
+          } else if (Array.isArray(content[key]) || typeof content[key] === 'object') {
+            populate(fieldKey, content[key]);
           } else {
             populate(fieldKey, content[key].toString());
           }

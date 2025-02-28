@@ -14,10 +14,10 @@ export class GetEstablishmentsListReqDto extends OptionsReqDto {
       (value !== null && value !== undefined),
   )
   @IsNumber({}, { message: 'validation.invalidNumber' })
-  establishmentId: number | null;
+  establishmentId?: number;
 
   @Allow()
   @ValidateIf((_, value) => value !== null && value !== undefined)
   @IsEnum(PermissionType, { message: 'validation.invalidPermissionType' })
-  permissionType: PermissionType | null;
+  permissionType?: PermissionType;
 }

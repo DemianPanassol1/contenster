@@ -1,18 +1,31 @@
 import { Expose, Type } from 'class-transformer';
 
-class Image {
-  @Expose()
-  id: number;
-}
-
-class Preference {
-  @Expose()
-  id: number;
-}
-
 class Role {
   @Expose()
   id: number;
+
+  @Expose()
+  title: string;
+}
+
+class Establishment {
+  @Expose()
+  id: number;
+
+  @Expose()
+  corporateName: string;
+}
+class UserEstablishmentRole {
+  @Expose()
+  id: number;
+
+  @Expose()
+  @Type(() => Establishment)
+  establishment: Establishment;
+
+  @Expose()
+  @Type(() => Role)
+  role: Role;
 }
 
 export class GetUserResDto {
@@ -38,14 +51,18 @@ export class GetUserResDto {
   isBlocked: boolean;
 
   @Expose()
-  @Type(() => Image)
-  image: Image;
+  @Type(() => UserEstablishmentRole)
+  userEstablishmentRole: UserEstablishmentRole;
 
   @Expose()
-  @Type(() => Preference)
-  preference: Preference;
+  establishmentId: number;
 
   @Expose()
-  @Type(() => Role)
-  role: Role;
+  roleId: number;
+
+  @Expose()
+  imageId: number;
+
+  @Expose()
+  preferenceId: number;
 }

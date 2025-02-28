@@ -4,16 +4,19 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { CoreRepository } from 'src/core/core.repository';
-import { User } from 'src/entities/contensterdb/user.entity';
 import { PermissionType } from 'src/shared/enums/common.enums';
 
 import { GetUsersListReqDto } from './dto/req/getUsersList.req.dto';
+
+import { User } from 'src/entities/contensterdb/user.entity';
+import { Language } from 'src/entities/contensterdb/language.entity';
 
 @Injectable()
 export class UsersRepository extends CoreRepository {
   constructor(
     public readonly i18n: I18nService,
     @InjectRepository(User) private userRepo: Repository<User>,
+    @InjectRepository(Language) private languageRepo: Repository<Language>,
   ) {
     super(i18n);
   }
@@ -51,7 +54,10 @@ export class UsersRepository extends CoreRepository {
         image: true,
         preference: true,
         userEstablishmentRole: {
-          role: true,
+          role: {
+            titles: { language: true },
+            descriptions: { language: true },
+          },
           establishment: true,
         },
       },
@@ -65,6 +71,12 @@ export class UsersRepository extends CoreRepository {
   getUserByUserName(userName: string): Promise<User> {
     return this.userRepo.findOne({
       where: { username: userName },
+    });
+  }
+
+  getLanguageByCode(code: string): Promise<Language> {
+    return this.languageRepo.findOne({
+      where: { languageCode: code },
     });
   }
 }

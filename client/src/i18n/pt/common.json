@@ -65,5 +65,7 @@
     "edit": "Editar",
     "delete": "Excluir",
     "errorOnGetFile": "Erro ao obter o arquivo do registro",
-    "errorOnUploadFile": "Erro ao enviar o arquivo"
+    "errorOnUploadFile": "Erro ao enviar o arquivo",
+    "noRecords": "Sem registros",
+    "duplicateRecordError": "Já existe um registro com esse valor"
 }

@@ -71,8 +71,6 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   };
 
   useEffect(() => {
-    console.log(data);
-
     const timeout = setTimeout(populateField, fixedData.length ? 100 : 0);
 
     return () => clearTimeout(timeout);

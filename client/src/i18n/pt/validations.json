@@ -16,7 +16,8 @@
     "repeatPassword": {
         "field": "Repita a senha",
         "required": "A repetição da senha é obrigatória",
-        "mustMatch": "As senhas devem ser iguais"
+        "mustMatch": "As senhas devem ser iguais",
+        "passwordsDoNotMatch": "As senhas não coincidem"
     },
     "oldPassword": {
         "field": "Senha antiga",

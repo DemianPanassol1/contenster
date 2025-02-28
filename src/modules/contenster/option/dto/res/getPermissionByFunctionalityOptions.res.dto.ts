@@ -12,7 +12,7 @@ class GetPermissionByFunctionalityOptionsData {
 
 class CustomMeta extends Meta {
   @Expose()
-  establishmentId: number | null;
+  establishmentId: number;
 }
 
 export class GetPermissionByFunctionalityOptionsResDto {

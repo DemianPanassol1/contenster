@@ -160,7 +160,7 @@ const Main: React.FC = () => {
       >
         <Image
           src={configInfo?.loginLogo}
-          title={t('common:signInLogoTitle')} 
+          title={t('common:signInLogoTitle')}
           dimensions={{
             height: '3.5rem',
             objectFit: 'contain',

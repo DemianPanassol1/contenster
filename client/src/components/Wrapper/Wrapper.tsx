@@ -140,7 +140,12 @@ const Wrapper: React.FC<WrapperProps> = ({
                   type="submit"
                   content={submitButtonContent}
                   variant="contained"
-                  disabled={canSubmit}
+                  disabled={(() => {
+                    if (typeof type === 'undefined') {
+                      return false;
+                    }
+                    return canSubmit;
+                  })()}
                   loading={loading}
                   customStyle={{
                     width: 'fit-content',

@@ -2,42 +2,16 @@ import {
   IsArray,
   IsInt,
   Min,
-  IsOptional,
   IsString,
   IsEnum,
   IsBoolean,
   ValidateNested,
   IsNotEmpty,
+  ValidateIf,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
-export enum Order {
-  ASC = 'ASC',
-  DESC = 'DESC',
-}
-
-export enum FieldType {
-  STRING = 'STRING',
-  NUMBER = 'NUMBER',
-  DATE = 'DATE',
-}
-
-export enum Operation {
-  EQUALS = 'EQUALS',
-  NOT_EQUALS = 'NOT_EQUALS',
-  GREATER_THAN = 'GREATER_THAN',
-  GREATER_THAN_OR_EQUAL = 'GREATER_THAN_OR_EQUAL',
-  LESS_THAN = 'LESS_THAN',
-  LESS_THAN_OR_EQUAL = 'LESS_THAN_OR_EQUAL',
-  IN = 'IN',
-  NOT_IN = 'NOT_IN',
-  BETWEEN = 'BETWEEN',
-  NOT_BETWEEN = 'NOT_BETWEEN',
-  LIKE = 'LIKE',
-  NOT_LIKE = 'NOT_LIKE',
-  IS_NULL = 'IS_NULL',
-  IS_NOT_NULL = 'IS_NOT_NULL',
-}
+import { FieldType, Operation, Order } from '../enums/common.enums';
 
 export class Sort {
   @IsString({ message: 'validation.invalidString' })
@@ -53,7 +27,7 @@ export class Filter {
   @IsNotEmpty({ message: 'validation.notEmpty' })
   field: string;
 
-  @IsOptional()
+  @ValidateIf((_, value) => value !== null && value !== undefined)
   @IsString({ each: true, message: 'validation.invalidStringOrArrayOf' })
   value?: string | string[];
 
@@ -68,10 +42,10 @@ export class Filter {
 }
 
 export class PaginateReqDto {
+  @ValidateIf((_, value) => value !== null && value !== undefined)
   @IsArray({ message: 'validation.invalidArray' })
   @ValidateNested({ each: true })
   @Type(() => Sort)
-  @IsOptional()
   sortBy?: Sort[];
 
   @IsInt({ message: 'validation.invalidInteger' })
@@ -82,9 +56,9 @@ export class PaginateReqDto {
   @Min(1, { message: 'validation.equalOrHigherThanOne' })
   pageSize: number = Number.MAX_SAFE_INTEGER;
 
+  @ValidateIf((_, value) => value !== null && value !== undefined)
   @IsArray({ message: 'validation.invalidArray' })
   @ValidateNested({ each: true })
   @Type(() => Filter)
-  @IsOptional()
   filters?: Filter[];
 }

@@ -12,7 +12,7 @@ import {
 import { join } from 'path';
 import { I18nService } from 'nestjs-i18n';
 
-import { FieldType, Operation } from 'src/shared/dtos/paginate.req.dto';
+import { FieldType, Operation } from 'src/shared/enums/common.enums';
 
 export class CoreRepository {
   public publicPath: string = join(__dirname, '..', '..', 'public');

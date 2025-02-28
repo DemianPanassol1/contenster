@@ -6,11 +6,14 @@ import { Control, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import {
   emailValidation,
   genericInputValidation,
+  passwordValidation,
   phoneValidation,
 } from '../../../../../utils/validations.util';
-import { useGET, useNavigate, useUserSession } from '../../../../../utils/hooks.util';
+import { GET_SYNC_USER } from '../../../../../routes/contenster/global';
 import { useGlobalContext } from '../../../../../contexts/global.context';
 import { handlePopulateFields } from '../../../../../utils/functions.util';
+
+import { useGET, useNavigate, useUserSession } from '../../../../../utils/hooks.util';
 
 import Input from '../../../../../components/Input';
 import Switch from '../../../../../components/Switch';
@@ -27,8 +30,15 @@ interface FormFields {
   phone: string;
   isActive: boolean;
   isBlocked: boolean;
-  image: { id: string };
-  role: { id: string };
+  imageId: string;
+  roleId: string;
+  preferenceId: string;
+  password: string;
+  repeatPassword: string;
+  userEstablishmentRole: Record<string, unknown>[];
+  userEstablishmentRoleToDelete: Record<string, unknown>[];
+  establishmentId: string;
+  permissionType: string;
 }
 
 const fields: FormFields = {
@@ -39,8 +49,15 @@ const fields: FormFields = {
   phone: '',
   isActive: false,
   isBlocked: false,
-  image: { id: '' },
-  role: { id: '' },
+  imageId: '',
+  roleId: '',
+  preferenceId: '',
+  password: '',
+  repeatPassword: '',
+  establishmentId: '',
+  permissionType: '',
+  userEstablishmentRole: [],
+  userEstablishmentRoleToDelete: [],
 };
 
 interface SaveProps {
@@ -60,7 +77,7 @@ const Save: React.FC<SaveProps> = ({
     watch,
     control,
     setValue,
-    // setError,
+    setError,
     handleSubmit,
     formState: { errors },
   } = useForm<FormFields>({ defaultValues: fields });
@@ -73,7 +90,20 @@ const Save: React.FC<SaveProps> = ({
   const { data, isLoading, refresh } = useGET(getContentUrl as string);
 
   const onSubmit: SubmitHandler<FormFields> = (content) => {
-    return console.log(content);
+    if (content.password && content.password !== content.repeatPassword) {
+      setError('repeatPassword', {
+        type: 'custom',
+        message: t('validations:repeatPassword.passwordsDoNotMatch'),
+      });
+      return;
+    }
+
+    content.userEstablishmentRole = content.userEstablishmentRole.map((item) => ({
+      id: item.id,
+      roleId: (item.role as { id: number }).id,
+      establishmentId: (item.establishment as { id: number }).id,
+    }));
+
     handleOnSubmit({
       type: pageType === 'create' ? 'POST' : 'PUT',
       url: saveContentUrl,
@@ -82,7 +112,7 @@ const Save: React.FC<SaveProps> = ({
         if (getContentUrl) {
           refresh();
         }
-
+        refresh(GET_SYNC_USER);
         setTimeout(() => navigate(-1), 500);
       },
     });
@@ -93,6 +123,11 @@ const Save: React.FC<SaveProps> = ({
       handlePopulateFields(setValue, fields, data);
     }
   }, [isLoading, data]);
+
+  useEffect(() => {
+    setValue('permissionType', permissionType);
+    setValue('establishmentId', (session?.establishment.id ?? '') as string);
+  }, []);
 
   return (
     <Wrapper
@@ -148,18 +183,22 @@ const Save: React.FC<SaveProps> = ({
           helperText={errors.phone?.message}
           containerStyle={{ margin: '0' }}
         />
-        {permissionType !== 'establishment' && (
-          <Autocomplete
-            name="role.id"
-            label={t('validations:role.field')}
-            controller={control as unknown as Control<FieldValues>}
-            validation={genericInputValidation(t)}
-            urlData={GET_ROLE_OPTIONS}
-            bodyContent={{ establishmentId: (session?.establishment.id ?? '') as string }}
-            helperText={errors.role?.id?.message}
-            inputStyle={{ margin: '0' }}
-          />
-        )}
+        {
+          /* permissionType === 'establishment' */ true && (
+            <Autocomplete
+              name="roleId"
+              label={t('validations:role.field')}
+              controller={control as unknown as Control<FieldValues>}
+              validation={genericInputValidation(t)}
+              urlData={GET_ROLE_OPTIONS}
+              bodyContent={{
+                establishmentId: (session?.establishment.id ?? '') as string,
+              }}
+              helperText={errors.roleId?.message}
+              inputStyle={{ margin: '0' }}
+            />
+          )
+        }
         <Box
           sx={{
             display: 'flex',
@@ -185,11 +224,68 @@ const Save: React.FC<SaveProps> = ({
             inputStyle={{ height: '2.2rem' }}
           />
         </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            [theme.breakpoints.up('md')]: {
+              gridColumn: 1,
+            },
+          }}
+        >
+          <Input
+            name="password"
+            type="password"
+            label={`${t('validations:password.field')}${pageType === 'create' ? ' *' : ''}`}
+            controller={control as unknown as Control<FieldValues>}
+            validation={pageType === 'create' ? passwordValidation(t) : undefined}
+            helperText={errors.password?.message}
+          />
+          <Input
+            name="repeatPassword"
+            type="password"
+            label={`${t('validations:repeatPassword.field')}${pageType === 'create' ? ' *' : ''}`}
+            controller={control as unknown as Control<FieldValues>}
+            validation={pageType === 'create' ? passwordValidation(t) : undefined}
+            helperText={errors.repeatPassword?.message}
+          />
+        </Box>
       </Box>
+      {permissionType === 'general' && (
+        <Box>
+          {/* TODO: Implementar CrudTable */}
+          {/* <CrudTable
+            watch={watch}
+            setValue={setValue}
+            listName="userEstablishmentRole"
+            deleteListName="userEstablishmentRoleToDelete"
+            controller={control as unknown as Control<FieldValues>}
+            columns={[
+              {
+                name: t('validations:establishment.field'),
+                field: 'establishment',
+                selector: 'establishment',
+                type: 'text',
+                searchable: true,
+                sortable: true,
+              },
+              {
+                name: t('validations:role.field'),
+                field: 'role',
+                selector: 'role',
+                type: 'text',
+                searchable: true,
+                sortable: true,
+              },
+            ]}
+            fields={[]}
+          /> */}
+        </Box>
+      )}
       <FileUpload
-        fileId={watch('image.id')}
+        fileId={watch('imageId')}
         label={t('common:ProfilePicture')}
-        onImageUpload={(fileId) => setValue('image.id', fileId)}
+        onImageUpload={(fileId) => setValue('imageId', fileId)}
       />
     </Wrapper>
   );

@@ -37,19 +37,19 @@ export class Image {
   size: number;
 
   @Column({ type: 'int', nullable: true, default: null })
-  width: number | null;
+  width?: number;
 
   @Column({ type: 'int', nullable: true, default: null })
-  height: number | null;
+  height?: number;
 
   @CreateDateColumn({ type: 'timestamp without time zone' })
   public createdAt: Date;
 
   @UpdateDateColumn({ type: 'timestamp without time zone' })
-  public updatedAt: Date | null;
+  public updatedAt: Date;
 
   // @DeleteDateColumn({ type: 'timestamp without time zone' })
-  // public deletedAt: Date | null;
+  // public deletedAt: Date;
 
   @OneToOne(() => Establishment, (establishment) => establishment.image)
   establishment: Establishment;
