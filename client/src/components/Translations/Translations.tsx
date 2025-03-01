@@ -32,6 +32,7 @@ interface TranslationsProps {
   field: string;
   setValue: UseFormSetValue<any>;
   controller: Control<FieldValues>;
+  isSubmitting: boolean;
   mask?: string;
   title?: string;
   inputStyle?: SxProps<Theme>;
@@ -45,6 +46,7 @@ const Translations: React.FC<TranslationsProps> = ({
   field,
   setValue,
   controller,
+  isSubmitting,
   mask = '',
   title = null,
   type = 'text',
@@ -60,7 +62,8 @@ const Translations: React.FC<TranslationsProps> = ({
 
   const {
     control,
-    handleSubmit,
+    trigger,
+    clearErrors,
     formState: { errors },
     setValue: setFormValue,
   } = useForm();
@@ -123,6 +126,10 @@ const Translations: React.FC<TranslationsProps> = ({
     });
   }, [storedValues]);
 
+  useEffect(() => {
+    if (isSubmitting) trigger();
+  }, [isSubmitting]);
+
   return (
     <Box
       sx={{
@@ -164,84 +171,94 @@ const Translations: React.FC<TranslationsProps> = ({
       >
         {languages.map((item: Language) => (
           <Controller
-            rules={validation}
+            rules={item.default || validationOnAll ? validation : {}}
             key={`${field}-${item.code}`}
             name={`${field}-${item.code}`}
             control={control}
-            render={({ field }) => (
-              <FormControl
-                variant="standard"
-                sx={{
-                  display: 'flex',
-                  width: '100%',
-                  ...inputStyle,
-                }}
-              >
-                <InputLabel
-                  shrink={!!field.value}
-                  htmlFor={field.name}
+            render={({ field }) => {
+              const message: any = errors[field.name]?.message ?? '';
+
+              return (
+                <FormControl
+                  variant="standard"
                   sx={{
                     display: 'flex',
-                    alignItems: 'center',
+                    width: '100%',
+                    ...inputStyle,
                   }}
                 >
-                  {`${i18nEnabled ? item.name : title}${item.default || validationOnAll ? ' *' : ''}`}
-                </InputLabel>
+                  <InputLabel
+                    shrink={!!field.value}
+                    htmlFor={field.name}
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    {`${i18nEnabled ? item.name : title}${item.default || validationOnAll ? ' *' : ''}`}
+                  </InputLabel>
 
-                {mask && type !== 'number' ? (
-                  <PatternFormat
-                    type={type}
-                    size="small"
-                    format={mask}
-                    name={field.name}
-                    value={field.value}
-                    onBlur={field.onBlur}
-                    autoComplete={field.name}
-                    onChange={field.onChange}
-                    id={`input-${field.name}`}
-                    customInput={Input}
-                    sx={{ ...inputStyle }}
-                    endAdornment={
-                      i18nEnabled && (
-                        <InputAdornment position="end">
-                          <Image
-                            src={item.icon}
-                            variant="rectangular"
-                            dimensions={{ width: '1.5rem', height: 'auto' }}
-                          />
-                        </InputAdornment>
-                      )
-                    }
-                  />
-                ) : (
-                  <Input
-                    {...field}
-                    id={field.name}
-                    value={field.value ?? ''}
-                    type={type}
-                    required={item.default}
-                    sx={{ width: '100%' }}
-                    endAdornment={
-                      i18nEnabled && (
-                        <InputAdornment position="end">
-                          <Image
-                            src={item.icon}
-                            variant="rectangular"
-                            dimensions={{ width: '1.5rem', height: 'auto' }}
-                          />
-                        </InputAdornment>
-                      )
-                    }
-                  />
-                )}
-                <Typography
-                  sx={{ color: theme.palette.error.main }}
-                  variant="caption"
-                >
-                  {errors[item.name]?.message as unknown as string}
-                </Typography>
-              </FormControl>
-            )}
+                  {mask && type !== 'number' ? (
+                    <PatternFormat
+                      type={type}
+                      size="small"
+                      format={mask}
+                      name={field.name}
+                      value={field.value}
+                      onBlur={field.onBlur}
+                      autoComplete={field.name}
+                      onChange={(event) => {
+                        field.onChange(event);
+                        clearErrors(field.name);
+                      }}
+                      id={`input-${field.name}`}
+                      customInput={Input}
+                      sx={{ ...inputStyle }}
+                      endAdornment={
+                        i18nEnabled && (
+                          <InputAdornment position="end">
+                            <Image
+                              src={item.icon}
+                              variant="rectangular"
+                              dimensions={{ width: '1.5rem', height: 'auto' }}
+                            />
+                          </InputAdornment>
+                        )
+                      }
+                    />
+                  ) : (
+                    <Input
+                      {...field}
+                      id={field.name}
+                      value={field.value ?? ''}
+                      onChange={(event) => {
+                        field.onChange(event);
+                        clearErrors(field.name);
+                      }}
+                      type={type}
+                      sx={{ width: '100%' }}
+                      endAdornment={
+                        i18nEnabled && (
+                          <InputAdornment position="end">
+                            <Image
+                              src={item.icon}
+                              variant="rectangular"
+                              dimensions={{ width: '1.5rem', height: 'auto' }}
+                            />
+                          </InputAdornment>
+                        )
+                      }
+                    />
+                  )}
+                  <Typography
+                    variant="caption"
+                    sx={{ color: theme.palette.error.main }}
+                  >
+                    {message}
+                  </Typography>
+                </FormControl>
+              );
+            }}
           />
         ))}
       </Box>

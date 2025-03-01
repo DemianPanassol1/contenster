@@ -45,7 +45,7 @@ const Save: React.FC<SaveProps> = ({
     control,
     setValue,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FormFields>({ defaultValues: fields });
 
   const theme = useTheme();
@@ -114,6 +114,7 @@ const Save: React.FC<SaveProps> = ({
           field="titles"
           setValue={setValue}
           validationOnAll={false}
+          isSubmitting={isSubmitting}
           validation={genericInputValidation(t)}
           controller={control as unknown as Control<FieldValues>}
         />
@@ -122,6 +123,7 @@ const Save: React.FC<SaveProps> = ({
           field="descriptions"
           setValue={setValue}
           validationOnAll={false}
+          isSubmitting={isSubmitting}
           validation={genericInputValidation(t)}
           controller={control as unknown as Control<FieldValues>}
         />
