@@ -6,10 +6,12 @@ interface SectionTitleProps {
   barStyles?: SxProps<Theme>;
   titleStyles?: SxProps<Theme>;
   containerStyles?: SxProps<Theme>;
+  variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'body1';
 }
 
 const SectionTitle: React.FC<SectionTitleProps> = ({
   title,
+  variant = 'h6',
   barStyles = {},
   titleStyles = {},
   containerStyles = {},
@@ -19,7 +21,7 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
   return (
     <Box sx={{ ...containerStyles }}>
       <Typography
-        variant="h6"
+        variant={variant}
         fontWeight={500}
         sx={{ ...titleStyles }}
         textTransform="capitalize"

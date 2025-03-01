@@ -6,6 +6,8 @@ import {
   InputAdornment,
   IconButton,
   useTheme,
+  SxProps,
+  Theme,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { PatternFormat } from 'react-number-format';
@@ -19,12 +21,12 @@ interface InputProps {
   label: string;
   mask?: string;
   controller: Control<FieldValues>;
-  type?: 'text' | 'password';
+  type?: 'text' | 'password' | 'number';
   validation?: Record<string, unknown>;
-  inputStyle?: React.CSSProperties;
+  inputStyle?: SxProps<Theme>;
   disabled?: boolean;
   helperText?: string | null;
-  containerStyle?: React.CSSProperties;
+  containerStyle?: SxProps<Theme>;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -67,7 +69,7 @@ const Input: React.FC<InputProps> = ({
             }}
           >
             <InputLabel htmlFor={`input-${field.name}`}>{label}</InputLabel>
-            {mask ? (
+            {mask && type !== 'number' ? (
               <PatternFormat
                 type={type}
                 size="small"

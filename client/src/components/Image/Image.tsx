@@ -1,10 +1,10 @@
 import React from 'react';
-import { Box, Skeleton } from '@mui/material';
+import { Box, Skeleton, SxProps, Theme } from '@mui/material';
 
 interface ImageProps {
   alt?: string;
   title?: string;
-  dimensions: React.CSSProperties;
+  dimensions: SxProps<Theme>;
   src?: string;
   isLoading?: boolean;
   variant?: 'text' | 'rectangular' | 'circular' | 'rounded';

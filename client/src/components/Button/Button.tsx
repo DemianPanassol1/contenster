@@ -1,12 +1,12 @@
 import React from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { Button as ButtonComponent, useTheme } from '@mui/material';
+import { Button as ButtonComponent, SxProps, Theme, useTheme } from '@mui/material';
 
 interface ButtonProps {
   content: React.ReactNode;
   loading?: boolean;
   type?: 'button' | 'submit' | 'reset';
-  customStyle?: React.CSSProperties;
+  customStyle?: SxProps<Theme>;
   disabled?: boolean;
   hasLoader?: boolean;
   onClick?: () => void;

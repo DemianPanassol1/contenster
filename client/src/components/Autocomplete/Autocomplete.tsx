@@ -1,6 +1,8 @@
 import {
   Autocomplete as AutocompleteComponent,
+  SxProps,
   TextField,
+  Theme,
   Typography,
   useTheme,
 } from '@mui/material';
@@ -22,7 +24,7 @@ interface AutocompleteProps {
   urlData?: string;
   fixedData?: Option[];
   validation?: Record<string, unknown>;
-  inputStyle?: React.CSSProperties;
+  inputStyle?: SxProps<Theme>;
   disabled?: boolean;
   helperText?: string | null;
   bodyContent?: Record<string, string | null>;

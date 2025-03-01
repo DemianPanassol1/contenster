@@ -58,7 +58,10 @@ export class ModulesService extends CoreService {
       throw new HttpException(this.i18n.t('errors.moduleNotFound'), HttpStatus.BAD_REQUEST);
     }
 
-    const response = { ...module };
+    const response = {
+      ...module,
+      establishmentId: module.establishment.id,
+    };
 
     return this.response(GetModuleResDto, response);
   }
@@ -68,17 +71,17 @@ export class ModulesService extends CoreService {
 
     const saveModule: Partial<Module> = {
       position: position,
-      establishment: { id: establishmentId } as Establishment,
+      establishment: { id: establishmentId },
       titles: titles.map((title) => ({
         id: title.id,
         text: title.text,
         language: { id: title.language.id },
-      })) as Translation[],
+      })),
       descriptions: descriptions.map((description) => ({
         id: description.id,
         text: description.text,
         language: { id: description.language.id },
-      })) as Translation[],
+      })),
     };
 
     const response = await this.repo.saveModule(saveModule);
@@ -98,15 +101,15 @@ export class ModulesService extends CoreService {
     const updateModule: Partial<Module> = {
       id: module.id,
       position: position,
-      establishment: { id: establishmentId } as Establishment,
+      establishment: { id: establishmentId },
       titles: titles.map((title) => ({
         id: title.id,
         text: title.text,
-      })) as Translation[],
+      })),
       descriptions: descriptions.map((description) => ({
         id: description.id,
         text: description.text,
-      })) as Translation[],
+      })),
     };
 
     const response = await this.repo.saveModule(updateModule);

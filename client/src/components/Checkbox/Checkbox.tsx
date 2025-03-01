@@ -4,6 +4,8 @@ import {
   Checkbox as CheckboxComponent,
   useTheme,
   Tooltip,
+  SxProps,
+  Theme,
 } from '@mui/material';
 import React from 'react';
 import { Controller, Control, FieldValues } from 'react-hook-form';
@@ -14,7 +16,7 @@ interface CheckboxProps {
   controller: Control<FieldValues>;
   tooltip?: string;
   size?: 'small' | 'medium';
-  inputStyle?: React.CSSProperties;
+  inputStyle?: SxProps<Theme>;
   validation?: Record<string, unknown>;
   disabled?: boolean;
   required?: boolean;

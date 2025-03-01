@@ -1,20 +1,33 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import React, { useEffect } from 'react';
 import { Box, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { Control, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 import { useGET, useNavigate } from '../../../../../utils/hooks.util';
 import { useGlobalContext } from '../../../../../contexts/global.context';
 import { handlePopulateFields } from '../../../../../utils/functions.util';
 
 import Wrapper from '../../../../../components/Wrapper';
+import Input from '../../../../../components/Input';
+import { genericInputValidation } from '../../../../../utils/validations.util';
+import Translations from '../../../../../components/Translations';
 
 interface FormFields {
   id: string;
+  position: string;
+  establishmentId: string;
+  titles: Record<string, unknown>[];
+  descriptions: Record<string, unknown>[];
 }
 
 const fields: FormFields = {
   id: '',
+  position: '',
+  establishmentId: '',
+  titles: [],
+  descriptions: [],
 };
 
 interface SaveProps {
@@ -29,12 +42,12 @@ const Save: React.FC<SaveProps> = ({
   getContentUrl = null,
 }) => {
   const {
-    // watch,
-    // control,
+    control,
     setValue,
-    // setError,
+    setError,
+    clearErrors,
     handleSubmit,
-    // formState: { errors },
+    formState: { errors },
   } = useForm<FormFields>({ defaultValues: fields });
 
   const theme = useTheme();
@@ -44,6 +57,19 @@ const Save: React.FC<SaveProps> = ({
   const { data, isLoading, refresh } = useGET(getContentUrl as string);
 
   const onSubmit: SubmitHandler<FormFields> = (content) => {
+    if (!content.titles.find((t) => t.required)?.text) {
+      setError('titles', { type: 'required', message: t('validations:title.required') });
+    }
+
+    if (!content.descriptions.find((t) => t.required)?.text) {
+      setError('descriptions', {
+        type: 'required',
+        message: t('validations:description.required'),
+      });
+    }
+
+    return console.log(content);
+
     handleOnSubmit({
       type: pageType === 'create' ? 'POST' : 'PUT',
       url: saveContentUrl,
@@ -70,6 +96,7 @@ const Save: React.FC<SaveProps> = ({
       onCancel={() => navigate(-1)}
       onSubmit={handleSubmit(onSubmit)}
       submitButtonContent={t('common:save')}
+      cancelButtonContent={t('common:cancel')}
     >
       <Box
         sx={{
@@ -85,7 +112,25 @@ const Save: React.FC<SaveProps> = ({
           },
         }}
       >
-        {/* Form fields go here */}
+        <Input
+          name="position"
+          type="number"
+          label={t('validations:position.field') + ' *'}
+          controller={control as unknown as Control<FieldValues>}
+          validation={genericInputValidation(t)}
+          helperText={errors.position?.message}
+          containerStyle={{ margin: '0' }}
+        />
+
+        <Translations
+          title={t('validations:title.field')}
+          field="titles"
+          setValue={setValue}
+          clearErrors={clearErrors}
+          helperText={errors.titles?.message}
+          allFieldsRequired={false}
+          controller={control as unknown as Control<FieldValues>}
+        />
       </Box>
     </Wrapper>
   );

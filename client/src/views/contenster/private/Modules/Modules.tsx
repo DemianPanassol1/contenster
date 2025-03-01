@@ -1,12 +1,18 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
+import {
+  GET_MODULE,
+  POST_MODULE,
+  PUT_MODULE,
+} from '../../../../routes/contenster/modules';
+
 import Main from './Main';
 import Save from './Save';
 import Page from '../../../../components/Page';
 
 const Modules: React.FC = () => {
-  const { /* id, */ type } = useParams();
+  const { id, type } = useParams();
 
   return (
     <Page>
@@ -16,15 +22,15 @@ const Modules: React.FC = () => {
             return (
               <Save
                 pageType={type}
-                saveContentUrl={''}
-                getContentUrl={''}
+                saveContentUrl={PUT_MODULE}
+                getContentUrl={GET_MODULE(id as string)}
               />
             );
           case 'create':
             return (
               <Save
                 pageType={type}
-                saveContentUrl={''}
+                saveContentUrl={POST_MODULE}
               />
             );
           default:
