@@ -8,13 +8,13 @@ import { Control, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useGET, useNavigate } from '../../../../../utils/hooks.util';
 import { useGlobalContext } from '../../../../../contexts/global.context';
 import { handlePopulateFields } from '../../../../../utils/functions.util';
-
-import Wrapper from '../../../../../components/Wrapper';
-import Input from '../../../../../components/Input';
 import { genericInputValidation } from '../../../../../utils/validations.util';
+
+import Input from '../../../../../components/Input';
+import Wrapper from '../../../../../components/Wrapper';
 import Translations from '../../../../../components/Translations';
 
-interface FormFields {
+export interface FormFields {
   id: string;
   position: string;
   establishmentId: string;
@@ -44,8 +44,6 @@ const Save: React.FC<SaveProps> = ({
   const {
     control,
     setValue,
-    setError,
-    clearErrors,
     handleSubmit,
     formState: { errors },
   } = useForm<FormFields>({ defaultValues: fields });
@@ -57,17 +55,6 @@ const Save: React.FC<SaveProps> = ({
   const { data, isLoading, refresh } = useGET(getContentUrl as string);
 
   const onSubmit: SubmitHandler<FormFields> = (content) => {
-    if (!content.titles.find((t) => t.required)?.text) {
-      setError('titles', { type: 'required', message: t('validations:title.required') });
-    }
-
-    if (!content.descriptions.find((t) => t.required)?.text) {
-      setError('descriptions', {
-        type: 'required',
-        message: t('validations:description.required'),
-      });
-    }
-
     return console.log(content);
 
     handleOnSubmit({
@@ -126,9 +113,16 @@ const Save: React.FC<SaveProps> = ({
           title={t('validations:title.field')}
           field="titles"
           setValue={setValue}
-          clearErrors={clearErrors}
-          helperText={errors.titles?.message}
-          allFieldsRequired={false}
+          validationOnAll={false}
+          validation={genericInputValidation(t)}
+          controller={control as unknown as Control<FieldValues>}
+        />
+        <Translations
+          title={t('validations:description.field')}
+          field="descriptions"
+          setValue={setValue}
+          validationOnAll={false}
+          validation={genericInputValidation(t)}
           controller={control as unknown as Control<FieldValues>}
         />
       </Box>

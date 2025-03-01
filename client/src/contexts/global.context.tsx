@@ -6,6 +6,7 @@ import React, {
   ReactNode,
   useEffect,
   useMemo,
+  useCallback,
 } from 'react';
 import { Theme } from '@emotion/react';
 import { useTranslation } from 'react-i18next';
@@ -237,6 +238,10 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
     }
   };
 
+  const callBack = useCallback(() => {
+    dispatch({ type: 'SET_CONFIG_INFO', payload: data });
+  }, [data]);
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       localStorage.setItem('mode', state.mode);
@@ -244,7 +249,7 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
   }, [state.mode]);
 
   useEffect(() => {
-    dispatch({ type: 'SET_CONFIG_INFO', payload: data });
+    callBack();
   }, [isLoading, data]);
 
   useEffect(() => {

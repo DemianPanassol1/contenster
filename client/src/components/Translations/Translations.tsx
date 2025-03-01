@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Box,
   FormControl,
@@ -11,16 +12,17 @@ import {
 } from '@mui/material';
 import {
   Control,
+  Controller,
   FieldValues,
-  UseFormClearErrors,
+  useForm,
   UseFormSetValue,
+  UseFormTrigger,
   useWatch,
 } from 'react-hook-form';
 import { useDebounce } from '@uidotdev/usehooks';
 import { PatternFormat } from 'react-number-format';
-import React, { memo, useEffect, useMemo, useState } from 'react';
+import React, { memo, useCallback, useEffect } from 'react';
 
-import { generateUniqueId } from '../../utils/functions.util';
 import { useGlobalContext } from '../../contexts/global.context';
 
 import Image from '../Image';
@@ -28,106 +30,98 @@ import SectionTitle from '../SectionTitle';
 
 interface TranslationsProps {
   field: string;
-  helperText?: string | null;
   setValue: UseFormSetValue<any>;
-  clearErrors: UseFormClearErrors<any>;
   controller: Control<FieldValues>;
+  mask?: string;
   title?: string;
   inputStyle?: SxProps<Theme>;
   containerStyle?: SxProps<Theme>;
   type?: 'text' | 'password' | 'number';
-  mask?: string;
-  allFieldsRequired?: boolean;
-}
-
-interface TranslationValues {
-  lang: string;
-  id: number | null;
-  tempId: string;
-  text: string | null;
-  icon: string;
-  label: string;
-  required: boolean;
-  languageId: number;
+  validationOnAll?: boolean;
+  validation?: Record<string, unknown>;
 }
 
 const Translations: React.FC<TranslationsProps> = ({
   field,
   setValue,
   controller,
-  clearErrors,
   mask = '',
   title = null,
   type = 'text',
-  helperText = null,
   inputStyle = {},
+  validation = {},
   containerStyle = {},
-  allFieldsRequired = false,
+  validationOnAll = false,
 }) => {
   const {
     state: { configInfo },
   } = useGlobalContext();
   const theme = useTheme();
-  const watchedValues = useWatch({ control: controller, name: field });
 
-  const initialValues = useMemo(() => {
-    const fields = (configInfo?.languages ?? []).filter(
-      (lang) => lang.purpose === 'both' || lang.purpose === 'console'
-    );
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue: setFormValue,
+  } = useForm();
 
-    return fields.map((lang) => ({
-      id: null,
-      text: null,
-      lang: lang.code,
-      icon: lang.icon,
-      label: lang.name,
-      languageId: lang.id,
-      required: lang.default,
-      tempId: generateUniqueId(),
-    }));
-  }, [configInfo]);
+  const values = useWatch({ control });
+  const storedValues = useWatch({ control: controller, name: field });
 
-  const [values, setValues] = useState<TranslationValues[]>(initialValues);
+  const arraysEqual = useCallback((arr1: string[], arr2: string[]) => {
+    if (arr1.length !== arr2.length) return false;
+    return arr1
+      .slice()
+      .sort()
+      .every((value, index) => value === arr2.slice().sort()[index]);
+  }, []);
 
-  const debouncedValues = useDebounce(values, 500);
+  const languages = (configInfo?.languages ?? []).filter(
+    (lang) => lang.purpose === 'both' || lang.purpose === 'console'
+  );
 
-  function handleOnChangeField(
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) {
-    const { name, value } = event.target;
-
-    setValues((prevValues) =>
-      prevValues.map((item) =>
-        item.tempId === name && item.text !== value ? { ...item, text: value } : item
-      )
-    );
-  }
+  const i18nEnabled = languages.length > 1;
 
   useEffect(() => {
-    if (JSON.stringify(watchedValues) !== JSON.stringify(values)) {
-      const auxArray = values.map((item) => {
-        const match = watchedValues?.find(
-          (value: any) =>
-            (value?.language?.id ?? '').toString() === item.languageId.toString()
-        );
+    const aux1 = Object.values(values);
+    const aux2 = Object.values(storedValues.map((elem: any) => elem.text)) as string[];
 
-        return {
-          ...item,
-          id: match?.id ?? null,
-          text: match?.text ?? null,
-        };
-      });
+    if (arraysEqual(aux1, aux2)) return;
 
-      setValues(auxArray);
+    if (storedValues.length) {
+      setValue(
+        field,
+        storedValues.map((elem: any) => {
+          return {
+            ...elem,
+            text: values[`${field}-${elem.language.languageCode}`],
+          };
+        })
+      );
+    } else {
+      setValue(
+        field,
+        languages.map((elem: Language) => {
+          return {
+            id: null,
+            text: values[`${field}-${elem.code}`],
+            language: {
+              id: elem.id,
+              languageCode: elem.code,
+            },
+          };
+        })
+      );
     }
-  }, [watchedValues]);
+  }, [useDebounce(values, 250)]);
 
   useEffect(() => {
-    clearErrors(field);
-    setValue(field, debouncedValues, { shouldValidate: true });
-  }, [debouncedValues]);
+    if (!storedValues.length) return;
 
-  const i18nEnabled = values.length > 1;
+    storedValues.forEach((elem: any) => {
+      setFormValue(`${field}-${elem.language.languageCode}`, elem.text);
+    });
+  }, [storedValues]);
 
   return (
     <Box
@@ -157,7 +151,7 @@ const Translations: React.FC<TranslationsProps> = ({
           ...(i18nEnabled && {
             display: 'grid',
             gap: '1.5rem 2rem',
-            margin: '0.75rem 0 2rem',
+            margin: '0.75rem 0 0',
             gridTemplateColumns: '1fr',
             [theme.breakpoints.up('md')]: {
               gridTemplateColumns: '1fr 1fr',
@@ -168,83 +162,87 @@ const Translations: React.FC<TranslationsProps> = ({
           }),
         }}
       >
-        {values.map((item: TranslationValues) => (
-          <FormControl
-            key={item.tempId}
-            variant="standard"
-            sx={{
-              display: 'flex',
-              width: '100%',
-              ...inputStyle,
-            }}
-          >
-            <InputLabel
-              shrink={!!item.text}
-              htmlFor={item.tempId}
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              {`${i18nEnabled ? item.label : title}${item.required || allFieldsRequired ? ' *' : ''}`}
-            </InputLabel>
-            {mask && type !== 'number' ? (
-              <PatternFormat
-                type={type}
-                size="small"
-                format={mask}
-                id={item.tempId}
-                lang={item.lang}
-                value={item.text}
-                name={item.tempId}
-                customInput={Input}
-                sx={{ width: '100%' }}
-                required={item.required}
-                onChange={handleOnChangeField}
-                endAdornment={
-                  i18nEnabled && (
-                    <InputAdornment position="end">
-                      <Image
-                        src={item.icon}
-                        variant="rectangular"
-                        dimensions={{ width: '1.5rem', height: 'auto' }}
-                      />
-                    </InputAdornment>
-                  )
-                }
-              />
-            ) : (
-              <Input
-                type={type}
-                id={item.tempId}
-                lang={item.lang}
-                value={item.text}
-                name={item.tempId}
-                required={item.required}
-                onChange={handleOnChangeField}
-                sx={{ width: '100%' }}
-                endAdornment={
-                  i18nEnabled && (
-                    <InputAdornment position="end">
-                      <Image
-                        src={item.icon}
-                        variant="rectangular"
-                        dimensions={{ width: '1.5rem', height: 'auto' }}
-                      />
-                    </InputAdornment>
-                  )
-                }
-              />
-            )}
-            {(item.required || allFieldsRequired) && !item.text && (
-              <Typography
-                sx={{ color: theme.palette.error.main }}
-                variant="caption"
+        {languages.map((item: Language) => (
+          <Controller
+            rules={validation}
+            key={`${field}-${item.code}`}
+            name={`${field}-${item.code}`}
+            control={control}
+            render={({ field }) => (
+              <FormControl
+                variant="standard"
+                sx={{
+                  display: 'flex',
+                  width: '100%',
+                  ...inputStyle,
+                }}
               >
-                {helperText}
-              </Typography>
+                <InputLabel
+                  shrink={!!field.value}
+                  htmlFor={field.name}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  {`${i18nEnabled ? item.name : title}${item.default || validationOnAll ? ' *' : ''}`}
+                </InputLabel>
+
+                {mask && type !== 'number' ? (
+                  <PatternFormat
+                    type={type}
+                    size="small"
+                    format={mask}
+                    name={field.name}
+                    value={field.value}
+                    onBlur={field.onBlur}
+                    autoComplete={field.name}
+                    onChange={field.onChange}
+                    id={`input-${field.name}`}
+                    customInput={Input}
+                    sx={{ ...inputStyle }}
+                    endAdornment={
+                      i18nEnabled && (
+                        <InputAdornment position="end">
+                          <Image
+                            src={item.icon}
+                            variant="rectangular"
+                            dimensions={{ width: '1.5rem', height: 'auto' }}
+                          />
+                        </InputAdornment>
+                      )
+                    }
+                  />
+                ) : (
+                  <Input
+                    {...field}
+                    id={field.name}
+                    value={field.value ?? ''}
+                    type={type}
+                    required={item.default}
+                    sx={{ width: '100%' }}
+                    endAdornment={
+                      i18nEnabled && (
+                        <InputAdornment position="end">
+                          <Image
+                            src={item.icon}
+                            variant="rectangular"
+                            dimensions={{ width: '1.5rem', height: 'auto' }}
+                          />
+                        </InputAdornment>
+                      )
+                    }
+                  />
+                )}
+                <Typography
+                  sx={{ color: theme.palette.error.main }}
+                  variant="caption"
+                >
+                  {errors[item.name]?.message as unknown as string}
+                </Typography>
+              </FormControl>
             )}
-          </FormControl>
+          />
         ))}
       </Box>
     </Box>
