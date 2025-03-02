@@ -70,15 +70,13 @@ export class ModulesService extends CoreService {
     const { titles, descriptions, position, establishmentId } = body;
 
     const saveModule: Partial<Module> = {
-      position: position,
+      position,
       establishment: { id: establishmentId },
       titles: titles.map((title) => ({
-        id: title.id,
         text: title.text,
         language: { id: title.language.id },
       })),
       descriptions: descriptions.map((description) => ({
-        id: description.id,
         text: description.text,
         language: { id: description.language.id },
       })),
@@ -99,16 +97,18 @@ export class ModulesService extends CoreService {
     }
 
     const updateModule: Partial<Module> = {
-      id: module.id,
-      position: position,
+      id,
+      position,
       establishment: { id: establishmentId },
       titles: titles.map((title) => ({
         id: title.id,
         text: title.text,
+        language: { id: title.language.id },
       })),
       descriptions: descriptions.map((description) => ({
         id: description.id,
         text: description.text,
+        language: { id: description.language.id },
       })),
     };
 

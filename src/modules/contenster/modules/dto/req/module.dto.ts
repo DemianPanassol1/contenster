@@ -1,5 +1,5 @@
 import { Transform, Type } from 'class-transformer';
-import { IsArray, IsNotEmpty, IsNumber, ValidateNested } from 'class-validator';
+import { ArrayNotEmpty, IsArray, IsNotEmpty, IsNumber, ValidateNested } from 'class-validator';
 
 import { TranslationDto } from 'src/shared/dtos/translate.req.dto';
 
@@ -22,11 +22,13 @@ export class ModuleDto {
   establishmentId: number;
 
   @IsArray({ message: 'validation.invalidArray' })
+  @ArrayNotEmpty({ message: 'validation.notEmpty' })
   @ValidateNested({ each: true })
   @Type(() => TranslationDto)
   titles: TranslationDto[];
 
   @IsArray({ message: 'validation.invalidArray' })
+  @ArrayNotEmpty({ message: 'validation.notEmpty' })
   @ValidateNested({ each: true })
   @Type(() => TranslationDto)
   descriptions: TranslationDto[];

@@ -5,15 +5,18 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { CoreRepository } from 'src/core/core.repository';
 import { PermissionType } from 'src/shared/enums/common.enums';
-import { Module } from 'src/entities/contensterdb/module.entity';
 
 import { GetModulesListReqDto } from './dto/req/getModulesList.req.dto';
+
+import { Module } from 'src/entities/contensterdb/module.entity';
+import { Translation } from 'src/entities/contensterdb/translation.entity';
 
 @Injectable()
 export class ModulesRepository extends CoreRepository {
   constructor(
     public readonly i18n: I18nService,
     @InjectRepository(Module) private moduleRepo: Repository<Module>,
+    @InjectRepository(Translation) private translationRepo: Repository<Translation>,
   ) {
     super(i18n);
   }
@@ -51,7 +54,11 @@ export class ModulesRepository extends CoreRepository {
     return this.moduleRepo.save(module);
   }
 
-  removeModule(module: Module): Promise<Module> {
-    return this.moduleRepo.remove(module);
+  async removeModule(module: Module): Promise<Module> {
+    await this.moduleRepo.remove(module);
+
+    await this.translationRepo.remove([...module.titles, ...module.descriptions]);
+
+    return module;
   }
 }

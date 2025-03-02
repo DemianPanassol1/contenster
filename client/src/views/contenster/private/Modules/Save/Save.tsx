@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import {
   Control,
   FieldErrors,
@@ -11,7 +9,7 @@ import { Box, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
 
-import { useGET, useNavigate } from '../../../../../utils/hooks.util';
+import { useGET, useNavigate, useUserSession } from '../../../../../utils/hooks.util';
 import { useGlobalContext } from '../../../../../contexts/global.context';
 import { handlePopulateFields } from '../../../../../utils/functions.util';
 import { genericInputValidation } from '../../../../../utils/validations.util';
@@ -56,6 +54,7 @@ const Save: React.FC<SaveProps> = ({
 
   const theme = useTheme();
   const navigate = useNavigate();
+  const session = useUserSession();
   const { handleOnSubmit } = useGlobalContext();
   const { t } = useTranslation(['common', 'validations']);
   const { data, isLoading, refresh } = useGET(getContentUrl as string);
@@ -65,7 +64,9 @@ const Save: React.FC<SaveProps> = ({
   const onSubmit: SubmitHandler<FormFields> = (content) => {
     if (i18nErrors.filter((obj) => Object.keys(obj).length > 0).length > 0) return;
 
-    return console.log(content);
+    if (!content.establishmentId) {
+      content.establishmentId = session?.establishment.id.toString() ?? '';
+    }
 
     handleOnSubmit({
       type: pageType === 'create' ? 'POST' : 'PUT',

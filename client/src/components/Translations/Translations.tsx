@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Box,
   FormControl,
@@ -91,31 +90,29 @@ const Translations: React.FC<TranslationsProps> = ({
 
     if (arraysEqual(aux1, aux2)) return;
 
-    if (storedValues.length) {
-      setValue(
-        field,
-        storedValues.map((elem: any) => {
-          return {
-            ...elem,
-            text: values[`${field}-${elem.language.languageCode}`],
-          };
-        })
+    const fields = languages.map((elem: Language) => {
+      const storedValue = storedValues.find(
+        (stored: any) => stored.language.languageCode === elem.code
       );
-    } else {
-      setValue(
-        field,
-        languages.map((elem: Language) => {
-          return {
-            id: null,
-            text: values[`${field}-${elem.code}`],
-            language: {
-              id: elem.id,
-              languageCode: elem.code,
-            },
-          };
-        })
-      );
-    }
+
+      if (storedValue) {
+        return {
+          ...storedValue,
+          text: values[`${field}-${storedValue.language.languageCode}`] ?? '',
+        };
+      }
+
+      return {
+        id: null,
+        text: values[`${field}-${elem.code}`] ?? '',
+        language: {
+          id: elem.id,
+          languageCode: elem.code,
+        },
+      };
+    });
+
+    setValue(field, fields);
   }, [useDebounce(values, 250)]);
 
   useEffect(() => {
