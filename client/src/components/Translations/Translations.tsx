@@ -32,7 +32,6 @@ interface TranslationsProps {
   field: string;
   setValue: UseFormSetValue<any>;
   controller: Control<FieldValues>;
-  isSubmitting: boolean;
   mask?: string;
   title?: string;
   inputStyle?: SxProps<Theme>;
@@ -47,7 +46,6 @@ const Translations: React.FC<TranslationsProps> = ({
   field,
   setValue,
   controller,
-  isSubmitting,
   setI18nErrors,
   mask = '',
   title = null,
@@ -124,13 +122,15 @@ const Translations: React.FC<TranslationsProps> = ({
     if (!storedValues.length) return;
 
     storedValues.forEach((elem: any) => {
-      setFormValue(`${field}-${elem.language.languageCode}`, elem.text);
+      setFormValue(`${field}-${elem.language.languageCode}`, elem.text, {
+        shouldValidate: true,
+      });
     });
   }, [storedValues]);
 
   useEffect(() => {
-    if (isSubmitting) trigger();
-  }, [isSubmitting]);
+    trigger();
+  }, []);
 
   useEffect(() => {
     setI18nErrors((prev) => [...prev, errors]);

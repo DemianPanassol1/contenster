@@ -7,9 +7,9 @@ import {
   SubmitHandler,
   useForm,
 } from 'react-hook-form';
-import React, { useEffect, useState } from 'react';
 import { Box, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import React, { useEffect, useState } from 'react';
 
 import { useGET, useNavigate } from '../../../../../utils/hooks.util';
 import { useGlobalContext } from '../../../../../contexts/global.context';
@@ -51,7 +51,7 @@ const Save: React.FC<SaveProps> = ({
     control,
     setValue,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<FormFields>({ defaultValues: fields });
 
   const theme = useTheme();
@@ -123,7 +123,6 @@ const Save: React.FC<SaveProps> = ({
           field="titles"
           setValue={setValue}
           validationOnAll={false}
-          isSubmitting={isSubmitting}
           validation={genericInputValidation(t)}
           setI18nErrors={setI18nErrors}
           controller={control as unknown as Control<FieldValues>}
@@ -133,7 +132,6 @@ const Save: React.FC<SaveProps> = ({
           field="descriptions"
           setValue={setValue}
           validationOnAll
-          isSubmitting={isSubmitting}
           setI18nErrors={setI18nErrors}
           validation={genericInputValidation(t)}
           controller={control as unknown as Control<FieldValues>}
