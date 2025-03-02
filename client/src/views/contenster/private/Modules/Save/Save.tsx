@@ -1,9 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import React, { useEffect } from 'react';
+import {
+  Control,
+  FieldErrors,
+  FieldValues,
+  SubmitHandler,
+  useForm,
+} from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
 import { Box, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { Control, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 import { useGET, useNavigate } from '../../../../../utils/hooks.util';
 import { useGlobalContext } from '../../../../../contexts/global.context';
@@ -54,7 +60,11 @@ const Save: React.FC<SaveProps> = ({
   const { t } = useTranslation(['common', 'validations']);
   const { data, isLoading, refresh } = useGET(getContentUrl as string);
 
+  const [i18nErrors, setI18nErrors] = useState<FieldErrors<FieldValues>[]>([]);
+
   const onSubmit: SubmitHandler<FormFields> = (content) => {
+    if (i18nErrors.filter((obj) => Object.keys(obj).length > 0).length > 0) return;
+
     return console.log(content);
 
     handleOnSubmit({
@@ -108,7 +118,6 @@ const Save: React.FC<SaveProps> = ({
           helperText={errors.position?.message}
           containerStyle={{ margin: '0' }}
         />
-
         <Translations
           title={t('validations:title.field')}
           field="titles"
@@ -116,14 +125,16 @@ const Save: React.FC<SaveProps> = ({
           validationOnAll={false}
           isSubmitting={isSubmitting}
           validation={genericInputValidation(t)}
+          setI18nErrors={setI18nErrors}
           controller={control as unknown as Control<FieldValues>}
         />
         <Translations
           title={t('validations:description.field')}
           field="descriptions"
           setValue={setValue}
-          validationOnAll={false}
+          validationOnAll
           isSubmitting={isSubmitting}
+          setI18nErrors={setI18nErrors}
           validation={genericInputValidation(t)}
           controller={control as unknown as Control<FieldValues>}
         />

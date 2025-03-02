@@ -13,10 +13,10 @@ import {
 import {
   Control,
   Controller,
+  FieldErrors,
   FieldValues,
   useForm,
   UseFormSetValue,
-  UseFormTrigger,
   useWatch,
 } from 'react-hook-form';
 import { useDebounce } from '@uidotdev/usehooks';
@@ -40,6 +40,7 @@ interface TranslationsProps {
   type?: 'text' | 'password' | 'number';
   validationOnAll?: boolean;
   validation?: Record<string, unknown>;
+  setI18nErrors: React.Dispatch<React.SetStateAction<FieldErrors<FieldValues>[]>>;
 }
 
 const Translations: React.FC<TranslationsProps> = ({
@@ -47,6 +48,7 @@ const Translations: React.FC<TranslationsProps> = ({
   setValue,
   controller,
   isSubmitting,
+  setI18nErrors,
   mask = '',
   title = null,
   type = 'text',
@@ -129,6 +131,10 @@ const Translations: React.FC<TranslationsProps> = ({
   useEffect(() => {
     if (isSubmitting) trigger();
   }, [isSubmitting]);
+
+  useEffect(() => {
+    setI18nErrors((prev) => [...prev, errors]);
+  }, [errors]);
 
   return (
     <Box
