@@ -1,20 +1,34 @@
-import React, { useEffect } from 'react';
+import {
+  Control,
+  FieldErrors,
+  FieldValues,
+  SubmitHandler,
+  useForm,
+} from 'react-hook-form';
 import { Box, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
 
-import { useGET, useNavigate } from '../../../../../utils/hooks.util';
 import { useGlobalContext } from '../../../../../contexts/global.context';
 import { handlePopulateFields } from '../../../../../utils/functions.util';
+import { genericInputValidation } from '../../../../../utils/validations.util';
+import { useGET, useNavigate, useUserSession } from '../../../../../utils/hooks.util';
 
 import Wrapper from '../../../../../components/Wrapper';
+import Translations from '../../../../../components/Translations';
 
-interface FormFields {
+export interface FormFields {
   id: string;
+  establishmentId: string;
+  titles: Record<string, unknown>[];
+  descriptions: Record<string, unknown>[];
 }
 
 const fields: FormFields = {
   id: '',
+  establishmentId: '',
+  titles: [],
+  descriptions: [],
 };
 
 interface SaveProps {
@@ -28,22 +42,26 @@ const Save: React.FC<SaveProps> = ({
   saveContentUrl,
   getContentUrl = null,
 }) => {
-  const {
-    // watch,
-    // control,
-    setValue,
-    // setError,
-    handleSubmit,
-    // formState: { errors },
-  } = useForm<FormFields>({ defaultValues: fields });
+  const { control, setValue, handleSubmit } = useForm<FormFields>({
+    defaultValues: fields,
+  });
 
   const theme = useTheme();
   const navigate = useNavigate();
+  const session = useUserSession();
   const { handleOnSubmit } = useGlobalContext();
   const { t } = useTranslation(['common', 'validations']);
   const { data, isLoading, refresh } = useGET(getContentUrl as string);
 
+  const [i18nErrors, setI18nErrors] = useState<FieldErrors<FieldValues>[]>([]);
+
   const onSubmit: SubmitHandler<FormFields> = (content) => {
+    if (i18nErrors.filter((obj) => Object.keys(obj).length > 0).length > 0) return;
+
+    if (!content.establishmentId) {
+      content.establishmentId = session?.establishment.id.toString() ?? '';
+    }
+
     handleOnSubmit({
       type: pageType === 'create' ? 'POST' : 'PUT',
       url: saveContentUrl,
@@ -70,6 +88,7 @@ const Save: React.FC<SaveProps> = ({
       onCancel={() => navigate(-1)}
       onSubmit={handleSubmit(onSubmit)}
       submitButtonContent={t('common:save')}
+      cancelButtonContent={t('common:cancel')}
     >
       <Box
         sx={{
@@ -85,7 +104,24 @@ const Save: React.FC<SaveProps> = ({
           },
         }}
       >
-        {/* Form fields go here */}
+        <Translations
+          title={t('validations:title.field')}
+          field="titles"
+          setValue={setValue}
+          validationOnAll
+          validation={genericInputValidation(t)}
+          setI18nErrors={setI18nErrors}
+          controller={control as unknown as Control<FieldValues>}
+        />
+        <Translations
+          title={t('validations:description.field')}
+          field="descriptions"
+          setValue={setValue}
+          validationOnAll
+          setI18nErrors={setI18nErrors}
+          validation={genericInputValidation(t)}
+          controller={control as unknown as Control<FieldValues>}
+        />
       </Box>
     </Wrapper>
   );

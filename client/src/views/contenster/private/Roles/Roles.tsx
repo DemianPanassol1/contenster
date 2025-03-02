@@ -1,12 +1,14 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
+import { GET_ROLE, POST_ROLE, PUT_ROLE } from '../../../../routes/contenster/roles';
+
 import Main from './Main';
 import Save from './Save';
 import Page from '../../../../components/Page';
 
 const Roles: React.FC = () => {
-  const { /* id, */ type } = useParams();
+  const { id, type } = useParams();
 
   return (
     <Page>
@@ -16,15 +18,15 @@ const Roles: React.FC = () => {
             return (
               <Save
                 pageType={type}
-                saveContentUrl={''}
-                getContentUrl={''}
+                saveContentUrl={PUT_ROLE}
+                getContentUrl={GET_ROLE(id as string)}
               />
             );
           case 'create':
             return (
               <Save
                 pageType={type}
-                saveContentUrl={''}
+                saveContentUrl={POST_ROLE}
               />
             );
           default:

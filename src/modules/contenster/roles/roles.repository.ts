@@ -1,4 +1,4 @@
-import { DeleteResult, Repository, UpdateResult } from 'typeorm';
+import { Repository } from 'typeorm';
 import { I18nService } from 'nestjs-i18n';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -9,16 +9,17 @@ import { PermissionType } from 'src/shared/enums/common.enums';
 
 import { GetRolesListReqDto } from './dto/req/getRolesList.req.dto';
 import { Permission } from 'src/entities/contensterdb/permission.entity';
-import { UserEstablishmentRole } from 'src/entities/contensterdb/userEstablishmentRole.entity';
+import { Translation } from 'src/entities/contensterdb/translation.entity';
+import { UserEstablishmentRole as UER } from 'src/entities/contensterdb/userEstablishmentRole.entity';
 
 @Injectable()
 export class RolesRepository extends CoreRepository {
   constructor(
     public readonly i18n: I18nService,
     @InjectRepository(Role) private roleRepo: Repository<Role>,
+    @InjectRepository(UER) private userEstabRoleRepo: Repository<UER>,
     @InjectRepository(Permission) private permissionRepo: Repository<Permission>,
-    @InjectRepository(UserEstablishmentRole)
-    private userEstablishmentRoleRepo: Repository<UserEstablishmentRole>,
+    @InjectRepository(Translation) private translationRepo: Repository<Translation>,
   ) {
     super(i18n);
   }
@@ -44,6 +45,7 @@ export class RolesRepository extends CoreRepository {
     return this.roleRepo.findOne({
       where: { id },
       relations: {
+        permission: true,
         establishment: true,
         titles: { language: true },
         descriptions: { language: true },
@@ -56,18 +58,18 @@ export class RolesRepository extends CoreRepository {
   }
 
   countRolesByEstablishmentRole(establishmentId: number, roleId: number): Promise<number> {
-    return this.userEstablishmentRoleRepo.count({
+    return this.userEstabRoleRepo.count({
       where: { establishment: { id: establishmentId }, role: { id: roleId } },
     });
   }
 
   async remeveRole(role: Role): Promise<Role> {
-    const permissions = await this.permissionRepo.find({
-      where: { role: { id: role.id } },
-    });
+    await this.permissionRepo.remove(role.permission);
 
-    await this.permissionRepo.remove(permissions);
+    await this.roleRepo.remove(role);
 
-    return this.roleRepo.remove(role);
+    await this.translationRepo.remove([...role.titles, ...role.descriptions]);
+
+    return role;
   }
 }

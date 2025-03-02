@@ -17,8 +17,6 @@ import { DeleteRoleResDto } from './dto/res/deleteRole.res.dto';
 import { GetRolesListResDto } from './dto/res/getRolesList.res.dto';
 
 import { Role } from 'src/entities/contensterdb/role.entity';
-import { Translation } from 'src/entities/contensterdb/translation.entity';
-import { Establishment } from 'src/entities/contensterdb/establishment.entity';
 
 @Injectable()
 export class RolesService extends CoreService {
@@ -75,15 +73,17 @@ export class RolesService extends CoreService {
 
     const updateRole: Partial<Role> = {
       id: role.id,
-      establishment: { id: establishmentId } as Establishment,
+      establishment: { id: establishmentId },
       titles: titles.map((title) => ({
         id: title.id,
         text: title.text,
-      })) as Translation[],
+        language: { id: title.language.id },
+      })),
       descriptions: descriptions.map((description) => ({
         id: description.id,
         text: description.text,
-      })) as Translation[],
+        language: { id: description.language.id },
+      })),
     };
 
     const response = await this.repo.saveRole(updateRole);
@@ -95,17 +95,15 @@ export class RolesService extends CoreService {
     const { titles, descriptions, establishmentId } = body;
 
     const saveRole: Partial<Role> = {
-      establishment: { id: establishmentId } as Establishment,
+      establishment: { id: establishmentId },
       titles: titles.map((title) => ({
-        id: title.id,
         text: title.text,
         language: { id: title.language.id },
-      })) as Translation[],
+      })),
       descriptions: descriptions.map((description) => ({
-        id: description.id,
         text: description.text,
         language: { id: description.language.id },
-      })) as Translation[],
+      })),
     };
 
     const response = await this.repo.saveRole(saveRole);

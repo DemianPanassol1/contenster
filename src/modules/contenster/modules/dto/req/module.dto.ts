@@ -6,13 +6,13 @@ import { TranslationDto } from 'src/shared/dtos/translate.req.dto';
 import { parseNum } from 'src/shared/utils/convertion.utils';
 
 export class ModuleDto {
-  @IsNotEmpty({ message: 'validation.notEmpty' })
   @Transform(parseNum)
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsNumber({}, { message: 'validation.invalidNumber' })
   id: number;
 
-  @IsNotEmpty({ message: 'validation.notEmpty' })
   @Transform(parseNum)
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsNumber({}, { message: 'validation.invalidNumber' })
   position: number;
 
