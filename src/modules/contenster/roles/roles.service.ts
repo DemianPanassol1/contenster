@@ -75,12 +75,12 @@ export class RolesService extends CoreService {
       id: role.id,
       establishment: { id: establishmentId },
       titles: titles.map((title) => ({
-        id: title.id,
+        ...(title.id && { id: title.id }),
         text: title.text,
         language: { id: title.language.id },
       })),
       descriptions: descriptions.map((description) => ({
-        id: description.id,
+        ...(description.id && { id: description.id }),
         text: description.text,
         language: { id: description.language.id },
       })),

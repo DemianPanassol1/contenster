@@ -83,7 +83,10 @@ const ChangeEstablishment: React.FC = () => {
         <Autocomplete
           name="establishmentId"
           label={t('validations:establishment.field')}
-          urlData={GET_ESTABLISHMENT_OPTIONS(false, session?.id?.toString())}
+          urlData={GET_ESTABLISHMENT_OPTIONS}
+          bodyContent={{
+            userId: (session?.id ?? '').toString(),
+          }}
           controller={control as unknown as Control<FieldValues>}
           validation={genericInputValidation(t)}
           helperText={errors.establishmentId?.message}

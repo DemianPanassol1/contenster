@@ -5,8 +5,6 @@ import Modules from './Modules';
 import Permissions from './Permissions';
 import Establishments from './Establishments';
 import Functionalities from './Functionalities';
-import EstablishmentRoles from './EstablishmentRoles';
-import EstablishmentUsers from './EstablishmentUsers';
 
 export const adminViews = [
   {
@@ -36,13 +34,5 @@ export const adminViews = [
   {
     path: 'functionalities/:type?/:id?',
     element: <Functionalities />,
-  },
-  {
-    path: 'establishment-roles/:type?/:id?',
-    element: <EstablishmentRoles />,
-  },
-  {
-    path: 'establishment-users/:type?/:id?',
-    element: <EstablishmentUsers />,
   },
 ];

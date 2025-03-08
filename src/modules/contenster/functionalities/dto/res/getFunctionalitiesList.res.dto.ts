@@ -17,6 +17,9 @@ class GetFunctionalitiesListData {
 
   @Expose()
   icon: string;
+
+  @Expose()
+  establishment: string;
 }
 
 class CustomMeta extends Meta {

@@ -10,7 +10,7 @@ import './settings/i18n.setting';
 
 import Auth from './views/contenster/common/Auth';
 import Admin from './views/contenster/common/Admin';
-import Error from './views/contenster/common/Error';
+// import Error from './views/contenster/common/Error';
 
 import { authViews } from './views/contenster/public';
 import { adminViews } from './views/contenster/private';
@@ -19,13 +19,13 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Admin />,
-    errorElement: <Error />,
+    // errorElement: <Error />,
     children: [...adminViews],
   },
   {
     path: '/auth',
     element: <Auth />,
-    errorElement: <Error />,
+    // errorElement: <Error />,
     children: [...authViews],
   },
 ]);

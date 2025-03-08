@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CoreRepository } from 'src/core/core.repository';
 import { PermissionType } from 'src/shared/enums/common.enums';
 import { Permission } from 'src/entities/contensterdb/permission.entity';
+import { Translation } from 'src/entities/contensterdb/translation.entity';
 import { Functionality } from 'src/entities/contensterdb/functionality.entity';
 
 import { GetFunctionalitiesListReqDto } from './dto/req/getFunctionalitiesList.req.dto';
@@ -15,6 +16,7 @@ export class FunctionalitiesRepository extends CoreRepository {
   constructor(
     public readonly i18n: I18nService,
     @InjectRepository(Permission) private permissionRepo: Repository<Permission>,
+    @InjectRepository(Translation) private translationRepo: Repository<Translation>,
     @InjectRepository(Functionality) private functionalityRepo: Repository<Functionality>,
   ) {
     super(i18n);
@@ -50,6 +52,7 @@ export class FunctionalitiesRepository extends CoreRepository {
           establishment: true,
         },
         titles: { language: true },
+        permission: true,
       },
     });
   }
@@ -73,12 +76,12 @@ export class FunctionalitiesRepository extends CoreRepository {
   }
 
   async removeFunctionality(functionality: Functionality): Promise<Functionality> {
-    const permissions = await this.permissionRepo.find({
-      where: { functionality: { id: functionality.id } },
-    });
+    await this.permissionRepo.remove(functionality.permission);
 
-    await this.permissionRepo.remove(permissions);
+    await this.translationRepo.remove([...functionality.titles]);
 
-    return this.functionalityRepo.remove(functionality);
+    await this.functionalityRepo.remove(functionality);
+
+    return functionality;
   }
 }

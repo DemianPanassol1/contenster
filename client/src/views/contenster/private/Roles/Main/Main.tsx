@@ -16,32 +16,34 @@ const Main: React.FC = () => {
   return (
     <Wrapper hasSubmitButton={false}>
       <Table
-        columns={[
-          {
-            name: t('validations:establishment.field'),
-            field: 'establishment',
-            selector: 'establishment.corporateName',
-            sortable: true,
-            searchable: true,
-            type: 'text',
-          },
-          {
-            name: t('validations:title.field'),
-            field: 'title',
-            selector: 'titles.text',
-            sortable: true,
-            searchable: true,
-            type: 'text',
-          },
-          {
-            name: t('validations:description.field'),
-            field: 'description',
-            selector: 'descriptions.text',
-            sortable: true,
-            searchable: true,
-            type: 'text',
-          },
-        ]}
+        columns={
+          [
+            permission.type === 'general' && {
+              name: t('validations:establishment.field'),
+              field: 'establishment',
+              selector: 'establishment.corporateName',
+              sortable: true,
+              searchable: true,
+              type: 'text',
+            },
+            {
+              name: t('validations:title.field'),
+              field: 'title',
+              selector: 'titles.text',
+              sortable: true,
+              searchable: true,
+              type: 'text',
+            },
+            {
+              name: t('validations:description.field'),
+              field: 'description',
+              selector: 'descriptions.text',
+              sortable: true,
+              searchable: true,
+              type: 'text',
+            },
+          ].filter(Boolean) as Columns[]
+        }
         urlList={GET_ROLES_LIST}
         urlDelete={DELETE_ROLE}
         bodyContent={{

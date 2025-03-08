@@ -27,7 +27,7 @@ interface AutocompleteProps {
   inputStyle?: SxProps<Theme>;
   disabled?: boolean;
   helperText?: string | null;
-  bodyContent?: Record<string, string | null>;
+  bodyContent?: Record<string, any>;
 }
 
 const Autocomplete: React.FC<AutocompleteProps> = ({

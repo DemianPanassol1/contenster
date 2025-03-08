@@ -1,12 +1,20 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
+import {
+  GET_FUNCTIONALITY,
+  POST_FUNCTIONALITY,
+  PUT_FUNCTIONALITY,
+} from '../../../../routes/contenster/functionalities';
+import { usePermissions } from '../../../../utils/hooks.util';
+
 import Main from './Main';
 import Save from './Save';
 import Page from '../../../../components/Page';
 
 const Functionalities: React.FC = () => {
-  const { /* id, */ type } = useParams();
+  const { id, type } = useParams();
+  const permission = usePermissions();
 
   return (
     <Page>
@@ -16,15 +24,17 @@ const Functionalities: React.FC = () => {
             return (
               <Save
                 pageType={type}
-                saveContentUrl={''}
-                getContentUrl={''}
+                saveContentUrl={PUT_FUNCTIONALITY}
+                getContentUrl={GET_FUNCTIONALITY((id ?? '').toString())}
+                permissionType={permission.type}
               />
             );
           case 'create':
             return (
               <Save
                 pageType={type}
-                saveContentUrl={''}
+                saveContentUrl={POST_FUNCTIONALITY}
+                permissionType={permission.type}
               />
             );
           default:

@@ -17,8 +17,6 @@ import { DeleteModuleResDto } from './dto/res/deleteModule.res.dto';
 import { GetModulesListResDto } from './dto/res/getModulesList.res.dto';
 
 import { Module } from 'src/entities/contensterdb/module.entity';
-import { Translation } from 'src/entities/contensterdb/translation.entity';
-import { Establishment } from 'src/entities/contensterdb/establishment.entity';
 
 @Injectable()
 export class ModulesService extends CoreService {
@@ -101,12 +99,12 @@ export class ModulesService extends CoreService {
       position,
       establishment: { id: establishmentId },
       titles: titles.map((title) => ({
-        id: title.id,
+        ...(title.id && { id: title.id }),
         text: title.text,
         language: { id: title.language.id },
       })),
       descriptions: descriptions.map((description) => ({
-        id: description.id,
+        ...(description.id && { id: description.id }),
         text: description.text,
         language: { id: description.language.id },
       })),

@@ -23,8 +23,8 @@ const Users: React.FC = () => {
                 pageType={type}
                 saveContentUrl={PUT_USER}
                 getContentUrl={GET_USER(
-                  id as string,
-                  (session?.establishment.id ?? '') as string
+                  (id ?? '').toString(),
+                  (session?.establishment.id ?? '').toString()
                 )}
                 permissionType={permission.type}
               />

@@ -36,7 +36,9 @@ export class AdminRepository extends CoreRepository {
       where: { id: userId },
       relations: {
         userEstablishmentRole: {
-          establishment: true,
+          establishment: {
+            image: true,
+          },
           role: {
             titles: { language: true },
             descriptions: { language: true },
@@ -54,7 +56,9 @@ export class AdminRepository extends CoreRepository {
     return this.userEstablishmentRepo.findOne({
       where: { role: { id: roleId }, establishment: { id: establishmentId } },
       relations: {
-        establishment: true,
+        establishment: {
+          image: true,
+        },
         role: {
           permission: {
             functionality: {

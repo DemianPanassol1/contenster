@@ -18,32 +18,34 @@ const Main: React.FC = () => {
   return (
     <Wrapper hasSubmitButton={false}>
       <Table
-        columns={[
-          {
-            name: t('validations:establishment.field'),
-            field: 'establishment',
-            selector: 'establishment.corporateName',
-            sortable: true,
-            searchable: true,
-            type: 'text',
-          },
-          {
-            name: t('validations:title.field'),
-            field: 'title',
-            selector: 'titles.text',
-            sortable: true,
-            searchable: true,
-            type: 'text',
-          },
-          {
-            name: t('validations:position.field'),
-            field: 'position',
-            selector: 'positions',
-            sortable: true,
-            searchable: false,
-            type: 'text',
-          },
-        ]}
+        columns={
+          [
+            permission.type === 'general' && {
+              name: t('validations:establishment.field'),
+              field: 'establishment',
+              selector: 'establishment.corporateName',
+              sortable: true,
+              searchable: true,
+              type: 'text',
+            },
+            {
+              name: t('validations:title.field'),
+              field: 'title',
+              selector: 'titles.text',
+              sortable: true,
+              searchable: true,
+              type: 'text',
+            },
+            {
+              name: t('validations:position.field'),
+              field: 'position',
+              selector: 'positions',
+              sortable: true,
+              searchable: false,
+              type: 'text',
+            },
+          ].filter(Boolean) as Columns[]
+        }
         urlList={GET_MODULES_LIST}
         urlDelete={DELETE_MODULE}
         bodyContent={{

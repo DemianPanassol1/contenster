@@ -35,25 +35,6 @@ import DeleteDialog from './DeleteDialog';
 import ActionComponent from './ActionComponent';
 import LoadingComponent from './LoadingComponent';
 
-interface Columns {
-  name: string;
-  field: string;
-  selector: string;
-  sortable: boolean;
-  searchable: boolean;
-  type:
-    | 'text'
-    | 'date'
-    | 'datetime'
-    | 'time'
-    | 'currency'
-    | 'icon'
-    | 'checkbox'
-    | 'image';
-  mask?: string;
-  width?: string;
-}
-
 interface TableProps {
   urlList: string;
   columns: Columns[];

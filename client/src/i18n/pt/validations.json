@@ -128,5 +128,9 @@
     },
     "lastLoggedAt": {
         "field": "Último acesso"
+    },
+    "module": {
+        "field": "Módulo",
+        "required": "O módulo é obrigatório"
     }
 }

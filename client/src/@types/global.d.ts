@@ -148,3 +148,22 @@ type AcceptedFileTypes =
   | 'application/x-7z-compressed'
   | '*/*'
   | '';
+
+interface Columns {
+  name: string;
+  field: string;
+  selector: string;
+  sortable: boolean;
+  searchable: boolean;
+  type:
+    | 'text'
+    | 'date'
+    | 'datetime'
+    | 'time'
+    | 'currency'
+    | 'icon'
+    | 'checkbox'
+    | 'image';
+  mask?: string;
+  width?: string;
+}

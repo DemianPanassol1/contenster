@@ -1,19 +1,22 @@
-import { Allow } from 'class-validator';
+import { IsNumber, ValidateIf } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 import { parseNum } from 'src/shared/utils/convertion.utils';
 import { OptionsReqDto } from 'src/shared/dtos/options.req.dto';
 
 export class GetPermissionByFunctionalityOptionsReqDto extends OptionsReqDto {
-  @Allow()
   @Transform(parseNum)
-  establishmentId: number = null;
+  @ValidateIf((_, value) => value !== null && value !== undefined)
+  @IsNumber({}, { message: 'validation.invalidNumber' })
+  establishmentId: number;
 
-  @Allow()
   @Transform(parseNum)
-  roleId: number = null;
+  @ValidateIf((_, value) => value !== null && value !== undefined)
+  @IsNumber({}, { message: 'validation.invalidNumber' })
+  roleId: number;
 
-  @Allow()
   @Transform(parseNum)
-  functionalityId: number = null;
+  @ValidateIf((_, value) => value !== null && value !== undefined)
+  @IsNumber({}, { message: 'validation.invalidNumber' })
+  functionalityId: number;
 }

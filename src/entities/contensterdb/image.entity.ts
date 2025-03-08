@@ -20,13 +20,13 @@ export class Image {
   @PrimaryGeneratedColumn()
   id?: number;
 
-  @Column({ type: 'varchar', length: 150 })
+  @Column({ type: 'varchar', length: 300, nullable: true, default: null })
   originalName?: string;
 
-  @Column({ type: 'varchar', length: 75 })
+  @Column({ type: 'varchar', length: 300, nullable: true, default: null })
   newName?: string;
 
-  @Column({ type: 'varchar', length: 150 })
+  @Column({ type: 'text', nullable: true, default: null })
   filePath?: string;
 
   @Column({ type: 'varchar', length: 25 })

@@ -18,8 +18,6 @@ import { PostFunctionalityResDto } from './dto/res/postFunctionality.res.dto';
 import { DeleteFunctionalityResDto } from './dto/res/deleteFunctionality.res.dto';
 import { GetFunctionalitiesListResDto } from './dto/res/getFunctionalitiesList.res.dto';
 
-import { Module } from 'src/entities/contensterdb/module.entity';
-import { Translation } from 'src/entities/contensterdb/translation.entity';
 import { Functionality } from 'src/entities/contensterdb/functionality.entity';
 
 @Injectable()
@@ -39,6 +37,7 @@ export class FunctionalitiesService extends CoreService {
         ...item,
         title: this.translate(item.titles),
         icon: this.generateFilePath(req, item.icon),
+        establishment: item.module.establishment.corporateName,
       })),
       meta: {
         ...body,
@@ -62,6 +61,8 @@ export class FunctionalitiesService extends CoreService {
 
     const response = {
       ...functionality,
+      moduleId: functionality.module.id,
+      establishmentId: functionality.module.establishment.id,
       icon: this.generateFilePath(req, functionality.icon),
     };
 
@@ -78,15 +79,15 @@ export class FunctionalitiesService extends CoreService {
     }
 
     const saveFunctionality: Partial<Functionality> = {
-      icon,
-      position,
       slug,
-      module: { id: moduleId } as Module,
+      position,
+      module: { id: moduleId },
+      icon: this.degenerateFilePath(icon),
       titles: titles.map((title) => ({
-        id: title.id,
+        ...(title.id && { id: title.id }),
         text: title.text,
         language: { id: title.language.id },
-      })) as Translation[],
+      })),
     };
 
     const response = await this.repo.saveFunctionality(saveFunctionality);
@@ -111,14 +112,14 @@ export class FunctionalitiesService extends CoreService {
 
     const updateFunctionality: Partial<Functionality> = {
       id,
-      icon,
       position,
       slug,
-      module: { id: moduleId } as Module,
+      module: { id: moduleId },
+      icon: this.degenerateFilePath(icon),
       titles: titles.map((title) => ({
-        id: title.id,
         text: title.text,
-      })) as Translation[],
+        language: { id: title.language.id },
+      })),
     };
 
     const response = await this.repo.saveFunctionality(updateFunctionality);

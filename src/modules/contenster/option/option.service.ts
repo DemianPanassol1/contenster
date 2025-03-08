@@ -26,6 +26,11 @@ export class OptionService extends CoreService {
   async getModuleOptions(body: GetModuleOptionsReqDto) {
     const [data, total] = await this.repo.getModulesPaginated(body);
 
+    if (body.establishmentIdRequired && body.establishmentId === null) {
+      data.length = 0;
+      body.optional = true;
+    }
+
     const response = {
       data: this.toOptions(
         data.map((item) => ({ id: item.id, name: this.translate(item.titles) })),
