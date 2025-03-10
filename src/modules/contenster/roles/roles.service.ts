@@ -57,7 +57,10 @@ export class RolesService extends CoreService {
       throw new HttpException(this.i18n.t('errors.roleNotFound'), HttpStatus.BAD_REQUEST);
     }
 
-    const response = { ...role };
+    const response = {
+      ...role,
+      establishmentId: role.establishment.id,
+    };
 
     return this.response(GetRoleResDto, response);
   }

@@ -205,7 +205,7 @@ const Table: React.FC<TableProps> = ({
           persistTableHead
           paginationServer
           data={contentList}
-          paginationPerPage={10}
+          paginationPerPage={defaultPageSize}
           progressPending={isLoading}
           noDataComponent={<EmptyRow />}
           onChangePage={(page) => setPage(page)}
