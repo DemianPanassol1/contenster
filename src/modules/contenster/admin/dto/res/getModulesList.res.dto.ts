@@ -51,8 +51,8 @@ export class GetModulesListResDto {
   @Expose()
   title: string;
 
-  @Expose()
-  description: string;
+  // @Expose()
+  // description: string;
 
   @Expose()
   position: number;

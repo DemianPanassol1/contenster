@@ -1,4 +1,4 @@
-export const PUT_ROLE = '/v1/api/admin/web-roles/put-role';
+export const PUT_ROLE = '/v1/api/admin/roles/put-role';
 
 export const POST_ROLE = '/v1/api/admin/roles/post-role';
 

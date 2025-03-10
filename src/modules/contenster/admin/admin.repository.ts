@@ -90,12 +90,12 @@ export class AdminRepository extends CoreRepository {
     return this.roleRepo.findOne({
       where: { id: roleId },
       relations: {
-        titles: { language: true },
-        descriptions: { language: true },
+        // titles: { language: true },
+        // descriptions: { language: true },
         permission: {
           functionality: {
             titles: { language: true },
-            module: { titles: { language: true }, descriptions: { language: true } },
+            module: { titles: { language: true } /* , descriptions: { language: true } */ },
           },
         },
       },

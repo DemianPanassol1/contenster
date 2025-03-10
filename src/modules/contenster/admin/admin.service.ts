@@ -227,7 +227,7 @@ export class AdminService extends CoreService {
         id: p.functionality.module.id,
         position: p.functionality.module.position,
         title: this.translate(p.functionality.module.titles),
-        description: this.translate(p.functionality.module.descriptions),
+        // description: this.translate(p.functionality.module.descriptions),
       })),
     };
 
