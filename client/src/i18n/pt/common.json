@@ -68,5 +68,6 @@
     "errorOnUploadFile": "Erro ao enviar o arquivo",
     "noRecords": "Sem registros",
     "duplicateRecordError": "Já existe um registro com esse valor",
-    "selectedIcon": "Ícone selecionado:"
+    "selectedIcon": "Ícone selecionado:",
+    "permissions": "Permissões: "
 }

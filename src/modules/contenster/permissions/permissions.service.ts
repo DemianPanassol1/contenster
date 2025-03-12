@@ -16,9 +16,7 @@ import { PostPermissionResDto } from './dto/res/postPermission.res.dto';
 import { DeletePermissionResDto } from './dto/res/deletePermission.res.dto';
 import { GetPermissionsListResDto } from './dto/res/getPermissionsList.res.dto';
 
-import { Role } from 'src/entities/contensterdb/role.entity';
 import { Permission } from 'src/entities/contensterdb/permission.entity';
-import { Functionality } from 'src/entities/contensterdb/functionality.entity';
 
 @Injectable()
 export class PermissionsService extends CoreService {
@@ -59,14 +57,19 @@ export class PermissionsService extends CoreService {
       throw new HttpException(this.i18n.t('errors.permissionNotFound'), HttpStatus.BAD_REQUEST);
     }
 
-    const response = { ...permission };
+    const response = {
+      ...permission,
+      roleId: permission.role.id,
+      functionalityId: permission.functionality.id,
+      establishmentId: permission.role.establishment.id,
+    };
 
     return this.response(GetPermissionResDto, response);
   }
 
   async postPermission(body: PostPermissionReqDto) {
-    const { roleId, functionalityId, canCreate, canDelete, canRead, canUpdate, permissionType } =
-      body;
+    const { functionalityId, roleId } = body;
+    const { canCreate, canDelete, canRead, canUpdate, permissionType } = body;
 
     const savePermission: Partial<Permission> = {
       canCreate,
@@ -74,8 +77,8 @@ export class PermissionsService extends CoreService {
       canRead,
       canUpdate,
       permissionType,
-      role: { id: roleId } as Role,
-      functionality: { id: functionalityId } as Functionality,
+      role: { id: roleId },
+      functionality: { id: functionalityId },
     };
 
     const [_, count] = await this.repo.countPermissionByRoleAndFunctionality(
@@ -93,16 +96,8 @@ export class PermissionsService extends CoreService {
   }
 
   async putPermission(body: PutPermissionReqDto) {
-    const {
-      id,
-      roleId,
-      functionalityId,
-      canCreate,
-      canDelete,
-      canRead,
-      canUpdate,
-      permissionType,
-    } = body;
+    const { id, functionalityId, roleId } = body;
+    const { canCreate, canDelete, canRead, canUpdate, permissionType } = body;
 
     const permission = await this.repo.getPermissionById(id);
 
@@ -126,8 +121,8 @@ export class PermissionsService extends CoreService {
       canDelete,
       canUpdate,
       permissionType,
-      role: { id: roleId } as Role,
-      functionality: { id: functionalityId } as Functionality,
+      role: { id: roleId },
+      functionality: { id: functionalityId },
     };
 
     const response = await this.repo.savePermission(updatePermission);

@@ -20,7 +20,7 @@
     "moduleNotFound": "Módulo não encontrado",
     "moduleHasFunctionalities": "Módulo ainda possui funcionalidades",
     "permissionNotFound": "Permissão não encontrada",
-    "permissionAlreadySet": "Permissão já definida para papel e funcionalidade",
+    "permissionAlreadySet": "Permissão já definida para perfil e funcionalidade",
     "roleNotFound": "Papel não encontrado",
     "roleInUse": "Papel em uso: Não pode ser deletado",
     "passwordsNotMatch": "Senhas não conferem",

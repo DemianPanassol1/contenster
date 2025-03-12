@@ -5,38 +5,43 @@ import { PermissionType } from 'src/shared/enums/common.enums';
 import { parseBool, parseNum } from 'src/shared/utils/convertion.utils';
 
 export class PermissionDto {
-  @IsNotEmpty({ message: 'validation.notEmpty' })
   @Transform(parseNum)
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsNumber({}, { message: 'validation.invalidNumber' })
   id: number;
 
-  @IsNotEmpty({ message: 'validation.notEmpty' })
   @Transform(parseNum)
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsNumber({}, { message: 'validation.invalidNumber' })
   functionalityId: number;
 
-  @IsNotEmpty({ message: 'validation.notEmpty' })
   @Transform(parseNum)
+  @IsNotEmpty({ message: 'validation.notEmpty' })
+  @IsNumber({}, { message: 'validation.invalidNumber' })
+  establishmentId: number;
+
+  @Transform(parseNum)
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsNumber({}, { message: 'validation.invalidNumber' })
   roleId: number;
 
-  @IsNotEmpty({ message: 'validation.notEmpty' })
   @Transform(parseBool)
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsBoolean({ message: 'validation.invalidBoolean' })
   canRead: boolean;
 
-  @IsNotEmpty({ message: 'validation.notEmpty' })
   @Transform(parseBool)
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsBoolean({ message: 'validation.invalidBoolean' })
   canCreate: boolean;
 
-  @IsNotEmpty({ message: 'validation.notEmpty' })
   @Transform(parseBool)
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsBoolean({ message: 'validation.invalidBoolean' })
   canUpdate: boolean;
 
-  @IsNotEmpty({ message: 'validation.notEmpty' })
   @Transform(parseBool)
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsBoolean({ message: 'validation.invalidBoolean' })
   canDelete: boolean;
 

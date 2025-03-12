@@ -23,7 +23,7 @@ const Main: React.FC = () => {
             permission.type === 'general' && {
               name: t('validations:establishment.field'),
               field: 'establishment',
-              selector: 'establishment.corporateName',
+              selector: 'module.establishment.corporateName',
               sortable: true,
               searchable: true,
               type: 'text',

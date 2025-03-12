@@ -1,26 +1,17 @@
 import { Expose, Type } from 'class-transformer';
 
-class Functionality {
-  @Expose()
-  id: number;
-}
-
-class Role {
-  @Expose()
-  id: number;
-}
-
 export class GetPermissionResDto {
   @Expose()
   id: number;
 
   @Expose()
-  @Type(() => Functionality)
-  functionality: Functionality;
+  functionalityId: number;
 
   @Expose()
-  @Type(() => Role)
-  role: Role;
+  roleId: number;
+
+  @Expose()
+  establishmentId: number;
 
   @Expose()
   canCreate: boolean;

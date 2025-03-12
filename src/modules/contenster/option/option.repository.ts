@@ -1,4 +1,4 @@
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import { I18nService } from 'nestjs-i18n';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -13,8 +13,8 @@ import { Functionality } from 'src/entities/contensterdb/functionality.entity';
 
 import { GetRoleOptionsReqDto } from './dto/req/getRoleOptions.req.dto';
 import { GetModuleOptionsReqDto } from './dto/req/getModuleOptions.req.dto';
+import { GetFunctionalityOptionsReqDto } from './dto/req/getFunctionalityOptions.req.dto';
 import { GetEstablishmentOptionsReqDto } from './dto/req/getEstablishmentOptions.req.dto';
-import { GetPermissionByFunctionalityOptionsReqDto } from './dto/req/getPermissionByFunctionalityOptions.req.dto';
 
 @Injectable()
 export class OptionRepository extends CoreRepository {
@@ -56,17 +56,15 @@ export class OptionRepository extends CoreRepository {
   }
 
   getFunctionalitiesPaginated(
-    query: GetPermissionByFunctionalityOptionsReqDto,
+    query: GetFunctionalityOptionsReqDto,
   ): Promise<[Functionality[], number]> {
+    const { establishmentId, roleId, functionalityId } = query;
+
     return this.functionalityRepo.findAndCount({
       ...this.buildFilter(query, {
-        id: query.functionalityId,
-        permission: {
-          role: {
-            id: query.roleId,
-          },
-        },
-        establishment: { id: query.establishmentId },
+        id: functionalityId,
+        permission: { role: { id: roleId } },
+        module: { establishment: { id: establishmentId } },
       }),
       relations: {
         titles: { language: true },

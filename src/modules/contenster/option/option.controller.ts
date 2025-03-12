@@ -7,7 +7,7 @@ import { Authorize } from 'src/common/interceptors/authorize.interceptor';
 import { GetRoleOptionsReqDto } from './dto/req/getRoleOptions.req.dto';
 import { GetModuleOptionsReqDto } from './dto/req/getModuleOptions.req.dto';
 import { GetEstablishmentOptionsReqDto } from './dto/req/getEstablishmentOptions.req.dto';
-import { GetPermissionByFunctionalityOptionsReqDto } from './dto/req/getPermissionByFunctionalityOptions.req.dto';
+import { GetFunctionalityOptionsReqDto } from './dto/req/getFunctionalityOptions.req.dto';
 
 @Authorize()
 @Controller({ version: '1' })
@@ -24,11 +24,9 @@ export class OptionController {
     return await this.optionService.getRoleOptions(body);
   }
 
-  @Post('get-permission-by-functionality-options')
-  async getPermissionByFunctionalityOptions(
-    @Body() body: GetPermissionByFunctionalityOptionsReqDto,
-  ) {
-    return await this.optionService.getPermissionByFunctionalityOptions(body);
+  @Post('get-functionality-options')
+  async getFunctionalityOptions(@Body() body: GetFunctionalityOptionsReqDto) {
+    return await this.optionService.getFunctionalityOptions(body);
   }
 
   @Post('get-establishment-options')

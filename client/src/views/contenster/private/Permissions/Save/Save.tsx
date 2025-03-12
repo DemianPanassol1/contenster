@@ -1,49 +1,81 @@
 import React, { useEffect } from 'react';
-import { Box, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { Box, Typography, useTheme } from '@mui/material';
+import { Control, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
-import { useGET, useNavigate } from '../../../../../utils/hooks.util';
+import {
+  GET_ROLE_OPTIONS,
+  GET_ESTABLISHMENT_OPTIONS,
+  GET_FUNCTIONALITY_OPTIONS,
+} from '../../../../../routes/contenster/options';
 import { useGlobalContext } from '../../../../../contexts/global.context';
 import { handlePopulateFields } from '../../../../../utils/functions.util';
+import { genericInputValidation } from '../../../../../utils/validations.util';
+import { useGET, useNavigate, useUserSession } from '../../../../../utils/hooks.util';
+import { GET_MODULES_LIST, GET_SYNC_USER } from '../../../../../routes/contenster/global';
 
+import Switch from '../../../../../components/Switch';
 import Wrapper from '../../../../../components/Wrapper';
+import Autocomplete from '../../../../../components/Autocomplete';
 
 interface FormFields {
   id: string;
+  establishmentId: string;
+  roleId: string;
+  functionalityId: string;
+  permissionType: Permission['type'];
+  canRead: boolean;
+  canCreate: boolean;
+  canUpdate: boolean;
+  canDelete: boolean;
 }
 
 const fields: FormFields = {
   id: '',
+  establishmentId: '',
+  roleId: '',
+  functionalityId: '',
+  permissionType: 'establishment',
+  canRead: true,
+  canCreate: false,
+  canUpdate: false,
+  canDelete: false,
 };
 
 interface SaveProps {
   pageType: 'create' | 'edit';
   saveContentUrl: string;
   getContentUrl?: string | null;
+  permissionType: Permission['type'];
 }
 
 const Save: React.FC<SaveProps> = ({
   pageType,
   saveContentUrl,
+  permissionType,
   getContentUrl = null,
 }) => {
   const {
-    // watch,
-    // control,
+    watch,
+    control,
     setValue,
-    // setError,
     handleSubmit,
-    // formState: { errors },
+    formState: { errors },
   } = useForm<FormFields>({ defaultValues: fields });
 
   const theme = useTheme();
   const navigate = useNavigate();
+  const session = useUserSession();
   const { handleOnSubmit } = useGlobalContext();
   const { t } = useTranslation(['common', 'validations']);
   const { data, isLoading, refresh } = useGET(getContentUrl as string);
 
   const onSubmit: SubmitHandler<FormFields> = (content) => {
+    if (permissionType === 'establishment') {
+      content.permissionType = 'establishment';
+      content.establishmentId = session?.establishment.id.toString() ?? '';
+    }
+
     handleOnSubmit({
       type: pageType === 'create' ? 'POST' : 'PUT',
       url: saveContentUrl,
@@ -52,6 +84,9 @@ const Save: React.FC<SaveProps> = ({
         if (getContentUrl) {
           refresh();
         }
+
+        refresh(GET_MODULES_LIST);
+        refresh(GET_SYNC_USER);
 
         setTimeout(() => navigate(-1), 500);
       },
@@ -70,6 +105,7 @@ const Save: React.FC<SaveProps> = ({
       onCancel={() => navigate(-1)}
       onSubmit={handleSubmit(onSubmit)}
       submitButtonContent={t('common:save')}
+      cancelButtonContent={t('common:cancel')}
     >
       <Box
         sx={{
@@ -85,7 +121,103 @@ const Save: React.FC<SaveProps> = ({
           },
         }}
       >
-        {/* Form fields go here */}
+        {permissionType === 'general' && (
+          <Autocomplete
+            name="establishmentId"
+            label={t('validations:establishment.field') + ' *'}
+            controller={control as unknown as Control<FieldValues>}
+            validation={genericInputValidation(t)}
+            urlData={GET_ESTABLISHMENT_OPTIONS}
+            bodyContent={{}}
+            helperText={errors.establishmentId?.message}
+            inputStyle={{ margin: '0' }}
+          />
+        )}
+        <Autocomplete
+          name="roleId"
+          label={t('validations:role.field') + ' *'}
+          controller={control as unknown as Control<FieldValues>}
+          validation={genericInputValidation(t)}
+          urlData={GET_ROLE_OPTIONS}
+          bodyContent={{
+            establishmentIdRequired: true,
+            establishmentId: watch('establishmentId'),
+          }}
+          helperText={errors.roleId?.message}
+          inputStyle={{ margin: '0' }}
+        />
+        <Autocomplete
+          name="functionalityId"
+          label={t('validations:functionality.field') + ' *'}
+          controller={control as unknown as Control<FieldValues>}
+          validation={genericInputValidation(t)}
+          urlData={GET_FUNCTIONALITY_OPTIONS}
+          bodyContent={{
+            establishmentIdRequired: true,
+            establishmentId: watch('establishmentId'),
+          }}
+          helperText={errors.functionalityId?.message}
+          inputStyle={{ margin: '0' }}
+        />
+        {permissionType === 'general' && (
+          <Autocomplete
+            name="permissionType"
+            label={t('validations:permissionType.field') + ' *'}
+            controller={control as unknown as Control<FieldValues>}
+            validation={genericInputValidation(t)}
+            fixedData={[
+              { label: 'Estabelecimento', value: 'establishment' },
+              { label: 'Geral', value: 'general' },
+            ]}
+            helperText={errors.permissionType?.message}
+            inputStyle={{ margin: '0' }}
+          />
+        )}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            [theme.breakpoints.up('md')]: {
+              gridColumn: 1,
+            },
+          }}
+        >
+          <Typography
+            variant="body1"
+            sx={{ margin: '0 0 0.5rem' }}
+          >
+            {t('common:permissions')}
+          </Typography>
+          <Switch
+            name="canRead"
+            label={t('validations:canRead.field')}
+            disabled
+            controller={control as unknown as Control<FieldValues>}
+            helperText={errors.canRead?.message}
+            inputStyle={{ height: '2.2rem' }}
+          />
+          <Switch
+            name="canCreate"
+            label={t('validations:canCreate.field')}
+            controller={control as unknown as Control<FieldValues>}
+            helperText={errors.canCreate?.message}
+            inputStyle={{ height: '2.2rem' }}
+          />
+          <Switch
+            name="canUpdate"
+            label={t('validations:canUpdate.field')}
+            controller={control as unknown as Control<FieldValues>}
+            helperText={errors.canUpdate?.message}
+            inputStyle={{ height: '2.2rem' }}
+          />
+          <Switch
+            name="canDelete"
+            label={t('validations:canDelete.field')}
+            controller={control as unknown as Control<FieldValues>}
+            helperText={errors.canDelete?.message}
+            inputStyle={{ height: '2.2rem' }}
+          />
+        </Box>
       </Box>
     </Wrapper>
   );

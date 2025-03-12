@@ -2,7 +2,7 @@ import { Expose, Type } from 'class-transformer';
 
 import { Meta } from 'src/shared/dtos/paginate.res.dto';
 
-class GetPermissionByFunctionalityOptionsData {
+class GetFunctionalityOptionsData {
   @Expose()
   value: string;
 
@@ -15,10 +15,10 @@ class CustomMeta extends Meta {
   establishmentId: number;
 }
 
-export class GetPermissionByFunctionalityOptionsResDto {
+export class GetFunctionalityOptionsResDto {
   @Expose()
-  @Type(() => GetPermissionByFunctionalityOptionsData)
-  data: GetPermissionByFunctionalityOptionsData[];
+  @Type(() => GetFunctionalityOptionsData)
+  data: GetFunctionalityOptionsData[];
 
   @Expose()
   @Type(() => CustomMeta)

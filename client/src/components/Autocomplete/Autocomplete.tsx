@@ -48,7 +48,9 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
     customFields: bodyContent,
   });
 
-  const { data, refresh } = usePOST(urlData, requestFilter);
+  const { data, refresh } = !fixedData.length
+    ? usePOST(urlData, requestFilter)
+    : { data: null, refresh: () => {} };
 
   const [fieldValue, setFieldValue] = useState<Option | null>(null);
   const [inputValue, setInputValue] = useState('');

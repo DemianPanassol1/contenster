@@ -6,13 +6,13 @@ import { OptionRepository } from './option.repository';
 
 import { GetRoleOptionsReqDto } from './dto/req/getRoleOptions.req.dto';
 import { GetModuleOptionsReqDto } from './dto/req/getModuleOptions.req.dto';
+import { GetFunctionalityOptionsReqDto } from './dto/req/getFunctionalityOptions.req.dto';
 import { GetEstablishmentOptionsReqDto } from './dto/req/getEstablishmentOptions.req.dto';
-import { GetPermissionByFunctionalityOptionsReqDto } from './dto/req/getPermissionByFunctionalityOptions.req.dto';
 
 import { GetRoleOptionsResDto } from './dto/res/getRoleOptions.res.dto';
 import { GetModuleOptionsResDto } from './dto/res/getModuleOptions.res.dto';
 import { GetEstablishmentOptionsResDto } from './dto/res/getEstablishmentOptions.res.dto';
-import { GetPermissionByFunctionalityOptionsResDto } from './dto/res/getPermissionByFunctionalityOptions.res.dto';
+import { GetFunctionalityOptionsResDto } from './dto/res/getFunctionalityOptions.res.dto';
 
 @Injectable()
 export class OptionService extends CoreService {
@@ -52,6 +52,11 @@ export class OptionService extends CoreService {
   async getRoleOptions(body: GetRoleOptionsReqDto) {
     const [data, total] = await this.repo.getRolesPaginated(body);
 
+    if (body.establishmentIdRequired && body.establishmentId === null) {
+      data.length = 0;
+      body.optional = true;
+    }
+
     const response = {
       data: this.toOptions(
         data.map((item) => ({ id: item.id, name: this.translate(item.titles) })),
@@ -70,8 +75,13 @@ export class OptionService extends CoreService {
     return this.response(GetRoleOptionsResDto, response);
   }
 
-  async getPermissionByFunctionalityOptions(body: GetPermissionByFunctionalityOptionsReqDto) {
+  async getFunctionalityOptions(body: GetFunctionalityOptionsReqDto) {
     const [data, total] = await this.repo.getFunctionalitiesPaginated(body);
+
+    if (body.establishmentIdRequired && body.establishmentId === null) {
+      data.length = 0;
+      body.optional = true;
+    }
 
     const response = {
       data: this.toOptions(
@@ -88,7 +98,7 @@ export class OptionService extends CoreService {
       },
     };
 
-    return this.response(GetPermissionByFunctionalityOptionsResDto, response);
+    return this.response(GetFunctionalityOptionsResDto, response);
   }
 
   async getEstablishmentOptions(body: GetEstablishmentOptionsReqDto) {

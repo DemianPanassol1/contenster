@@ -47,7 +47,9 @@ export class PermissionsRepository extends CoreRepository {
       where: { id },
       relations: {
         functionality: true,
-        role: true,
+        role: {
+          establishment: true,
+        },
       },
     });
   }
