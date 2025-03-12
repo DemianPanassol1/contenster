@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import some from 'lodash/some';
 import filter from 'lodash/filter';
 import { UseFormSetValue } from 'react-hook-form';

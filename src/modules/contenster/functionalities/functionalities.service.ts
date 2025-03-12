@@ -72,6 +72,7 @@ export class FunctionalitiesService extends CoreService {
   async postFunctionality(body: PostFunctionalityReqDto) {
     const { moduleId, establishmentId, icon, position, slug, titles } = body;
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [_, count] = await this.repo.getBySlugAndEstablishment(slug, establishmentId);
 
     if (count > 0) {

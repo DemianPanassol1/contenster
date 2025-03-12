@@ -81,6 +81,7 @@ export class PermissionsService extends CoreService {
       functionality: { id: functionalityId },
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [_, count] = await this.repo.countPermissionByRoleAndFunctionality(
       roleId,
       functionalityId,

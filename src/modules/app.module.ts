@@ -3,8 +3,8 @@ import { Logger, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { HeaderResolver, I18nModule } from 'nestjs-i18n';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
-import { APP_GUARD, APP_INTERCEPTOR, RouterModule } from '@nestjs/core';
 
 import variables from 'src/settings';
 

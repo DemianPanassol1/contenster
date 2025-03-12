@@ -55,7 +55,7 @@ const Main: React.FC = () => {
   } = useGlobalContext();
 
   const onSubmit: SubmitHandler<FormFields> = (content) => {
-    // eslint-disable-next-line
+     
     const handleResponse = (response: any) => {
       if (Array.isArray(response) && response.length > 1 && !content.establishmentId) {
         setSelectCompany(response);

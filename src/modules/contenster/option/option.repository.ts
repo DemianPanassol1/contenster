@@ -1,4 +1,4 @@
-import { Not, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { I18nService } from 'nestjs-i18n';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';

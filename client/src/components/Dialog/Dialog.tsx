@@ -27,7 +27,6 @@ interface DialogProps {
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
-    // eslint-disable-next-line
     children: React.ReactElement<any, any>;
   },
   ref: React.Ref<unknown>

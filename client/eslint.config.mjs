@@ -21,6 +21,7 @@ export default [
     languageOptions: { globals: { ...globals.browser, ...globals.node } },
     rules: {
       'prettier/prettier': ['error', {}, { usePrettierrc: true }],
+      '@typescript-eslint/no-explicit-any': 'off',
     },
   },
 ];

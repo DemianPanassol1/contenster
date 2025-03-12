@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 
 import config from '../config/settings.json';
