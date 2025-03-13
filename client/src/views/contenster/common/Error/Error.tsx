@@ -103,9 +103,25 @@ const Error: React.FC = () => {
         fontWeight="400"
         sx={{ margin: '0 0 1rem' }}
       >
-        {t('common:pageNotFoundTitle')}
+        {(() => {
+          switch (status) {
+            case 404:
+              return t('common:pageNotFoundTitle');
+            default:
+              return t('common:unexpectedErrorTitle');
+          }
+        })()}
       </Typography>
-      <Typography variant="h6">{t('common:pageNotFoundMessage')}</Typography>
+      <Typography variant="h6">
+        {(() => {
+          switch (status) {
+            case 404:
+              return t('common:pageNotFoundMessage');
+            default:
+              return t('common:unexpectedErrorMessage');
+          }
+        })()}
+      </Typography>
       <Box
         sx={{
           width: '100%',

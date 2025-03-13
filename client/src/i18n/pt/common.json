@@ -1,5 +1,4 @@
 {
-    "test": "Teste BR",
     "internalError": "Erro interno",
     "registerSaved": "Registro salvo com sucesso!",
     "registerUpdated": "Registro atualizado com sucesso!",
@@ -7,8 +6,10 @@
     "registerNotFound": "Registro não encontrado!",
     "registerAquired": "Registro adquirido com sucesso!",
     "backToStart": "De volta ao inicio",
-    "pageNotFoundTitle": "Ops! A página saiu para tomar um café.",
-    "pageNotFoundMessage": "Desculpe, não encontramos a página que você queria. Talvez ela tenha ido descansar.",
+    "pageNotFoundTitle": "Página não encontrada",
+    "unexpectedErrorTitle": "Erro inesperado",
+    "unexpectedErrorMessage": "Ocorreu um erro inesperado. Por favor, tente novamente mais tarde.",
+    "pageNotFoundMessage": "Desculpe, não encontramos a página que você queria.",
     "takeMeBack": "Me leve de volta",
     "projectLogin": "Contenster Project - Login",
     "projectRecoverPassword": "Contenster Project - Recuperar senha",
