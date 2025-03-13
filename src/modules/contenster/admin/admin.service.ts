@@ -13,6 +13,7 @@ import { defaultLanguage } from 'src/config/constants/constants.config';
 import { PutUserInfoReqDto } from './dto/req/putUserInfo.req.dto';
 import { GetFileByIdReqDto } from './dto/req/getFileById.req.dto';
 import { GetIconsListReqDto } from './dto/req/getIconsList.req.dto';
+import { DeleteFileByIdReqDto } from './dto/req/deleteFileById.req.dto';
 import { PutResetPasswordReqDto } from './dto/req/putResetPassword.req.dto';
 import { PostChangeUserEstablishmentReqDto } from './dto/req/postChangeUserEstablishment.req.dto';
 
@@ -21,13 +22,13 @@ import { PutUserInfoResDto } from './dto/res/putUserInfo.res.dto';
 import { GetFileByIdResDto } from './dto/res/getFileById.res.dto';
 import { GetIconListResDto } from './dto/res/getIconList.res.dto';
 import { GetConfigInfoResDto } from './dto/res/getConfigInfo.res.dto';
+import { DeleteFileByIdResDto } from './dto/res/deleteFileById.res.dto';
 import { PostUploadFileResDto } from './dto/res/postUploadFile.res.dto';
 import { GetModulesListResDto } from './dto/res/getModulesList.res.dto';
 import { PutResetPasswordResDto } from './dto/res/putResetPassword.res.dto';
 import { PostChangeUserEstablishmentResDto } from './dto/res/postChangeUserEstablishment.res.dto';
 
 import { User } from 'src/entities/contensterdb/user.entity';
-import { Preference } from 'src/entities/contensterdb/preference.entity';
 
 @Injectable()
 export class AdminService extends CoreService {
@@ -265,7 +266,7 @@ export class AdminService extends CoreService {
   }
 
   async getFileById(req: Request, query: GetFileByIdReqDto) {
-    const image = await this.repo.findImageById(query.id);
+    const image = await this.repo.getImageById(query.id);
 
     if (!image) {
       throw new HttpException(this.i18n.t('errors.imageNotFound'), HttpStatus.BAD_REQUEST);
@@ -296,33 +297,40 @@ export class AdminService extends CoreService {
   }
 
   async putUserInfo(body: PutUserInfoReqDto) {
-    const user = await this.repo.findByUserId(body.id);
+    const { id, email, imageId, name, phone, preferenceId, username } = body;
+
+    const user = await this.repo.findByUserId(id);
 
     if (!user) {
       throw new HttpException(this.i18n.t('errors.userNotFound'), HttpStatus.BAD_REQUEST);
     }
 
     const updateUser: Partial<User> = {
-      name: body.name,
-      phone: body.phone,
-      email: body.email,
-      username: body.username,
+      id,
+      name,
+      phone,
+      email,
+      username,
+      image: imageId ? { id: imageId } : null,
+      preference: preferenceId ? { id: preferenceId } : null,
     };
 
-    const updatePreference: Partial<Preference> = {};
-
-    Object.assign(updateUser, { image: { id: body.imageId } });
-    Object.assign(updatePreference, { functionality: { id: body.preferenceId } });
-
-    await this.repo.updateUser(body.id, updateUser);
-    await this.repo.updateUserPreference(user.preference.id, updatePreference);
-
-    const response = {
-      ...user,
-      ...updateUser,
-      ...updatePreference,
-    };
+    const response = await this.repo.saveUser(updateUser);
 
     return this.response(PutUserInfoResDto, response);
+  }
+
+  async deleteFileById(query: DeleteFileByIdReqDto) {
+    const { id } = query;
+
+    const image = await this.repo.getImageById(id);
+
+    if (!image) {
+      throw new HttpException(this.i18n.t('errors.imageNotFound'), HttpStatus.BAD_REQUEST);
+    }
+
+    const response = await this.repo.removeImage(image);
+
+    return this.response(DeleteFileByIdResDto, response);
   }
 }

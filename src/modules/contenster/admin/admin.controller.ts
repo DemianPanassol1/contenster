@@ -1,6 +1,6 @@
 import { Request } from 'express';
 import { ApiBody, ApiConsumes } from '@nestjs/swagger';
-import { Body, Controller, Get, Post, Put, Query, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Put, Query, Req } from '@nestjs/common';
 
 import { AdminService } from './admin.service';
 import { ICurrentUser } from 'src/shared/types/api.types';
@@ -14,6 +14,7 @@ import { Authenticate } from 'src/common/interceptors/authenticate.interceptor';
 import { PutUserInfoReqDto } from './dto/req/putUserInfo.req.dto';
 import { GetFileByIdReqDto } from './dto/req/getFileById.req.dto';
 import { GetIconsListReqDto } from './dto/req/getIconsList.req.dto';
+import { DeleteFileByIdReqDto } from './dto/req/deleteFileById.req.dto';
 import { PutResetPasswordReqDto } from './dto/req/putResetPassword.req.dto';
 import { PostChangeUserEstablishmentReqDto } from './dto/req/postChangeUserEstablishment.req.dto';
 
@@ -100,5 +101,10 @@ export class AdminController {
   @Get('get-file-by-id')
   async getFileById(@Req() req: Request, @Query() query: GetFileByIdReqDto) {
     return await this.adminService.getFileById(req, query);
+  }
+
+  @Delete('delete-file-by-id')
+  async deleteFileById(@Query() query: DeleteFileByIdReqDto) {
+    return await this.adminService.deleteFileById(query);
   }
 }

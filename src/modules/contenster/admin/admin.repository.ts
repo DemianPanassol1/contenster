@@ -8,10 +8,7 @@ import { CoreRepository } from 'src/core/core.repository';
 import { User } from 'src/entities/contensterdb/user.entity';
 import { Role } from 'src/entities/contensterdb/role.entity';
 import { Image } from 'src/entities/contensterdb/image.entity';
-import { Preference } from 'src/entities/contensterdb/preference.entity';
 import { Configuration } from 'src/entities/contensterdb/configuration.entity';
-import { Functionality } from 'src/entities/contensterdb/functionality.entity';
-import { Establishment } from 'src/entities/contensterdb/establishment.entity';
 import { UserEstablishmentRole } from 'src/entities/contensterdb/userEstablishmentRole.entity';
 
 @Injectable()
@@ -21,10 +18,7 @@ export class AdminRepository extends CoreRepository {
     @InjectRepository(Role) private roleRepo: Repository<Role>,
     @InjectRepository(User) private userRepo: Repository<User>,
     @InjectRepository(Image) private imageRepo: Repository<Image>,
-    @InjectRepository(Preference) private preferenceRepo: Repository<Preference>,
     @InjectRepository(Configuration) private configRepo: Repository<Configuration>,
-    @InjectRepository(Functionality) private functionalityRepo: Repository<Functionality>,
-    @InjectRepository(Establishment) private establishmentRepo: Repository<Establishment>,
     @InjectRepository(UserEstablishmentRole)
     private userEstablishmentRepo: Repository<UserEstablishmentRole>,
   ) {
@@ -80,9 +74,13 @@ export class AdminRepository extends CoreRepository {
     return this.imageRepo.save(image);
   }
 
-  async removeImage(imageId: number): Promise<Image> {
-    const image = await this.imageRepo.findOneBy({ id: imageId });
+  getImageById(imageId: number): Promise<Image> {
+    return this.imageRepo.findOne({
+      where: { id: imageId },
+    });
+  }
 
+  removeImage(image: Image): Promise<Image> {
     return this.imageRepo.remove(image);
   }
 
@@ -90,12 +88,10 @@ export class AdminRepository extends CoreRepository {
     return this.roleRepo.findOne({
       where: { id: roleId },
       relations: {
-        // titles: { language: true },
-        // descriptions: { language: true },
         permission: {
           functionality: {
             titles: { language: true },
-            module: { titles: { language: true } /* , descriptions: { language: true } */ },
+            module: { titles: { language: true } },
           },
         },
       },
@@ -115,20 +111,7 @@ export class AdminRepository extends CoreRepository {
     });
   }
 
-  findImageById(imageId: number): Promise<Image> {
-    return this.imageRepo.findOne({
-      where: { id: imageId },
-    });
-  }
-
-  updateUser(userId: number, user: Partial<User>): Promise<UpdateResult> {
-    return this.userRepo.update(userId, user);
-  }
-
-  updateUserPreference(
-    preferenceId: number,
-    preference: Partial<Preference>,
-  ): Promise<UpdateResult> {
-    return this.preferenceRepo.update(preferenceId, preference);
+  saveUser(user: Partial<User>): Promise<User> {
+    return this.userRepo.save(user);
   }
 }
