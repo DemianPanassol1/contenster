@@ -78,7 +78,11 @@ export class OptionRepository extends CoreRepository {
     query: GetEstablishmentOptionsReqDto,
   ): Promise<[Establishment[], number]> {
     return this.establishmentRepo.findAndCount({
-      ...this.buildFilter(query),
+      ...this.buildFilter(query, {
+        userEstablishmentRole: {
+          user: { id: query.userId },
+        },
+      }),
       relations: {},
     });
   }

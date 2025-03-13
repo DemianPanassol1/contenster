@@ -6,7 +6,7 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Control, Controller, FieldValues } from 'react-hook-form';
 
 import { usePOST } from '../../utils/hooks.util';
@@ -46,7 +46,13 @@ const Select: React.FC<SelectProps> = ({
     customFields: bodyContent,
   });
 
-  const { data } = !fixedData.length ? usePOST(urlData, requestFilter) : { data: null };
+  const { data, refresh } = !fixedData.length
+    ? usePOST(urlData, requestFilter)
+    : { data: null, refresh: () => {} };
+
+  useEffect(() => {
+    refresh();
+  }, [urlData]);
 
   const options: Option[] = [fixedData, data?.data].flat().filter(Boolean);
 
