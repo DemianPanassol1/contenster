@@ -1,5 +1,16 @@
 {
-    "email": "email",
-    "login": "login",
-    "password": "contraseña"
+    "email": "correo electrónico",
+    "login": "iniciar sesión",
+    "password": "contraseña",
+    "username": "nombre de usuario",
+    "name": "nombre",
+    "phone": "teléfono",
+    "establishment": "establecimiento",
+    "establishmentId": "establecimiento",
+    "preferenceId": "página preferida",
+    "isActive": "activo",
+    "isBlocked": "bloqueado",
+    "repeatPassword": "repite la contraseña",
+    "roleId": "rol",
+    "imageId": "imagen"
 }

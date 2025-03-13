@@ -8,5 +8,22 @@
     "userNotFound": "Usuario no encontrado",
     "internalServerError": "Error interno del servidor",
     "invalidFileType": "Tipo de archivo inválido",
-    "genericError": "Hubo un problema al procesar su solicitud. Por favor, inténtelo de nuevo."
+    "genericError": "Hubo un problema al procesar su solicitud. Por favor, inténtelo de nuevo.",
+    "imageNotFound": "Imagen no encontrada",
+    "userMustBeLogged": "El usuario debe estar conectado",
+    "incorrectPassword": "Contraseña incorrecta",
+    "establishmentNotFound": "Establecimiento no encontrado",
+    "establishmentAlreadyExists": "El establecimiento ya existe",
+    "establishmentCannotBeDeleted": "El establecimiento no puede ser eliminado",
+    "functionalityNotFound": "Funcionalidad no encontrada",
+    "slugAlreadyExists": "El slug ya existe",
+    "moduleNotFound": "Módulo no encontrado",
+    "moduleHasFunctionalities": "El módulo aún tiene funcionalidades",
+    "permissionNotFound": "Permiso no encontrado",
+    "permissionAlreadySet": "Permiso ya definido para el perfil y la funcionalidad",
+    "roleNotFound": "Rol no encontrado",
+    "roleInUse": "Rol en uso: No se puede eliminar",
+    "passwordsNotMatch": "Las contraseñas no coinciden",
+    "usernameAlreadyExists": "El nombre de usuario ya existe",
+    "emailAlreadyExists": "El correo electrónico ya existe"
 }

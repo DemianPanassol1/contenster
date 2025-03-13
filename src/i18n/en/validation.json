@@ -1,15 +1,18 @@
 {
-  "notEmpty": "The field '$t(fields.{property})' cannot be empty",
+  "notEmpty": "The field '{property}' cannot be empty",
+  "notEmptyTranslated": "The field '$t(fields.{property})' cannot be empty",
   "invalidString": "The field '$t(fields.{property})' is not a string",
   "invalidStringOrArrayOf": "The field '$t(fields.{property})' must be a string or a list of strings",
   "invalidEmail": "The field '$t(fields.email)' contains an invalid email",
   "invalidBoolean": "The field '$t(fields.{property})' is not a boolean",
   "invalidArray": "The field '$t(fields.{property})' is not a list",
   "invalidInteger": "The field '$t(fields.{property})' is not an integer",
-  "min": "The field '{property}' with value: \"{value}\" must be at least {constraints.0}",
-  "max": "The field '{property}' with value: \"{value}\" must be less than {constraints[constraints.length - 1]}",
   "invalidOrderField": "The field '{property}' must be one of the following values: 'ASC' or 'DESC'",
   "invalidTypeField": "The field '{property}' must be one of the following values: 'STRING', 'NUMBER' or 'DATE'",
   "invalidOperationField": "The field '{property}' must be one of the following values: 'EQUALS', 'NOT_EQUALS', 'GREATER_THAN', 'GREATER_THAN_OR_EQUAL', 'LESS_THAN', 'LESS_THAN_OR_EQUAL', 'IN', 'NOT_IN', 'BETWEEN', 'NOT_BETWEEN', 'LIKE', 'NOT_LIKE', 'IS_NULL' or 'IS_NOT_NULL'",
-  "equalOrHigher": "The field '{property}' with value: \"{value}\" must be equal or higher than {constraints.0}"
+  "equalOrHigherThanOne": "The field '{property}' with value: \"{value}\" needs to be greater than or equal to 1",
+  "equalOrHigherThanZero": "The field '{property}' with value: \"{value}\" needs to be greater than or equal to 0",
+  "invalidPermissionType": "The field '{property}' must be one of the following values: 'general', 'establishment'",
+  "invalidNumber": "The field '{property}' is not a number",
+  "invalidDate": "The field '{property}' is not a valid date"
 }

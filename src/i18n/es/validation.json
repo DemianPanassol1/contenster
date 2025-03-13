@@ -1,15 +1,18 @@
 {
-  "notEmpty": "El campo '$t(fields.{property})' no puede estar vacío",
+  "notEmpty": "El campo '{property}' no puede estar vacío",
+  "notEmptyTranslated": "El campo '$t(fields.{property})' no puede estar vacío",
   "invalidString": "El campo '$t(fields.{property})' no es una cadena",
   "invalidStringOrArrayOf": "El campo '$t(fields.{property})' debe ser una cadena o una lista de cadenas",
   "invalidEmail": "El campo '$t(fields.email)' contiene un correo electrónico inválido",
   "invalidBoolean": "El campo '$t(fields.{property})' no es un booleano",
   "invalidArray": "El campo '$t(fields.{property})' no es una lista",
   "invalidInteger": "El campo '$t(fields.{property})' no es un número entero",
-  "min": "El campo '{property}' con valor: \"{value}\" debe ser al menos {constraints.0}",
-  "max": "El campo '{property}' con valor: \"{value}\" debe ser menor que {constraints[constraints.length - 1]}",
   "invalidOrderField": "El campo '{property}' debe ser uno de los siguientes valores: 'ASC' o 'DESC'",
   "invalidTypeField": "El campo '{property}' debe ser uno de los siguientes valores: 'STRING', 'NUMBER' o 'DATE'",
   "invalidOperationField": "El campo '{property}' debe ser uno de los siguientes valores: 'EQUALS', 'NOT_EQUALS', 'GREATER_THAN', 'GREATER_THAN_OR_EQUAL', 'LESS_THAN', 'LESS_THAN_OR_EQUAL', 'IN', 'NOT_IN', 'BETWEEN', 'NOT_BETWEEN', 'LIKE', 'NOT_LIKE', 'IS_NULL' o 'IS_NOT_NULL'",
-  "equalOrHigher": "El campo '{property}' con valor: \"{value}\" debe ser mayor o igual a {constraints.0}"
+  "equalOrHigherThanOne": "El campo '{property}' con valor: \"{value}\" debe ser mayor o igual a 1",
+  "equalOrHigherThanZero": "El campo '{property}' con valor: \"{value}\" debe ser mayor o igual a 0",
+  "invalidPermissionType": "El campo '{property}' debe ser uno de los siguientes valores: 'general', 'establishment'",
+  "invalidNumber": "El campo '{property}' no es un número",
+  "invalidDate": "El campo '{property}' no es una fecha válida"
 }

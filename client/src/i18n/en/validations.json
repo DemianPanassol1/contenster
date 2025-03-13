@@ -15,8 +15,18 @@
     },
     "repeatPassword": {
         "field": "Repeat Password",
-        "required": "Repeat Password is required",
-        "mustMatch": "Passwords must match"
+        "required": "Password repetition is required",
+        "mustMatch": "Passwords must match",
+        "passwordsDoNotMatch": "Passwords do not match"
+    },
+    "oldPassword": {
+        "field": "Old Password",
+        "required": "Old password is required"
+    },
+    "newPassword": {
+        "field": "New Password",
+        "required": "New password is required",
+        "minLength": "New password must have at least {{length}} characters"
     },
     "phone": {
         "field": "Phone",
@@ -32,6 +42,120 @@
         "required": "Establishment is required"
     },
     "staySignedIn": {
-        "field": "Stay signed in"
+        "field": "Stay Signed In"
+    },
+    "completeName": {
+        "field": "Full Name",
+        "required": "Full name is required"
+    },
+    "username": {
+        "field": "Username",
+        "required": "Username is required",
+        "minLength": "Username must have at least {{length}} characters"
+    },
+    "preferencialPage": {
+        "field": "Preferred Page",
+        "required": "Preferred page is required"
+    },
+    "title": {
+        "field": "Title",
+        "required": "Title is required"
+    },
+    "description": {
+        "field": "Description",
+        "required": "Description is required"
+    },
+    "document": {
+        "field": "Document",
+        "required": "Document is required"
+    },
+    "corporateName": {
+        "field": "Corporate Name",
+        "required": "Corporate name is required"
+    },
+    "functionality": {
+        "field": "Functionality",
+        "required": "Functionality is required"
+    },
+    "role": {
+        "field": "Role",
+        "required": "Role is required"
+    },
+    "permission": {
+        "field": "Permission",
+        "required": "Permission is required"
+    },
+    "canCreate": {
+        "field": "Create"
+    },
+    "canRead": {
+        "field": "Read"
+    },
+    "canUpdate": {
+        "field": "Update"
+    },
+    "canDelete": {
+        "field": "Delete"
+    },
+    "permissionType": {
+        "field": "Permission Type"
+    },
+    "slug": {
+        "field": "Slug",
+        "required": "Slug is required"
+    },
+    "icon": {
+        "field": "Icon",
+        "required": "Icon is required"
+    },
+    "position": {
+        "field": "Position",
+        "required": "Position is required"
+    },
+    "isActive": {
+        "field": "Active"
+    },
+    "isBlocked": {
+        "field": "Blocked"
+    },
+    "name": {
+        "field": "Name",
+        "required": "Name is required"
+    },
+    "image": {
+        "field": "Image",
+        "required": "Image is required"
+    },
+    "lastLoggedAt": {
+        "field": "Last Logged At"
+    },
+    "module": {
+        "field": "Module",
+        "required": "Module is required"
+    },
+    "fantasyName": {
+        "field": "Fantasy Name",
+        "required": "Fantasy name is required"
+    },
+    "documentType": {
+        "field": "Document Type",
+        "required": "Document type is required"
+    },
+    "address": {
+        "field": "Address",
+        "required": "Address is required"
+    },
+    "zipCode": {
+        "field": "ZIP Code",
+        "required": "ZIP code is required",
+        "pattern": "ZIP code must be valid"
+    },
+    "addressNumber": {
+        "field": "Number",
+        "required": "Number is required"
+    },
+    "district": {
+        "field": "District",
+        "required": "District is required"
     }
 }

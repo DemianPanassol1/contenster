@@ -16,7 +16,17 @@
     "repeatPassword": {
         "field": "Repetir contraseña",
         "required": "La repetición de la contraseña es obligatoria",
-        "mustMatch": "Las contraseñas deben coincidir"
+        "mustMatch": "Las contraseñas deben coincidir",
+        "passwordsDoNotMatch": "Las contraseñas no coinciden"
+    },
+    "oldPassword": {
+        "field": "Contraseña antigua",
+        "required": "La contraseña antigua es obligatoria"
+    },
+    "newPassword": {
+        "field": "Nueva contraseña",
+        "required": "La nueva contraseña es obligatoria",
+        "minLength": "La nueva contraseña debe tener al menos {{length}} caracteres"
     },
     "phone": {
         "field": "Teléfono",
@@ -33,5 +43,119 @@
     },
     "staySignedIn": {
         "field": "Permanecer conectado"
+    },
+    "completeName": {
+        "field": "Nombre completo",
+        "required": "El nombre completo es obligatorio"
+    },
+    "username": {
+        "field": "Nombre de usuario",
+        "required": "El nombre de usuario es obligatorio",
+        "minLength": "El nombre de usuario debe tener al menos {{length}} caracteres"
+    },
+    "preferencialPage": {
+        "field": "Página preferencial",
+        "required": "La página preferencial es obligatoria"
+    },
+    "title": {
+        "field": "Título",
+        "required": "El título es obligatorio"
+    },
+    "description": {
+        "field": "Descripción",
+        "required": "La descripción es obligatoria"
+    },
+    "document": {
+        "field": "Documento",
+        "required": "El documento es obligatorio"
+    },
+    "corporateName": {
+        "field": "Razón Social",
+        "required": "La Razón Social es obligatoria"
+    },
+    "functionality": {
+        "field": "Funcionalidad",
+        "required": "La funcionalidad es obligatoria"
+    },
+    "role": {
+        "field": "Perfil",
+        "required": "El perfil es obligatorio"
+    },
+    "permission": {
+        "field": "Permiso",
+        "required": "El permiso es obligatorio"
+    },
+    "canCreate": {
+        "field": "Crear"
+    },
+    "canRead": {
+        "field": "Visualizar"
+    },
+    "canUpdate": {
+        "field": "Editar"
+    },
+    "canDelete": {
+        "field": "Eliminar"
+    },
+    "permissionType": {
+        "field": "Tipo de permiso"
+    },
+    "slug": {
+        "field": "Slug",
+        "required": "El slug es obligatorio"
+    },
+    "icon": {
+        "field": "Ícono",
+        "required": "El ícono es obligatorio"
+    },
+    "position": {
+        "field": "Posición",
+        "required": "La posición es obligatoria"
+    },
+    "isActive": {
+        "field": "Activo"
+    },
+    "isBlocked": {
+        "field": "Bloqueado"
+    },
+    "name": {
+        "field": "Nombre",
+        "required": "El nombre es obligatorio"
+    },
+    "image": {
+        "field": "Imagen",
+        "required": "La imagen es obligatoria"
+    },
+    "lastLoggedAt": {
+        "field": "Último acceso"
+    },
+    "module": {
+        "field": "Módulo",
+        "required": "El módulo es obligatorio"
+    },
+    "fantasyName": {
+        "field": "Nombre Fantasía",
+        "required": "El nombre de fantasía es obligatorio"
+    },
+    "documentType": {
+        "field": "Tipo de documento",
+        "required": "El tipo de documento es obligatorio"
+    },
+    "address": {
+        "field": "Dirección",
+        "required": "La dirección es obligatoria"
+    },
+    "zipCode": {
+        "field": "Código postal",
+        "required": "El código postal es obligatorio",
+        "pattern": "El código postal debe ser válido"
+    },
+    "addressNumber": {
+        "field": "Número",
+        "required": "El número es obligatorio"
+    },
+    "district": {
+        "field": "Barrio",
+        "required": "El barrio es obligatorio"
     }
 }

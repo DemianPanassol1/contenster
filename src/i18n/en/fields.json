@@ -1,5 +1,16 @@
 {
     "email": "email",
     "login": "login",
-    "password": "password"
+    "password": "password",
+    "username": "username",
+    "name": "name",
+    "phone": "phone",
+    "establishment": "establishment",
+    "establishmentId": "establishment",
+    "preferenceId": "preferred page",
+    "isActive": "active",
+    "isBlocked": "blocked",
+    "repeatPassword": "repeat password",
+    "roleId": "role",
+    "imageId": "image"
 }
