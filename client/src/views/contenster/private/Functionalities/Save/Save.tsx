@@ -29,7 +29,7 @@ import Input from '../../../../../components/Input';
 import Wrapper from '../../../../../components/Wrapper';
 import IconPicker from '../../../../../components/IconPicker';
 import Translations from '../../../../../components/Translations';
-import Autocomplete from '../../../../../components/Autocomplete';
+import Select from '../../../../../components/Select';
 
 export interface FormFields {
   id: string;
@@ -176,18 +176,17 @@ const Save: React.FC<SaveProps> = ({
           containerStyle={{ margin: '0' }}
         />
         {permissionType === 'general' && (
-          <Autocomplete
+          <Select
             name="establishmentId"
             label={t('validations:establishment.field') + ' *'}
             controller={control as unknown as Control<FieldValues>}
             validation={genericInputValidation(t)}
             urlData={GET_ESTABLISHMENT_OPTIONS}
             bodyContent={{}}
-            helperText={errors.establishmentId?.message}
             inputStyle={{ margin: '0' }}
           />
         )}
-        <Autocomplete
+        <Select
           name="moduleId"
           label={t('validations:module.field') + ' *'}
           controller={control as unknown as Control<FieldValues>}
@@ -197,7 +196,6 @@ const Save: React.FC<SaveProps> = ({
             establishmentId: watch('establishmentId'),
             establishmentIdRequired: true,
           }}
-          helperText={errors.moduleId?.message}
           inputStyle={{ margin: '0' }}
         />
         <Box

@@ -18,7 +18,7 @@ import { GET_USER_INFO, PUT_USER_INFO } from '../../../../../routes/contenster/p
 import Input from '../../../../../components/Input';
 import Wrapper from '../../../../../components/Wrapper';
 import FileUpload from '../../../../../components/FileUpload';
-import Autocomplete from '../../../../../components/Autocomplete';
+import Select from '../../../../../components/Select';
 
 interface FormFields {
   id: string;
@@ -123,7 +123,7 @@ const Main: React.FC = () => {
           helperText={errors.phone?.message}
           containerStyle={{ margin: '0' }}
         />
-        <Autocomplete
+        <Select
           name="preferenceId"
           label={t('validations:preferencialPage.field')}
           controller={control as unknown as Control<FieldValues>}
@@ -132,7 +132,6 @@ const Main: React.FC = () => {
             roleId: session?.role.id,
             establishmentId: session?.establishment.id,
           }}
-          helperText={errors.preferenceId?.message}
           inputStyle={{ margin: '0 0 1.5rem' }}
         />
       </Box>

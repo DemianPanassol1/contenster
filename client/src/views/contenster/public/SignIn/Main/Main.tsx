@@ -16,7 +16,7 @@ import Image from '../../../../../components/Image';
 import Input from '../../../../../components/Input';
 import Switch from '../../../../../components/Switch';
 import Wrapper from '../../../../../components/Wrapper';
-import Autocomplete from '../../../../../components/Autocomplete';
+import Select from '../../../../../components/Select';
 
 interface FormFields {
   username: string;
@@ -193,14 +193,13 @@ const Main: React.FC = () => {
               />
             </>
           ) : (
-            <Autocomplete
+            <Select
               name="establishmentId"
               label={t('validations:establishment.field')}
               controller={control as unknown as Control<FieldValues>}
               fixedData={selectCompany}
               inputStyle={{ margin: '0 0 1.5rem' }}
               validation={genericInputValidation(t)}
-              helperText={errors.establishmentId?.message}
             />
           )}
           <Switch

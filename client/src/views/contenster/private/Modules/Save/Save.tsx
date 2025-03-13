@@ -19,7 +19,7 @@ import { GET_MODULES_LIST, GET_SYNC_USER } from '../../../../../routes/contenste
 import Input from '../../../../../components/Input';
 import Wrapper from '../../../../../components/Wrapper';
 import Translations from '../../../../../components/Translations';
-import Autocomplete from '../../../../../components/Autocomplete';
+import Select from '../../../../../components/Select';
 
 export interface FormFields {
   id: string;
@@ -119,14 +119,13 @@ const Save: React.FC<SaveProps> = ({
         }}
       >
         {permissionType === 'general' && (
-          <Autocomplete
+          <Select
             name="establishmentId"
             label={t('validations:establishment.field') + ' *'}
             controller={control as unknown as Control<FieldValues>}
             validation={genericInputValidation(t)}
             urlData={GET_ESTABLISHMENT_OPTIONS}
             bodyContent={{}}
-            helperText={errors.establishmentId?.message}
             inputStyle={{ margin: '0' }}
           />
         )}

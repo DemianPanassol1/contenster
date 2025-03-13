@@ -15,7 +15,7 @@ import { GET_MODULES_LIST, GET_SYNC_USER } from '../../../../../routes/contenste
 import Input from '../../../../../components/Input';
 import Wrapper from '../../../../../components/Wrapper';
 import FileUpload from '../../../../../components/FileUpload';
-import Autocomplete from '../../../../../components/Autocomplete';
+import Select from '../../../../../components/Select';
 
 interface FormFields {
   id: string;
@@ -144,7 +144,7 @@ const Save: React.FC<SaveProps> = ({
           helperText={errors.email?.message}
           containerStyle={{ margin: '0' }}
         />
-        <Autocomplete
+        <Select
           name="documentType"
           label={t('validations:documentType.field') + ' *'}
           controller={control as unknown as Control<FieldValues>}
@@ -153,7 +153,6 @@ const Save: React.FC<SaveProps> = ({
             { label: 'CNPJ', value: 'cnpj' },
             { label: 'CPF', value: 'cpf' },
           ]}
-          helperText={errors.documentType?.message}
           inputStyle={{ margin: '0' }}
         />
         <Input

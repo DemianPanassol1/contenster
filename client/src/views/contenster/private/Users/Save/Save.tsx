@@ -19,7 +19,7 @@ import Input from '../../../../../components/Input';
 import Switch from '../../../../../components/Switch';
 import Wrapper from '../../../../../components/Wrapper';
 import FileUpload from '../../../../../components/FileUpload';
-import Autocomplete from '../../../../../components/Autocomplete';
+import Select from '../../../../../components/Select';
 import { GET_ROLE_OPTIONS } from '../../../../../routes/contenster/options';
 
 interface FormFields {
@@ -185,7 +185,7 @@ const Save: React.FC<SaveProps> = ({
         />
         {
           /* permissionType === 'establishment' */ true && (
-            <Autocomplete
+            <Select
               name="roleId"
               label={t('validations:role.field')}
               controller={control as unknown as Control<FieldValues>}
@@ -194,7 +194,6 @@ const Save: React.FC<SaveProps> = ({
               bodyContent={{
                 establishmentId: (session?.establishment.id ?? '') as string,
               }}
-              helperText={errors.roleId?.message}
               inputStyle={{ margin: '0' }}
             />
           )

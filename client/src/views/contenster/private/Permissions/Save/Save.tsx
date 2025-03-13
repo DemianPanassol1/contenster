@@ -15,8 +15,8 @@ import { useGET, useNavigate, useUserSession } from '../../../../../utils/hooks.
 import { GET_MODULES_LIST, GET_SYNC_USER } from '../../../../../routes/contenster/global';
 
 import Switch from '../../../../../components/Switch';
+import Select from '../../../../../components/Select';
 import Wrapper from '../../../../../components/Wrapper';
-import Autocomplete from '../../../../../components/Autocomplete';
 
 interface FormFields {
   id: string;
@@ -122,18 +122,17 @@ const Save: React.FC<SaveProps> = ({
         }}
       >
         {permissionType === 'general' && (
-          <Autocomplete
+          <Select
             name="establishmentId"
             label={t('validations:establishment.field') + ' *'}
             controller={control as unknown as Control<FieldValues>}
             validation={genericInputValidation(t)}
             urlData={GET_ESTABLISHMENT_OPTIONS}
             bodyContent={{}}
-            helperText={errors.establishmentId?.message}
             inputStyle={{ margin: '0' }}
           />
         )}
-        <Autocomplete
+        <Select
           name="roleId"
           label={t('validations:role.field') + ' *'}
           controller={control as unknown as Control<FieldValues>}
@@ -143,10 +142,9 @@ const Save: React.FC<SaveProps> = ({
             establishmentIdRequired: true,
             establishmentId: watch('establishmentId'),
           }}
-          helperText={errors.roleId?.message}
           inputStyle={{ margin: '0' }}
         />
-        <Autocomplete
+        <Select
           name="functionalityId"
           label={t('validations:functionality.field') + ' *'}
           controller={control as unknown as Control<FieldValues>}
@@ -156,20 +154,18 @@ const Save: React.FC<SaveProps> = ({
             establishmentIdRequired: true,
             establishmentId: watch('establishmentId'),
           }}
-          helperText={errors.functionalityId?.message}
           inputStyle={{ margin: '0' }}
         />
         {permissionType === 'general' && (
-          <Autocomplete
+          <Select
             name="permissionType"
             label={t('validations:permissionType.field') + ' *'}
             controller={control as unknown as Control<FieldValues>}
             validation={genericInputValidation(t)}
             fixedData={[
-              { label: 'Estabelecimento', value: 'establishment' },
-              { label: 'Geral', value: 'general' },
+              { label: t('common:general'), value: 'general' },
+              { label: t('common:establishment'), value: 'establishment' },
             ]}
-            helperText={errors.permissionType?.message}
             inputStyle={{ margin: '0' }}
           />
         )}

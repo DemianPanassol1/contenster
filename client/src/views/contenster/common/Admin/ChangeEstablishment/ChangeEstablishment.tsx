@@ -15,7 +15,7 @@ import { genericInputValidation } from '../../../../../utils/validations.util';
 import { GET_ESTABLISHMENT_OPTIONS } from '../../../../../routes/contenster/options';
 
 import Dialog from '../../../../../components/Dialog';
-import Autocomplete from '../../../../../components/Autocomplete';
+import Select from '../../../../../components/Select';
 
 interface FormFields {
   establishmentId: string;
@@ -27,16 +27,11 @@ const fields: FormFields = {
 
 const ChangeEstablishment: React.FC = () => {
   const {
-    reset,
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormFields>({ defaultValues: fields });
-  const {
     toggleDialog,
     handleOnSubmit,
     state: { loading },
   } = useGlobalContext();
+  const { reset, control, handleSubmit } = useForm<FormFields>({ defaultValues: fields });
 
   const { t } = useTranslation(['common', 'validations']);
 
@@ -80,7 +75,7 @@ const ChangeEstablishment: React.FC = () => {
           gridTemplateColumns: '1fr',
         }}
       >
-        <Autocomplete
+        <Select
           name="establishmentId"
           label={t('validations:establishment.field')}
           urlData={GET_ESTABLISHMENT_OPTIONS}
@@ -89,7 +84,6 @@ const ChangeEstablishment: React.FC = () => {
           }}
           controller={control as unknown as Control<FieldValues>}
           validation={genericInputValidation(t)}
-          helperText={errors.establishmentId?.message}
         />
       </Box>
     </Dialog>

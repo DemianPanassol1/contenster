@@ -70,5 +70,7 @@
     "duplicateRecordError": "Já existe um registro com esse valor",
     "selectedIcon": "Ícone selecionado:",
     "permissions": "Permissões: ",
-    "image": "Imagem: "
+    "image": "Imagem: ",
+    "general": "Geral",
+    "establishment": "Estabelecimento"
 }
