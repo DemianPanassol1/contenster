@@ -9,6 +9,7 @@ import { PermissionType } from 'src/shared/enums/common.enums';
 import { Role } from 'src/entities/contensterdb/role.entity';
 import { Module } from 'src/entities/contensterdb/module.entity';
 import { Permission } from 'src/entities/contensterdb/permission.entity';
+import { Translation } from 'src/entities/contensterdb/translation.entity';
 import { Establishment } from 'src/entities/contensterdb/establishment.entity';
 import { Functionality } from 'src/entities/contensterdb/functionality.entity';
 import { UserEstablishmentRole } from 'src/entities/contensterdb/userEstablishmentRole.entity';
@@ -26,6 +27,7 @@ export class EstablishmentsRepository extends CoreRepository {
     @InjectRepository(Functionality) private functionalityRepo: Repository<Functionality>,
     @InjectRepository(UserEstablishmentRole)
     private userEstablishmentRoleRepo: Repository<UserEstablishmentRole>,
+    @InjectRepository(Translation) private translationRepo: Repository<Translation>,
   ) {
     super(i18n);
   }
@@ -73,10 +75,18 @@ export class EstablishmentsRepository extends CoreRepository {
       where: {
         establishment: { id: establishment.id },
       },
+      relations: {
+        titles: true,
+        descriptions: true,
+      },
     });
 
     const roles = await this.roleRepo.find({
       where: { establishment: { id: establishment.id } },
+      relations: {
+        titles: true,
+        descriptions: true,
+      },
     });
 
     const permissions = await this.permissionRepo.find({
@@ -86,6 +96,9 @@ export class EstablishmentsRepository extends CoreRepository {
     const functionalities = await this.functionalityRepo.find({
       where: {
         module: { id: In(modules.map((module) => module.id)) },
+      },
+      relations: {
+        titles: true,
       },
     });
 
@@ -98,6 +111,14 @@ export class EstablishmentsRepository extends CoreRepository {
     await this.roleRepo.remove(roles);
     await this.functionalityRepo.remove(functionalities);
     await this.moduleRepo.remove(modules);
+
+    await this.translationRepo.remove([
+      ...modules.map((m) => m.titles).flat(),
+      ...modules.map((m) => m.descriptions).flat(),
+      ...roles.map((m) => m.titles).flat(),
+      ...roles.map((m) => m.descriptions).flat(),
+      ...functionalities.map((m) => m.titles).flat(),
+    ]);
 
     return this.establishmentRepo.remove(establishment);
   }

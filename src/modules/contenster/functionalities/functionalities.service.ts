@@ -118,6 +118,7 @@ export class FunctionalitiesService extends CoreService {
       module: { id: moduleId },
       icon: this.degenerateFilePath(icon),
       titles: titles.map((title) => ({
+        ...(title.id && { id: title.id }),
         text: title.text,
         language: { id: title.language.id },
       })),

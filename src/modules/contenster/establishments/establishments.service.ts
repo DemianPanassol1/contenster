@@ -130,7 +130,7 @@ export class EstablishmentsService extends CoreService {
   }
 
   async deleteEstablishment(query: DeleteEstablishmentReqDto) {
-    const { id } = query;
+    const { id, establishmentId } = query;
 
     const establishment = await this.repo.getEstablishmentById(id);
 
@@ -140,7 +140,7 @@ export class EstablishmentsService extends CoreService {
 
     const count = await this.repo.getEstablishmentCount();
 
-    if (count === 1) {
+    if (count === 1 || establishmentId === establishment.id) {
       throw new HttpException(
         this.i18n.t('errors.establishmentCannotBeDeleted'),
         HttpStatus.BAD_REQUEST,

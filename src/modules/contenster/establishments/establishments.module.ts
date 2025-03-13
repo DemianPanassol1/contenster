@@ -7,6 +7,7 @@ import { EstablishmentsRepository } from './establishments.repository';
 
 import { Role } from 'src/entities/contensterdb/role.entity';
 import { Permission } from 'src/entities/contensterdb/permission.entity';
+import { Translation } from 'src/entities/contensterdb/translation.entity';
 import { Establishment } from 'src/entities/contensterdb/establishment.entity';
 import { Functionality } from 'src/entities/contensterdb/functionality.entity';
 import { Module as ModuleEntity } from 'src/entities/contensterdb/module.entity';
@@ -19,6 +20,7 @@ import { UserEstablishmentRole } from 'src/entities/contensterdb/userEstablishme
       Establishment,
       Functionality,
       ModuleEntity,
+      Translation,
       UserEstablishmentRole,
     ]),
   ],

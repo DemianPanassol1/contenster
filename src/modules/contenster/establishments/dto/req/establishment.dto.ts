@@ -45,10 +45,12 @@ export class EstablishmentDto {
   @IsEnum(DocumentType, { message: 'validation.invalidDocumentType' })
   documentType: DocumentType;
 
+  @Transform(({ value }) => value.replace(/\D/g, ''))
   @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsString({ message: 'validation.invalidString' })
   phone1: string;
 
+  @Transform(({ value }) => value.replace(/\D/g, ''))
   @ValidateIf((_, value) => value !== null && value !== undefined)
   @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsString({ message: 'validation.invalidString' })

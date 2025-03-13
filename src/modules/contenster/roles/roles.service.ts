@@ -100,10 +100,12 @@ export class RolesService extends CoreService {
     const saveRole: Partial<Role> = {
       establishment: { id: establishmentId },
       titles: titles.map((title) => ({
+        ...(title.id && { id: title.id }),
         text: title.text,
         language: { id: title.language.id },
       })),
       descriptions: descriptions.map((description) => ({
+        ...(description.id && { id: description.id }),
         text: description.text,
         language: { id: description.language.id },
       })),

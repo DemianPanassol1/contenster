@@ -48,6 +48,7 @@ export class UserDto {
   @IsString({ message: 'validation.invalidString' })
   username: string;
 
+  @Transform(({ value }) => value.replace(/\D/g, ''))
   @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsString({ message: 'validation.invalidString' })
   phone: string;
