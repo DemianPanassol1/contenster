@@ -8,10 +8,11 @@ import {
   phoneValidation,
   genericInputValidation,
 } from '../../../../../utils/validations.util';
-import { useGET } from '../../../../../utils/hooks.util';
 import { GET_SYNC_USER } from '../../../../../routes/contenster/global';
+import { useGET, useUserSession } from '../../../../../utils/hooks.util';
 import { useGlobalContext } from '../../../../../contexts/global.context';
 import { handlePopulateFields } from '../../../../../utils/functions.util';
+import { GET_FUNCTIONALITY_OPTIONS } from '../../../../../routes/contenster/options';
 import { GET_USER_INFO, PUT_USER_INFO } from '../../../../../routes/contenster/profile';
 
 import Input from '../../../../../components/Input';
@@ -50,6 +51,7 @@ const Main: React.FC = () => {
 
   const theme = useTheme();
 
+  const session = useUserSession();
   const { handleOnSubmit } = useGlobalContext();
   const { t } = useTranslation(['common', 'validations']);
   const { data, isLoading, refresh } = useGET(GET_USER_INFO);
@@ -125,7 +127,11 @@ const Main: React.FC = () => {
           name="preferenceId"
           label={t('validations:preferencialPage.field')}
           controller={control as unknown as Control<FieldValues>}
-          fixedData={[]}
+          urlData={GET_FUNCTIONALITY_OPTIONS}
+          bodyContent={{
+            roleId: session?.role.id,
+            establishmentId: session?.establishment.id,
+          }}
           helperText={errors.preferenceId?.message}
           inputStyle={{ margin: '0 0 1.5rem' }}
         />

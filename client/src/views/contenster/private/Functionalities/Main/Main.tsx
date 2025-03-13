@@ -6,6 +6,7 @@ import {
   GET_FUNCTIONALITIES_LIST,
 } from '../../../../../routes/contenster/functionalities';
 import { usePermissions, useUserSession } from '../../../../../utils/hooks.util';
+import { GET_MODULES_LIST, GET_SYNC_USER } from '../../../../../routes/contenster/global';
 
 import Table from '../../../../../components/Table';
 import Wrapper from '../../../../../components/Wrapper';
@@ -64,6 +65,7 @@ const Main: React.FC = () => {
         }
         urlList={GET_FUNCTIONALITIES_LIST}
         urlDelete={DELETE_FUNCTIONALITY}
+        urlRefreshOnDelete={[GET_MODULES_LIST, GET_SYNC_USER]}
         bodyContent={{
           permissionType: permission.type,
           establishmentId: (session?.establishment.id ?? '').toString(),
