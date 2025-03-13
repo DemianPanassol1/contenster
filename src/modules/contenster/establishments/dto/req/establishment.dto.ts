@@ -14,8 +14,8 @@ import { DocumentType } from 'src/shared/enums/common.enums';
 import { parseNum } from 'src/shared/utils/convertion.utils';
 
 export class EstablishmentDto {
-  @IsNotEmpty({ message: 'validation.notEmpty' })
   @Transform(parseNum)
+  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsNumber({}, { message: 'validation.invalidNumber' })
   id: number;
 
@@ -55,6 +55,7 @@ export class EstablishmentDto {
   @IsString({ message: 'validation.invalidString' })
   phone1: string;
 
+  @ValidateIf((_, value) => value !== null && value !== undefined)
   @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsString({ message: 'validation.invalidString' })
   phone2: string;
@@ -63,9 +64,8 @@ export class EstablishmentDto {
   @IsEmail({}, { message: 'validation.invalidEmail' })
   email: string;
 
-  @Allow()
-  @ValidateIf((_, value) => value !== null && value !== undefined)
   @Transform(parseNum)
+  @ValidateIf((_, value) => value !== null && value !== undefined)
   @IsNumber({}, { message: 'validation.invalidNumber' })
   imageId: number;
 }

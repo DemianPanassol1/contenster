@@ -25,7 +25,7 @@ interface Session {
 interface Establishment {
   id: number;
   document: string;
-  documentType: string;
+  documentType: 'cpf' | 'cnpj';
   email: string;
   phone1: string;
   phone2: string;

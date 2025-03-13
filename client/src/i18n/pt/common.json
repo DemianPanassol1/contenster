@@ -69,5 +69,6 @@
     "noRecords": "Sem registros",
     "duplicateRecordError": "Já existe um registro com esse valor",
     "selectedIcon": "Ícone selecionado:",
-    "permissions": "Permissões: "
+    "permissions": "Permissões: ",
+    "image": "Imagem: "
 }

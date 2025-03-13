@@ -43,6 +43,8 @@ const Main: React.FC = () => {
           permissionType: permission.type,
           establishmentId: (session?.establishment.id ?? '').toString(),
         }}
+        hasAddButton={permission.type === 'general'}
+        hasFilter={permission.type === 'general'}
       />
     </Wrapper>
   );

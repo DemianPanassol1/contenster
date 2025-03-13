@@ -132,5 +132,30 @@
     "module": {
         "field": "Módulo",
         "required": "O módulo é obrigatório"
+    },
+    "fantasyName": {
+        "field": "Nome Fantasia",
+        "required": "O nome fantasia é obrigatório"
+    },
+    "documentType": {
+        "field": "Tipo de documento",
+        "required": "O tipo de documento é obrigatório"
+    },
+    "address": {
+        "field": "Endereço",
+        "required": "O endereço é obrigatório"
+    },
+    "zipCode": {
+        "field": "CEP",
+        "required": "O CEP é obrigatório",
+        "pattern": "O CEP deve ser válido"
+    },
+    "addressNumber": {
+        "field": "Número",
+        "required": "O número é obrigatório"
+    },
+    "district": {
+        "field": "Bairro",
+        "required": "O bairro é obrigatório"
     }
 }

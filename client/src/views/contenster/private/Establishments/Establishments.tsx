@@ -1,13 +1,18 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
+import {
+  GET_ESTABLISHMENT,
+  POST_ESTABLISHMENT,
+  PUT_ESTABLISHMENT,
+} from '../../../../routes/contenster/establishments';
+
 import Main from './Main';
 import Save from './Save';
 import Page from '../../../../components/Page';
 
 const Establishments: React.FC = () => {
-  const { /* id, */ type } = useParams();
-
+  const { id, type } = useParams();
   return (
     <Page>
       {(() => {
@@ -16,15 +21,15 @@ const Establishments: React.FC = () => {
             return (
               <Save
                 pageType={type}
-                saveContentUrl={''}
-                getContentUrl={''}
+                saveContentUrl={PUT_ESTABLISHMENT}
+                getContentUrl={GET_ESTABLISHMENT((id ?? '').toString())}
               />
             );
           case 'create':
             return (
               <Save
                 pageType={type}
-                saveContentUrl={''}
+                saveContentUrl={POST_ESTABLISHMENT}
               />
             );
           default:

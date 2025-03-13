@@ -17,7 +17,6 @@ import { PutEstablishmentResDto } from './dto/res/putEstablishment.res.dto';
 import { PostEstablishmentResDto } from './dto/res/postEstablishment.res.dto';
 import { GetEstablishmentsListResDto } from './dto/res/getEstablishmentsList.res.dto';
 
-import { Image } from 'src/entities/contensterdb/image.entity';
 import { Establishment } from 'src/entities/contensterdb/establishment.entity';
 import { DeleteEstablishmentResDto } from './dto/res/deleteEstablishment.res.dto';
 
@@ -57,29 +56,15 @@ export class EstablishmentsService extends CoreService {
 
     const response = {
       ...establishment,
-      image:
-        this.generateFilePath(req, establishment.image?.filePath) ??
-        `${req.protocol}://${req.headers.host}/assets/images/system/react_icon.png`,
+      imageId: establishment.image?.id ?? null,
     };
 
     return this.response(GetEstablishmentResDto, response);
   }
 
   async postEstablishment(body: PostEstablishmentReqDto) {
-    const {
-      address,
-      addressNumber,
-      corporateName,
-      district,
-      document,
-      documentType,
-      email,
-      fantasyName,
-      imageId,
-      phone1,
-      phone2,
-      zipCode,
-    } = body;
+    const { email, fantasyName, imageId, phone1, phone2, zipCode } = body;
+    const { address, addressNumber, corporateName, district, document, documentType } = body;
 
     const saveEstablishment: Partial<Establishment> = {
       email,
@@ -93,7 +78,7 @@ export class EstablishmentsService extends CoreService {
       documentType,
       addressNumber,
       corporateName,
-      image: imageId ? ({ id: imageId } as Image) : null,
+      image: imageId ? { id: imageId } : null,
     };
 
     const establishment = await this.repo.getEstablishmentByDocument(document);
@@ -111,21 +96,8 @@ export class EstablishmentsService extends CoreService {
   }
 
   async putEstablishment(body: PutEstablishmentReqDto) {
-    const {
-      id,
-      address,
-      addressNumber,
-      corporateName,
-      district,
-      document,
-      documentType,
-      email,
-      fantasyName,
-      imageId,
-      phone1,
-      phone2,
-      zipCode,
-    } = body;
+    const { id, email, fantasyName, imageId, phone1, phone2, zipCode } = body;
+    const { address, addressNumber, corporateName, district, document, documentType } = body;
 
     const updateEstablishment: Partial<Establishment> = {
       id,
@@ -140,7 +112,7 @@ export class EstablishmentsService extends CoreService {
       documentType,
       addressNumber,
       corporateName,
-      image: imageId ? ({ id: imageId } as Image) : null,
+      image: imageId ? { id: imageId } : null,
     };
 
     const establishment = await this.repo.getEstablishmentByDocument(document);

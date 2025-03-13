@@ -38,5 +38,5 @@ export class GetEstablishmentResDto {
   email: string;
 
   @Expose()
-  image: string;
+  imageId: number;
 }
