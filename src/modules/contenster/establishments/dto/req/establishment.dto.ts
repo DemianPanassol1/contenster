@@ -1,13 +1,5 @@
-import {
-  Allow,
-  IsEmail,
-  IsEnum,
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-  ValidateIf,
-} from 'class-validator';
 import { Transform } from 'class-transformer';
+import { IsEmail, IsEnum, IsNotEmpty, IsNumber, IsString, ValidateIf } from 'class-validator';
 
 import { DocumentType } from 'src/shared/enums/common.enums';
 
@@ -35,6 +27,7 @@ export class EstablishmentDto {
   @IsString({ message: 'validation.invalidString' })
   addressNumber: string;
 
+  @Transform(({ value }) => value.replace(/\D/g, ''))
   @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsString({ message: 'validation.invalidString' })
   zipCode: string;
@@ -43,6 +36,7 @@ export class EstablishmentDto {
   @IsString({ message: 'validation.invalidString' })
   district: string;
 
+  @Transform(({ value }) => value.replace(/\D/g, ''))
   @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsString({ message: 'validation.invalidString' })
   document: string;
