@@ -35,3 +35,10 @@ export enum Operation {
   IS_NULL = 'IS_NULL',
   IS_NOT_NULL = 'IS_NOT_NULL',
 }
+
+export enum LoglevelType {
+  info = 'info',
+  warning = 'warning',
+  error = 'error',
+  fatal = 'fatal',
+}

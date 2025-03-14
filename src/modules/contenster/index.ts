@@ -1,5 +1,7 @@
 import { RouterModule } from '@nestjs/core';
 
+import { CronJobModule } from './cronjob/cronjon.module';
+
 import { ApiModule } from './api/api.module';
 import { AuthModule } from './auth/auth.module';
 import { AdminModule } from './admin/admin.module';
@@ -12,6 +14,8 @@ import { EstablishmentsModule } from './establishments/establishments.module';
 import { FunctionalitiesModule } from './functionalities/functionalities.module';
 
 export default [
+  CronJobModule,
+
   ApiModule,
   AuthModule,
   AdminModule,

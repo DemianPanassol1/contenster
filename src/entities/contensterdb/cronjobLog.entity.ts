@@ -1,10 +1,4 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
 
 @Entity()
 export class CronJobLog {
@@ -14,18 +8,15 @@ export class CronJobLog {
   @Column({ type: 'varchar', length: 70 })
   jobName?: string;
 
-  @Column({ type: 'float' })
-  executionTime?: number;
+  @Column({ type: 'varchar', length: 25 })
+  executionTime?: string;
 
-  @Column({ type: 'text', nullable: true, default: null })
-  result?: string;
+  @Column({ type: 'jsonb', nullable: true, default: null })
+  result?: object;
 
-  @Column({ type: 'text', nullable: true, default: null })
-  error?: string;
+  @Column({ type: 'jsonb', nullable: true, default: null })
+  error?: object;
 
   @CreateDateColumn({ type: 'timestamp without time zone' })
   createdAt?: Date;
-
-  @UpdateDateColumn({ type: 'timestamp without time zone' })
-  updatedAt?: Date;
 }

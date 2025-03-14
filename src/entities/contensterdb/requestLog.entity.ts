@@ -1,17 +1,6 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
 
-export enum LoglevelType {
-  info = 'info',
-  warning = 'warning',
-  error = 'error',
-  fatal = 'fatal',
-}
+import { LoglevelType } from 'src/shared/enums/common.enums';
 
 @Entity()
 export class RequestLog {
@@ -27,20 +16,20 @@ export class RequestLog {
   @Column({ type: 'varchar', length: 10 })
   httpMethod?: string;
 
-  @Column({ type: 'float' })
-  responseTime?: number;
+  @Column({ type: 'varchar', length: 25 })
+  responseTime?: string;
 
-  @Column({ type: 'text', nullable: true, default: null })
-  requestHeader?: string;
+  @Column({ type: 'jsonb', nullable: true, default: null })
+  requestHeader?: object;
 
-  @Column({ type: 'text', nullable: true, default: null })
-  requestBody?: string;
+  @Column({ type: 'jsonb', nullable: true, default: null })
+  requestBody?: object;
 
   @Column({ type: 'int' })
   responseStatusCode?: number;
 
-  @Column({ type: 'text', nullable: true, default: null })
-  responseBody?: string;
+  @Column({ type: 'jsonb', nullable: true, default: null })
+  responseBody?: object;
 
   @Column({ type: 'varchar', length: 45, nullable: true, default: null })
   ipAddress?: string;
@@ -50,7 +39,4 @@ export class RequestLog {
 
   @CreateDateColumn({ type: 'timestamp without time zone' })
   createdAt?: Date;
-
-  @UpdateDateColumn({ type: 'timestamp without time zone' })
-  updatedAt?: Date;
 }

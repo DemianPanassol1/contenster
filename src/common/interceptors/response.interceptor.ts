@@ -7,22 +7,27 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
+import { Repository } from 'typeorm';
 import { Observable, of } from 'rxjs';
 import { existsSync, unlinkSync } from 'fs';
 import { Request, Response } from 'express';
 import { catchError, map } from 'rxjs/operators';
+import { InjectRepository } from '@nestjs/typeorm';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 
 import { CoreInterceptor } from 'src/core/core.interceptor';
+import { LoglevelType } from 'src/shared/enums/common.enums';
 import { miliToString } from 'src/shared/utils/convertion.utils';
 import { ErrorItem, ResponseFormat } from 'src/shared/types/api.types';
 import { environment, typeormErrors } from 'src/config/constants/constants.config';
+import { RequestLog } from 'src/entities/contensterdb/requestLog.entity';
 
 @Injectable()
 export class ResponseInterceptor extends CoreInterceptor implements NestInterceptor {
   constructor(
     private readonly logger: Logger,
     private readonly i18n: I18nService,
+    @InjectRepository(RequestLog) private requestLogRepo: Repository<RequestLog>,
   ) {
     super();
   }
@@ -48,6 +53,21 @@ export class ResponseInterceptor extends CoreInterceptor implements NestIntercep
           datetime: new Date().toISOString(),
           requestTime: miliToString(Date.now() - now),
         };
+
+        const requestLog: Partial<RequestLog> = {
+          logLevel: LoglevelType.info,
+          requestId: response.requestId,
+          httpMethod: req.method,
+          responseTime: miliToString(Date.now() - now),
+          ipAddress: req.ip,
+          userAgent: req.headers['user-agent'],
+          responseStatusCode: response.statusCode,
+          responseBody: response,
+          requestHeader: req.headers,
+          requestBody: req.body,
+        };
+
+        this.requestLogRepo.save(requestLog);
 
         return response;
       }),
@@ -104,6 +124,21 @@ export class ResponseInterceptor extends CoreInterceptor implements NestIntercep
           datetime: new Date().toISOString(),
           requestTime: miliToString(Date.now() - now),
         };
+
+        const requestLog: Partial<RequestLog> = {
+          logLevel: statusCode === 500 ? LoglevelType.error : LoglevelType.warning,
+          requestId: errorResponse.requestId,
+          httpMethod: req.method,
+          responseTime: miliToString(Date.now() - now),
+          ipAddress: req.ip,
+          userAgent: req.headers['user-agent'],
+          responseStatusCode: errorResponse.statusCode,
+          responseBody: errorResponse,
+          requestHeader: req.headers,
+          requestBody: req.body,
+        };
+
+        this.requestLogRepo.save(requestLog);
 
         return of(errorResponse);
       }),
