@@ -39,7 +39,7 @@ const Main: React.FC = () => {
             {
               name: t('validations:position.field'),
               field: 'position',
-              selector: 'positions',
+              selector: 'position',
               sortable: true,
               searchable: false,
               type: 'text',

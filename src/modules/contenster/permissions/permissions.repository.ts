@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
-import { I18nService } from 'nestjs-i18n';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { I18nService, I18nContext } from 'nestjs-i18n';
 
 import { CoreRepository } from 'src/core/core.repository';
 
@@ -24,16 +24,19 @@ export class PermissionsRepository extends CoreRepository {
     return this.permissionRepo.findAndCount({
       ...this.buildFilter(query, {
         role: {
+          titles: { language: { languageCode: I18nContext.current().lang } },
           establishment: {
             id: permissionType === PermissionType['establishment'] ? establishmentId : null,
           },
+        },
+        functionality: {
+          titles: { language: { languageCode: I18nContext.current().lang } },
         },
       }),
       relations: {
         role: {
           establishment: true,
           titles: { language: true },
-          descriptions: { language: true },
         },
         functionality: {
           titles: { language: true },

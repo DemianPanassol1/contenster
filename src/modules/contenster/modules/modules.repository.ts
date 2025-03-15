@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
-import { I18nService } from 'nestjs-i18n';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { I18nContext, I18nService } from 'nestjs-i18n';
 
 import { CoreRepository } from 'src/core/core.repository';
 import { PermissionType } from 'src/shared/enums/common.enums';
@@ -29,11 +29,11 @@ export class ModulesRepository extends CoreRepository {
         establishment: {
           id: permissionType === PermissionType['establishment'] ? establishmentId : null,
         },
+        titles: { language: { languageCode: I18nContext.current().lang } },
       }),
       relations: {
         establishment: true,
         titles: { language: true },
-        descriptions: { language: true },
       },
     });
   }

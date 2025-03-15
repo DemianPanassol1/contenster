@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
-import { I18nService } from 'nestjs-i18n';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { I18nContext, I18nService } from 'nestjs-i18n';
 
 import { CoreRepository } from 'src/core/core.repository';
 import { Role } from 'src/entities/contensterdb/role.entity';
@@ -32,6 +32,8 @@ export class RolesRepository extends CoreRepository {
         establishment: {
           id: permissionType === PermissionType['establishment'] ? establishmentId : null,
         },
+        titles: { language: { languageCode: I18nContext.current().lang } },
+        descriptions: { language: { languageCode: I18nContext.current().lang } },
       }),
       relations: {
         establishment: true,
