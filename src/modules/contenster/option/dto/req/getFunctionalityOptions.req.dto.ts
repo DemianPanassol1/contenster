@@ -8,20 +8,20 @@ export class GetFunctionalityOptionsReqDto extends OptionsReqDto {
   @Transform(parseNum)
   @ValidateIf((_, value) => value !== null && value !== undefined)
   @IsNumber({}, { message: 'validation.invalidNumber' })
-  establishmentId: number;
+  establishmentId?: number;
 
   @Transform(parseNum)
   @ValidateIf((_, value) => value !== null && value !== undefined)
   @IsNumber({}, { message: 'validation.invalidNumber' })
-  roleId: number;
+  roleId?: number;
 
   @Transform(parseNum)
   @ValidateIf((_, value) => value !== null && value !== undefined)
   @IsNumber({}, { message: 'validation.invalidNumber' })
-  functionalityId: number;
+  functionalityId?: number;
 
   @Transform(parseBool)
   @ValidateIf((_, value) => value !== null && value !== undefined)
   @IsBoolean({ message: 'validation.invalidBoolean' })
-  establishmentIdRequired: boolean;
+  establishmentIdRequired?: boolean;
 }

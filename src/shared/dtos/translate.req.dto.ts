@@ -25,11 +25,11 @@ export class TranslationDto {
   @Transform(parseNum)
   @ValidateIf((_, value) => value !== null && value !== undefined)
   @IsNumber({}, { message: 'validation.invalidNumber' })
-  id: number;
+  id?: number;
 
   @ValidateIf((_, value) => value !== null && value !== undefined)
   @IsString({ message: 'validation.invalidString' })
-  text: string;
+  text?: string;
 
   @IsObject({ message: 'validation.invalidObject' })
   @ValidateNested()

@@ -8,5 +8,5 @@ export class DeleteEstablishmentReqDto extends GetByIdReqDto {
   @Transform(parseNum)
   @ValidateIf((_, value) => value !== null && value !== undefined)
   @IsNumber({}, { message: 'validation.invalidNumber' })
-  establishmentId: number;
+  establishmentId?: number;
 }

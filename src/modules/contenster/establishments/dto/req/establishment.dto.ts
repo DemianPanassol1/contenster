@@ -52,9 +52,8 @@ export class EstablishmentDto {
 
   @Transform(({ value }) => value.replace(/\D/g, ''))
   @ValidateIf((_, value) => value !== null && value !== undefined)
-  @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsString({ message: 'validation.invalidString' })
-  phone2: string;
+  phone2?: string;
 
   @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsEmail({}, { message: 'validation.invalidEmail' })
@@ -63,5 +62,5 @@ export class EstablishmentDto {
   @Transform(parseNum)
   @ValidateIf((_, value) => value !== null && value !== undefined)
   @IsNumber({}, { message: 'validation.invalidNumber' })
-  imageId: number;
+  imageId?: number;
 }

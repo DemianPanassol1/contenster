@@ -46,9 +46,9 @@ const Select: React.FC<SelectProps> = ({
     customFields: bodyContent,
   });
 
-  const { data, refresh } = !fixedData.length
+  const { data, refresh, isLoading } = !fixedData.length
     ? usePOST(urlData, requestFilter)
-    : { data: null, refresh: () => {} };
+    : { data: null, refresh: () => {}, isLoading: false };
 
   useEffect(() => {
     refresh();
@@ -64,6 +64,7 @@ const Select: React.FC<SelectProps> = ({
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <Autocomplete
           options={options}
+          loading={isLoading}
           getOptionLabel={(option) => option.label}
           isOptionEqualToValue={(option, val) => option.value === val.value}
           value={options.find((option) => option.value === value) || null}

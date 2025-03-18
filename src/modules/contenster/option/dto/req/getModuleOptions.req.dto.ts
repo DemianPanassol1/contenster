@@ -8,10 +8,10 @@ export class GetModuleOptionsReqDto extends OptionsReqDto {
   @Transform(parseNum)
   @ValidateIf((_, value) => value !== null && value !== undefined)
   @IsNumber({}, { message: 'validation.invalidNumber' })
-  establishmentId: number;
+  establishmentId?: number;
 
   @Transform(parseBool)
   @ValidateIf((_, value) => value !== null && value !== undefined)
   @IsBoolean({ message: 'validation.invalidBoolean' })
-  establishmentIdRequired: boolean;
+  establishmentIdRequired?: boolean;
 }

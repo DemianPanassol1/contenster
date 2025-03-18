@@ -14,5 +14,6 @@
   "equalOrHigherThanZero": "O campo '{property}' com valor: \"{value}\" precisa ser maior ou igual a 0",
   "invalidPermissionType": "O campo '{property}' deve ser um dos seguintes valores: 'general', 'establishment'",
   "invalidNumber": "O campo '{property}' não é um número",
-  "invalidDate": "O campo '{property}' não é uma data válida"
+  "invalidDate": "O campo '{property}' não é uma data válida",
+  "invalidEmailPurpose": "O campo '{property}' deve ser um dos seguintes valores: 'reset-password', 'verify-email', 'welcome' ou 'contact'"
 }

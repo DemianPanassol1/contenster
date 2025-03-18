@@ -5,7 +5,7 @@ import { parseNum } from 'src/shared/utils/convertion.utils';
 import { PermissionType } from 'src/shared/enums/common.enums';
 import { OptionsReqDto } from 'src/shared/dtos/options.req.dto';
 
-export class GetModulesListReqDto extends OptionsReqDto {
+export class GetEmailSettingListReqDto extends OptionsReqDto {
   @Transform(parseNum)
   @ValidateIf(
     (obj, value) =>

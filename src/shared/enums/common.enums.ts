@@ -42,3 +42,10 @@ export enum LoglevelType {
   error = 'error',
   fatal = 'fatal',
 }
+
+export enum EmailPurpose {
+  resetPassword = 'reset-password',
+  verifyEmail = 'verify-email',
+  contact = 'contact',
+  welcome = 'welcome',
+}

@@ -8,10 +8,10 @@ export class GetRoleOptionsReqDto extends OptionsReqDto {
   @Transform(parseNum)
   @ValidateIf((_, value) => value !== null && value !== undefined)
   @IsNumber({}, { message: 'validation.invalidNumber' })
-  establishmentId: number = null;
+  establishmentId?: number = null;
 
   @Transform(parseBool)
   @ValidateIf((_, value) => value !== null && value !== undefined)
   @IsBoolean({ message: 'validation.invalidBoolean' })
-  establishmentIdRequired: boolean;
+  establishmentIdRequired?: boolean;
 }

@@ -11,11 +11,15 @@ import {
 
 import { Translation } from './translation.entity';
 import { Establishment } from './establishment.entity';
+import { EmailPurpose } from 'src/shared/enums/common.enums';
 
 @Entity()
 export class EmailSetting {
   @PrimaryGeneratedColumn()
   id?: number;
+
+  @Column({ type: 'enum', enum: EmailPurpose })
+  purpose?: EmailPurpose;
 
   @Column({ type: 'varchar', length: 75 })
   server?: string;

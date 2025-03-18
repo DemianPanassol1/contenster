@@ -6,7 +6,6 @@ import { PermissionType } from 'src/shared/enums/common.enums';
 import { OptionsReqDto } from 'src/shared/dtos/options.req.dto';
 
 export class GetFunctionalitiesListReqDto extends OptionsReqDto {
-  @Allow()
   @Transform(parseNum)
   @ValidateIf(
     (obj, value) =>
@@ -16,7 +15,6 @@ export class GetFunctionalitiesListReqDto extends OptionsReqDto {
   @IsNumber({}, { message: 'validation.invalidNumber' })
   establishmentId?: number;
 
-  @Allow()
   @ValidateIf((_, value) => value !== null && value !== undefined)
   @IsEnum(PermissionType, { message: 'validation.invalidPermissionType' })
   permissionType?: PermissionType;

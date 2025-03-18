@@ -10,6 +10,7 @@ import { UsersModule } from './users/users.module';
 import { OptionModule } from './option/option.module';
 import { ModulesModule } from './modules/modules.module';
 import { PermissionsModule } from './permissions/permissions.module';
+import { EmailSettingModule } from './emailSetting/emailSetting.module';
 import { EstablishmentsModule } from './establishments/establishments.module';
 import { FunctionalitiesModule } from './functionalities/functionalities.module';
 
@@ -24,6 +25,7 @@ export default [
   UsersModule,
   ModulesModule,
   PermissionsModule,
+  EmailSettingModule,
   EstablishmentsModule,
   FunctionalitiesModule,
   RouterModule.register([
@@ -66,6 +68,10 @@ export default [
             {
               path: 'functionalities',
               module: FunctionalitiesModule,
+            },
+            {
+              path: 'email-setting',
+              module: EmailSettingModule,
             },
           ],
         },

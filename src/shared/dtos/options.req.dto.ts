@@ -8,5 +8,5 @@ export class OptionsReqDto extends PaginateReqDto {
   @Transform(parseBool)
   @ValidateIf((_, value) => value !== null && value !== undefined)
   @IsBoolean({ message: 'validation.invalidBoolean' })
-  optional: boolean = false;
+  optional?: boolean = false;
 }
