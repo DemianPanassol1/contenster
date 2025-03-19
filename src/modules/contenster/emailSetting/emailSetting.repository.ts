@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 
 import { CoreRepository } from 'src/core/core.repository';
-import { PermissionType } from 'src/shared/enums/common.enums';
+import { EmailPurpose, PermissionType } from 'src/shared/enums/common.enums';
 import { EmailSetting } from 'src/entities/contensterdb/emailSetting.entity';
 
 import { GetEmailSettingListReqDto } from './dto/req/getEmailSettingList.req.dto';
@@ -39,5 +39,28 @@ export class EmailSettingRepository extends CoreRepository {
         // contents: { language: true },
       },
     });
+  }
+
+  getEmailSettingById(id: number): Promise<EmailSetting> {
+    return this.emailSettingRepo.findOne({
+      where: { id },
+      relations: {
+        establishment: true,
+        titles: { language: true },
+        footers: { language: true },
+        subjects: { language: true },
+        contents: { language: true },
+      },
+    });
+  }
+
+  getEmailSettingByPurpose(purpose: EmailPurpose, establishmentId: number): Promise<EmailSetting> {
+    return this.emailSettingRepo.findOne({
+      where: { purpose, establishment: { id: establishmentId } },
+    });
+  }
+
+  saveEmailSetting(emailSetting: EmailSetting): Promise<EmailSetting> {
+    return this.emailSettingRepo.save(emailSetting);
   }
 }

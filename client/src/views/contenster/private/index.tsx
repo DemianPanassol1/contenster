@@ -5,6 +5,7 @@ import Modules from './Modules';
 import Permissions from './Permissions';
 import Establishments from './Establishments';
 import Functionalities from './Functionalities';
+import EmailSetting from './EmailSetting';
 
 export const adminViews = [
   {
@@ -34,5 +35,9 @@ export const adminViews = [
   {
     path: 'functionalities/:type?/:id?',
     element: <Functionalities />,
+  },
+  {
+    path: 'email-setting/:type?/:id?',
+    element: <EmailSetting />,
   },
 ];

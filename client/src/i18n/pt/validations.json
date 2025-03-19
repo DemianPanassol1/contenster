@@ -1,161 +1,200 @@
 {
-    "email": {
-        "field": "Email",
-        "required": "O email é obrigatório",
-        "pattern": "O email deve ser válido"
-    },
-    "generic": {
-        "required": "Este campo é obrigatório",
-        "maxLength": "Este campo deve ter no máximo {{length}} caracteres"
-    },
-    "password": {
-        "field": "Senha",
-        "required": "A senha é obrigatória",
-        "minLength": "A senha deve ter no mínimo {{length}} caracteres"
-    },
-    "repeatPassword": {
-        "field": "Repita a senha",
-        "required": "A repetição da senha é obrigatória",
-        "mustMatch": "As senhas devem ser iguais",
-        "passwordsDoNotMatch": "As senhas não coincidem"
-    },
-    "oldPassword": {
-        "field": "Senha antiga",
-        "required": "A senha antiga é obrigatória"
-    },
-    "newPassword": {
-        "field": "Nova senha",
-        "required": "A nova senha é obrigatória",
-        "minLength": "A nova senha deve ter no mínimo {{length}} caracteres"
-    },
-    "phone": {
-        "field": "Telefone",
-        "required": "O telefone é obrigatório",
-        "pattern": "O telefone deve ser válido"
-    },
-    "user": {
-        "field": "Usuário",
-        "required": "O usuário é obrigatório"
-    },
-    "establishment": {
-        "field": "Estabelecimento",
-        "required": "O estabelecimento é obrigatório"
-    },
-    "staySignedIn": {
-        "field": "Permanecer conectado"
-    },
-    "completeName": {
-        "field": "Nome completo",
-        "required": "O nome completo é obrigatório"
-    },
-    "username": {
-        "field": "Nome de usuário",
-        "required": "O nome de usuário é obrigatório",
-        "minLength": "O nome de usuário deve ter no mínimo {{length}} caracteres"
-    },
-    "preferencialPage": {
-        "field": "Página preferencial",
-        "required": "A página preferencial é obrigatória"
-    },
-    "title": {
-        "field": "Título",
-        "required": "O título é obrigatório"
-    },
-    "description": {
-        "field": "Descrição",
-        "required": "A descrição é obrigatória"
-    },
-    "document": {
-        "field": "Documento",
-        "required": "O documento é obrigatório"
-    },
-    "corporateName": {
-        "field": "Razão Social",
-        "required": "A Razão Social é obrigatória"
-    },
-    "functionality": {
-        "field": "Funcionalidade",
-        "required": "A funcionalidade é obrigatória"
-    },
-    "role": {
-        "field": "Perfil",
-        "required": "O perfil é obrigatório"
-    },
-    "permission": {
-        "field": "Permissão",
-        "required": "A permissão é obrigatória"
-    },
-    "canCreate": {
-        "field": "Criar"
-    },
-    "canRead": {
-        "field": "Visualizar"
-    },
-    "canUpdate": {
-        "field": "Editar"
-    },
-    "canDelete": {
-        "field": "Deletar"
-    },
-    "permissionType": {
-        "field": "Tipo de permissão"
-    },
-    "slug": {
-        "field": "Slug",
-        "required": "O slug é obrigatório"
-    },
-    "icon": {
-        "field": "Ícone",
-        "required": "O ícone é obrigatório"
-    },
-    "position": {
-        "field": "Posição",
-        "required": "A posição é obrigatória"
-    },
-    "isActive": {
-        "field": "Ativo"
-    },
-    "isBlocked": {
-        "field": "Bloqueado"
-    },
-    "name": {
-        "field": "Nome",
-        "required": "O nome é obrigatório"
-    },
-    "image": {
-        "field": "Imagem",
-        "required": "A imagem é obrigatória"
-    },
-    "lastLoggedAt": {
-        "field": "Último acesso"
-    },
-    "module": {
-        "field": "Módulo",
-        "required": "O módulo é obrigatório"
-    },
-    "fantasyName": {
-        "field": "Nome Fantasia",
-        "required": "O nome fantasia é obrigatório"
-    },
-    "documentType": {
-        "field": "Tipo de documento",
-        "required": "O tipo de documento é obrigatório"
-    },
-    "address": {
-        "field": "Endereço",
-        "required": "O endereço é obrigatório"
-    },
-    "zipCode": {
-        "field": "CEP",
-        "required": "O CEP é obrigatório",
-        "pattern": "O CEP deve ser válido"
-    },
-    "addressNumber": {
-        "field": "Número",
-        "required": "O número é obrigatório"
-    },
-    "district": {
-        "field": "Bairro",
-        "required": "O bairro é obrigatório"
-    }
+  "email": {
+    "field": "Email",
+    "required": "O email é obrigatório",
+    "pattern": "O email deve ser válido"
+  },
+  "generic": {
+    "required": "Este campo é obrigatório",
+    "maxLength": "Este campo deve ter no máximo {{length}} caracteres"
+  },
+  "password": {
+    "field": "Senha",
+    "required": "A senha é obrigatória",
+    "minLength": "A senha deve ter no mínimo {{length}} caracteres"
+  },
+  "repeatPassword": {
+    "field": "Repita a senha",
+    "required": "A repetição da senha é obrigatória",
+    "mustMatch": "As senhas devem ser iguais",
+    "passwordsDoNotMatch": "As senhas não coincidem"
+  },
+  "oldPassword": {
+    "field": "Senha antiga",
+    "required": "A senha antiga é obrigatória"
+  },
+  "newPassword": {
+    "field": "Nova senha",
+    "required": "A nova senha é obrigatória",
+    "minLength": "A nova senha deve ter no mínimo {{length}} caracteres"
+  },
+  "phone": {
+    "field": "Telefone",
+    "required": "O telefone é obrigatório",
+    "pattern": "O telefone deve ser válido"
+  },
+  "user": {
+    "field": "Usuário",
+    "required": "O usuário é obrigatório"
+  },
+  "establishment": {
+    "field": "Estabelecimento",
+    "required": "O estabelecimento é obrigatório"
+  },
+  "staySignedIn": {
+    "field": "Permanecer conectado"
+  },
+  "completeName": {
+    "field": "Nome completo",
+    "required": "O nome completo é obrigatório"
+  },
+  "username": {
+    "field": "Nome de usuário",
+    "required": "O nome de usuário é obrigatório",
+    "minLength": "O nome de usuário deve ter no mínimo {{length}} caracteres"
+  },
+  "preferencialPage": {
+    "field": "Página preferencial",
+    "required": "A página preferencial é obrigatória"
+  },
+  "title": {
+    "field": "Título",
+    "required": "O título é obrigatório"
+  },
+  "description": {
+    "field": "Descrição",
+    "required": "A descrição é obrigatória"
+  },
+  "document": {
+    "field": "Documento",
+    "required": "O documento é obrigatório"
+  },
+  "corporateName": {
+    "field": "Razão Social",
+    "required": "A Razão Social é obrigatória"
+  },
+  "functionality": {
+    "field": "Funcionalidade",
+    "required": "A funcionalidade é obrigatória"
+  },
+  "role": {
+    "field": "Perfil",
+    "required": "O perfil é obrigatório"
+  },
+  "permission": {
+    "field": "Permissão",
+    "required": "A permissão é obrigatória"
+  },
+  "canCreate": {
+    "field": "Criar"
+  },
+  "canRead": {
+    "field": "Visualizar"
+  },
+  "canUpdate": {
+    "field": "Editar"
+  },
+  "canDelete": {
+    "field": "Deletar"
+  },
+  "permissionType": {
+    "field": "Tipo de permissão"
+  },
+  "slug": {
+    "field": "Slug",
+    "required": "O slug é obrigatório"
+  },
+  "icon": {
+    "field": "Ícone",
+    "required": "O ícone é obrigatório"
+  },
+  "position": {
+    "field": "Posição",
+    "required": "A posição é obrigatória"
+  },
+  "isActive": {
+    "field": "Ativo"
+  },
+  "isBlocked": {
+    "field": "Bloqueado"
+  },
+  "name": {
+    "field": "Nome",
+    "required": "O nome é obrigatório"
+  },
+  "image": {
+    "field": "Imagem",
+    "required": "A imagem é obrigatória"
+  },
+  "lastLoggedAt": {
+    "field": "Último acesso"
+  },
+  "module": {
+    "field": "Módulo",
+    "required": "O módulo é obrigatório"
+  },
+  "fantasyName": {
+    "field": "Nome Fantasia",
+    "required": "O nome fantasia é obrigatório"
+  },
+  "documentType": {
+    "field": "Tipo de documento",
+    "required": "O tipo de documento é obrigatório"
+  },
+  "address": {
+    "field": "Endereço",
+    "required": "O endereço é obrigatório"
+  },
+  "zipCode": {
+    "field": "CEP",
+    "required": "O CEP é obrigatório",
+    "pattern": "O CEP deve ser válido"
+  },
+  "addressNumber": {
+    "field": "Número",
+    "required": "O número é obrigatório"
+  },
+  "district": {
+    "field": "Bairro",
+    "required": "O bairro é obrigatório"
+  },
+  "purpose": {
+    "field": "Finalidade",
+    "required": "A finalidade é obrigatória"
+  },
+  "emailTitle": {
+    "field": "Título do email",
+    "required": "O título do email é obrigatório"
+  },
+  "port": {
+    "field": "Porta",
+    "required": "A porta é obrigatória"
+  },
+  "server": {
+    "field": "Servidor",
+    "required": "O servidor é obrigatório"
+  },
+  "sender": {
+    "field": "Remetente",
+    "required": "O remetente é obrigatório"
+  },
+  "subject": {
+    "field": "Assunto",
+    "required": "O assunto é obrigatório"
+  },
+  "recipient": {
+    "field": "Destinatário",
+    "required": "O destinatário é obrigatório"
+  },
+  "recipientCopy": {
+    "field": "Cópia do destinatário"
+  },
+  "mainContent": {
+    "field": "Conteúdo principal",
+    "required": "O conteúdo é obrigatório"
+  },
+  "footerContent": {
+    "field": "Conteúdo do rodapé",
+    "required": "O rodapé é obrigatório"
+  }
 }

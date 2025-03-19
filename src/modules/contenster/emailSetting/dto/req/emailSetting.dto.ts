@@ -88,7 +88,6 @@ export class EmailSettingDto {
   contents: TranslationDto[];
 
   @IsArray({ message: 'validation.invalidArray' })
-  @ArrayNotEmpty({ message: 'validation.notEmpty' })
   @ValidateNested({ each: true })
   @Type(() => TranslationDto)
   footers: TranslationDto[];
