@@ -5,6 +5,8 @@ import { I18nContext, I18nService } from 'nestjs-i18n';
 
 import { CoreRepository } from 'src/core/core.repository';
 import { EmailPurpose, PermissionType } from 'src/shared/enums/common.enums';
+
+import { Translation } from 'src/entities/contensterdb/translation.entity';
 import { EmailSetting } from 'src/entities/contensterdb/emailSetting.entity';
 
 import { GetEmailSettingListReqDto } from './dto/req/getEmailSettingList.req.dto';
@@ -13,6 +15,7 @@ import { GetEmailSettingListReqDto } from './dto/req/getEmailSettingList.req.dto
 export class EmailSettingRepository extends CoreRepository {
   constructor(
     public readonly i18n: I18nService,
+    @InjectRepository(Translation) private translationRepo: Repository<Translation>,
     @InjectRepository(EmailSetting) private emailSettingRepo: Repository<EmailSetting>,
   ) {
     super(i18n);
@@ -27,16 +30,10 @@ export class EmailSettingRepository extends CoreRepository {
           id: permissionType === PermissionType['establishment'] ? establishmentId : null,
         },
         titles: { language: { languageCode: I18nContext.current().lang } },
-        // footers: { language: { languageCode: I18nContext.current().lang } },
-        // subjects: { language: { languageCode: I18nContext.current().lang } },
-        // contents: { language: { languageCode: I18nContext.current().lang } },
       }),
       relations: {
         establishment: true,
         titles: { language: true },
-        // footers: { language: true },
-        // subjects: { language: true },
-        // contents: { language: true },
       },
     });
   }
@@ -62,5 +59,18 @@ export class EmailSettingRepository extends CoreRepository {
 
   saveEmailSetting(emailSetting: EmailSetting): Promise<EmailSetting> {
     return this.emailSettingRepo.save(emailSetting);
+  }
+
+  async removeEmailSetting(emailSetting: EmailSetting): Promise<EmailSetting> {
+    await this.emailSettingRepo.remove(emailSetting);
+
+    await this.translationRepo.remove([
+      ...emailSetting.titles,
+      ...emailSetting.footers,
+      ...emailSetting.subjects,
+      ...emailSetting.contents,
+    ]);
+
+    return emailSetting;
   }
 }

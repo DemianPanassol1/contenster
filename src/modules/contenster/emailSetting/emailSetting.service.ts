@@ -14,6 +14,7 @@ import { GetEmailSettingListReqDto } from './dto/req/getEmailSettingList.req.dto
 import { GetEmailSettingResDto } from './dto/res/getEmailSetting.res.dto';
 import { PutEmailSettingResDto } from './dto/res/putEmailSetting.res.dto';
 import { PostEmailSettingResDto } from './dto/res/postEmailSetting.res.dto';
+import { DeleteEmailSettingResDto } from './dto/res/deleteEmailSetting.res.dto';
 import { GetEmailSettingListResDto } from './dto/res/getEmailSettingList.res.dto';
 
 @Injectable()
@@ -170,6 +171,16 @@ export class EmailSettingService extends CoreService {
   }
 
   async deleteEmailSetting(query: DeleteEmailSettingReqDto) {
-    throw new Error('Method not implemented.');
+    const { id } = query;
+
+    const emailSetting = await this.repo.getEmailSettingById(id);
+
+    if (!emailSetting) {
+      throw new HttpException(this.i18n.t('errors.emailSettingNotFound'), HttpStatus.BAD_REQUEST);
+    }
+
+    const response = await this.repo.removeEmailSetting(emailSetting);
+
+    return this.response(DeleteEmailSettingResDto, response);
   }
 }

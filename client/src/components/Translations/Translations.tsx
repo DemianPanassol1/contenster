@@ -36,6 +36,7 @@ interface TranslationsProps {
   inputStyle?: SxProps<Theme>;
   containerStyle?: SxProps<Theme>;
   type?: 'text' | 'password' | 'number';
+  variant?: 'input' | 'textarea';
   validationOnAll?: boolean;
   validation?: Record<string, unknown>;
   setI18nErrors: React.Dispatch<React.SetStateAction<FieldErrors<FieldValues>[]>>;
@@ -49,6 +50,7 @@ const Translations: React.FC<TranslationsProps> = ({
   mask = '',
   title = null,
   type = 'text',
+  variant = 'input',
   inputStyle = {},
   validation = {},
   containerStyle = {},
@@ -198,7 +200,7 @@ const Translations: React.FC<TranslationsProps> = ({
                       alignItems: 'center',
                     }}
                   >
-                    {`${i18nEnabled ? item.name : title}${item.default || validationOnAll ? ' *' : ''}`}
+                    {`${i18nEnabled ? item.name : title}${Object.keys(validation).length || validationOnAll ? ' *' : ''}`}
                   </InputLabel>
 
                   {mask && type !== 'number' ? (
@@ -232,6 +234,8 @@ const Translations: React.FC<TranslationsProps> = ({
                   ) : (
                     <Input
                       {...field}
+                      multiline={variant === 'textarea'}
+                      rows={variant === 'textarea' ? 4 : undefined}
                       id={field.name}
                       value={field.value ?? ''}
                       onChange={(event) => {
@@ -239,7 +243,10 @@ const Translations: React.FC<TranslationsProps> = ({
                         clearErrors(field.name);
                       }}
                       type={type}
-                      sx={{ width: '100%' }}
+                      sx={{
+                        width: '100%',
+                        ...(variant === 'textarea' && { alignItems: 'flex-start' }),
+                      }}
                       endAdornment={
                         i18nEnabled && (
                           <InputAdornment position="end">

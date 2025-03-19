@@ -310,6 +310,8 @@ const Save: React.FC<SaveProps> = ({
           setI18nErrors={setI18nErrors}
           validation={genericInputValidation(t)}
           controller={control as unknown as Control<FieldValues>}
+          inputStyle={{ gridColumn: '1 / -1' }}
+          variant="textarea"
         />
         <Translations
           title={t('validations:footerContent.field')}
@@ -317,6 +319,8 @@ const Save: React.FC<SaveProps> = ({
           setValue={setValue}
           setI18nErrors={setI18nErrors}
           controller={control as unknown as Control<FieldValues>}
+          inputStyle={{ gridColumn: '1 / -1' }}
+          variant="textarea"
         />
       </Box>
     </Wrapper>

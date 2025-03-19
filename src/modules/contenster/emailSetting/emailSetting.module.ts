@@ -5,10 +5,11 @@ import { EmailSettingService } from './emailSetting.service';
 import { EmailSettingController } from './emailSetting.controller';
 import { EmailSettingRepository } from './emailSetting.repository';
 
+import { Translation } from 'src/entities/contensterdb/translation.entity';
 import { EmailSetting } from 'src/entities/contensterdb/emailSetting.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([EmailSetting])],
+  imports: [TypeOrmModule.forFeature([EmailSetting, Translation])],
   controllers: [EmailSettingController],
   providers: [EmailSettingService, EmailSettingRepository],
 })
