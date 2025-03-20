@@ -17,7 +17,7 @@
       "DB_NAME": "contensterdb",
       "FOLDER_NAME": "contensterdb",
       "DB_TYPE": "postgres",
-      "SINCRONIZE": true
+      "SINCRONIZE": false
     }
   ]
 }
