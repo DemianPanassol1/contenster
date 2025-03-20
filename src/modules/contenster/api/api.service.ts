@@ -26,12 +26,12 @@ export class ApiService extends CoreService {
 
     const payload = {
       jwt: true,
-      expiresIn: '1h',
-      date: new Date(),
+      date: new Date().toISOString(),
+      payload: 'Lorem ipsum dolor sit amet',
     };
 
     const response = {
-      token: jwt.sign(payload, variables.JWT_TOKEN, { expiresIn: payload.expiresIn }),
+      token: jwt.sign(payload, variables.JWT_TOKEN, { expiresIn: '15min' }),
     };
 
     return this.response(GenerateTokenResDto, response);

@@ -40,7 +40,7 @@ case $mode_choice in
 esac
 
 echo -e "\n${YELLOW}${BOLD}### Installing server dependencies...${RESET}"
-npm install
+yarn install
 
 echo -e "\n${GREEN}${BOLD}### Installation completed ###${RESET}"
 sleep 1
@@ -72,7 +72,7 @@ sed -i "s/\"API_PASSWORD\": \"[^\"]*\"/\"API_PASSWORD\": \"$api_password\"/" "$s
 
 echo -e "\n${YELLOW}${BOLD}### Installing frontend dependencies...${RESET}"
 cd client
-npm install
+yarn install
 cd ..
 
 echo -e "\n${GREEN}${BOLD}### Installation completed ###${RESET}"
@@ -80,7 +80,7 @@ sleep 1
 
 echo -e "\n${YELLOW}${BOLD}### Building the frontend...${RESET}"
 cd client
-npm run build
+yarn build
 cd ..
 sleep 1
 
