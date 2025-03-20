@@ -45,6 +45,15 @@ yarn install
 echo -e "\n${GREEN}${BOLD}### Installation completed ###${RESET}"
 sleep 1
 
+
+echo -e "\n${YELLOW}${BOLD}### Building the server...${RESET}"
+npx nest build
+
+echo -e "\n${GREEN}${BOLD}### Server build completed ###${RESET}"
+sleep 1
+
+clear
+
 environment="./src/settings/$mode.json"
 settings="./client/src/config/settings.json"
 
@@ -100,29 +109,31 @@ sleep 1
 
 clear
 
-echo -e "\n${YELLOW}${BOLD}### Starting server...${RESET}"
+# Ask if the user wants to start the server with pm2
+present_options "Select an option using the up/down arrow keys and press enter:" \
+    "Do you want to start the server with pm2?" \
+    "Yes" \
+    "No"
+pm2_choice=$?
 
-app_name=$(cat "./package.json" | grep -E '"name"\s*:' | awk -F': ' '{print $2}' | tr -d ',"[:space:]')
-app_version=$(cat "./package.json" | grep -E '"version"\s*:' | awk -F': ' '{print $2}' | tr -d ',"[:space:]')
+if [ $pm2_choice -eq 0 ]; then
+    echo -e "\n${YELLOW}${BOLD}### Starting server...${RESET}"
 
-if pm2 list | grep -q "$app_name-$app_version"; then
-    NODE_ENV=$mode pm2 reload "$app_name-$app_version"
+    app_name=$(cat "./package.json" | grep -E '"name"\s*:' | awk -F': ' '{print $2}' | tr -d ',"[:space:]')
+    app_version=$(cat "./package.json" | grep -E '"version"\s*:' | awk -F': ' '{print $2}' | tr -d ',"[:space:]')
+
+    if pm2 list | grep -q "$app_name-$app_version"; then
+        NODE_ENV=$mode pm2 reload "$app_name-$app_version"
+    else
+        NODE_ENV=$mode pm2 start dist/main.js --name "$app_name-$app_version"
+    fi
+
+    clear
+
+    sleep 1
+
+    echo -e "\n${GREEN}${BOLD}### Completed ###${RESET}"
+    sleep 1
 else
-    NODE_ENV=$mode pm2 start dist/main.js --name "$app_name-$app_version"
+    echo -e "\n${YELLOW}${BOLD}### Skipping pm2 server start ###${RESET}"
 fi
-
-clear
-
-sleep 1
-
-echo -e "\n${GREEN}${BOLD}### Completed ###${RESET}"
-
-sleep 1
-
-# echo -e "\n${YELLOW}${BOLD}### Cleaning repository changes...${RESET}"
-
-# git checkout .
-
-# sleep 1
-
-echo -e "\n${GREEN}${BOLD}### Completed ###${RESET}"
