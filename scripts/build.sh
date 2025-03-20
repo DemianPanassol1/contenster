@@ -45,7 +45,6 @@ yarn install
 echo -e "\n${GREEN}${BOLD}### Installation completed ###${RESET}"
 sleep 1
 
-
 echo -e "\n${YELLOW}${BOLD}### Building the server...${RESET}"
 npx nest build
 
@@ -137,3 +136,9 @@ if [ $pm2_choice -eq 0 ]; then
 else
     echo -e "\n${YELLOW}${BOLD}### Skipping pm2 server start ###${RESET}"
 fi
+
+git restore client/src/config/settings.json
+
+sleep 1
+
+echo -e "\n${GREEN}${BOLD}### Done ###${RESET}"
