@@ -2,13 +2,19 @@ import _ from 'lodash';
 import { join } from 'path';
 import { unlink } from 'fs';
 import { Request } from 'express';
+import { readFile } from 'fs/promises';
 import { pbkdf2Sync, randomBytes } from 'crypto';
 import { plainToClass } from 'class-transformer';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 
+import { Transporter, createTransport } from 'nodemailer';
+import SMTPTransport from 'nodemailer/lib/smtp-transport';
+
 import { IToOptions } from 'src/shared/types/api.types';
 import { defaultLanguage } from 'src/config/constants/constants.config';
+
 import { Translation } from 'src/entities/contensterdb/translation.entity';
+import { EmailSetting } from 'src/entities/contensterdb/emailSetting.entity';
 
 export class CoreService {
   public publicPath: string = join(__dirname, '..', '..', 'public');
@@ -98,5 +104,54 @@ export class CoreService {
     const fields = Array.isArray(field) ? field.flat() : [field];
 
     return _.filter(data, (item) => fields.some((field) => item[field].includes(searchTerm)));
+  }
+
+  async sendEmail(
+    emailConfig: EmailSetting,
+    recipient: string[] | string,
+  ): Promise<{ success: boolean; error: string }> {
+    const transporter: Transporter<SMTPTransport.SentMessageInfo> = createTransport({
+      host: emailConfig.server,
+      port: emailConfig.port,
+      secure: emailConfig.ssl,
+      auth: {
+        user: emailConfig.username,
+        pass: emailConfig.password,
+      },
+    });
+
+    let boilerplate = await readFile(
+      join(__dirname, '..', 'shared', 'boilerplates', 'email.html'),
+      {
+        encoding: 'utf-8',
+      },
+    );
+
+    const title = emailConfig.titles?.shift()?.text ?? '';
+    const content = emailConfig.contents?.shift()?.text ?? '';
+    const footer = emailConfig.footers?.shift()?.text ?? '';
+
+    boilerplate = boilerplate
+      .replaceAll('[EMAIL_TITLE]', title)
+      .replaceAll('[EMAIL_CONTENT]', content)
+      .replaceAll('[EMAIL_FOOTER]', footer);
+
+    const recipients = Array.isArray(recipient) ? recipient : [recipient];
+
+    const mailOptions = {
+      from: emailConfig.sender,
+      to: [...recipients, emailConfig.recipient],
+      cc: emailConfig.recipientCopy,
+      subject: emailConfig.subjects?.shift()?.text ?? '',
+      html: boilerplate,
+    };
+
+    try {
+      await transporter.sendMail(mailOptions);
+
+      return { success: true, error: null };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
   }
 }

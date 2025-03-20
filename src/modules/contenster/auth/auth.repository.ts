@@ -1,16 +1,15 @@
+import { I18nContext } from 'nestjs-i18n';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult } from 'typeorm';
 
 import { User } from 'src/entities/contensterdb/user.entity';
-import { Establishment } from 'src/entities/contensterdb/establishment.entity';
 import { UserEstablishmentRole } from 'src/entities/contensterdb/userEstablishmentRole.entity';
 
 @Injectable()
 export class AuthRepository {
   constructor(
     @InjectRepository(User) private userRepo: Repository<User>,
-    @InjectRepository(Establishment) private establishmentRepo: Repository<Establishment>,
     @InjectRepository(UserEstablishmentRole)
     private userEstablishmentRepo: Repository<UserEstablishmentRole>,
   ) {}
@@ -63,5 +62,35 @@ export class AuthRepository {
 
   updateUserPassword(userId: number, password: string): Promise<UpdateResult> {
     return this.userRepo.update(userId, { password });
+  }
+
+  getUserByEmail(email: string): Promise<User> {
+    return this.userRepo.findOne({
+      where: {
+        email,
+        userEstablishmentRole: {
+          establishment: {
+            emailSetting: {
+              titles: { language: { languageCode: I18nContext.current().lang } },
+              footers: { language: { languageCode: I18nContext.current().lang } },
+              subjects: { language: { languageCode: I18nContext.current().lang } },
+              contents: { language: { languageCode: I18nContext.current().lang } },
+            },
+          },
+        },
+      },
+      relations: {
+        userEstablishmentRole: {
+          establishment: {
+            emailSetting: {
+              titles: { language: true },
+              footers: { language: true },
+              subjects: { language: true },
+              contents: { language: true },
+            },
+          },
+        },
+      },
+    });
   }
 }

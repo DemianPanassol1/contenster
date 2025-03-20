@@ -6,6 +6,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import variables from 'src/settings';
 import { AuthRepository } from './auth.repository';
 import { CoreService } from 'src/core/core.service';
+import { EmailPurpose } from 'src/shared/enums/common.enums';
 
 import { SignInUserReqDto } from './dto/req/signIn.req.dto';
 import { ResetPasswordReqDto } from './dto/req/resetPassword.req.dto';
@@ -14,6 +15,7 @@ import { CreatePasswordReqDto } from './dto/req/createPassword.req.dto';
 import { PostSignInResDto } from './dto/res/postSignIn.res.dto';
 import { GetSignOutResDto } from './dto/res/getSignOut.res.dto';
 import { PostAuthorizeResDto } from './dto/res/postAuthorize.res.dto';
+import { PostResetPasswordResDto } from './dto/res/postResetPassword.res.dto';
 import { PostCreatePasswordResDto } from './dto/res/postCreatePassword.res.dto';
 
 @Injectable()
@@ -134,9 +136,56 @@ export class AuthService extends CoreService {
     return this.response(GetSignOutResDto, response);
   }
 
-  // eslint-disable-next-line
-  async postResetPassword(request: Request, body: ResetPasswordReqDto) {
-    throw new Error('Method not implemented.');
+  async postResetPassword(req: Request, body: ResetPasswordReqDto) {
+    const { email } = body;
+
+    const response = { emailSent: true };
+
+    const user = await this.repo.getUserByEmail(email);
+
+    if (!user) {
+      return this.response(PostResetPasswordResDto, response);
+    }
+
+    const payload = {
+      id: user.id,
+      email: user.email,
+      username: user.username,
+      requestDate: new Date().toISOString(),
+    };
+
+    const token = await new Promise<string>((resolve) => {
+      return jwt.sign(payload, variables.JWT_TOKEN, { expiresIn: '15min' }, (err, token) => {
+        if (err) resolve(null);
+
+        resolve(token);
+      });
+    });
+
+    if (!token) {
+      return this.response(PostResetPasswordResDto, response);
+    }
+
+    const emailConfig = user.userEstablishmentRole
+      .map((e) => e.establishment.emailSetting)
+      .shift()
+      .find((e) => e.purpose === EmailPurpose.RESET_PASSWORD);
+
+    if (!emailConfig) {
+      return this.response(PostResetPasswordResDto, response);
+    }
+
+    emailConfig.contents = emailConfig.contents.map((content) => {
+      content.text = content.text.replaceAll(
+        '[RESET_PASSWORD_LINK]',
+        `${req.protocol}://${req.headers.host}/auth/create-password/${token}`,
+      );
+      return content;
+    });
+
+    this.sendEmail(emailConfig, user.email);
+
+    return this.response(PostResetPasswordResDto, response);
   }
 
   async postCreatePassword(body: CreatePasswordReqDto) {

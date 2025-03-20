@@ -44,8 +44,8 @@ export enum LoglevelType {
 }
 
 export enum EmailPurpose {
-  resetPassword = 'reset-password',
-  verifyEmail = 'verify-email',
-  contact = 'contact',
-  welcome = 'welcome',
+  RESET_PASSWORD = 'reset-password',
+  VERIFY_EMAIL = 'verify-email',
+  CONTACT = 'contact',
+  WELCOME = 'welcome',
 }

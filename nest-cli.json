@@ -4,9 +4,7 @@
   "sourceRoot": "src",
   "compilerOptions": {
     "deleteOutDir": true,
-    "plugins": [
-      "@nestjs/swagger"
-    ],
+    "plugins": ["@nestjs/swagger"],
     "assets": [
       {
         "include": "i18n/**/*",
@@ -16,6 +14,10 @@
         "include": "settings/**/*",
         "watchAssets": true,
         "exclude": "settings/*.ts"
+      },
+      {
+        "include": "shared/boilerplates/**/*.html",
+        "watchAssets": true
       }
     ]
   }
