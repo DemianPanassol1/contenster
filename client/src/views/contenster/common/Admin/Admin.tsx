@@ -1,11 +1,12 @@
 import { Box } from '@mui/material';
 import React, { useEffect } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
 import { useSessionStorage } from '@uidotdev/usehooks';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import { useGET, useNavigate } from '../../../../utils/hooks.util';
 import { GET_SYNC_USER } from '../../../../routes/contenster/global';
+import { useGlobalContext } from '../../../../contexts/global.context';
 
 import Header from './Header';
 import Footer from './Footer';
@@ -14,6 +15,10 @@ import ChangePassword from './ChangePassword';
 import ChangeEstablishment from './ChangeEstablishment';
 
 const Admin: React.FC = () => {
+  const {
+    state: { configInfo },
+  } = useGlobalContext();
+  const location = useLocation();
   const navigate = useNavigate();
   const { data, isLoading }: GetSyncUser = useGET(GET_SYNC_USER, true);
   const [session, setSession] = useSessionStorage<Session | null>('session', null);
@@ -41,6 +46,20 @@ const Admin: React.FC = () => {
       />
     );
   }
+
+  useEffect(() => {
+    if (location.pathname === '/') {
+      document.title = configInfo?.projectName ?? '';
+    }
+  }, [location.pathname, configInfo]);
+
+  useEffect(() => {
+    const link: HTMLLinkElement | null = document?.querySelector("link[rel~='icon']");
+
+    if (link) {
+      link.href = configInfo?.favicon ?? '';
+    }
+  }, [configInfo?.favicon]);
 
   return (
     <Box

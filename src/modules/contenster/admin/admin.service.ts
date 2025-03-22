@@ -245,14 +245,15 @@ export class AdminService extends CoreService {
   }
 
   async getConfigInfo(req: Request) {
-    const query = await this.repo.findConfiguration();
+    const config = await this.repo.findConfiguration();
 
     const response = {
-      id: query.id,
-      favicon: this.generateFilePath(req, query.favicon.filePath),
-      loginLogo: this.generateFilePath(req, query.loginLogo.filePath),
-      loginBanner: this.generateFilePath(req, query.loginBanner.filePath),
-      languages: query.languages.map((l) => ({
+      id: config.id,
+      projectName: config.projectName,
+      favicon: this.generateFilePath(req, config.favicon.filePath),
+      loginLogo: this.generateFilePath(req, config.loginLogo.filePath),
+      loginBanner: this.generateFilePath(req, config.loginBanner.filePath),
+      languages: config.languages.map((l) => ({
         id: l.id,
         name: l.name,
         purpose: l.purpose,

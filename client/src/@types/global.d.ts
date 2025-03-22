@@ -86,6 +86,7 @@ interface GlobalState {
 
 interface Configuration {
   id: number;
+  projectName: string;
   favicon: string;
   loginLogo: string;
   loginBanner: string;

@@ -7,6 +7,7 @@ import {
   JoinColumn,
   JoinTable,
   ManyToMany,
+  Column,
 } from 'typeorm';
 
 import { Image } from './image.entity';
@@ -16,6 +17,9 @@ import { Language } from './language.entity';
 export class Configuration {
   @PrimaryGeneratedColumn()
   id?: number;
+
+  @Column({ length: 75, type: 'varchar' })
+  projectName?: string;
 
   @CreateDateColumn({ type: 'timestamp without time zone' })
   createdAt?: Date;
