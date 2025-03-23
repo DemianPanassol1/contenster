@@ -38,15 +38,6 @@ const Admin: React.FC = () => {
     }
   }, [homePage, navigate, setHomePage]);
 
-  if (!session) {
-    return (
-      <Navigate
-        replace
-        to="/auth/sign-in"
-      />
-    );
-  }
-
   useEffect(() => {
     if (location.pathname === '/') {
       document.title = configInfo?.projectName ?? '';
@@ -60,6 +51,15 @@ const Admin: React.FC = () => {
       link.href = configInfo?.favicon ?? '';
     }
   }, [configInfo?.favicon]);
+
+  if (!session) {
+    return (
+      <Navigate
+        replace
+        to="/auth/sign-in"
+      />
+    );
+  }
 
   return (
     <Box
