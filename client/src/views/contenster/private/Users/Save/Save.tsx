@@ -135,6 +135,7 @@ const Save: React.FC<SaveProps> = ({
       onCancel={() => navigate(-1)}
       onSubmit={handleSubmit(onSubmit)}
       submitButtonContent={t('common:save')}
+      cancelButtonContent={t('common:cancel')}
     >
       <Box
         sx={{

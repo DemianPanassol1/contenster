@@ -73,6 +73,7 @@ const Main: React.FC = () => {
     <Wrapper
       onSubmit={handleSubmit(onSubmit)}
       submitButtonContent={t('common:save')}
+      cancelButtonContent={t('common:cancel')}
     >
       <Box
         sx={{

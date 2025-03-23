@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
-import { Box, InputLabel, styled, Typography } from '@mui/material';
+import { Box, InputLabel, styled, Typography, useTheme } from '@mui/material';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
@@ -41,6 +41,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
   fileId = null,
   accept = 'image/*',
 }) => {
+  const theme = useTheme();
   const { errorMessage } = useToast();
   const { handleOnSubmit } = useGlobalContext();
   const { t } = useTranslation(['common', 'validations']);
@@ -122,26 +123,72 @@ const FileUpload: React.FC<FileUploadProps> = ({
       </InputLabel>
       <Box sx={{ mt: '1rem' }}>
         {imagePreview && (
-          <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-            <Box>
-              <Image
-                variant="rectangular"
-                src={imagePreview.filePath}
-                alt={imagePreview.originalName}
-                dimensions={{ width: 'auto', height: '8rem' }}
-              />
-            </Box>
-            <Box sx={{ ml: '0.5rem', display: 'flex', flexDirection: 'column' }}>
-              <Typography variant="h6">{`${imagePreview.originalName}`}</Typography>
-              <Typography variant="caption">
-                {`${t('common:size')}: `}
-                <strong>{`${imagePreview.size}`}</strong>
-              </Typography>
-              <Typography variant="caption">
-                {`${t('common:dimensions')}: `}
-                <strong>{`${imagePreview.width} X ${imagePreview.height}`}</strong>
-              </Typography>
-              <Box sx={{ mt: '0.5rem' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              [theme.breakpoints.up(480)]: {
+                flexDirection: 'row',
+              },
+            }}
+          >
+            <Image
+              variant="rectangular"
+              src={imagePreview.filePath}
+              alt={imagePreview.originalName}
+              dimensions={{
+                width: '100%',
+                height: 'auto',
+                [theme.breakpoints.up(480)]: {
+                  width: 'auto',
+                  height: '8rem',
+                },
+              }}
+            />
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                [theme.breakpoints.down(480)]: {
+                  width: '100%',
+                  marginTop: '0.5rem',
+                  justifyContent: 'space-between',
+                },
+                [theme.breakpoints.up(480)]: {
+                  ml: '0.5rem',
+                  flexDirection: 'column',
+                },
+              }}
+            >
+              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    [theme.breakpoints.down(480)]: {
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      maxWidth: '180px',
+                    },
+                  }}
+                >{`${imagePreview.originalName}`}</Typography>
+                <Typography variant="caption">
+                  {`${t('common:size')}: `}
+                  <strong>{`${imagePreview.size}`}</strong>
+                </Typography>
+                <Typography variant="caption">
+                  {`${t('common:dimensions')}: `}
+                  <strong>{`${imagePreview.width} X ${imagePreview.height}`}</strong>
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  [theme.breakpoints.up(480)]: {
+                    mt: '0.5rem',
+                  },
+                }}
+              >
                 <IconButton
                   color="info"
                   icon={<FullscreenIcon />}
@@ -183,7 +230,10 @@ const FileUpload: React.FC<FileUploadProps> = ({
         }
         customStyle={{
           marginTop: '1rem',
-          width: 'fit-content',
+          width: '100%',
+          [theme.breakpoints.up(480)]: {
+            width: 'fit-content',
+          },
         }}
       />
     </Box>

@@ -145,6 +145,7 @@ const Main: React.FC = () => {
       />
       <Wrapper
         submitButtonContent={t('common:loginButton')}
+        cancelButtonContent={t('common:cancel')}
         onSubmit={handleSubmit(onSubmit)}
         customStyles={{
           position: 'relative',
