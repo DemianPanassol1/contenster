@@ -91,8 +91,11 @@ const multerInstance = (i18n: I18nService) => ({
 
       const newFileName = file.originalname
         .replace(ext, '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
         .replace(/\s/g, '_')
-        .replace(/[^a-zA-Z0-9_\-\.áéíóúãõâêîôûç]/g, '');
+        // eslint-disable-next-line
+        .replace(/[^a-zA-Z0-9_\-]/g, '');
 
       callback(null, `${newFileName}_${hash}_${date}_${time}${ext}`);
     },

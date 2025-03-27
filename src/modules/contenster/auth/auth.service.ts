@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/prefer-promise-reject-errors */
+
 import { Request } from 'express';
 import { I18nService } from 'nestjs-i18n';
 import jwt, { JwtPayload } from 'jsonwebtoken';

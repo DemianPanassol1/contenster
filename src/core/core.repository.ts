@@ -28,6 +28,9 @@ export class CoreRepository {
 
     for (const filter of query.filters) {
       const keys = filter.field.split('.');
+      const numValue = Number(filter.value);
+      const dateValue = new Date(filter.value);
+
       let value = null;
 
       switch (filter.type.toUpperCase()) {
@@ -57,7 +60,6 @@ export class CoreRepository {
           break;
 
         case FieldType.NUMBER:
-          const numValue = Number(filter.value);
           switch (filter.operation.toUpperCase()) {
             case Operation.EQUALS:
               value = numValue;
@@ -89,7 +91,6 @@ export class CoreRepository {
           break;
 
         case FieldType.DATE:
-          const dateValue = new Date(filter.value);
           switch (filter.operation.toUpperCase()) {
             case Operation.EQUALS:
               value = dateValue;

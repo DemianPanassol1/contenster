@@ -44,9 +44,9 @@ const Main: React.FC = () => {
   const { t } = useTranslation(['common', 'validations']);
   const [selectCompany, setSelectCompany] = useState<SelectOption[]>([]);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line
   const [_, setSession] = useSessionStorage<Session | null>('session', null);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line
   const [__, setHomePage] = useSessionStorage<HomePage | null>('homePage', null);
 
   const {

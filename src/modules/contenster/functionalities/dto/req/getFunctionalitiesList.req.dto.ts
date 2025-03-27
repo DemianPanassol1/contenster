@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { Allow, IsEnum, IsNumber, ValidateIf } from 'class-validator';
+import { IsEnum, IsNumber, ValidateIf } from 'class-validator';
 
 import { parseNum } from 'src/shared/utils/convertion.utils';
 import { PermissionType } from 'src/shared/enums/common.enums';
