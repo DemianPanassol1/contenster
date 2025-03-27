@@ -2,7 +2,7 @@ import SignIn from './SignIn';
 import ResetPassword from './ResetPassword';
 import CreatePassword from './CreatePassword';
 
-export const authViews = [
+export const contensterViews = [
   {
     path: 'sign-in',
     element: <SignIn />,

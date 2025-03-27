@@ -11,8 +11,7 @@ import Auth from './views/contenster/common/Auth';
 import Admin from './views/contenster/common/Admin';
 import Error from './views/contenster/common/Error';
 
-import { authViews } from './views/contenster/public';
-import { adminViews } from './views/contenster/private';
+import { adminViews, authViews } from './views';
 
 const router = createBrowserRouter([
   {

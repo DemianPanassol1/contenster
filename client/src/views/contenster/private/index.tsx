@@ -7,7 +7,7 @@ import Establishments from './Establishments';
 import Functionalities from './Functionalities';
 import EmailSetting from './EmailSetting';
 
-export const adminViews = [
+export const contensterViews = [
   {
     path: 'users/:type?/:id?',
     element: <Users />,
