@@ -69,4 +69,5 @@ export interface IEstablishmentInfo {
   corporateName: string;
   fantasyName: string;
   image: string;
+  slug: string;
 }

@@ -112,6 +112,7 @@ export class AuthService extends CoreService {
         image:
           this.generateFilePath(request, permissions.establishment.image?.filePath) ??
           `${request.protocol}://${request.headers.host}/assets/images/system/react_icon.png`,
+        slug: permissions.establishment.slug,
       },
     };
 

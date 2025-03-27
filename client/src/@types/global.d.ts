@@ -36,6 +36,7 @@ interface Establishment {
   corporateName: string;
   fantasyName: string;
   image: string;
+  slug: string;
 }
 
 interface Permission {

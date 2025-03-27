@@ -73,6 +73,9 @@ class EstablishmentDto {
 
   @Expose()
   image: string | null;
+
+  @Expose()
+  slug: string;
 }
 
 export class PostSignInResDto {

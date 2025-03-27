@@ -90,6 +90,7 @@ export class AdminService extends CoreService {
         image:
           this.generateFilePath(req, permissions.establishment.image?.filePath) ??
           `${req.protocol}://${req.headers.host}/assets/images/system/react_icon.png`,
+        slug: permissions.establishment.slug,
       },
     };
 
