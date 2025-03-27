@@ -13,9 +13,9 @@ import { handlePopulateFields } from '../../../../../utils/functions.util';
 import { GET_MODULES_LIST, GET_SYNC_USER } from '../../../../../routes/contenster/global';
 
 import Input from '../../../../../components/Input';
+import Select from '../../../../../components/Select';
 import Wrapper from '../../../../../components/Wrapper';
 import FileUpload from '../../../../../components/FileUpload';
-import Select from '../../../../../components/Select';
 
 interface FormFields {
   id: string;
@@ -53,11 +53,13 @@ interface SaveProps {
   pageType: 'create' | 'edit';
   saveContentUrl: string;
   getContentUrl?: string | null;
+  permissionType: Permission['type'];
 }
 
 const Save: React.FC<SaveProps> = ({
   pageType,
   saveContentUrl,
+  permissionType,
   getContentUrl = null,
 }) => {
   const {
@@ -100,7 +102,7 @@ const Save: React.FC<SaveProps> = ({
 
   return (
     <Wrapper
-      hasCancelButton
+      hasCancelButton={permissionType === 'general'}
       onCancel={() => navigate(-1)}
       onSubmit={handleSubmit(onSubmit)}
       submitButtonContent={t('common:save')}

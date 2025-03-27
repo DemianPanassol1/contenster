@@ -66,7 +66,16 @@ export class EstablishmentsService extends CoreService {
     const { email, fantasyName, imageId, phone1, phone2, zipCode } = body;
     const { address, addressNumber, corporateName, district, document, documentType } = body;
 
+    const slug = this.slugify(`${fantasyName.split(' ')[0]}_${Math.floor(Math.random() * 10000)}`);
+
+    const establishmentBySlug = await this.repo.getEstablishmentBySlug(slug);
+
+    if (establishmentBySlug) {
+      throw new HttpException(this.i18n.t('errors.genericError'), HttpStatus.BAD_REQUEST);
+    }
+
     const saveEstablishment: Partial<Establishment> = {
+      slug,
       email,
       phone1,
       phone2,

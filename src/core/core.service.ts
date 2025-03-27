@@ -106,6 +106,16 @@ export class CoreService {
     return _.filter(data, (item) => fields.some((field) => item[field].includes(searchTerm)));
   }
 
+  slugify(fantasyName: string): string {
+    return fantasyName
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .trim()
+      .replace(/[\s\W-]+/g, '_')
+      .replace(/^_+|_+$/g, '');
+  }
+
   async sendEmail(
     emailConfig: EmailSetting,
     recipient: string[] | string,

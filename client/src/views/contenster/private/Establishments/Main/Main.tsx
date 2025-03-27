@@ -34,7 +34,6 @@ const Main: React.FC = () => {
             sortable: true,
             searchable: true,
             type: 'text',
-            mask: '##.###.###/####-##',
           },
         ]}
         urlList={GET_ESTABLISHMENTS_LIST}

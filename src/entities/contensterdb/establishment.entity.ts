@@ -21,6 +21,9 @@ export class Establishment {
   @PrimaryGeneratedColumn()
   id?: number;
 
+  @Column({ length: 75, type: 'varchar', unique: true })
+  slug?: string;
+
   @Column({ length: 75, type: 'varchar' })
   corporateName?: string;
 

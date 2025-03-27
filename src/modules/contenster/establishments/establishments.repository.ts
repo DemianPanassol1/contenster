@@ -70,6 +70,12 @@ export class EstablishmentsRepository extends CoreRepository {
     });
   }
 
+  getEstablishmentBySlug(slug: string): Promise<Establishment> {
+    return this.establishmentRepo.findOne({
+      where: { slug },
+    });
+  }
+
   async removeEstablishment(establishment: Establishment): Promise<Establishment> {
     const modules = await this.moduleRepo.find({
       where: {
