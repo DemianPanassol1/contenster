@@ -26,7 +26,7 @@ export class GetConfigInfoResDto {
 
   @Expose()
   projectName: string;
-  
+
   @Expose()
   favicon: string;
 

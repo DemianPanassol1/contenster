@@ -25,8 +25,8 @@ import contenster from './contenster';
 
     // Configuração para servir arquivos estáticos
     ServeStaticModule.forRoot({
-      renderPath: '*',
-      exclude: ['/api/(.*)'],
+      renderPath: '{*splat}',
+      exclude: ['/api/{*all}'],
       rootPath: join(__dirname.replace('dist', ''), '..', 'client', 'build'),
     }),
 
