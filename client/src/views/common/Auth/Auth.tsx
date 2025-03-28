@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-import { useUserSession } from '../../../../utils/hooks.util';
+import { useUserSession } from '../../../utils/hooks.util';
 
 const Auth: React.FC = () => {
   const session = useUserSession();

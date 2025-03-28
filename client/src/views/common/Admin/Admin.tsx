@@ -4,9 +4,9 @@ import { useSessionStorage } from '@uidotdev/usehooks';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-import { useGET, useNavigate } from '../../../../utils/hooks.util';
-import { GET_SYNC_USER } from '../../../../routes/contenster/global';
-import { useGlobalContext } from '../../../../contexts/global.context';
+import { useGET, useNavigate } from '../../../utils/hooks.util';
+import { GET_SYNC_USER } from '../../../routes/contenster/global';
+import { useGlobalContext } from '../../../contexts/global.context';
 
 import Header from './Header';
 import Footer from './Footer';

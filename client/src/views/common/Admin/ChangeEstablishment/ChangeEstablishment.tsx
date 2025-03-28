@@ -8,14 +8,14 @@ import {
   GET_MODULES_LIST,
   GET_SYNC_USER,
   POST_CHANGE_USER_ESTABLISHMENT,
-} from '../../../../../routes/contenster/global';
-import { useGET, useNavigate } from '../../../../../utils/hooks.util';
-import { useGlobalContext } from '../../../../../contexts/global.context';
-import { genericInputValidation } from '../../../../../utils/validations.util';
-import { GET_ESTABLISHMENT_OPTIONS } from '../../../../../routes/contenster/options';
+} from '../../../../routes/contenster/global';
+import { useGET, useNavigate } from '../../../../utils/hooks.util';
+import { useGlobalContext } from '../../../../contexts/global.context';
+import { genericInputValidation } from '../../../../utils/validations.util';
+import { GET_ESTABLISHMENT_OPTIONS } from '../../../../routes/contenster/options';
 
-import Dialog from '../../../../../components/Dialog';
-import Select from '../../../../../components/Select';
+import Dialog from '../../../../components/Dialog';
+import Select from '../../../../components/Select';
 
 interface FormFields {
   establishmentId: string;

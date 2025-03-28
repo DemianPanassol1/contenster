@@ -21,6 +21,7 @@ import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlin
 
 import { usePOST } from '../../utils/hooks.util';
 import { buildReqFilter } from '../../utils/functions.util';
+import { GET_ICON_LIST } from '../../routes/contenster/global';
 
 import Icon from '../Icon';
 
@@ -51,7 +52,7 @@ const IconPicker: React.FC<IconPickerProps> = ({ selectedIcon, setIconValue }) =
     ],
   });
 
-  const { data, isLoading } = usePOST('/v1/api/admin/get-icons-list', requestFilter);
+  const { data, isLoading } = usePOST(GET_ICON_LIST, requestFilter);
 
   const handleSearchTerm = (elem: ChangeEvent<HTMLInputElement>) =>
     setSearch(elem.target.value);

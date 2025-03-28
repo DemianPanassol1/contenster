@@ -7,4 +7,5 @@ export const POST_PERMISSION = '/v1/api/contenster/admin/permissions/post-permis
 
 export const DELETE_PERMISSION = '/v1/api/contenster/admin/permissions/delete-permission';
 
-export const GET_PERMISSIONS_LIST = '/v1/api/contenster/admin/permissions/get-permissions-list';
+export const GET_PERMISSIONS_LIST =
+  '/v1/api/contenster/admin/permissions/get-permissions-list';

@@ -5,7 +5,7 @@ import { Box, IconButton, Toolbar } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenOutlinedIcon from '@mui/icons-material/MenuOpenOutlined';
 
-import { useGlobalContext } from '../../../../../contexts/global.context';
+import { useGlobalContext } from '../../../../contexts/global.context';
 
 import Menu from '../Menu';
 

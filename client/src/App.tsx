@@ -7,9 +7,9 @@ import { useGlobalContext } from './contexts/global.context';
 
 import './settings/i18n.setting';
 
-import Auth from './views/contenster/common/Auth';
-import Admin from './views/contenster/common/Admin';
-import Error from './views/contenster/common/Error';
+import Auth from './views/common/Auth';
+import Admin from './views/common/Admin';
+import Error from './views/common/Error';
 
 import { adminViews, authViews } from './views';
 

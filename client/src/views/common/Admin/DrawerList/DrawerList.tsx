@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, useTheme } from '@mui/material';
 
-import { useGET } from '../../../../../utils/hooks.util';
-import { GET_MODULES_LIST } from '../../../../../routes/contenster/global';
+import { useGET } from '../../../../utils/hooks.util';
+import { GET_MODULES_LIST } from '../../../../routes/contenster/global';
 
 import NavList from './NavList';
 import NavListItem from './NavList/NavListItem';

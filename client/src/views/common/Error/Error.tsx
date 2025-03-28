@@ -3,9 +3,9 @@ import { useRouteError } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { Box, CircularProgress, Typography } from '@mui/material';
 
-import { useNavigate } from '../../../../utils/hooks.util';
+import { useNavigate } from '../../../utils/hooks.util';
 
-import Button from '../../../../components/Button';
+import Button from '../../../components/Button';
 
 interface CircularProgressWithLabelProps {
   value: number;

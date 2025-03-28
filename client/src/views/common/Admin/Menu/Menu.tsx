@@ -19,8 +19,8 @@ import LockIcon from '@mui/icons-material/Lock';
 import PersonIcon from '@mui/icons-material/Person';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 
-import { SIGN_OUT } from '../../../../../routes/contenster/global';
-import { useGlobalContext } from '../../../../../contexts/global.context';
+import { SIGN_OUT } from '../../../../routes/contenster/global';
+import { useGlobalContext } from '../../../../contexts/global.context';
 
 const Menu: React.FC = () => {
   const {

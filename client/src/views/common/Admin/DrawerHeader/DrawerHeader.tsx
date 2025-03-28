@@ -2,10 +2,10 @@ import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { Box, Divider, IconButton, Skeleton, Typography, useTheme } from '@mui/material';
 
-import { useGET } from '../../../../../utils/hooks.util';
-import { GET_SYNC_USER } from '../../../../../routes/contenster/global';
+import { useGET } from '../../../../utils/hooks.util';
+import { GET_SYNC_USER } from '../../../../routes/contenster/global';
 
-import Image from '../../../../../components/Image';
+import Image from '../../../../components/Image';
 
 interface DrawerHeaderProps {
   drawer: boolean;

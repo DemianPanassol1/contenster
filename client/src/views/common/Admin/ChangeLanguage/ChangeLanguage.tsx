@@ -2,9 +2,9 @@ import { useTranslation } from 'react-i18next';
 import React, { MouseEvent, useState } from 'react';
 import { Box, Chip, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
 
-import { useGlobalContext } from '../../../../../contexts/global.context';
+import { useGlobalContext } from '../../../../contexts/global.context';
 
-import Image from '../../../../../components/Image';
+import Image from '../../../../components/Image';
 
 /* TODO: Concluir componente */
 const ChangeLanguage: React.FC = () => {

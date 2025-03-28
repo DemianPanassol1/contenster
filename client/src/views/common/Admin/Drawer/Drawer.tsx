@@ -1,9 +1,9 @@
 import React from 'react';
 import { Drawer as DrawerComponent, Theme, useTheme } from '@mui/material';
 
-import { drawerWidth } from '../../../../../utils/consts.util';
-import { useMobileScreen } from '../../../../../utils/hooks.util';
-import { useGlobalContext } from '../../../../../contexts/global.context';
+import { drawerWidth } from '../../../../utils/consts.util';
+import { useMobileScreen } from '../../../../utils/hooks.util';
+import { useGlobalContext } from '../../../../contexts/global.context';
 
 import DrawerHeader from '../DrawerHeader';
 import DrawerList from '../DrawerList';

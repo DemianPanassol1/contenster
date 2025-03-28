@@ -3,12 +3,12 @@ import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Control, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
-import { useGlobalContext } from '../../../../../contexts/global.context';
-import { passwordValidation } from '../../../../../utils/validations.util';
-import { PUT_RESET_PASSWORD } from '../../../../../routes/contenster/global';
+import { useGlobalContext } from '../../../../contexts/global.context';
+import { passwordValidation } from '../../../../utils/validations.util';
+import { PUT_RESET_PASSWORD } from '../../../../routes/contenster/global';
 
-import Input from '../../../../../components/Input';
-import Dialog from '../../../../../components/Dialog';
+import Input from '../../../../components/Input';
+import Dialog from '../../../../components/Dialog';
 
 interface FormFields {
   oldPassword: string;

@@ -21,4 +21,7 @@ export const GET_CONFIG_INFO = '/v1/api/contenster/admin/get-config-info';
 
 export const UPLOAD_FILE = '/v1/api/contenster/admin/upload-file';
 
-export const GET_FILE_BY_ID = (id: string) => `/v1/api/contenster/admin/get-file-by-id?id=${id}`;
+export const GET_FILE_BY_ID = (id: string) =>
+  `/v1/api/contenster/admin/get-file-by-id?id=${id}`;
+
+export const GET_ICON_LIST = '/v1/api/contenster/admin/get-icons-list';

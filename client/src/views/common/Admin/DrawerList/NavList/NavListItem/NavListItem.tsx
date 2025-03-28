@@ -9,10 +9,10 @@ import {
 import React, { MouseEvent } from 'react';
 import { useLocation, Link as RouterLink } from 'react-router-dom';
 
-import { useMobileScreen } from '../../../../../../../utils/hooks.util';
-import { useGlobalContext } from '../../../../../../../contexts/global.context';
+import { useMobileScreen } from '../../../../../../utils/hooks.util';
+import { useGlobalContext } from '../../../../../../contexts/global.context';
 
-import Icon from '../../../../../../../components/Icon';
+import Icon from '../../../../../../components/Icon';
 
 interface NavListItemProps {
   title: string;
