@@ -1,3 +1,4 @@
+import { Request } from 'express';
 import { Body, Controller, Delete, Get, Post, Put, Query, Req } from '@nestjs/common';
 
 import { Authorize } from 'src/common/interceptors/authorize.interceptor';
@@ -9,7 +10,6 @@ import { PutEstablishmentReqDto } from './dto/req/putEstablishment.req.dto';
 import { PostEstablishmentReqDto } from './dto/req/postEstablishment.req.dto';
 import { DeleteEstablishmentReqDto } from './dto/req/deleteEstablishment.req.dto';
 import { GetEstablishmentsListReqDto } from './dto/req/getEstablishmentsList.req.dto';
-import { Request } from 'express';
 
 @Authorize()
 @Controller({ version: '1' })

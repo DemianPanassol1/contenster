@@ -4,16 +4,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ScheduleModule } from '@nestjs/schedule';
 import { HeaderResolver, I18nModule } from 'nestjs-i18n';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
+import modules from 'src/modules';
 import variables from 'src/settings';
-import { ResponseInterceptor } from 'src/common/interceptors/response.interceptor';
-import { defaultLanguage, typeOrmModuleOptions } from 'src/config/constants/constants.config';
 
 import { RequestLog } from 'src/entities/contensterdb/requestLog.entity';
-
-import contenster from './contenster';
+import { ThrottlerExceptionFilter } from 'src/common/filters/throttler.filter';
+import { ResponseInterceptor } from 'src/common/interceptors/response.interceptor';
+import { defaultLanguage, typeOrmModuleOptions } from 'src/config/constants/constants.config';
 
 @Module({
   imports: [
@@ -47,7 +47,7 @@ import contenster from './contenster';
     TypeOrmModule.forFeature([RequestLog]),
 
     // Importação de outros módulos
-    ...contenster,
+    ...modules,
   ],
   controllers: [],
   providers: [
@@ -55,6 +55,10 @@ import contenster from './contenster';
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: ThrottlerExceptionFilter,
     },
     {
       provide: APP_INTERCEPTOR,

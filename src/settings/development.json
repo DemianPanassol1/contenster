@@ -18,6 +18,16 @@
       "FOLDER_NAME": "contensterdb",
       "DB_TYPE": "postgres",
       "SINCRONIZE": true
+    },
+    {
+      "DB_PORT": 5432,
+      "DB_USERNAME": "postgres",
+      "DB_PASSWORD": "admin",
+      "DB_HOST": "localhost",
+      "DB_NAME": "portfolio_dev",
+      "FOLDER_NAME": "portfoliodb",
+      "DB_TYPE": "postgres",
+      "SINCRONIZE": true
     }
   ]
 }
