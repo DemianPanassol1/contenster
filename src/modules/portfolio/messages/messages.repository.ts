@@ -5,6 +5,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { CoreRepository } from 'src/core/core.repository';
 
+import { GetMessagesListReqDto } from './dto/req/getMessagesList.req.dto';
+
 import { Message } from 'src/entities/portfoliodb/message.entity';
 
 @Injectable()
@@ -14,5 +16,27 @@ export class MessagesRepository extends CoreRepository {
     @InjectRepository(Message) private messageRepo: Repository<Message>,
   ) {
     super(i18n);
+  }
+
+  getMessagesPaginated(query: GetMessagesListReqDto): Promise<[Message[], number]> {
+    return this.messageRepo.findAndCount({
+      ...this.buildFilter(query),
+      relations: {},
+    });
+  }
+
+  getMessageById(id: number): Promise<Message> {
+    return this.messageRepo.findOne({
+      where: { id },
+      relations: {},
+    });
+  }
+
+  saveMessage(message: Message): Promise<Message> {
+    return this.messageRepo.save(message);
+  }
+
+  removeMessage(message: Message): Promise<Message> {
+    return this.messageRepo.remove(message);
   }
 }

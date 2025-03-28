@@ -26,6 +26,9 @@ export class Message {
   @Column({ type: 'text' })
   content?: string;
 
+  @Column({ type: 'boolean', default: false })
+  read?: boolean;
+
   @CreateDateColumn({ type: 'timestamp without time zone' })
   createdAt?: Date;
 

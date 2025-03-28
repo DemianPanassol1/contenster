@@ -10,6 +10,14 @@ import { DeleteMessageReqDto } from './dto/req/deleteMessage.req.dto';
 import { GetMessagesListReqDto } from './dto/req/getMessagesList.req.dto';
 import { PostWebsiteMessageReqDto } from './dto/req/postWebsiteMessage.req.dto';
 
+import { GetMessageResDto } from './dto/res/getMessage.res.dto';
+import { PutMessageResDto } from './dto/res/putMessage.res.dto';
+import { DeleteMessageResDto } from './dto/res/deleteMessage.res.dto';
+import { GetMessagesListResDto } from './dto/res/getMessagesList.res.dto';
+import { PostWebsiteMessageResDto } from './dto/res/postWebsiteMessage.res.dto';
+
+import { Message } from 'src/entities/portfoliodb/message.entity';
+
 @Injectable()
 export class MessagesService extends CoreService {
   constructor(
@@ -20,22 +28,81 @@ export class MessagesService extends CoreService {
   }
 
   async getMessagesList(body: GetMessagesListReqDto) {
-    throw new Error('Method not implemented.');
+    const [data, total] = await this.repo.getMessagesPaginated(body);
+
+    const response = {
+      data: data,
+      meta: {
+        ...body,
+        totalItems: total,
+        totalPages: Math.ceil(total / body.pageSize),
+        hasNextPage: total > body.pageNumber * body.pageSize,
+      },
+    };
+
+    return this.response(GetMessagesListResDto, response);
   }
 
   async getMessage(query: GetMessageReqDto) {
-    throw new Error('Method not implemented.');
+    const { id } = query;
+
+    const message = await this.repo.getMessageById(id);
+
+    if (!message) {
+      throw new Error(this.i18n.t('errors.messageNotFound'));
+    }
+
+    const response = {
+      ...message,
+    };
+
+    return this.response(GetMessageResDto, response);
   }
 
   async putMessage(body: PutMessageReqDto) {
-    throw new Error('Method not implemented.');
+    const { id, read } = body;
+
+    const saveMessage: Partial<Message> = {
+      id,
+      read,
+    };
+
+    const response = await this.repo.saveMessage(saveMessage);
+
+    return this.response(PutMessageResDto, response);
   }
 
   async deleteMessage(query: DeleteMessageReqDto) {
-    throw new Error('Method not implemented.');
+    const { id } = query;
+
+    const message = await this.repo.getMessageById(id);
+
+    if (!message) {
+      throw new Error(this.i18n.t('errors.messageNotFound'));
+    }
+
+    const response = await this.repo.removeMessage(message);
+
+    return this.response(DeleteMessageResDto, response);
   }
 
   async postWebsiteMessage(body: PostWebsiteMessageReqDto) {
-    throw new Error('Method not implemented.');
+    const { name, email, phone, content, subject } = body;
+
+    const saveMessage: Partial<Message> = {
+      name,
+      email,
+      phone,
+      content,
+      subject,
+    };
+
+    const savedMessage = await this.repo.saveMessage(saveMessage);
+
+    const response = {
+      sended: !!savedMessage,
+    };
+
+    return this.response(PostWebsiteMessageResDto, response);
   }
 }

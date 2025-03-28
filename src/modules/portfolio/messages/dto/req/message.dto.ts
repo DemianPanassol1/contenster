@@ -1,7 +1,7 @@
 import { Transform } from 'class-transformer';
-import { IsEmail, IsNotEmpty, IsNumber, IsString, ValidateIf } from 'class-validator';
+import { IsBoolean, IsEmail, IsNotEmpty, IsNumber, IsString, ValidateIf } from 'class-validator';
 
-import { parseNum } from 'src/shared/utils/convertion.utils';
+import { parseBool, parseNum } from 'src/shared/utils/convertion.utils';
 
 export class MessageDto {
   @Transform(parseNum)
@@ -29,4 +29,9 @@ export class MessageDto {
   @IsNotEmpty({ message: 'validation.notEmpty' })
   @IsString({ message: 'validation.invalidString' })
   content: string;
+
+  @Transform(parseBool)
+  @IsNotEmpty({ message: 'validation.notEmpty' })
+  @IsBoolean({ message: 'validation.invalidBoolean' })
+  read: boolean;
 }
