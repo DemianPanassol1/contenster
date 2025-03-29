@@ -12,7 +12,9 @@ import { Establishment } from 'src/entities/contensterdb/establishment.entity';
 import { Functionality } from 'src/entities/contensterdb/functionality.entity';
 
 @ModuleMod({
-  imports: [TypeOrmModule.forFeature([User, Establishment, Module, Role, Functionality])],
+  imports: [
+    TypeOrmModule.forFeature([User, Establishment, Module, Role, Functionality], 'contensterdb'),
+  ],
   controllers: [OptionController],
   providers: [OptionService, OptionRepository],
 })

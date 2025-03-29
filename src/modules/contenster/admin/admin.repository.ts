@@ -15,11 +15,11 @@ import { UserEstablishmentRole } from 'src/entities/contensterdb/userEstablishme
 export class AdminRepository extends CoreRepository {
   constructor(
     public readonly i18n: I18nService,
-    @InjectRepository(Role) private roleRepo: Repository<Role>,
-    @InjectRepository(User) private userRepo: Repository<User>,
-    @InjectRepository(Image) private imageRepo: Repository<Image>,
-    @InjectRepository(Configuration) private configRepo: Repository<Configuration>,
-    @InjectRepository(UserEstablishmentRole)
+    @InjectRepository(Role, 'contensterdb') private roleRepo: Repository<Role>,
+    @InjectRepository(User, 'contensterdb') private userRepo: Repository<User>,
+    @InjectRepository(Image, 'contensterdb') private imageRepo: Repository<Image>,
+    @InjectRepository(Configuration, 'contensterdb') private configRepo: Repository<Configuration>,
+    @InjectRepository(UserEstablishmentRole, 'contensterdb')
     private userEstablishmentRepo: Repository<UserEstablishmentRole>,
   ) {
     super(i18n);

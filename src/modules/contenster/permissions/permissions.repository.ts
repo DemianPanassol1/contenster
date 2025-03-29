@@ -13,7 +13,7 @@ import { GetPermissionsListReqDto } from './dto/req/getPermissionsList.req.dto';
 export class PermissionsRepository extends CoreRepository {
   constructor(
     public readonly i18n: I18nService,
-    @InjectRepository(Permission) private permissionRepo: Repository<Permission>,
+    @InjectRepository(Permission, 'contensterdb') private permissionRepo: Repository<Permission>,
   ) {
     super(i18n);
   }

@@ -9,7 +9,7 @@ import { Module } from 'src/entities/contensterdb/module.entity';
 import { Translation } from 'src/entities/contensterdb/translation.entity';
 
 @NestModule({
-  imports: [TypeOrmModule.forFeature([Module, Translation])],
+  imports: [TypeOrmModule.forFeature([Module, Translation], 'contensterdb')],
   controllers: [ModulesController],
   providers: [ModulesService, ModulesRepository],
 })

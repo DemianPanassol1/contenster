@@ -12,7 +12,12 @@ import { Configuration } from 'src/entities/contensterdb/configuration.entity';
 import { UserEstablishmentRole } from 'src/entities/contensterdb/userEstablishmentRole.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Role, Image, Configuration, UserEstablishmentRole])],
+  imports: [
+    TypeOrmModule.forFeature(
+      [User, Role, Image, Configuration, UserEstablishmentRole],
+      'contensterdb',
+    ),
+  ],
   controllers: [AdminController],
   providers: [Logger, AdminService, AdminRepository],
 })

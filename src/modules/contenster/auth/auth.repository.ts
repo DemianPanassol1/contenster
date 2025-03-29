@@ -9,8 +9,8 @@ import { UserEstablishmentRole } from 'src/entities/contensterdb/userEstablishme
 @Injectable()
 export class AuthRepository {
   constructor(
-    @InjectRepository(User) private userRepo: Repository<User>,
-    @InjectRepository(UserEstablishmentRole)
+    @InjectRepository(User, 'contensterdb') private userRepo: Repository<User>,
+    @InjectRepository(UserEstablishmentRole, 'contensterdb')
     private userEstablishmentRepo: Repository<UserEstablishmentRole>,
   ) {}
 

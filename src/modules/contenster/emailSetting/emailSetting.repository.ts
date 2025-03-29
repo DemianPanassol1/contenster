@@ -15,8 +15,9 @@ import { GetEmailSettingListReqDto } from './dto/req/getEmailSettingList.req.dto
 export class EmailSettingRepository extends CoreRepository {
   constructor(
     public readonly i18n: I18nService,
-    @InjectRepository(Translation) private translationRepo: Repository<Translation>,
-    @InjectRepository(EmailSetting) private emailSettingRepo: Repository<EmailSetting>,
+    @InjectRepository(Translation, 'contensterdb') private translationRepo: Repository<Translation>,
+    @InjectRepository(EmailSetting, 'contensterdb')
+    private emailSettingRepo: Repository<EmailSetting>,
   ) {
     super(i18n);
   }

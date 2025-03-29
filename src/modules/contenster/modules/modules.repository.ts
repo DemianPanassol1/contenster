@@ -15,8 +15,8 @@ import { Translation } from 'src/entities/contensterdb/translation.entity';
 export class ModulesRepository extends CoreRepository {
   constructor(
     public readonly i18n: I18nService,
-    @InjectRepository(Module) private moduleRepo: Repository<Module>,
-    @InjectRepository(Translation) private translationRepo: Repository<Translation>,
+    @InjectRepository(Module, 'contensterdb') private moduleRepo: Repository<Module>,
+    @InjectRepository(Translation, 'contensterdb') private translationRepo: Repository<Translation>,
   ) {
     super(i18n);
   }

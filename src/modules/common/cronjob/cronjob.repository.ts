@@ -14,9 +14,9 @@ import { RequestLog } from 'src/entities/contensterdb/requestLog.entity';
 export class CronJobRepository extends CoreRepository {
   constructor(
     public readonly i18n: I18nService,
-    @InjectRepository(Image) private imageRepo: Repository<Image>,
-    @InjectRepository(CronJobLog) private cronRepo: Repository<CronJobLog>,
-    @InjectRepository(RequestLog) private requestRepo: Repository<RequestLog>,
+    @InjectRepository(Image, 'contensterdb') private imageRepo: Repository<Image>,
+    @InjectRepository(CronJobLog, 'contensterdb') private cronRepo: Repository<CronJobLog>,
+    @InjectRepository(RequestLog, 'contensterdb') private requestRepo: Repository<RequestLog>,
   ) {
     super(i18n);
   }

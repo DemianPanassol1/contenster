@@ -9,7 +9,7 @@ import { CronJobLog } from 'src/entities/contensterdb/cronjobLog.entity';
 import { RequestLog } from 'src/entities/contensterdb/requestLog.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Image, CronJobLog, RequestLog])],
+  imports: [TypeOrmModule.forFeature([Image, CronJobLog, RequestLog], 'contensterdb')],
   controllers: [],
   providers: [CronJobService, CronJobRepository],
 })

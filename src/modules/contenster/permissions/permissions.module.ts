@@ -8,7 +8,7 @@ import { PermissionsRepository } from './permissions.repository';
 import { Permission } from 'src/entities/contensterdb/permission.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Permission])],
+  imports: [TypeOrmModule.forFeature([Permission], 'contensterdb')],
   controllers: [PermissionsController],
   providers: [PermissionsService, PermissionsRepository],
 })

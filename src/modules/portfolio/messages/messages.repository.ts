@@ -13,16 +13,13 @@ import { Message } from 'src/entities/portfoliodb/message.entity';
 export class MessagesRepository extends CoreRepository {
   constructor(
     public readonly i18n: I18nService,
-    @InjectRepository(Message) private messageRepo: Repository<Message>,
+    @InjectRepository(Message, 'portfoliodb') private messageRepo: Repository<Message>,
   ) {
     super(i18n);
   }
 
   getMessagesPaginated(query: GetMessagesListReqDto): Promise<[Message[], number]> {
-    return this.messageRepo.findAndCount({
-      ...this.buildFilter(query),
-      relations: {},
-    });
+    return this.messageRepo.findAndCount({});
   }
 
   getMessageById(id: number): Promise<Message> {

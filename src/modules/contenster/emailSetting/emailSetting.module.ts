@@ -9,7 +9,7 @@ import { Translation } from 'src/entities/contensterdb/translation.entity';
 import { EmailSetting } from 'src/entities/contensterdb/emailSetting.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([EmailSetting, Translation])],
+  imports: [TypeOrmModule.forFeature([EmailSetting, Translation], 'contensterdb')],
   controllers: [EmailSettingController],
   providers: [EmailSettingService, EmailSettingRepository],
 })

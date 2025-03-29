@@ -20,14 +20,16 @@ import { GetEstablishmentsListReqDto } from './dto/req/getEstablishmentsList.req
 export class EstablishmentsRepository extends CoreRepository {
   constructor(
     public readonly i18n: I18nService,
-    @InjectRepository(Establishment) private establishmentRepo: Repository<Establishment>,
-    @InjectRepository(Role) private roleRepo: Repository<Role>,
-    @InjectRepository(Permission) private permissionRepo: Repository<Permission>,
-    @InjectRepository(Module) private moduleRepo: Repository<Module>,
-    @InjectRepository(Functionality) private functionalityRepo: Repository<Functionality>,
-    @InjectRepository(UserEstablishmentRole)
+    @InjectRepository(Establishment, 'contensterdb')
+    private establishmentRepo: Repository<Establishment>,
+    @InjectRepository(Role, 'contensterdb') private roleRepo: Repository<Role>,
+    @InjectRepository(Permission, 'contensterdb') private permissionRepo: Repository<Permission>,
+    @InjectRepository(Module, 'contensterdb') private moduleRepo: Repository<Module>,
+    @InjectRepository(Functionality, 'contensterdb')
+    private functionalityRepo: Repository<Functionality>,
+    @InjectRepository(UserEstablishmentRole, 'contensterdb')
     private userEstablishmentRoleRepo: Repository<UserEstablishmentRole>,
-    @InjectRepository(Translation) private translationRepo: Repository<Translation>,
+    @InjectRepository(Translation, 'contensterdb') private translationRepo: Repository<Translation>,
   ) {
     super(i18n);
   }

@@ -15,9 +15,10 @@ import { GetFunctionalitiesListReqDto } from './dto/req/getFunctionalitiesList.r
 export class FunctionalitiesRepository extends CoreRepository {
   constructor(
     public readonly i18n: I18nService,
-    @InjectRepository(Permission) private permissionRepo: Repository<Permission>,
-    @InjectRepository(Translation) private translationRepo: Repository<Translation>,
-    @InjectRepository(Functionality) private functionalityRepo: Repository<Functionality>,
+    @InjectRepository(Permission, 'contensterdb') private permissionRepo: Repository<Permission>,
+    @InjectRepository(Translation, 'contensterdb') private translationRepo: Repository<Translation>,
+    @InjectRepository(Functionality, 'contensterdb')
+    private functionalityRepo: Repository<Functionality>,
   ) {
     super(i18n);
   }

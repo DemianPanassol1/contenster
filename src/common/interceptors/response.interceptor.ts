@@ -27,7 +27,7 @@ export class ResponseInterceptor extends CoreInterceptor implements NestIntercep
   constructor(
     private readonly logger: Logger,
     private readonly i18n: I18nService,
-    @InjectRepository(RequestLog) private requestLogRepo: Repository<RequestLog>,
+    @InjectRepository(RequestLog, 'contensterdb') private requestLogRepo: Repository<RequestLog>,
   ) {
     super();
   }

@@ -16,10 +16,10 @@ import { UserEstablishmentRole as UER } from 'src/entities/contensterdb/userEsta
 export class RolesRepository extends CoreRepository {
   constructor(
     public readonly i18n: I18nService,
-    @InjectRepository(Role) private roleRepo: Repository<Role>,
-    @InjectRepository(UER) private userEstabRoleRepo: Repository<UER>,
-    @InjectRepository(Permission) private permissionRepo: Repository<Permission>,
-    @InjectRepository(Translation) private translationRepo: Repository<Translation>,
+    @InjectRepository(Role, 'contensterdb') private roleRepo: Repository<Role>,
+    @InjectRepository(UER, 'contensterdb') private userEstabRoleRepo: Repository<UER>,
+    @InjectRepository(Permission, 'contensterdb') private permissionRepo: Repository<Permission>,
+    @InjectRepository(Translation, 'contensterdb') private translationRepo: Repository<Translation>,
   ) {
     super(i18n);
   }

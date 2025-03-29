@@ -12,7 +12,12 @@ import { Preference } from 'src/entities/contensterdb/preference.entity';
 import { UserEstablishmentRole } from 'src/entities/contensterdb/userEstablishmentRole.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Language, UserEstablishmentRole, Preference, Image])],
+  imports: [
+    TypeOrmModule.forFeature(
+      [User, Language, UserEstablishmentRole, Preference, Image],
+      'contensterdb',
+    ),
+  ],
   controllers: [UsersController],
   providers: [UsersService, UsersRepository],
 })

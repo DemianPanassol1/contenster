@@ -9,7 +9,7 @@ import { User } from 'src/entities/contensterdb/user.entity';
 import { UserEstablishmentRole } from 'src/entities/contensterdb/userEstablishmentRole.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, UserEstablishmentRole])],
+  imports: [TypeOrmModule.forFeature([User, UserEstablishmentRole], 'contensterdb')],
   controllers: [AuthController],
   providers: [AuthService, AuthRepository],
 })

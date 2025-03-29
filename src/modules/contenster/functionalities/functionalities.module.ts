@@ -10,7 +10,7 @@ import { Translation } from 'src/entities/contensterdb/translation.entity';
 import { Functionality } from 'src/entities/contensterdb/functionality.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Functionality, Permission, Translation])],
+  imports: [TypeOrmModule.forFeature([Functionality, Permission, Translation], 'contensterdb')],
   controllers: [FunctionalitiesController],
   providers: [FunctionalitiesService, FunctionalitiesRepository],
 })

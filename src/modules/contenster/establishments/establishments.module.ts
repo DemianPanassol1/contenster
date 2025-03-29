@@ -14,15 +14,18 @@ import { Module as ModuleEntity } from 'src/entities/contensterdb/module.entity'
 import { UserEstablishmentRole } from 'src/entities/contensterdb/userEstablishmentRole.entity';
 @Module({
   imports: [
-    TypeOrmModule.forFeature([
-      Role,
-      Permission,
-      Establishment,
-      Functionality,
-      ModuleEntity,
-      Translation,
-      UserEstablishmentRole,
-    ]),
+    TypeOrmModule.forFeature(
+      [
+        Role,
+        Permission,
+        Establishment,
+        Functionality,
+        ModuleEntity,
+        Translation,
+        UserEstablishmentRole,
+      ],
+      'contensterdb',
+    ),
   ],
   controllers: [EstablishmentsController],
   providers: [EstablishmentsService, EstablishmentsRepository],

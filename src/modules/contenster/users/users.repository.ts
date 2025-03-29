@@ -18,11 +18,11 @@ import { UserEstablishmentRole } from 'src/entities/contensterdb/userEstablishme
 export class UsersRepository extends CoreRepository {
   constructor(
     public readonly i18n: I18nService,
-    @InjectRepository(User) private userRepo: Repository<User>,
-    @InjectRepository(Image) private imageRepo: Repository<Image>,
-    @InjectRepository(Language) private languageRepo: Repository<Language>,
-    @InjectRepository(Preference) private preferenceRepo: Repository<Preference>,
-    @InjectRepository(UserEstablishmentRole)
+    @InjectRepository(User, 'contensterdb') private userRepo: Repository<User>,
+    @InjectRepository(Image, 'contensterdb') private imageRepo: Repository<Image>,
+    @InjectRepository(Language, 'contensterdb') private languageRepo: Repository<Language>,
+    @InjectRepository(Preference, 'contensterdb') private preferenceRepo: Repository<Preference>,
+    @InjectRepository(UserEstablishmentRole, 'contensterdb')
     private userEstablishmentRoleRepo: Repository<UserEstablishmentRole>,
   ) {
     super(i18n);

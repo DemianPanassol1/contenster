@@ -8,7 +8,7 @@ import { MessagesRepository } from './messages.repository';
 import { Message } from 'src/entities/portfoliodb/message.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Message])],
+  imports: [TypeOrmModule.forFeature([Message], 'portfoliodb')],
   controllers: [MessagesController],
   providers: [MessagesService, MessagesRepository],
 })

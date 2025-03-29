@@ -11,7 +11,12 @@ import { Translation } from 'src/entities/contensterdb/translation.entity';
 import { UserEstablishmentRole } from 'src/entities/contensterdb/userEstablishmentRole.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Role, Permission, Translation, UserEstablishmentRole])],
+  imports: [
+    TypeOrmModule.forFeature(
+      [Role, Permission, Translation, UserEstablishmentRole],
+      'contensterdb',
+    ),
+  ],
   controllers: [RolesController],
   providers: [RolesService, RolesRepository],
 })

@@ -44,7 +44,7 @@ import { defaultLanguage, typeOrmModuleOptions } from 'src/config/constants/cons
     ScheduleModule.forRoot(),
 
     // Registro da entidade RequestLog
-    TypeOrmModule.forFeature([RequestLog]),
+    TypeOrmModule.forFeature([RequestLog], 'contensterdb'),
 
     // Importação de outros módulos
     ...modules,

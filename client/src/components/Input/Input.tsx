@@ -24,6 +24,7 @@ interface InputProps {
   type?: 'text' | 'password' | 'number';
   validation?: Record<string, unknown>;
   inputStyle?: SxProps<Theme>;
+  readOnly?: boolean;
   disabled?: boolean;
   helperText?: string | null;
   containerStyle?: SxProps<Theme>;
@@ -37,6 +38,7 @@ const Input: React.FC<InputProps> = ({
   type = 'text',
   validation = {},
   inputStyle = {},
+  readOnly = false,
   disabled = false,
   helperText = null,
   containerStyle = {},
@@ -75,6 +77,7 @@ const Input: React.FC<InputProps> = ({
                 size="small"
                 format={mask}
                 name={field.name}
+                readOnly={readOnly}
                 value={field.value}
                 disabled={disabled}
                 onBlur={field.onBlur}
@@ -89,6 +92,7 @@ const Input: React.FC<InputProps> = ({
                 type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
                 size="small"
                 name={field.name}
+                readOnly={readOnly}
                 disabled={disabled}
                 value={field.value}
                 onBlur={field.onBlur}

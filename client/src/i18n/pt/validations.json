@@ -196,5 +196,13 @@
   "footerContent": {
     "field": "Conteúdo do rodapé",
     "required": "O rodapé é obrigatório"
+  },
+  "read": {
+    "field": "Lido",
+    "required": "O campo 'Lido' é obrigatório"
+  },
+  "content": {
+    "field": "Conteúdo",
+    "required": "O conteúdo é obrigatório"
   }
 }

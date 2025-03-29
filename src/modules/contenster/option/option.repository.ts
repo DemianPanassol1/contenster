@@ -20,11 +20,13 @@ import { GetEstablishmentOptionsReqDto } from './dto/req/getEstablishmentOptions
 export class OptionRepository extends CoreRepository {
   constructor(
     public readonly i18n: I18nService,
-    @InjectRepository(User) private userRepo: Repository<User>,
-    @InjectRepository(Role) private roleRepo: Repository<Role>,
-    @InjectRepository(Module) private moduleRepo: Repository<Module>,
-    @InjectRepository(Functionality) private functionalityRepo: Repository<Functionality>,
-    @InjectRepository(Establishment) private establishmentRepo: Repository<Establishment>,
+    @InjectRepository(User, 'contensterdb') private userRepo: Repository<User>,
+    @InjectRepository(Role, 'contensterdb') private roleRepo: Repository<Role>,
+    @InjectRepository(Module, 'contensterdb') private moduleRepo: Repository<Module>,
+    @InjectRepository(Functionality, 'contensterdb')
+    private functionalityRepo: Repository<Functionality>,
+    @InjectRepository(Establishment, 'contensterdb')
+    private establishmentRepo: Repository<Establishment>,
   ) {
     super(i18n);
   }
