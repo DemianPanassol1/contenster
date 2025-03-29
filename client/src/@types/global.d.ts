@@ -18,7 +18,7 @@ interface Session {
     title: string;
     description: string;
   };
-  permissions: Permission[];
+  permissions: Array<Permission>;
   establishment: Establishment;
 }
 
@@ -91,7 +91,7 @@ interface Configuration {
   favicon: string;
   loginLogo: string;
   loginBanner: string;
-  languages: Language[];
+  languages: Array<Language>;
 }
 
 interface Language {

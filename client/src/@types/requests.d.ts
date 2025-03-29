@@ -11,7 +11,7 @@ interface GetConfigInfo {
 }
 
 interface GetModulesList {
-  data: Module[] | null;
+  data: Array<Module> | null;
   isLoading: boolean;
   refresh: (key: string | undefined) => Promise<unknown>;
 }

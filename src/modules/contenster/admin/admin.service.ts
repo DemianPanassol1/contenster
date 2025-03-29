@@ -198,7 +198,7 @@ export class AdminService extends CoreService {
         totalItems: iconsCount,
         totalFiltered: filteredCount,
         totalPages: Math.ceil(filteredCount / body.pageSize),
-        hasNextPage: filteredCount > (body.pageNumber + 1) * body.pageSize,
+        hasNextPage: filteredCount > body.pageNumber * body.pageSize,
       },
     };
 

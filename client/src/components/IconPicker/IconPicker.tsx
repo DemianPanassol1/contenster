@@ -30,6 +30,20 @@ interface IconPickerProps {
   setIconValue: (value: string) => void;
 }
 
+interface IconListResponse {
+  data: {
+    data: Array<{ name: string; path: string }>;
+    meta: {
+      pageNumber: number;
+      pageSize: number;
+      totalFiltered: number;
+      totalPages: number;
+      hasNextPage: boolean;
+    };
+  };
+  isLoading: boolean;
+}
+
 const IconPicker: React.FC<IconPickerProps> = ({ selectedIcon, setIconValue }) => {
   const [qnt] = useState(12);
   const [page, setPage] = useState(1);
@@ -52,13 +66,18 @@ const IconPicker: React.FC<IconPickerProps> = ({ selectedIcon, setIconValue }) =
     ],
   });
 
-  const { data, isLoading } = usePOST(GET_ICON_LIST, requestFilter);
+  const { data, isLoading }: IconListResponse = usePOST(GET_ICON_LIST, requestFilter);
 
-  const handleSearchTerm = (elem: ChangeEvent<HTMLInputElement>) =>
+  const handleSearchTerm = (elem: ChangeEvent<HTMLInputElement>) => {
     setSearch(elem.target.value);
+    setPage(1);
+  };
 
   const iconList = data?.data ?? [];
-  const iconCount = data?.meta?.totalItems ?? 0;
+  const iconCount = data?.meta?.totalFiltered ?? 0;
+  const totalPages = data?.meta?.totalPages ?? 1;
+  const currentPage = data?.meta?.pageNumber ?? 1;
+  const hasNextPage = data?.meta?.hasNextPage ?? false;
 
   return (
     <Box
@@ -173,7 +192,7 @@ const IconPicker: React.FC<IconPickerProps> = ({ selectedIcon, setIconValue }) =
           variant="caption"
           sx={{ margin: '0.3rem 0' }}
         >
-          {`${page}-${Math.ceil(iconCount / qnt)} de ${iconCount}`}
+          {`${currentPage}-${totalPages} de ${iconCount}`}
         </Typography>
         <Stack
           direction="row"
@@ -184,15 +203,15 @@ const IconPicker: React.FC<IconPickerProps> = ({ selectedIcon, setIconValue }) =
         >
           <IconButton
             size="small"
-            disabled={page === 1}
-            onClick={() => setPage(page - 1)}
+            disabled={currentPage === 1}
+            onClick={() => setPage(currentPage - 1)}
           >
             <NavigateBeforeOutlinedIcon />
           </IconButton>
           <IconButton
             size="small"
-            onClick={() => setPage(page + 1)}
-            disabled={page === Math.ceil(iconCount / qnt)}
+            onClick={() => setPage(currentPage + 1)}
+            disabled={!hasNextPage}
           >
             <NavigateNextOutlinedIcon />
           </IconButton>
