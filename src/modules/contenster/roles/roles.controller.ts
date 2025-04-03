@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Post, Put, Query } from '@nestjs/common'
 
 import { RolesService } from './roles.service';
 
-import { Authorize } from 'src/common/interceptors/authorize.interceptor';
+import { Authenticate } from 'src/common/interceptors/authenticate.interceptor';
 
 import { GetRoleReqDto } from './dto/req/getRole.req.dto';
 import { PutRoleReqDto } from './dto/req/putRole.req.dto';
@@ -10,7 +10,7 @@ import { PostRoleReqDto } from './dto/req/postRole.req.dto';
 import { DeleteRoleReqDto } from './dto/req/deleteRole.req.dto';
 import { GetRolesListReqDto } from './dto/req/getRolesList.req.dto';
 
-@Authorize()
+@Authenticate()
 @Controller({ version: '1' })
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}

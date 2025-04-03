@@ -10,6 +10,7 @@ import variables from 'src/settings';
 import { AuthRepository } from './auth.repository';
 import { CoreService } from 'src/core/core.service';
 import { EmailPurpose } from 'src/shared/enums/common.enums';
+import { defaultLanguage } from 'src/config/constants/constants.config';
 
 import { SignInUserReqDto } from './dto/req/signIn.req.dto';
 import { ResetPasswordReqDto } from './dto/req/resetPassword.req.dto';
@@ -17,6 +18,7 @@ import { CreatePasswordReqDto } from './dto/req/createPassword.req.dto';
 
 import { PostSignInResDto } from './dto/res/postSignIn.res.dto';
 import { GetSignOutResDto } from './dto/res/getSignOut.res.dto';
+import { GetConfigInfoResDto } from './dto/res/getConfigInfo.res.dto';
 import { PostAuthorizeResDto } from './dto/res/postAuthorize.res.dto';
 import { PostResetPasswordResDto } from './dto/res/postResetPassword.res.dto';
 import { PostCreatePasswordResDto } from './dto/res/postCreatePassword.res.dto';
@@ -28,6 +30,28 @@ export class AuthService extends CoreService {
     private readonly repo: AuthRepository,
   ) {
     super(i18n);
+  }
+
+  async getConfigInfo(req: Request) {
+    const config = await this.repo.findConfiguration();
+
+    const response = {
+      id: config.id,
+      projectName: config.projectName,
+      favicon: this.generateFilePath(req, config.favicon.filePath),
+      loginLogo: this.generateFilePath(req, config.loginLogo.filePath),
+      loginBanner: this.generateFilePath(req, config.loginBanner.filePath),
+      languages: config.languages.map((l) => ({
+        id: l.id,
+        name: l.name,
+        purpose: l.purpose,
+        code: l.languageCode,
+        icon: this.generateFilePath(req, l.icon?.filePath),
+        default: l.languageCode === defaultLanguage,
+      })),
+    };
+
+    return this.response(GetConfigInfoResDto, response);
   }
 
   async postAuthorize(body: SignInUserReqDto) {

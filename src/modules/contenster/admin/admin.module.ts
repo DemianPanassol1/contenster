@@ -8,16 +8,10 @@ import { AdminRepository } from './admin.repository';
 import { Role } from 'src/entities/contensterdb/role.entity';
 import { User } from 'src/entities/contensterdb/user.entity';
 import { Image } from 'src/entities/contensterdb/image.entity';
-import { Configuration } from 'src/entities/contensterdb/configuration.entity';
 import { UserEstablishmentRole } from 'src/entities/contensterdb/userEstablishmentRole.entity';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature(
-      [User, Role, Image, Configuration, UserEstablishmentRole],
-      'contensterdb',
-    ),
-  ],
+  imports: [TypeOrmModule.forFeature([User, Role, Image, UserEstablishmentRole], 'contensterdb')],
   controllers: [AdminController],
   providers: [Logger, AdminService, AdminRepository],
 })

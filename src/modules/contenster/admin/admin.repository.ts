@@ -8,7 +8,6 @@ import { CoreRepository } from 'src/core/core.repository';
 import { User } from 'src/entities/contensterdb/user.entity';
 import { Role } from 'src/entities/contensterdb/role.entity';
 import { Image } from 'src/entities/contensterdb/image.entity';
-import { Configuration } from 'src/entities/contensterdb/configuration.entity';
 import { UserEstablishmentRole } from 'src/entities/contensterdb/userEstablishmentRole.entity';
 
 @Injectable()
@@ -18,7 +17,6 @@ export class AdminRepository extends CoreRepository {
     @InjectRepository(Role, 'contensterdb') private roleRepo: Repository<Role>,
     @InjectRepository(User, 'contensterdb') private userRepo: Repository<User>,
     @InjectRepository(Image, 'contensterdb') private imageRepo: Repository<Image>,
-    @InjectRepository(Configuration, 'contensterdb') private configRepo: Repository<Configuration>,
     @InjectRepository(UserEstablishmentRole, 'contensterdb')
     private userEstablishmentRepo: Repository<UserEstablishmentRole>,
   ) {
@@ -94,19 +92,6 @@ export class AdminRepository extends CoreRepository {
             module: { titles: { language: true } },
           },
         },
-      },
-    });
-  }
-
-  findConfiguration(): Promise<Configuration> {
-    return this.configRepo.findOne({
-      where: {},
-      order: { id: 'ASC', languages: { id: 'ASC' } },
-      relations: {
-        languages: { icon: true },
-        favicon: true,
-        loginLogo: true,
-        loginBanner: true,
       },
     });
   }

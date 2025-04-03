@@ -13,6 +13,11 @@ import { CreatePasswordReqDto } from './dto/req/createPassword.req.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Get('get-config-info')
+  async getConfigInfo(@Req() req: Request) {
+    return await this.authService.getConfigInfo(req);
+  }
+
   @Post('authorize')
   postAuthorize(@Body() body: SignInUserReqDto) {
     return this.authService.postAuthorize(body);

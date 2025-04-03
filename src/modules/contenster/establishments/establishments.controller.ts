@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import { Body, Controller, Delete, Get, Post, Put, Query, Req } from '@nestjs/common';
 
-import { Authorize } from 'src/common/interceptors/authorize.interceptor';
+import { Authenticate } from 'src/common/interceptors/authenticate.interceptor';
 
 import { EstablishmentsService } from './establishments.service';
 
@@ -11,7 +11,7 @@ import { PostEstablishmentReqDto } from './dto/req/postEstablishment.req.dto';
 import { DeleteEstablishmentReqDto } from './dto/req/deleteEstablishment.req.dto';
 import { GetEstablishmentsListReqDto } from './dto/req/getEstablishmentsList.req.dto';
 
-@Authorize()
+@Authenticate()
 @Controller({ version: '1' })
 export class EstablishmentsController {
   constructor(private readonly establishmentsService: EstablishmentsService) {}

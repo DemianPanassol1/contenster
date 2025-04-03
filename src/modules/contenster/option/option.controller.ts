@@ -2,14 +2,14 @@ import { Body, Controller, Post } from '@nestjs/common';
 
 import { OptionService } from './option.service';
 
-import { Authorize } from 'src/common/interceptors/authorize.interceptor';
+import { Authenticate } from 'src/common/interceptors/authenticate.interceptor';
 
 import { GetRoleOptionsReqDto } from './dto/req/getRoleOptions.req.dto';
 import { GetModuleOptionsReqDto } from './dto/req/getModuleOptions.req.dto';
 import { GetEstablishmentOptionsReqDto } from './dto/req/getEstablishmentOptions.req.dto';
 import { GetFunctionalityOptionsReqDto } from './dto/req/getFunctionalityOptions.req.dto';
 
-@Authorize()
+@Authenticate()
 @Controller({ version: '1' })
 export class OptionController {
   constructor(private readonly optionService: OptionService) {}

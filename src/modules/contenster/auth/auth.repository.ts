@@ -5,11 +5,13 @@ import { Repository, UpdateResult } from 'typeorm';
 
 import { User } from 'src/entities/contensterdb/user.entity';
 import { UserEstablishmentRole } from 'src/entities/contensterdb/userEstablishmentRole.entity';
+import { Configuration } from 'src/entities/contensterdb/configuration.entity';
 
 @Injectable()
 export class AuthRepository {
   constructor(
     @InjectRepository(User, 'contensterdb') private userRepo: Repository<User>,
+    @InjectRepository(Configuration, 'contensterdb') private configRepo: Repository<Configuration>,
     @InjectRepository(UserEstablishmentRole, 'contensterdb')
     private userEstablishmentRepo: Repository<UserEstablishmentRole>,
   ) {}
@@ -90,6 +92,19 @@ export class AuthRepository {
             },
           },
         },
+      },
+    });
+  }
+
+  findConfiguration(): Promise<Configuration> {
+    return this.configRepo.findOne({
+      where: {},
+      order: { id: 'ASC', languages: { id: 'ASC' } },
+      relations: {
+        languages: { icon: true },
+        favicon: true,
+        loginLogo: true,
+        loginBanner: true,
       },
     });
   }

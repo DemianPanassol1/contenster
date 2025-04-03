@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Post, Put, Query } from '@nestjs/common';
 
-import { Authorize } from 'src/common/interceptors/authorize.interceptor';
+import { Authenticate } from 'src/common/interceptors/authenticate.interceptor';
 
 import { ModulesService } from './modules.service';
 
@@ -10,7 +10,7 @@ import { PostModuleReqDto } from './dto/req/postModule.req.dto';
 import { DeleteModuleReqDto } from './dto/req/deleteModule.req.dto';
 import { GetModulesListReqDto } from './dto/req/getModulesList.req.dto';
 
-@Authorize()
+@Authenticate()
 @Controller({ version: '1' })
 export class ModulesController {
   constructor(private readonly modulesService: ModulesService) {}

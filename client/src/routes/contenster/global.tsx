@@ -17,7 +17,7 @@ export const PUT_RESET_PASSWORD = '/v1/api/contenster/admin/put-reset-password';
 export const POST_CHANGE_USER_ESTABLISHMENT =
   '/v1/api/contenster/admin/post-change-user-establishment';
 
-export const GET_CONFIG_INFO = '/v1/api/contenster/admin/get-config-info';
+export const GET_CONFIG_INFO = '/v1/api/contenster/auth/get-config-info';
 
 export const UPLOAD_FILE = '/v1/api/contenster/admin/upload-file';
 

@@ -8,7 +8,6 @@ import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { CoreService } from 'src/core/core.service';
 import { AdminRepository } from './admin.repository';
 import { ICurrentUser } from 'src/shared/types/api.types';
-import { defaultLanguage } from 'src/config/constants/constants.config';
 
 import { PutUserInfoReqDto } from './dto/req/putUserInfo.req.dto';
 import { GetFileByIdReqDto } from './dto/req/getFileById.req.dto';
@@ -21,7 +20,6 @@ import { GetUserInfoResDto } from './dto/res/getUserInfo.res.dto';
 import { PutUserInfoResDto } from './dto/res/putUserInfo.res.dto';
 import { GetFileByIdResDto } from './dto/res/getFileById.res.dto';
 import { GetIconListResDto } from './dto/res/getIconList.res.dto';
-import { GetConfigInfoResDto } from './dto/res/getConfigInfo.res.dto';
 import { DeleteFileByIdResDto } from './dto/res/deleteFileById.res.dto';
 import { PostUploadFileResDto } from './dto/res/postUploadFile.res.dto';
 import { GetModulesListResDto } from './dto/res/getModulesList.res.dto';
@@ -243,28 +241,6 @@ export class AdminService extends CoreService {
       .sort((a, b) => a.position - b.position);
 
     return this.response(GetModulesListResDto, response);
-  }
-
-  async getConfigInfo(req: Request) {
-    const config = await this.repo.findConfiguration();
-
-    const response = {
-      id: config.id,
-      projectName: config.projectName,
-      favicon: this.generateFilePath(req, config.favicon.filePath),
-      loginLogo: this.generateFilePath(req, config.loginLogo.filePath),
-      loginBanner: this.generateFilePath(req, config.loginBanner.filePath),
-      languages: config.languages.map((l) => ({
-        id: l.id,
-        name: l.name,
-        purpose: l.purpose,
-        code: l.languageCode,
-        icon: this.generateFilePath(req, l.icon?.filePath),
-        default: l.languageCode === defaultLanguage,
-      })),
-    };
-
-    return this.response(GetConfigInfoResDto, response);
   }
 
   async getFileById(req: Request, query: GetFileByIdReqDto) {

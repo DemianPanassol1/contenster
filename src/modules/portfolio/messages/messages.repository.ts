@@ -19,7 +19,9 @@ export class MessagesRepository extends CoreRepository {
   }
 
   getMessagesPaginated(query: GetMessagesListReqDto): Promise<[Message[], number]> {
-    return this.messageRepo.findAndCount({});
+    return this.messageRepo.findAndCount({
+      ...this.buildFilter(query),
+    });
   }
 
   getMessageById(id: number): Promise<Message> {

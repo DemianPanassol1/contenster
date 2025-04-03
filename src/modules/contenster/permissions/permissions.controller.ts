@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Post, Put, Query } from '@nestjs/common'
 
 import { PermissionsService } from './permissions.service';
 
-import { Authorize } from 'src/common/interceptors/authorize.interceptor';
+import { Authenticate } from 'src/common/interceptors/authenticate.interceptor';
 
 import { PutPermissionReqDto } from './dto/req/putRole.req.dto';
 import { GetPermissionReqDto } from './dto/req/getPermission.req.dto';
@@ -10,7 +10,7 @@ import { PostPermissionReqDto } from './dto/req/postPermission.req.dto';
 import { DeletePermissionReqDto } from './dto/req/deletePermission.req.dto';
 import { GetPermissionsListReqDto } from './dto/req/getPermissionsList.req.dto';
 
-@Authorize()
+@Authenticate()
 @Controller({ version: '1' })
 export class PermissionsController {
   constructor(private readonly permissionsService: PermissionsService) {}

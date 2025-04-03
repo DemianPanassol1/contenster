@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Query, Put, Delete } from '@nestjs/common';
 
 import { EmailSettingService } from './emailSetting.service';
-import { Authorize } from 'src/common/interceptors/authorize.interceptor';
+import { Authenticate } from 'src/common/interceptors/authenticate.interceptor';
 
 import { GetEmailSettingReqDto } from './dto/req/getEmailSetting.req.dto';
 import { PutEmailSettingReqDto } from './dto/req/putEmailSetting.req.dto';
@@ -9,7 +9,7 @@ import { PostEmailSettingReqDto } from './dto/req/postEmailSetting.req.dto';
 import { DeleteEmailSettingReqDto } from './dto/req/deleteEmailSetting.req.dto';
 import { GetEmailSettingListReqDto } from './dto/req/getEmailSettingList.req.dto';
 
-@Authorize()
+@Authenticate()
 @Controller({ version: '1' })
 export class EmailSettingController {
   constructor(private readonly emailSettingService: EmailSettingService) {}

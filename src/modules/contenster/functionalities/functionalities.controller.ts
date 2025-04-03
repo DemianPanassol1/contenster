@@ -3,7 +3,7 @@ import { Body, Controller, Delete, Get, Post, Put, Query, Req } from '@nestjs/co
 
 import { FunctionalitiesService } from './functionalities.service';
 
-import { Authorize } from 'src/common/interceptors/authorize.interceptor';
+import { Authenticate } from 'src/common/interceptors/authenticate.interceptor';
 
 import { GetFunctionalityReqDto } from './dto/req/getFunctionality.req.dto';
 import { PutFunctionalityReqDto } from './dto/req/putFunctionality.req.dto';
@@ -11,7 +11,7 @@ import { PostFunctionalityReqDto } from './dto/req/postFunctionality.req.dto';
 import { DeleteFunctionalityReqDto } from './dto/req/deleteFunctionality.req.dto';
 import { GetFunctionalitiesListReqDto } from './dto/req/getFunctionalitiesList.req.dto';
 
-@Authorize()
+@Authenticate()
 @Controller({ version: '1' })
 export class FunctionalitiesController {
   constructor(private readonly functionalitiesService: FunctionalitiesService) {}
