@@ -1,13 +1,3 @@
-export enum PermissionType {
-  general = 'general',
-  establishment = 'establishment',
-}
-
-export enum DocumentType {
-  cpf = 'cpf',
-  cnpj = 'cnpj',
-}
-
 export enum Order {
   ASC = 'ASC',
   DESC = 'DESC',
@@ -34,18 +24,4 @@ export enum Operation {
   NOT_LIKE = 'NOT_LIKE',
   IS_NULL = 'IS_NULL',
   IS_NOT_NULL = 'IS_NOT_NULL',
-}
-
-export enum LoglevelType {
-  info = 'info',
-  warning = 'warning',
-  error = 'error',
-  fatal = 'fatal',
-}
-
-export enum EmailPurpose {
-  RESET_PASSWORD = 'reset-password',
-  VERIFY_EMAIL = 'verify-email',
-  CONTACT = 'contact',
-  WELCOME = 'welcome',
 }

@@ -16,11 +16,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 
 import { CoreInterceptor } from 'src/core/core.interceptor';
-import { LoglevelType } from 'src/shared/enums/common.enums';
 import { miliToString } from 'src/shared/utils/convertion.utils';
 import { ErrorItem, ResponseFormat } from 'src/shared/types/api.types';
 import { environment, typeormErrors } from 'src/config/constants/constants.config';
-import { RequestLog } from 'src/entities/contensterdb/requestLog.entity';
+import { LoglevelType, RequestLog } from 'src/entities/contensterdb/requestLog.entity';
 
 @Injectable()
 export class ResponseInterceptor extends CoreInterceptor implements NestInterceptor {

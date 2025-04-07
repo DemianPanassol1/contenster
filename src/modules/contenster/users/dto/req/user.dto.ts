@@ -10,8 +10,8 @@ import {
 } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
 
-import { PermissionType } from 'src/shared/enums/common.enums';
 import { parseBool, parseNum } from 'src/shared/utils/convertion.utils';
+import { PermissionType } from 'src/entities/contensterdb/permission.entity';
 
 class UserEstablishmentRole {
   @Transform(parseNum)

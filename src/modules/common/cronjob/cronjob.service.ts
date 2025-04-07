@@ -4,9 +4,9 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 
 import { CoreService } from 'src/core/core.service';
 import { CronJobRepository } from './cronjob.repository';
-import { LoglevelType } from 'src/shared/enums/common.enums';
 import { miliToString } from 'src/shared/utils/convertion.utils';
 import { CronJobLog } from 'src/entities/contensterdb/cronjobLog.entity';
+import { LoglevelType } from 'src/entities/contensterdb/requestLog.entity';
 
 @Injectable()
 export class CronJobService extends CoreService {

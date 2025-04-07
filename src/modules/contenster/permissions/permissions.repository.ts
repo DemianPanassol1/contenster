@@ -4,9 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { I18nService, I18nContext } from 'nestjs-i18n';
 
 import { CoreRepository } from 'src/core/core.repository';
+import { Permission, PermissionType } from 'src/entities/contensterdb/permission.entity';
 
-import { PermissionType } from 'src/shared/enums/common.enums';
-import { Permission } from 'src/entities/contensterdb/permission.entity';
 import { GetPermissionsListReqDto } from './dto/req/getPermissionsList.req.dto';
 
 @Injectable()

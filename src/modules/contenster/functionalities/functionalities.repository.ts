@@ -4,10 +4,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 
 import { CoreRepository } from 'src/core/core.repository';
-import { PermissionType } from 'src/shared/enums/common.enums';
-import { Permission } from 'src/entities/contensterdb/permission.entity';
 import { Translation } from 'src/entities/contensterdb/translation.entity';
 import { Functionality } from 'src/entities/contensterdb/functionality.entity';
+import { Permission, PermissionType } from 'src/entities/contensterdb/permission.entity';
 
 import { GetFunctionalitiesListReqDto } from './dto/req/getFunctionalitiesList.req.dto';
 

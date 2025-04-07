@@ -1,4 +1,4 @@
-import { PermissionType } from '../enums/common.enums';
+import { PermissionType } from 'src/entities/contensterdb/permission.entity';
 
 export interface ErrorItem {
   id: string;

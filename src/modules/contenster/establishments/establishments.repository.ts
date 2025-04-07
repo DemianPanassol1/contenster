@@ -4,14 +4,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { CoreRepository } from 'src/core/core.repository';
-import { PermissionType } from 'src/shared/enums/common.enums';
 
 import { Role } from 'src/entities/contensterdb/role.entity';
 import { Module } from 'src/entities/contensterdb/module.entity';
-import { Permission } from 'src/entities/contensterdb/permission.entity';
 import { Translation } from 'src/entities/contensterdb/translation.entity';
 import { Establishment } from 'src/entities/contensterdb/establishment.entity';
 import { Functionality } from 'src/entities/contensterdb/functionality.entity';
+import { Permission, PermissionType } from 'src/entities/contensterdb/permission.entity';
 import { UserEstablishmentRole } from 'src/entities/contensterdb/userEstablishmentRole.entity';
 
 import { GetEstablishmentsListReqDto } from './dto/req/getEstablishmentsList.req.dto';

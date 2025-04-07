@@ -4,10 +4,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 
 import { CoreRepository } from 'src/core/core.repository';
-import { EmailPurpose, PermissionType } from 'src/shared/enums/common.enums';
 
 import { Translation } from 'src/entities/contensterdb/translation.entity';
-import { EmailSetting } from 'src/entities/contensterdb/emailSetting.entity';
+import { PermissionType } from 'src/entities/contensterdb/permission.entity';
+import { EmailPurpose, EmailSetting } from 'src/entities/contensterdb/emailSetting.entity';
 
 import { GetEmailSettingListReqDto } from './dto/req/getEmailSettingList.req.dto';
 

@@ -3,7 +3,7 @@ import { IsEnum, IsNumber, ValidateIf } from 'class-validator';
 
 import { parseNum } from 'src/shared/utils/convertion.utils';
 import { OptionsReqDto } from 'src/shared/dtos/options.req.dto';
-import { PermissionType } from 'src/shared/enums/common.enums';
+import { PermissionType } from 'src/entities/contensterdb/permission.entity';
 
 export class GetPermissionsListReqDto extends OptionsReqDto {
   @Transform(parseNum)

@@ -1,6 +1,11 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
 
-import { LoglevelType } from 'src/shared/enums/common.enums';
+export enum LoglevelType {
+  info = 'info',
+  warning = 'warning',
+  error = 'error',
+  fatal = 'fatal',
+}
 
 @Entity()
 export class RequestLog {

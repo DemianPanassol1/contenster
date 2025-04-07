@@ -4,11 +4,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { CoreRepository } from 'src/core/core.repository';
-import { LoglevelType } from 'src/shared/enums/common.enums';
 
 import { Image } from 'src/entities/contensterdb/image.entity';
 import { CronJobLog } from 'src/entities/contensterdb/cronjobLog.entity';
-import { RequestLog } from 'src/entities/contensterdb/requestLog.entity';
+import { LoglevelType, RequestLog } from 'src/entities/contensterdb/requestLog.entity';
 
 @Injectable()
 export class CronJobRepository extends CoreRepository {

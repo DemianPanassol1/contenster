@@ -10,9 +10,10 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
-import { TranslationDto } from 'src/shared/dtos/translate.req.dto';
 
-import { EmailPurpose } from 'src/shared/enums/common.enums';
+import { TranslationDto } from 'src/shared/dtos/translate.req.dto';
+import { EmailPurpose } from 'src/entities/contensterdb/emailSetting.entity';
+
 import { parseBool, parseNum } from 'src/shared/utils/convertion.utils';
 
 export class EmailSettingDto {

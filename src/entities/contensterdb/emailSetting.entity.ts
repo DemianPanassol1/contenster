@@ -11,7 +11,13 @@ import {
 
 import { Translation } from './translation.entity';
 import { Establishment } from './establishment.entity';
-import { EmailPurpose } from 'src/shared/enums/common.enums';
+
+export enum EmailPurpose {
+  RESET_PASSWORD = 'reset-password',
+  VERIFY_EMAIL = 'verify-email',
+  CONTACT = 'contact',
+  WELCOME = 'welcome',
+}
 
 @Entity()
 export class EmailSetting {

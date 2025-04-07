@@ -15,7 +15,10 @@ import { Module } from './module.entity';
 import { EmailSetting } from './emailSetting.entity';
 import { UserEstablishmentRole } from './userEstablishmentRole.entity';
 
-import { DocumentType } from 'src/shared/enums/common.enums';
+export enum DocumentType {
+  cpf = 'cpf',
+  cnpj = 'cnpj',
+}
 @Entity()
 export class Establishment {
   @PrimaryGeneratedColumn()

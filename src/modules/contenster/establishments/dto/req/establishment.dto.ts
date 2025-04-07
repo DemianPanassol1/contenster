@@ -1,7 +1,7 @@
 import { Transform } from 'class-transformer';
 import { IsEmail, IsEnum, IsNotEmpty, IsNumber, IsString, ValidateIf } from 'class-validator';
 
-import { DocumentType } from 'src/shared/enums/common.enums';
+import { DocumentType } from 'src/entities/contensterdb/establishment.entity';
 
 import { parseNum } from 'src/shared/utils/convertion.utils';
 

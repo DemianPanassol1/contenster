@@ -4,7 +4,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { CoreRepository } from 'src/core/core.repository';
-import { PermissionType } from 'src/shared/enums/common.enums';
 
 import { GetUsersListReqDto } from './dto/req/getUsersList.req.dto';
 
@@ -12,6 +11,7 @@ import { User } from 'src/entities/contensterdb/user.entity';
 import { Image } from 'src/entities/contensterdb/image.entity';
 import { Language } from 'src/entities/contensterdb/language.entity';
 import { Preference } from 'src/entities/contensterdb/preference.entity';
+import { PermissionType } from 'src/entities/contensterdb/permission.entity';
 import { UserEstablishmentRole } from 'src/entities/contensterdb/userEstablishmentRole.entity';
 
 @Injectable()

@@ -1,8 +1,8 @@
 import { Transform } from 'class-transformer';
 import { IsBoolean, IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
 
-import { PermissionType } from 'src/shared/enums/common.enums';
 import { parseBool, parseNum } from 'src/shared/utils/convertion.utils';
+import { PermissionType } from 'src/entities/contensterdb/permission.entity';
 
 export class PermissionDto {
   @Transform(parseNum)

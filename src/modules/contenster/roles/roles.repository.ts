@@ -5,11 +5,10 @@ import { I18nContext, I18nService } from 'nestjs-i18n';
 
 import { CoreRepository } from 'src/core/core.repository';
 import { Role } from 'src/entities/contensterdb/role.entity';
-import { PermissionType } from 'src/shared/enums/common.enums';
 
 import { GetRolesListReqDto } from './dto/req/getRolesList.req.dto';
-import { Permission } from 'src/entities/contensterdb/permission.entity';
 import { Translation } from 'src/entities/contensterdb/translation.entity';
+import { Permission, PermissionType } from 'src/entities/contensterdb/permission.entity';
 import { UserEstablishmentRole as UER } from 'src/entities/contensterdb/userEstablishmentRole.entity';
 
 @Injectable()

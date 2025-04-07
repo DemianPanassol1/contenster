@@ -9,8 +9,8 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import variables from 'src/settings';
 import { AuthRepository } from './auth.repository';
 import { CoreService } from 'src/core/core.service';
-import { EmailPurpose } from 'src/shared/enums/common.enums';
 import { defaultLanguage } from 'src/config/constants/constants.config';
+import { EmailPurpose } from 'src/entities/contensterdb/emailSetting.entity';
 
 import { SignInUserReqDto } from './dto/req/signIn.req.dto';
 import { ResetPasswordReqDto } from './dto/req/resetPassword.req.dto';

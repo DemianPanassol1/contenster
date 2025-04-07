@@ -4,12 +4,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 
 import { CoreRepository } from 'src/core/core.repository';
-import { PermissionType } from 'src/shared/enums/common.enums';
 
 import { GetModulesListReqDto } from './dto/req/getModulesList.req.dto';
 
 import { Module } from 'src/entities/contensterdb/module.entity';
 import { Translation } from 'src/entities/contensterdb/translation.entity';
+import { PermissionType } from 'src/entities/contensterdb/permission.entity';
 
 @Injectable()
 export class ModulesRepository extends CoreRepository {
