@@ -1,7 +1,7 @@
 {
   "SSL": true,
   "PORT": 8080,
-  "HOST": "contenster.com",
+  "HOST": "www.contenster.com",
   "COOKIE_NAME": "nB7L4WHA",
   "COOKIE_KEY": "M8NQBtXQtG5r35bJtCFPGS8NdEKrWC9VwEHNag5mTZPGdFS9m2SRggk9ZKNS",
   "JWT_TOKEN": "R9bXmBkYrNR8UJE18GsV8dNDQz5yUBBFBScMm5QZm8vmcwAwG3nfaV6F2z58",
