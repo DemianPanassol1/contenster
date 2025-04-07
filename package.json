@@ -6,12 +6,20 @@
   "private": true,
   "license": "CC BY-NC-SA 4.0",
   "scripts": {
-    "build": "sh ./scripts/build.sh",
+    "build:server": "nest build",
+    "build:client": "yarn --cwd client build",
+    "app:build": "bash ./scripts/build.sh",
     "typeorm": "npx typeorm-ts-node-commonjs",
-    "format": "prettier --write \"src/**/*.ts\"",
-    "lint": "eslint --fix \"{src,apps,libs,test}/**/*.ts\"",
-    "start": "cross-env NODE_ENV=production node dist/main.js",
-    "start:dev": "cross-env NODE_ENV=development nest start --watch"
+    "lint": "eslint \"src/**/*.ts\"",
+    "lint:fix": "eslint \"src/**/*.ts\" --fix",
+    "prettier:write": "prettier --write \"src/**/*.ts\"",
+    "start:dev": "cross-env NODE_ENV=development node dist/main.js",
+    "start:stg": "cross-env NODE_ENV=staging node dist/main.js",
+    "start:prod": "cross-env NODE_ENV=production node dist/main.js",
+    "nest:start:dev": "cross-env NODE_ENV=development nest start --watch",
+    "nest:start:stg": "cross-env NODE_ENV=staging nest start --watch",
+    "nest:start:prod": "cross-env NODE_ENV=production nest start --watch",
+    "dev": "yarn nest:start:dev"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.12",

@@ -122,9 +122,9 @@ if [ $pm2_choice -eq 0 ]; then
     app_version=$(cat "./package.json" | grep -E '"version"\s*:' | awk -F': ' '{print $2}' | tr -d ',"[:space:]')
 
     if pm2 list | grep -q "$app_name-$app_version"; then
-        NODE_ENV=$mode pm2 reload "$app_name-$app_version"
+        cross-env NODE_ENV=$mode pm2 reload "$app_name-$app_version"
     else
-        NODE_ENV=$mode pm2 start dist/main.js --name "$app_name-$app_version"
+        cross-env NODE_ENV=$mode pm2 start dist/main.js --name "$app_name-$app_version"
     fi
 
     clear
