@@ -1,6 +1,5 @@
 import { join } from 'path';
 import helmet from 'helmet';
-import enforce from 'express-sslify';
 import compression from 'compression';
 import session from 'express-session';
 import { NestFactory } from '@nestjs/core';
@@ -34,6 +33,8 @@ import { dbOptions, environment, HTTPS } from './config/constants/constants.conf
     logger: WinstonModule.createLogger({ instance: winstonInstance }),
   });
 
+  app.set('trust proxy', 1);
+
   app.enableCors();
   app.enableVersioning({ type: VersioningType.URI });
 
@@ -44,10 +45,6 @@ import { dbOptions, environment, HTTPS } from './config/constants/constants.conf
   app.useGlobalFilters(new I18nValidationExceptionFilter());
 
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
-
-  if (HTTPS) {
-    app.use(enforce.HTTPS({ trustProtoHeader: false }));
-  }
 
   app.use((req: Request, res: Response, next: NextFunction) => {
     helmet({
