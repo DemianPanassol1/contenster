@@ -1,7 +1,8 @@
 ### Comando para permitir a execução dos scripts:
 
 ```
-chmod +x ./scripts/\*.sh
+chmod +x ./scripts/build.sh
+chmod +x ./scripts/common.sh
 ```
 
 O projeto possui 3 scripts:

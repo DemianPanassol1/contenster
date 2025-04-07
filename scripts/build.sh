@@ -39,6 +39,19 @@ case $mode_choice in
     ;;
 esac
 
+# Stop the application in pm2 before building the server
+echo -e "\n${YELLOW}${BOLD}### Stopping application in pm2 (if running)...${RESET}"
+
+app_name=$(cat "./package.json" | grep -E '"name"\s*:' | awk -F': ' '{print $2}' | tr -d ',"[:space:]')
+app_version=$(cat "./package.json" | grep -E '"version"\s*:' | awk -F': ' '{print $2}' | tr -d ',"[:space:]')
+
+if pm2 list | grep -q "$app_name-$app_version"; then
+    pm2 stop "$app_name-$app_version"
+    echo -e "\n${GREEN}${BOLD}### Application stopped successfully ###${RESET}"
+else
+    echo -e "\n${YELLOW}${BOLD}### Application not running in pm2 ###${RESET}"
+fi
+
 echo -e "\n${YELLOW}${BOLD}### Installing server dependencies...${RESET}"
 yarn install
 
