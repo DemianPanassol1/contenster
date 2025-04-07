@@ -146,10 +146,7 @@ const IconPicker: React.FC<IconPickerProps> = ({ selectedIcon, setIconValue }) =
             ))
           ) : iconList.length ? (
             iconList.map((item: { name: string; path: string }) => (
-              <Grid
-                item
-                key={item.name}
-              >
+              <Grid key={item.name}>
                 <MenuItem
                   title={item.name}
                   selected={selectedIcon === item.path}
