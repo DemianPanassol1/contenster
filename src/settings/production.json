@@ -1,7 +1,7 @@
 {
-  "SSL": false,
+  "SSL": true,
   "PORT": 8080,
-  "HOST": "localhost",
+  "HOST": "147.93.70.149:8080",
   "COOKIE_NAME": "nB7L4WHA",
   "COOKIE_KEY": "M8NQBtXQtG5r35bJtCFPGS8NdEKrWC9VwEHNag5mTZPGdFS9m2SRggk9ZKNS",
   "JWT_TOKEN": "R9bXmBkYrNR8UJE18GsV8dNDQz5yUBBFBScMm5QZm8vmcwAwG3nfaV6F2z58",
@@ -11,11 +11,21 @@
   "DATABASES": [
     {
       "DB_PORT": 5432,
-      "DB_USERNAME": "postgres",
-      "DB_PASSWORD": "admin",
+      "DB_USERNAME": "contenster",
+      "DB_PASSWORD": "4ck^MQd!",
       "DB_HOST": "localhost",
       "DB_NAME": "contensterdb",
       "FOLDER_NAME": "contensterdb",
+      "DB_TYPE": "postgres",
+      "SINCRONIZE": false
+    },
+    {
+      "DB_PORT": 5432,
+      "DB_USERNAME": "contenster",
+      "DB_PASSWORD": "4ck^MQd!",
+      "DB_HOST": "localhost",
+      "DB_NAME": "portfoliodb",
+      "FOLDER_NAME": "portfoliodb",
       "DB_TYPE": "postgres",
       "SINCRONIZE": false
     }
