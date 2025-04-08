@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import path from 'path';
 import sharp from 'sharp';
 import { Request } from 'express';
 import { readdir } from 'fs/promises';
@@ -145,7 +146,7 @@ export class AdminService extends CoreService {
       newName: file.filename,
       mimeType: file.mimetype,
       originalName: file.originalname,
-      filePath: file.path.split('\\').slice(-3).join('/'),
+      filePath: path.normalize(file.path).split(path.sep).slice(-3).join('/'),
     });
 
     Object.assign(response, {
