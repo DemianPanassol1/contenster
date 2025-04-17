@@ -4,6 +4,8 @@ import { IconButton } from '@mui/material';
 
 import CloseIcon from '@mui/icons-material/Close';
 
+import strings from '@/strings';
+
 const useToast = () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
@@ -14,8 +16,7 @@ const useToast = () => {
     },
     action: (snackId) => (
       <IconButton
-        title="Fechar mensagem"
-        aria-label="close snackbar"
+        title={strings.actions.closeSnackbar}
         onClick={() => closeSnackbar(snackId)}
       >
         <CloseIcon />

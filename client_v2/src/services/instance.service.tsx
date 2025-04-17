@@ -8,6 +8,7 @@ import {
   APP_TOKEN_EXP,
   SESSION_STATE,
   SESSION_EXPIRED_EVENT,
+  SESSION_EXPIRED_EVENT_DETAIL,
 } from '@/utils/consts.util';
 
 const ENV = process.env.NODE_ENV;
@@ -128,7 +129,7 @@ const apiInstance = async <T,>(
 
       window.dispatchEvent(
         new CustomEvent(SESSION_EXPIRED_EVENT, {
-          detail: 'Session expired due to unauthorized or forbidden access',
+          detail: SESSION_EXPIRED_EVENT_DETAIL,
         })
       );
     }
@@ -155,27 +156,27 @@ const apiInstance = async <T,>(
     }
 
     return data.body;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      if (error.name.toLowerCase() === 'aborterror') {
+        const clientTimeoutError: ErrorObject = {
+          id: uuidv4(),
+          code: 408,
+          errorType: 'ClientTimeoutError',
+          message: 'Request timed out',
+        };
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    if (error.name.toLowerCase() === 'aborterror') {
-      const clientTimeoutError: ErrorObject = {
-        id: uuidv4(),
-        code: 408,
-        errorType: 'ClientTimeoutError',
-        message: 'Request timed out',
-      };
-
-      throw new Error(JSON.stringify(Array(clientTimeoutError)));
-    } else if (error instanceof Error) {
-      throw new Error(error.message);
+        throw new Error(JSON.stringify(Array(clientTimeoutError)));
+      } else {
+        throw new Error(error.message);
+      }
     }
 
     const clientUnknownError: ErrorObject = {
       id: uuidv4(),
       code: 500,
       errorType: 'ClientUnknownError',
-      message: `An unknown error occurred: ${error.message}`,
+      message: `An unknown error occurred: ${String(error)}`,
     };
 
     throw new Error(JSON.stringify(Array(clientUnknownError)));

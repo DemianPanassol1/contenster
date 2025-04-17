@@ -1,9 +1,12 @@
-import apiInstance from './instance.service';
+import apiInstance from '@/services/instance.service';
 
 import {
   ERRORS_STATE,
   LOADING_STATE,
+  ERROR_STATE_CHANGED_EVENT,
   LOADING_STATE_CHANGED_EVENT,
+  ERROR_STATE_CHANGED_EVENT_DETAIL,
+  LOADING_STATE_CHANGED_EVENT_DETAIL,
 } from '@/utils/consts.util';
 
 const dispatchLoadingStateEvent = (state: boolean) => {
@@ -11,7 +14,7 @@ const dispatchLoadingStateEvent = (state: boolean) => {
 
   window.dispatchEvent(
     new CustomEvent(LOADING_STATE_CHANGED_EVENT, {
-      detail: 'Loading state changed',
+      detail: LOADING_STATE_CHANGED_EVENT_DETAIL,
     })
   );
 };
@@ -20,8 +23,8 @@ const dispathchErrorStateEvent = (error: string) => {
   sessionStorage.setItem(ERRORS_STATE, error);
 
   window.dispatchEvent(
-    new CustomEvent('errorStateChanged', {
-      detail: 'Error state changed',
+    new CustomEvent(ERROR_STATE_CHANGED_EVENT, {
+      detail: ERROR_STATE_CHANGED_EVENT_DETAIL,
     })
   );
 };
@@ -35,10 +38,10 @@ const handleGetRequest = async <T,>(endpoint: string) => {
     });
 
     return response;
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    dispathchErrorStateEvent(error.message);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      dispathchErrorStateEvent(error.message);
+    }
   } finally {
     dispatchLoadingStateEvent(false);
   }
@@ -59,10 +62,10 @@ const handlePostRequest = async <T,>(
     });
 
     return response;
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    dispathchErrorStateEvent(error.message);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      dispathchErrorStateEvent(error.message);
+    }
   } finally {
     dispatchLoadingStateEvent(false);
   }
@@ -83,10 +86,10 @@ const handlePutRequest = async <T,>(
     });
 
     return response;
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    dispathchErrorStateEvent(error.message);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      dispathchErrorStateEvent(error.message);
+    }
   } finally {
     dispatchLoadingStateEvent(false);
   }
@@ -101,10 +104,10 @@ const handleDeleteRequest = async <T,>(endpoint: string) => {
     });
 
     return response;
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    dispathchErrorStateEvent(error.message);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      dispathchErrorStateEvent(error.message);
+    }
   } finally {
     dispatchLoadingStateEvent(false);
   }
