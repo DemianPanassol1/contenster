@@ -10,16 +10,18 @@ type ColumnType =
 type Theme = 'light' | 'dark';
 type DocumentType = 'cpf' | 'cnpj';
 type PermissionType = 'general' | 'establishment';
+type CustomHTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'POST/FILE';
+type LanguagesCode = 'pt' | 'en' | 'es';
 
 interface GlobalState {
   loading: boolean;
   theme: Theme;
   drawerState: boolean;
-  dialogState: boolean;
+  dialogState: boolean | string;
 }
 
 interface GlobalSubmitProps {
-  type: HTTPMethod & 'POST/FILE';
+  type: CustomHTTPMethod;
   endpoint: string;
   body?: object;
   message?: string | boolean;
@@ -97,4 +99,22 @@ interface Permission {
 interface HomePage {
   redirect: boolean;
   homePage: string;
+}
+
+interface UploadedFile {
+  id: number;
+  size: string;
+  width: string;
+  height: string;
+  newName: string;
+  mimeType: string;
+  originalName: string;
+  filePath: string;
+}
+
+interface Language {
+  id: number;
+  code: string;
+  name: string;
+  icon: string;
 }

@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { jwtDecode } from 'jwt-decode';
 
-import config from '../config/settings.config.json';
+import config from '@config';
 
 import {
   APP_TOKEN,

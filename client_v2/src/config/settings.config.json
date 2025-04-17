@@ -3,5 +3,26 @@
   "API_PASSWORD": "RDBwdsT5J7Z8XPkh",
   "API_BASE_URL": "http://localhost:8080",
   "API_TIMEOUT": 5000,
-  "DEFAULT_LANGUAGE": "pt"
+  "DEFAULT_LANGUAGE": "pt",
+  "PROJECT_NAME": "CMS Contenster",
+  "LANGUAGES": [
+    {
+      "id": 1,
+      "name": "Português",
+      "code": "pt",
+      "icon": "/icons/brazil.svg"
+    },
+    {
+      "id": 2,
+      "name": "Inglês",
+      "code": "en",
+      "icon": "/icons/usa.svg"
+    },
+    {
+      "id": 3,
+      "name": "Espanhol",
+      "code": "es",
+      "icon": "/icons/spain.svg"
+    }
+  ]
 }

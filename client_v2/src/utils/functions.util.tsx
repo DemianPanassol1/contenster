@@ -4,6 +4,8 @@
 
 import { UseFormSetValue } from 'react-hook-form';
 
+import { HOMEPAGE_STATE, SESSION_STATE } from '@/utils/consts.util';
+
 const formatStringToMask = (string: string, mask: string): string => {
   if (!mask || !string) return string;
 
@@ -101,4 +103,18 @@ const buildReqFilter = ({
   };
 };
 
-export { buildReqFilter, formatStringToMask, handlePopulateFields };
+const setSession = (session: Session): void => {
+  sessionStorage.setItem(SESSION_STATE, JSON.stringify(session));
+};
+
+const setHomePage = (homePage: HomePage): void => {
+  sessionStorage.setItem(HOMEPAGE_STATE, JSON.stringify(homePage));
+};
+
+export {
+  setSession,
+  setHomePage,
+  buildReqFilter,
+  formatStringToMask,
+  handlePopulateFields,
+};

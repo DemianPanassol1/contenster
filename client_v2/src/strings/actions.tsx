@@ -22,4 +22,8 @@ export default {
   redeemPassword: 'Redefinir senha',
   changeEstablishment: 'Trocar estabelecimento',
   closeSnackbar: 'Fechar mensagem',
+  create: 'Criar',
+  filter: 'Filtrar',
+  clearFilter: 'Limpar filtro',
+  actions: 'Ações',
 };

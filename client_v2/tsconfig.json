@@ -24,7 +24,8 @@
       "@themes/*": ["src/themes/*"],
       "@contexts/*": ["src/contexts/*"],
       "@services/*": ["src/services/*"],
-      "@components/*": ["src/components/*"]
+      "@components/*": ["src/components/*"],
+      "@config": ["src/config/settings.config.json"]
     }
   },
   "include": ["src"],

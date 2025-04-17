@@ -3,7 +3,7 @@ export const LOADING_STATE = 'loading';
 export const SESSION_STATE = 'session';
 export const APP_TOKEN = 'app_token';
 export const APP_TOKEN_EXP = 'app_token_exp';
-export const HOME_PAGE_STATE = 'home_page';
+export const HOMEPAGE_STATE = 'home_page';
 
 export const SESSION_EXPIRED_EVENT = 'sessionExpired';
 export const LOADING_STATE_CHANGED_EVENT = 'loadingStateChanged';
