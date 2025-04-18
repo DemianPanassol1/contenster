@@ -142,3 +142,8 @@ interface ModuleList {
   positon: number;
   functionalities: Array<Functionalities>;
 }
+
+interface SelectOption {
+  value: string;
+  label: string;
+}

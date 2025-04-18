@@ -13,6 +13,7 @@ import {
   handlePutRequest,
 } from '@/services/client.service';
 import { useToast } from '@/hooks/toast.hook';
+import { useMobileScreen } from '@/hooks/common.hook';
 
 import strings from '@/strings';
 
@@ -30,6 +31,10 @@ interface GlobalProviderProps {
 }
 
 const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
+  const isMobile = useMobileScreen();
+
+  initialState.drawerState = !isMobile;
+
   const [state, setState] = React.useState<GlobalState>(initialState);
 
   const { infoMessage, errorMessage, warnMessage, successMessage } = useToast();

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import {
   Theme,
   SxProps,
@@ -15,8 +13,7 @@ import { usePOST } from '@/hooks/swr.hook';
 import { buildReqFilter } from '@/utils/functions.util';
 
 interface Option {
-  label: string;
-  value: string | number;
+  data: Array<SelectOption>;
 }
 
 interface SelectProps {
@@ -25,10 +22,10 @@ interface SelectProps {
   controller: Control<FieldValues>;
   urlData?: string;
   disabled?: boolean;
-  fixedData?: Option[];
+  fixedData?: Array<SelectOption>;
   inputStyle?: SxProps<Theme>;
-  validation?: Record<string, any>;
-  bodyContent?: Record<string, any>;
+  validation?: Record<string, unknown>;
+  bodyContent?: Record<string, string | null>;
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -49,14 +46,16 @@ const Select: React.FC<SelectProps> = ({
   });
 
   const { data, refresh, isLoading } = !fixedData.length
-    ? usePOST<Array<Option>>(urlData, requestFilter)
+    ? usePOST<Option>(urlData, requestFilter)
     : { data: null, refresh: () => {}, isLoading: false };
 
   useEffect(() => {
     refresh();
   }, [urlData]);
 
-  const options: Option[] = [fixedData, data ?? []].flat().filter(Boolean);
+  const options: Array<SelectOption> = [fixedData, data?.data ?? []]
+    .flat()
+    .filter(Boolean);
 
   return (
     <Controller

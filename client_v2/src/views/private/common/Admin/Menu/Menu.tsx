@@ -1,13 +1,13 @@
 import {
-  Avatar,
   Box,
   Chip,
+  Avatar,
   Divider,
+  MenuItem,
+  useTheme,
+  Typography,
   ListItemIcon,
   Menu as MenuComponent,
-  MenuItem,
-  Typography,
-  useTheme,
 } from '@mui/material';
 import React, { useState, MouseEvent } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
@@ -17,11 +17,11 @@ import LockIcon from '@mui/icons-material/Lock';
 import PersonIcon from '@mui/icons-material/Person';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 
-import { useGlobalContext } from '@/contexts/global.context';
-import { useSession } from '@/hooks/session.hook';
 import routes from '@/routes';
-import { setSession } from '@/utils/functions.util';
 import strings from '@/strings';
+import { useSession } from '@/hooks/session.hook';
+import { setSession } from '@/utils/functions.util';
+import { useGlobalContext } from '@/contexts/global.context';
 
 const Menu: React.FC = () => {
   const {
@@ -45,7 +45,7 @@ const Menu: React.FC = () => {
       endpoint: routes.CONTENSTER.GLOBAL.SIGN_OUT,
       message: false,
       onSuccess: () => {
-        setTimeout(() => setSession(null), 500);
+        setSession(null);
       },
     });
   };

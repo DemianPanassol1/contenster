@@ -13,6 +13,7 @@ module.exports = {
       '@services': path.resolve(__dirname, 'src/services'),
       '@components': path.resolve(__dirname, 'src/components'),
       '@config': path.resolve(__dirname, 'src/config/settings.config.json'),
+      '@assets': path.resolve(__dirname, 'src/assets'),
     },
   },
 };

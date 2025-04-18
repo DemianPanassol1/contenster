@@ -8,7 +8,26 @@ import darkTheme from '@/themes/dark.theme';
 import lightTheme from '@/themes/light.theme';
 import { useGlobalContext } from '@/contexts/global.context';
 
-const router = createBrowserRouter([]);
+import Error from '@/views/general/Error';
+import Auth from '@/views/public/common/Auth';
+import Admin from '@/views/private/common/Admin';
+
+import publicContensterViews from '@/views/public/contenster';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Admin />,
+    errorElement: <Error />,
+    children: [],
+  },
+  {
+    path: '/auth',
+    element: <Auth />,
+    errorElement: <Error />,
+    children: [...publicContensterViews],
+  },
+]);
 
 const App: React.FC = () => {
   const {
@@ -17,10 +36,7 @@ const App: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
-      <AnimatePresence
-        mode="wait"
-        initial={false}
-      >
+      <AnimatePresence>
         <RouterProvider router={router} />
       </AnimatePresence>
       <CssBaseline />

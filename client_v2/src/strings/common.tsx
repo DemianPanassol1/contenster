@@ -42,4 +42,12 @@ export default {
     'Senha redefinida com sucesso! Você pode fazer login agora.',
   copyRight: (year: string) =>
     `Copyright © ${year}. Todos os direitos reservados`,
+  loggedSuccessfully: 'Logado com sucesso!',
+  forgotPassword: 'Esqueci minha senha',
+  emailSentSuccess: 'Email enviado com sucesso!',
+  resetPasswordButton: 'Redefinir senha',
+  resetPasswordText: 'Redefina sua senha para continuar',
+  createPasswordButton: 'Criar senha',
+  createPasswordText: (length: string) =>
+    `Crie uma senha com pelo menos ${length} caracteres`,
 };

@@ -25,7 +25,8 @@
       "@contexts/*": ["src/contexts/*"],
       "@services/*": ["src/services/*"],
       "@components/*": ["src/components/*"],
-      "@config": ["src/config/settings.config.json"]
+      "@config": ["src/config/settings.config.json"],
+      "@assets/*": ["src/assets/*"]
     }
   },
   "include": ["src"],

@@ -1,10 +1,9 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import { useSession } from '@/hooks/session.hook';
-
 
 const Auth: React.FC = () => {
   const session = useSession();

@@ -1,11 +1,10 @@
 import { Box } from '@mui/material';
 import React, { useEffect } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 
 import routes from '@/routes';
 import { useGET } from '@/hooks/swr.hook';
-import { useNavigate } from '@/hooks/router.hook';
 import { SESSION_EXPIRED_EVENT } from '@/utils/consts.util';
 import { useHomePage, useSession } from '@/hooks/session.hook';
 import { setHomePage, setSession } from '@/utils/functions.util';
@@ -17,13 +16,14 @@ import ChangePassword from './ChangePassword';
 import ChangeEstablishment from './ChangeEstablishment';
 
 const Admin: React.FC = () => {
+  const session = useSession();
+  const homePage = useHomePage();
   const navigate = useNavigate();
+
   const { data, isLoading } = useGET<Session>(
     routes.CONTENSTER.GLOBAL.GET_SYNC_USER,
     true
   );
-  const session = useSession();
-  const homePage = useHomePage();
 
   useEffect(() => {
     if (!isLoading && data) setSession(data);
@@ -40,9 +40,15 @@ const Admin: React.FC = () => {
   }, [homePage]);
 
   useEffect(() => {
-    const handleSessionExpired = () => navigate(0);
+    const handleSessionExpired = () => {
+      setTimeout(() => {
+        navigate('/auth/sign-in', { replace: true });
+      }, 50);
+    };
 
-    window.addEventListener(SESSION_EXPIRED_EVENT, handleSessionExpired);
+    window.addEventListener(SESSION_EXPIRED_EVENT, handleSessionExpired, {
+      once: true,
+    });
 
     return () => {
       window.removeEventListener(SESSION_EXPIRED_EVENT, handleSessionExpired);
@@ -50,12 +56,7 @@ const Admin: React.FC = () => {
   }, []);
 
   if (!session) {
-    return (
-      <Navigate
-        replace
-        to="/auth/sign-in"
-      />
-    );
+    return null;
   }
 
   return (

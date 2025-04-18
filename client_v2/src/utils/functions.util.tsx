@@ -1,6 +1,5 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable no-prototype-builtins */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { UseFormSetValue } from 'react-hook-form';
 
@@ -37,7 +36,7 @@ const formatStringToMask = (string: string, mask: string): string => {
 };
 
 const handlePopulateFields = (
-  setFields: UseFormSetValue<any>,
+  setFields: UseFormSetValue<any>, // eslint-disable-line
   fields: Record<string, unknown>,
   content: Record<string, unknown>
 ): void => {

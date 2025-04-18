@@ -1,10 +1,10 @@
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { Box, useTheme } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import React, { ReactNode, useEffect } from 'react';
 
 import strings from '@/strings';
-import { PROJECT_NAME } from '@config';
+import config from '@config';
 
 import PageChip from '@/components/PageChip';
 import { useRouteParams } from '@/hooks/router.hook';
@@ -58,7 +58,7 @@ const Page: React.FC<PageProps> = ({
     };
 
     const lastPathSegment = location.pathname.split('/').pop() || '';
-    return `${PROJECT_NAME} - ${pageTitleMap[lastPathSegment] ?? ''}`.trimEnd();
+    return `${config.PROJECT_NAME} - ${pageTitleMap[lastPathSegment] ?? ''}`.trimEnd();
   })();
 
   useEffect(() => {

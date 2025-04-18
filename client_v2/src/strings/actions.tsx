@@ -26,4 +26,5 @@ export default {
   filter: 'Filtrar',
   clearFilter: 'Limpar filtro',
   actions: 'Ações',
+  loginButton: 'Entrar',
 };

@@ -5,7 +5,6 @@ import {
   Button as ButtonComponent,
 } from '@mui/material';
 import React from 'react';
-import LoadingButton from '@mui/lab/LoadingButton';
 
 type ButtonTypes = 'button' | 'submit' | 'reset';
 type VariantTypes = 'text' | 'outlined' | 'contained';
@@ -34,7 +33,7 @@ const Button: React.FC<ButtonProps> = ({
   const theme = useTheme();
 
   return hasLoader ? (
-    <LoadingButton
+    <ButtonComponent
       fullWidth
       type={type}
       loading={loading}
@@ -48,7 +47,7 @@ const Button: React.FC<ButtonProps> = ({
       }}
     >
       {content}
-    </LoadingButton>
+    </ButtonComponent>
   ) : (
     <ButtonComponent
       fullWidth
