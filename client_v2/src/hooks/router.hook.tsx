@@ -19,9 +19,6 @@ const useNavigate = (): NavigateFunction => {
   return useCallback(
     (url?: string | number) => {
       if (typeof url === 'number') {
-        if (url !== -1 && url !== 1) {
-          throw new Error('Only -1 and 1 are allowed for history navigation.');
-        }
         return navigate(url);
       }
 

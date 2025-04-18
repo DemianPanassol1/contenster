@@ -7,9 +7,9 @@ import {
   DialogContentText,
 } from '@mui/material';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 
-import Button from '../../Button';
+import strings from '@/strings';
+import Button from '@/components/Button';
 
 interface DeleteDialogProps {
   open: { id: number } | null;
@@ -23,7 +23,6 @@ const DeleteDialog: React.FC<DeleteDialogProps> = ({
   onConfirm,
 }) => {
   const theme = useTheme();
-  const { t } = useTranslation(['common']);
 
   const handleOnConfirm = () => {
     if (open) onConfirm(open);
@@ -41,14 +40,14 @@ const DeleteDialog: React.FC<DeleteDialogProps> = ({
         id="delete-dialog-title"
         sx={{ fontWeight: theme.typography.fontWeightRegular }}
       >
-        {t('common:areYouSure')}
+        {strings.common.areYouSure}
       </DialogTitle>
       <DialogContent>
         <DialogContentText
           sx={{ fontWeight: theme.typography.fontWeightRegular }}
           id="delete-dialog-description"
         >
-          {t('common:deleteDialogMessage')}
+          {strings.common.deleteDialogMessage}
         </DialogContentText>
       </DialogContent>
       <DialogActions
@@ -62,12 +61,12 @@ const DeleteDialog: React.FC<DeleteDialogProps> = ({
           type="button"
           variant="text"
           onClick={onClose}
-          content={t('common:cancel')}
+          content={strings.actions.cancel}
         />
         <Button
           type="button"
           onClick={handleOnConfirm}
-          content={t('common:yesDeleteRecord')}
+          content={strings.common.yesDeleteRecord}
           customStyle={{
             textTransform: 'inherit',
             [theme.breakpoints.down('sm')]: {

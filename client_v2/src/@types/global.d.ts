@@ -34,7 +34,7 @@ interface GlobalContextProps {
   toggleLoading: () => void;
   toggleTheme: () => void;
   toggleDrawer: () => void;
-  toggleDialog: () => void;
+  toggleDialog: (dialog: string | null) => void;
   handleOnSubmit: (props: GlobalSubmitProps) => void;
 }
 
@@ -117,4 +117,28 @@ interface Language {
   code: string;
   name: string;
   icon: string;
+}
+
+interface Functionalities {
+  id: number;
+  slug: string;
+  title: string;
+  icon: string;
+  position: number;
+  moduleId: number;
+  permissions: {
+    id: number;
+    canRead: boolean;
+    canCreate: boolean;
+    canUpdate: boolean;
+    canDelete: boolean;
+    type: PermissionType;
+  };
+}
+
+interface ModuleList {
+  id: number;
+  title: string;
+  positon: number;
+  functionalities: Array<Functionalities>;
 }

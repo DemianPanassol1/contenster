@@ -4,6 +4,7 @@ import {
   SESSION_STATE,
   SESSION_EXPIRED_EVENT,
   SESSION_EXPIRED_EVENT_DETAIL,
+  HOMEPAGE_STATE,
 } from '@/utils/consts.util';
 
 const useSession = (): Session | null => {
@@ -48,4 +49,14 @@ const usePermission = (searchSlug?: string): Permission => {
   );
 };
 
-export { useSession, usePermission };
+const useHomePage = (): HomePage | null => {
+  const homePage = sessionStorage.getItem(HOMEPAGE_STATE);
+
+  if (!homePage) {
+    return null;
+  }
+
+  return JSON.parse(homePage) as HomePage;
+};
+
+export { useSession, usePermission, useHomePage };

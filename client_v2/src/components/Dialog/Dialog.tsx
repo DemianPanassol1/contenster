@@ -58,7 +58,7 @@ const Dialog: React.FC<DialogProps> = ({
   const theme = useTheme();
 
   const onCloseDialog = () => {
-    toggleDialog();
+    toggleDialog(null);
     onClose();
   };
 

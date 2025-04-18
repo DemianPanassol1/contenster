@@ -49,8 +49,8 @@ const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
     setState((prev) => ({ ...prev, drawerState: !prev.drawerState }));
   };
 
-  const toggleDialog = () => {
-    setState((prev) => ({ ...prev, dialogState: !prev.dialogState }));
+  const toggleDialog = (dialog: string | null) => {
+    setState((prev) => ({ ...prev, dialogState: dialog ?? false }));
   };
 
   const handleOnSubmit = async ({

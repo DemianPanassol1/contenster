@@ -4,7 +4,12 @@
 
 import { UseFormSetValue } from 'react-hook-form';
 
-import { HOMEPAGE_STATE, SESSION_STATE } from '@/utils/consts.util';
+import {
+  SESSION_STATE,
+  HOMEPAGE_STATE,
+  SESSION_EXPIRED_EVENT,
+  SESSION_EXPIRED_EVENT_DETAIL,
+} from '@/utils/consts.util';
 
 const formatStringToMask = (string: string, mask: string): string => {
   if (!mask || !string) return string;
@@ -103,7 +108,17 @@ const buildReqFilter = ({
   };
 };
 
-const setSession = (session: Session): void => {
+const setSession = (session: Session | null): void => {
+  if (!session) {
+    sessionStorage.removeItem(SESSION_STATE);
+
+    window.dispatchEvent(
+      new CustomEvent(SESSION_EXPIRED_EVENT, {
+        detail: SESSION_EXPIRED_EVENT_DETAIL,
+      })
+    );
+    return;
+  }
   sessionStorage.setItem(SESSION_STATE, JSON.stringify(session));
 };
 

@@ -28,4 +28,18 @@ export default {
   rowsPerPage: 'Linhas por página',
   of: 'de',
   all: 'Todos',
+  noRecordsFound: 'Nenhum registro encontrado',
+  yesDeleteRecord: 'Sim, excluir registro',
+  deleteDialogMessage: 'Você tem certeza que deseja excluir este registro?',
+  areYouSure: 'Você tem certeza?',
+  pageNotFoundTitle: 'Página não encontrada',
+  unexpectedErrorTitle: 'Erro inesperado',
+  pageNotFoundMessage:
+    'A página que você está procurando não existe ou foi movida.',
+  unexpectedErrorMessage:
+    'Ocorreu um erro inesperado. Por favor, tente novamente mais tarde.',
+  passwordResetSuccess:
+    'Senha redefinida com sucesso! Você pode fazer login agora.',
+  copyRight: (year: string) =>
+    `Copyright © ${year}. Todos os direitos reservados`,
 };
