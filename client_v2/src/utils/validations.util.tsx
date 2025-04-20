@@ -20,8 +20,14 @@ const passwordValidation = (minLength: number = 5, maxLength: number = 64) => ({
   },
 });
 
-const phoneValidation = (minLength: number = 10, maxLength: number = 15) => ({
-  required: strings.validations.phone.required,
+const phoneValidation = (
+  required: boolean = true,
+  minLength: number = 10,
+  maxLength: number = 15
+) => ({
+  ...(required && {
+    required: strings.validations.phone.required,
+  }),
   minLength: {
     value: minLength,
     message: strings.validations.phone.minLength(minLength.toString()),
@@ -30,10 +36,23 @@ const phoneValidation = (minLength: number = 10, maxLength: number = 15) => ({
     value: maxLength,
     message: strings.validations.phone.maxLength(maxLength.toString()),
   },
-  pattern: {
-    value: /^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/,
-    message: strings.validations.phone.pattern,
-  },
+  // validate: (value: string) => {
+  //   console.log(value);
+
+  //   const numeric = value.replace(/\D/g, '');
+
+  //   const ddd = numeric.substring(0, 2);
+  //   const phone = numeric.substring(2);
+
+  //   const isValidDDD = /^\d{2}$/.test(ddd);
+  //   const isValidPhone = phone.length === 8 || phone.length === 9;
+
+  //   if (numeric && (!isValidDDD || !isValidPhone)) {
+  //     return strings.validations.phone.pattern;
+  //   }
+
+  //   return true;
+  // },
 });
 
 const genericValidation = (maxLength: number = 75) => ({

@@ -108,6 +108,35 @@ const apiInstance = async <T,>(
     ...(options.headers || {}),
   });
 
+  let body = undefined;
+
+  const hasFile = Object.values(options.body ?? {}).some(
+    (value) => value instanceof File
+  );
+
+  if (hasFile) {
+    const formData = new FormData();
+
+    Object.entries(options?.body ?? {}).forEach(([key, value]) => {
+      if (value instanceof File) {
+        formData.append(key, value);
+      } else if (typeof value === 'object') {
+        formData.append(key, JSON.stringify(value));
+      } else {
+        formData.append(key, String(value));
+      }
+    });
+
+    body = formData;
+    headers.delete('Content-Type');
+  } else {
+    if (options.body && typeof options.body === 'object') {
+      body = JSON.stringify(options.body);
+    } else if (options.body && typeof options.body === 'string') {
+      body = options.body;
+    }
+  }
+
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), API_TIMEOUT);
 
@@ -117,7 +146,7 @@ const apiInstance = async <T,>(
     const res = await fetch(url, {
       method: options.method || 'GET',
       headers,
-      body: options.body ? JSON.stringify(options.body) : undefined,
+      body,
       signal: controller.signal,
     });
 

@@ -39,8 +39,8 @@ const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
 
   const { infoMessage, errorMessage, warnMessage, successMessage } = useToast();
 
-  const toggleLoading = (loading?: boolean) => {
-    setState((prev) => ({ ...prev, loading: loading || !prev.loading }));
+  const setLoading = (loading: boolean) => {
+    setState((prev) => ({ ...prev, loading: loading }));
   };
 
   const toggleTheme = () => {
@@ -82,11 +82,7 @@ const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
         case 'DELETE':
           response = await handleDeleteRequest(endpoint);
           break;
-        case 'POST/FILE':
-          response = await handlePostRequest(endpoint, body, {
-            'Content-Type': 'multipart/form-data',
-          });
-          break;
+
         default:
           throw new Error('Invalid request type');
       }
@@ -101,7 +97,6 @@ const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
               break;
 
             case 'POST':
-            case 'POST/FILE':
               successMessage(strings.common.registerSaved);
               break;
 
@@ -130,7 +125,7 @@ const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
   const value = useMemo(
     () => ({
       state,
-      toggleLoading,
+      setLoading,
       toggleTheme,
       toggleDrawer,
       toggleDialog,
@@ -143,7 +138,9 @@ const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
     const handleLoadingState = () => {
       const loadingState = sessionStorage.getItem(LOADING_STATE);
 
-      toggleLoading(loadingState ? JSON.parse(loadingState) : undefined);
+      if (!loadingState) return;
+
+      setLoading(JSON.parse(loadingState));
     };
 
     const handleErrorState = () => {

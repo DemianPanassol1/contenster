@@ -51,7 +51,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
       const file = event.target.files[0];
 
       handleOnSubmit({
-        type: 'POST/FILE',
+        type: 'POST',
         endpoint: routes.CONTENSTER.GLOBAL.UPLOAD_FILE,
         message: false,
         body: { file },

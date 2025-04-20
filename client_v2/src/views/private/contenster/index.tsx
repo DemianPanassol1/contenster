@@ -4,7 +4,7 @@ import Profile from './Profile';
 import Modules from './Modules';
 import Permissions from './Permissions';
 import EmailSetting from './EmailSetting';
-// import Establishments from './Establishments';
+import Establishment from './Establishment';
 import Functionalities from './Functionalities';
 
 export default [
@@ -28,10 +28,10 @@ export default [
     path: 'permissions/:type?/:id?',
     element: <Permissions />,
   },
-  // {
-  //   path: 'establishments/:type?/:id?',
-  //   element: <Establishments />,
-  // },
+  {
+    path: 'establishments/:type?/:id?',
+    element: <Establishment />,
+  },
   {
     path: 'functionalities/:type?/:id?',
     element: <Functionalities />,

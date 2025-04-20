@@ -32,7 +32,7 @@ type TranslationsType = 'text' | 'password' | 'number';
 
 interface TranslationsProps {
   field: string;
-  setValue: UseFormSetValue<any>;
+  setValue: UseFormSetValue<any>; // eslint-disable-line
   controller: Control<FieldValues>;
   mask?: string;
   title?: string;
@@ -91,14 +91,15 @@ const Translations: React.FC<TranslationsProps> = ({
   useEffect(() => {
     const aux1 = Object.values(values);
     const aux2 = Object.values(
-      storedValues.map((elem: any) => elem.text)
+      storedValues.map((elem: { text: string }) => elem.text)
     ) as string[];
 
     if (arraysEqual(aux1, aux2)) return;
 
     const fields = languages.map((elem: Language) => {
       const storedValue = storedValues.find(
-        (stored: any) => stored.language.languageCode === elem.code
+        (stored: { language: { languageCode: string } }) =>
+          stored.language.languageCode === elem.code
       );
 
       if (storedValue) {
@@ -124,11 +125,13 @@ const Translations: React.FC<TranslationsProps> = ({
   useEffect(() => {
     if (!storedValues.length) return;
 
-    storedValues.forEach((elem: any) => {
-      setFormValue(`${field}-${elem.language.languageCode}`, elem.text, {
-        shouldValidate: true,
-      });
-    });
+    storedValues.forEach(
+      (elem: { text: string; language: { languageCode: string } }) => {
+        setFormValue(`${field}-${elem.language.languageCode}`, elem.text, {
+          shouldValidate: true,
+        });
+      }
+    );
   }, [storedValues]);
 
   useEffect(() => {
@@ -185,7 +188,7 @@ const Translations: React.FC<TranslationsProps> = ({
             name={`${field}-${item.code}`}
             control={control}
             render={({ field }) => {
-              const message: any = errors[field.name]?.message ?? '';
+              const message = errors[field.name]?.message ?? '';
 
               return (
                 <FormControl
@@ -270,7 +273,7 @@ const Translations: React.FC<TranslationsProps> = ({
                     variant="caption"
                     sx={{ color: theme.palette.error.main }}
                   >
-                    {message}
+                    {message as string}
                   </Typography>
                 </FormControl>
               );

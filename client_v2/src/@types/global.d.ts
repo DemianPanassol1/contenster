@@ -31,7 +31,7 @@ interface GlobalSubmitProps {
 
 interface GlobalContextProps {
   state: GlobalState;
-  toggleLoading: () => void;
+  setLoading: (loading: boolean) => void;
   toggleTheme: () => void;
   toggleDrawer: () => void;
   toggleDialog: (dialog: string | null) => void;
