@@ -37,7 +37,10 @@ const App: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
-      <AnimatePresence>
+      <AnimatePresence
+        mode="wait"
+        initial={false}
+      >
         <RouterProvider router={router} />
       </AnimatePresence>
       <CssBaseline />

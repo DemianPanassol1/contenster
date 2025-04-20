@@ -29,7 +29,7 @@ interface WrapperProps {
 const Wrapper: React.FC<WrapperProps> = ({
   children,
   delay = 0,
-  variant = 'opacity',
+  variant = 'left',
   initial = false,
   customStyles = {},
   onSubmit = () => null,
@@ -71,6 +71,7 @@ const Wrapper: React.FC<WrapperProps> = ({
           variant="outlined"
           sx={{ width: '100%', padding: '1.5rem 1.5rem 2rem', ...customStyles }}
           component={motion.div}
+          transition={{ delay: 0.25 }}
           variants={(() => {
             switch (variant) {
               case 'left':
