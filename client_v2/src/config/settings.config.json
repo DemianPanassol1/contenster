@@ -10,19 +10,19 @@
       "id": 1,
       "name": "Português",
       "code": "pt",
-      "icon": "/icons/brazil.svg"
+      "icon": "/assets/icons/brazil.svg"
     },
     {
       "id": 2,
       "name": "Inglês",
       "code": "en",
-      "icon": "/icons/usa.svg"
+      "icon": "/assets/icons/usa.svg"
     },
     {
       "id": 3,
       "name": "Espanhol",
       "code": "es",
-      "icon": "/icons/spain.svg"
+      "icon": "/assets/icons/spain.svg"
     }
   ]
 }
