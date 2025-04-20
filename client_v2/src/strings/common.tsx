@@ -50,4 +50,5 @@ export default {
   createPasswordButton: 'Criar senha',
   createPasswordText: (length: string) =>
     `Crie uma senha com pelo menos ${length} caracteres`,
+  profilePicture: 'Foto de perfil',
 };

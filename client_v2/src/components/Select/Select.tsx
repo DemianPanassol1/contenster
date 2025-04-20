@@ -25,7 +25,7 @@ interface SelectProps {
   fixedData?: Array<SelectOption>;
   inputStyle?: SxProps<Theme>;
   validation?: Record<string, unknown>;
-  bodyContent?: Record<string, string | null>;
+  bodyContent?: Record<string, string | boolean | null>;
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -42,7 +42,7 @@ const Select: React.FC<SelectProps> = ({
   const theme = useTheme();
 
   const requestFilter = buildReqFilter({
-    customFields: bodyContent,
+    customFields: bodyContent as Record<string, string | null>,
   });
 
   const { data, refresh, isLoading } = !fixedData.length

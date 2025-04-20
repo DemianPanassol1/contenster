@@ -13,13 +13,14 @@ import Auth from '@/views/public/common/Auth';
 import Admin from '@/views/private/common/Admin';
 
 import publicContensterViews from '@/views/public/contenster';
+import privateContensterViews from '@/views/private/contenster';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Admin />,
     errorElement: <Error />,
-    children: [],
+    children: [...privateContensterViews],
   },
   {
     path: '/auth',
