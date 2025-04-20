@@ -1,30 +1,27 @@
 import {
   Control,
+  useForm,
   FieldErrors,
   FieldValues,
   SubmitHandler,
-  useForm,
 } from 'react-hook-form';
 import { Box, useTheme } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
 
-import { GET_SYNC_USER } from '../../../../../routes/contenster/global';
-import { useGlobalContext } from '../../../../../contexts/global.context';
-import { handlePopulateFields } from '../../../../../utils/functions.util';
-import { genericInputValidation } from '../../../../../utils/validations.util';
-import { GET_ESTABLISHMENT_OPTIONS } from '../../../../../routes/contenster/options';
-import {
-  useGET,
-  useNavigate,
-  useUserSession,
-} from '../../../../../utils/hooks.util';
+import routes from '@/routes';
+import strings from '@/strings';
+import { useGET } from '@/hooks/swr.hook';
+import { useNavigate } from '@/hooks/router.hook';
+import { useSession } from '@/hooks/session.hook';
+import { useGlobalContext } from '@/contexts/global.context';
+import { genericValidation } from '@/utils/validations.util';
+import { handlePopulateFields } from '@/utils/functions.util';
 
-import Input from '../../../../../components/Input';
-import Switch from '../../../../../components/Switch';
-import Select from '../../../../../components/Select';
-import Wrapper from '../../../../../components/Wrapper';
-import Translations from '../../../../../components/Translations';
+import Input from '@/components/Input';
+import Switch from '@/components/Switch';
+import Select from '@/components/Select';
+import Wrapper from '@/components/Wrapper';
+import Translations from '@/components/Translations';
 
 export interface FormFields {
   id: string;
@@ -77,19 +74,15 @@ const Save: React.FC<SaveProps> = ({
   permissionType,
   getContentUrl = null,
 }) => {
-  const {
-    control,
-    setValue,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormFields>({ defaultValues: fields });
+  const { control, setValue, handleSubmit } = useForm<FormFields>({
+    defaultValues: fields,
+  });
 
   const theme = useTheme();
+  const session = useSession();
   const navigate = useNavigate();
-  const session = useUserSession();
   const { handleOnSubmit } = useGlobalContext();
-  const { t } = useTranslation(['common', 'validations']);
-  const { data, isLoading, refresh } = useGET(getContentUrl as string);
+  const { data, isLoading, refresh } = useGET(getContentUrl ?? '');
 
   const [i18nErrors, setI18nErrors] = useState<FieldErrors<FieldValues>[]>([]);
 
@@ -98,19 +91,19 @@ const Save: React.FC<SaveProps> = ({
       return;
 
     if (permissionType === 'establishment') {
-      content.establishmentId = session?.establishment.id.toString() ?? '';
+      content.establishmentId = session!.establishment.id.toString();
     }
 
     handleOnSubmit({
       type: pageType === 'create' ? 'POST' : 'PUT',
-      url: saveContentUrl,
+      endpoint: saveContentUrl,
       body: content,
       onSuccess() {
         if (getContentUrl) {
           refresh();
         }
 
-        refresh(GET_SYNC_USER);
+        refresh(routes.CONTENSTER.GLOBAL.GET_SYNC_USER);
 
         setTimeout(() => navigate(-1), 500);
       },
@@ -119,7 +112,11 @@ const Save: React.FC<SaveProps> = ({
 
   useEffect(() => {
     if (getContentUrl && !isLoading && data) {
-      handlePopulateFields(setValue, fields, data);
+      handlePopulateFields(
+        setValue,
+        fields as unknown as Record<string, unknown>,
+        data as unknown as Record<string, unknown>
+      );
     }
   }, [isLoading, data]);
 
@@ -128,8 +125,8 @@ const Save: React.FC<SaveProps> = ({
       hasCancelButton
       onCancel={() => navigate(-1)}
       onSubmit={handleSubmit(onSubmit)}
-      submitButtonContent={t('common:save')}
-      cancelButtonContent={t('common:cancel')}
+      submitButtonContent={strings.actions.save}
+      cancelButtonContent={strings.actions.cancel}
     >
       <Box
         sx={{
@@ -148,33 +145,31 @@ const Save: React.FC<SaveProps> = ({
         {permissionType === 'general' && (
           <Select
             name="establishmentId"
-            label={t('validations:establishment.field') + ' *'}
+            label={strings.validations.establishment.field + ' *'}
             controller={control as unknown as Control<FieldValues>}
-            validation={genericInputValidation(t)}
-            urlData={GET_ESTABLISHMENT_OPTIONS}
-            bodyContent={{}}
+            validation={genericValidation()}
+            urlData={routes.CONTENSTER.OPTIONS.GET_ESTABLISHMENT_OPTIONS}
             inputStyle={{ margin: '0' }}
           />
         )}
         <Select
           name="purpose"
-          label={t('validations:purpose.field') + ' *'}
+          label={strings.validations.purpose.field + ' *'}
           controller={control as unknown as Control<FieldValues>}
-          validation={genericInputValidation(t)}
+          validation={genericValidation()}
           inputStyle={{ margin: '0' }}
           fixedData={[
-            { label: t('common:resetPassword'), value: 'reset-password' },
-            { label: t('common:verifyEmail'), value: 'verify-email' },
-            { label: t('common:contact'), value: 'contact' },
-            { label: t('common:welcome'), value: 'welcome' },
+            { label: strings.common.resetPassword, value: 'reset-password' },
+            { label: strings.common.verifyEmail, value: 'verify-email' },
+            { label: strings.common.contact, value: 'contact' },
+            { label: strings.common.welcome, value: 'welcome' },
           ]}
         />
         <Input
           name="server"
-          label={t('validations:server.field') + ' *'}
+          label={strings.validations.server.field + ' *'}
           controller={control as unknown as Control<FieldValues>}
-          validation={genericInputValidation(t)}
-          helperText={errors.server?.message}
+          validation={genericValidation()}
           containerStyle={{
             margin: '0',
             [theme.breakpoints.up('sm')]: {
@@ -185,10 +180,9 @@ const Save: React.FC<SaveProps> = ({
         <Input
           name="port"
           type="number"
-          label={t('validations:port.field') + ' *'}
+          label={strings.validations.port.field + ' *'}
           controller={control as unknown as Control<FieldValues>}
-          validation={genericInputValidation(t)}
-          helperText={errors.port?.message}
+          validation={genericValidation()}
           containerStyle={{
             margin: '0',
             [theme.breakpoints.up('sm')]: {
@@ -199,10 +193,9 @@ const Save: React.FC<SaveProps> = ({
         />
         <Input
           name="username"
-          label={t('validations:username.field') + ' *'}
+          label={strings.validations.username.field + ' *'}
           controller={control as unknown as Control<FieldValues>}
-          validation={genericInputValidation(t)}
-          helperText={errors.username?.message}
+          validation={genericValidation()}
           containerStyle={{
             margin: '0',
             [theme.breakpoints.up('sm')]: {
@@ -213,10 +206,9 @@ const Save: React.FC<SaveProps> = ({
         <Input
           name="password"
           type="password"
-          label={t('validations:password.field') + ' *'}
+          label={strings.validations.password.field + ' *'}
           controller={control as unknown as Control<FieldValues>}
-          validation={genericInputValidation(t)}
-          helperText={errors.password?.message}
+          validation={genericValidation()}
           containerStyle={{
             margin: '0',
             [theme.breakpoints.up('sm')]: {
@@ -238,24 +230,20 @@ const Save: React.FC<SaveProps> = ({
             name="tls"
             label="TLS"
             controller={control as unknown as Control<FieldValues>}
-            helperText={errors.tls?.message}
             inputStyle={{ height: '2.2rem' }}
           />
           <Switch
             name="ssl"
             label="SSL"
             controller={control as unknown as Control<FieldValues>}
-            helperText={errors.ssl?.message}
             inputStyle={{ height: '2.2rem' }}
           />
         </Box>
-
         <Input
           name="sender"
-          label={t('validations:sender.field') + ' *'}
+          label={strings.validations.sender.field + ' *'}
           controller={control as unknown as Control<FieldValues>}
-          validation={genericInputValidation(t)}
-          helperText={errors.sender?.message}
+          validation={genericValidation()}
           containerStyle={{
             margin: '0',
             [theme.breakpoints.up('sm')]: {
@@ -265,9 +253,8 @@ const Save: React.FC<SaveProps> = ({
         />
         <Input
           name="recipient"
-          label={t('validations:recipient.field')}
+          label={strings.validations.recipient.field}
           controller={control as unknown as Control<FieldValues>}
-          helperText={errors.recipient?.message}
           containerStyle={{
             margin: '0',
             [theme.breakpoints.up('sm')]: {
@@ -278,9 +265,8 @@ const Save: React.FC<SaveProps> = ({
         />
         <Input
           name="recipientCopy"
-          label={t('validations:recipientCopy.field')}
+          label={strings.validations.recipientCopy.field}
           controller={control as unknown as Control<FieldValues>}
-          helperText={errors.recipientCopy?.message}
           containerStyle={{
             margin: '0',
             [theme.breakpoints.up('sm')]: {
@@ -290,36 +276,33 @@ const Save: React.FC<SaveProps> = ({
           }}
         />
         <Translations
-          title={t('validations:title.field') + ' *'}
+          title={strings.validations.title.field + ' *'}
           field="titles"
           setValue={setValue}
-          validationOnAll
-          validation={genericInputValidation(t)}
+          validation={genericValidation()}
           setI18nErrors={setI18nErrors}
           controller={control as unknown as Control<FieldValues>}
         />
         <Translations
-          title={t('validations:subject.field') + ' *'}
+          title={strings.validations.subject.field + ' *'}
           field="subjects"
           setValue={setValue}
-          validationOnAll
           setI18nErrors={setI18nErrors}
-          validation={genericInputValidation(t)}
+          validation={genericValidation()}
           controller={control as unknown as Control<FieldValues>}
         />
         <Translations
-          title={t('validations:mainContent.field') + ' *'}
+          title={strings.validations.mainContent.field + ' *'}
           field="contents"
           setValue={setValue}
-          validationOnAll
           setI18nErrors={setI18nErrors}
-          validation={genericInputValidation(t)}
+          validation={genericValidation()}
           controller={control as unknown as Control<FieldValues>}
           inputStyle={{ gridColumn: '1 / -1' }}
           variant="textarea"
         />
         <Translations
-          title={t('validations:footerContent.field')}
+          title={strings.validations.footerContent.field}
           field="footers"
           setValue={setValue}
           setI18nErrors={setI18nErrors}

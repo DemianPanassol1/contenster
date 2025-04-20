@@ -1,22 +1,15 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 
-import {
-  DELETE_EMAIL_SETTING,
-  GET_EMAIL_SETTING_LIST,
-} from '../../../../../routes/contenster/emailSettings';
-import {
-  usePermissions,
-  useUserSession,
-} from '../../../../../utils/hooks.util';
+import routes from '@/routes';
+import strings from '@/strings';
+import { usePermission, useSession } from '@/hooks/session.hook';
 
-import Table from '../../../../../components/Table';
-import Wrapper from '../../../../../components/Wrapper';
+import Table from '@/components/Table';
+import Wrapper from '@/components/Wrapper';
 
 const Main: React.FC = () => {
-  const session = useUserSession();
-  const permission = usePermissions();
-  const { t } = useTranslation(['common', 'validations']);
+  const session = useSession();
+  const permission = usePermission();
 
   return (
     <Wrapper hasSubmitButton={false}>
@@ -24,7 +17,7 @@ const Main: React.FC = () => {
         columns={
           [
             permission.type === 'general' && {
-              name: t('validations:establishment.field'),
+              name: strings.validations.establishment.field,
               field: 'establishment',
               selector: 'establishment.corporateName',
               sortable: true,
@@ -32,7 +25,7 @@ const Main: React.FC = () => {
               type: 'text',
             },
             {
-              name: t('validations:purpose.field'),
+              name: strings.validations.purpose.field,
               field: 'purpose',
               selector: 'purpose',
               sortable: true,
@@ -40,7 +33,7 @@ const Main: React.FC = () => {
               type: 'text',
             },
             {
-              name: t('validations:emailTitle.field'),
+              name: strings.validations.title.field,
               field: 'title',
               selector: 'titles.text',
               sortable: true,
@@ -49,11 +42,11 @@ const Main: React.FC = () => {
             },
           ].filter(Boolean) as Columns[]
         }
-        urlList={GET_EMAIL_SETTING_LIST}
-        urlDelete={DELETE_EMAIL_SETTING}
+        urlList={routes.CONTENSTER.EMAIL_SETTINGS.GET_EMAIL_SETTING_LIST}
+        urlDelete={routes.CONTENSTER.EMAIL_SETTINGS.DELETE_EMAIL_SETTING}
         bodyContent={{
           permissionType: permission.type,
-          establishmentId: (session?.establishment.id ?? '').toString(),
+          establishmentId: session!.establishment.id.toString(),
         }}
       />
     </Wrapper>

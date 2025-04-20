@@ -3,7 +3,7 @@ import Roles from './Roles';
 import Profile from './Profile';
 import Modules from './Modules';
 import Permissions from './Permissions';
-// import EmailSetting from './EmailSetting';
+import EmailSetting from './EmailSetting';
 // import Establishments from './Establishments';
 import Functionalities from './Functionalities';
 
@@ -36,8 +36,8 @@ export default [
     path: 'functionalities/:type?/:id?',
     element: <Functionalities />,
   },
-  // {
-  //   path: 'email-setting/:type?/:id?',
-  //   element: <EmailSetting />,
-  // },
+  {
+    path: 'email-setting/:type?/:id?',
+    element: <EmailSetting />,
+  },
 ];

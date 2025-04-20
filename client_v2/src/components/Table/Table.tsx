@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import {
   Avatar,
   Box,
@@ -75,7 +73,7 @@ const Table: React.FC<TableProps> = ({
   const [qnt, setQnt] = useState<number>(defaultPageSize);
   const [search, setSearch] = useState<string | null>(null);
   const [orderList, setOrderList] = useState<SortBy[]>([]);
-  const [contentList, setContentList] = useState<Array<object>>([]);
+  const [contentList, setContentList] = useState<DataTable['data']>([]);
   const [deleteDialog, setDeleteDialog] = useState<{ id: number } | null>(null);
 
   const debouncedSearch = useDebounce(search, 800);
@@ -99,7 +97,7 @@ const Table: React.FC<TableProps> = ({
     sortBy: orderList,
   });
 
-  const { data, isLoading, refresh } = usePOST<Array<object>>(
+  const { data, isLoading, refresh } = usePOST<DataTable>(
     urlList,
     requestFilter,
     true
@@ -132,7 +130,7 @@ const Table: React.FC<TableProps> = ({
 
   useEffect(() => {
     if (isLoading) return;
-    setContentList(data ?? []);
+    setContentList(data?.data ?? []);
   }, [data, isLoading]);
 
   // disable DataTable component errors that cannot be fixed.
@@ -227,7 +225,7 @@ const Table: React.FC<TableProps> = ({
           paginationRowsPerPageOptions={[5, 10, 25, 50]}
           paginationIconLastPage={<LastPageOutlinedIcon />}
           paginationIconNext={<NavigateNextOutlinedIcon />}
-          paginationTotalRows={(data as any)?.meta?.totalItems ?? 0}
+          paginationTotalRows={data?.meta?.totalItems ?? 0}
           onChangeRowsPerPage={(pageQnt) => setQnt(pageQnt)}
           paginationIconFirstPage={<FirstPageOutlinedIcon />}
           paginationIconPrevious={<NavigateBeforeOutlinedIcon />}

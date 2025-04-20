@@ -147,3 +147,20 @@ interface SelectOption {
   value: string;
   label: string;
 }
+
+interface DataTable {
+  data: Array<{
+    id: number;
+    [key: string]: unknown;
+  }>;
+  meta: {
+    hasNextPage: boolean;
+    optional: boolean;
+    pageNumber: number;
+    pageSize: number;
+    totalItems: number;
+    totalPages: number;
+    filters: Array<Filter>;
+    sortBy: Array<SortBy>;
+  };
+}
