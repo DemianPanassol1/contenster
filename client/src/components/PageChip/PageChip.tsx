@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Breadcrumbs, Chip } from '@mui/material';
 
-import { useNavigate } from '../../utils/hooks.util';
+import { useNavigate } from '@/hooks/router.hook';
 
 interface PageChipProps {
   chipLabel?: string | null;

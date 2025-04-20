@@ -16,17 +16,18 @@ import { Controller, Control, FieldValues } from 'react-hook-form';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
+type InputType = 'text' | 'password' | 'number';
+
 interface InputProps {
   name: string;
   label: string;
   mask?: string;
   controller: Control<FieldValues>;
-  type?: 'text' | 'password' | 'number';
+  type?: InputType;
   validation?: Record<string, unknown>;
   inputStyle?: SxProps<Theme>;
   readOnly?: boolean;
   disabled?: boolean;
-  helperText?: string | null;
   containerStyle?: SxProps<Theme>;
 }
 
@@ -40,7 +41,6 @@ const Input: React.FC<InputProps> = ({
   inputStyle = {},
   readOnly = false,
   disabled = false,
-  helperText = null,
   containerStyle = {},
 }) => {
   const theme = useTheme();
@@ -59,7 +59,7 @@ const Input: React.FC<InputProps> = ({
       name={name}
       control={controller}
       rules={validation}
-      render={({ field }) => {
+      render={({ field, fieldState: { error } }) => {
         return (
           <FormControl
             variant="standard"
@@ -89,7 +89,13 @@ const Input: React.FC<InputProps> = ({
               />
             ) : (
               <InputComponent
-                type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
+                type={
+                  type === 'password'
+                    ? showPassword
+                      ? 'text'
+                      : 'password'
+                    : type
+                }
                 size="small"
                 name={field.name}
                 readOnly={readOnly}
@@ -119,12 +125,12 @@ const Input: React.FC<InputProps> = ({
                 }
               />
             )}
-            {helperText && (
+            {error && (
               <Typography
                 sx={{ color: theme.palette.error.main }}
                 variant="caption"
               >
-                {helperText}
+                {error.message}
               </Typography>
             )}
           </FormControl>

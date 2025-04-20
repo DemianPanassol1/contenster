@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
 import { Box, InputLabel, styled, Typography, useTheme } from '@mui/material';
 
@@ -7,14 +6,15 @@ import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import SimCardDownloadIcon from '@mui/icons-material/SimCardDownload';
 
-import { useToast } from '../../utils/hooks.util';
-import { fetchGET } from '../../utils/functions.util';
-import { useGlobalContext } from '../../contexts/global.context';
-import { GET_FILE_BY_ID, UPLOAD_FILE } from '../../routes/contenster/global';
+import routes from '@/routes';
+import strings from '@/strings';
+import { useToast } from '@/hooks/toast.hook';
+import { useGlobalContext } from '@/contexts/global.context';
+import { handleGetRequest } from '@/services/client.service';
 
-import Image from '../Image';
-import Button from '../Button';
-import IconButton from '../IconButton';
+import Image from '@/components/Image';
+import Button from '@/components/Button';
+import IconButton from '@/components/IconButton';
 
 interface FileUploadProps {
   label: string;
@@ -44,22 +44,22 @@ const FileUpload: React.FC<FileUploadProps> = ({
   const theme = useTheme();
   const { errorMessage } = useToast();
   const { handleOnSubmit } = useGlobalContext();
-  const { t } = useTranslation(['common', 'validations']);
-  const [imagePreview, setImagePreview] = useState<PostUploadFile | null>(null);
+  const [imagePreview, setImagePreview] = useState<UploadedFile | null>(null);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
 
       handleOnSubmit({
-        type: 'POST/FILE',
+        type: 'POST',
+        endpoint: routes.CONTENSTER.GLOBAL.UPLOAD_FILE,
         message: false,
-        url: UPLOAD_FILE,
         body: { file },
-        onSuccess: (data) => {
-          setImagePreview(data as PostUploadFile);
+        onSuccess: (response) => {
+          const image = response as UploadedFile;
 
-          onImageUpload(data.id);
+          setImagePreview(image);
+          onImageUpload(image.id.toString());
         },
       });
     }
@@ -71,7 +71,9 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
   const handleDownloadFile = async () => {
     try {
-      const response = await fetch(imagePreview?.filePath as string, {
+      if (!imagePreview) return;
+
+      const response = await fetch(imagePreview.filePath, {
         mode: 'cors',
       });
 
@@ -80,7 +82,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
       const link = document.createElement('a');
       link.href = blobUrl;
-      link.download = imagePreview?.originalName as string;
+      link.download = imagePreview.originalName;
       link.style.display = 'none';
 
       document.body.appendChild(link);
@@ -90,7 +92,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
       URL.revokeObjectURL(blobUrl);
     } catch (error) {
       console.error(error);
-      errorMessage(t('common:errorOnDownloadFile'));
+      errorMessage(strings.common.errorOnDownloadFile);
     }
   };
 
@@ -101,14 +103,14 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
   useEffect(() => {
     if (fileId && imagePreview === null) {
-      fetchGET(GET_FILE_BY_ID(fileId)).then((res) => {
-        const { success, body, errors } = res;
-
-        if (!success || errors.count > 0 || !body) {
-          errorMessage(t('common:errorOnGetFile'));
-          return;
+      handleGetRequest<UploadedFile>(
+        routes.CONTENSTER.GLOBAL.GET_FILE_BY_ID(fileId)
+      ).then((response) => {
+        if (!response) {
+          errorMessage(strings.common.errorOnGetFile);
+        } else {
+          setImagePreview(response);
         }
-        setImagePreview(body as PostUploadFile);
       });
     }
   }, [fileId]);
@@ -174,11 +176,11 @@ const FileUpload: React.FC<FileUploadProps> = ({
                   }}
                 >{`${imagePreview.originalName}`}</Typography>
                 <Typography variant="caption">
-                  {`${t('common:size')}: `}
+                  {`${strings.common.size}: `}
                   <strong>{`${imagePreview.size}`}</strong>
                 </Typography>
                 <Typography variant="caption">
-                  {`${t('common:dimensions')}: `}
+                  {`${strings.common.dimensions}: `}
                   <strong>{`${imagePreview.width} X ${imagePreview.height}`}</strong>
                 </Typography>
               </Box>
@@ -218,7 +220,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
         content={
           <>
             <CloudUploadIcon sx={{ mr: '0.75rem' }} />
-            <Typography variant="button">{t('common:select')}</Typography>
+            <Typography variant="button">{strings.actions.select}</Typography>
 
             <VisuallyHiddenInput
               type="file"

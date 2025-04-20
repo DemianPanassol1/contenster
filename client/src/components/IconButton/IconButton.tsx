@@ -1,33 +1,38 @@
-import React, { ReactNode, CSSProperties } from 'react';
-import { Tooltip, IconButton as IconButtonComponent } from '@mui/material';
+import {
+  Theme,
+  Tooltip,
+  SxProps,
+  IconButton as IconButtonComponent,
+} from '@mui/material';
+import React, { ReactNode } from 'react';
 
-interface ExtendedCSSProperties extends CSSProperties {
-  [key: string]: unknown;
-}
+type IconButtonColor =
+  | 'inherit'
+  | 'default'
+  | 'primary'
+  | 'secondary'
+  | 'error'
+  | 'info'
+  | 'success'
+  | 'warning';
+type IconButtonEdge = 'start' | 'end';
+type IconButtonSize = 'large' | 'medium' | 'small';
 
 interface IconButtonProps {
   icon: ReactNode;
-  edge?: 'start' | 'end';
-  tippy?: string | null;
-  size?: 'large' | 'medium' | 'small';
+  edge?: IconButtonEdge;
+  tippy?: string;
+  size?: IconButtonSize;
   disabled?: boolean;
-  color?:
-    | 'inherit'
-    | 'default'
-    | 'primary'
-    | 'secondary'
-    | 'error'
-    | 'info'
-    | 'success'
-    | 'warning';
-  customStyles?: ExtendedCSSProperties;
+  color?: IconButtonColor;
+  customStyles?: SxProps<Theme>;
   onClick?: () => void;
 }
 
 const IconButton: React.FC<IconButtonProps> = ({
   icon,
   edge = 'start',
-  tippy = null,
+  tippy = '',
   size = 'small',
   disabled = false,
   color = 'primary',

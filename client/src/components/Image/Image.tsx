@@ -1,13 +1,15 @@
 import React from 'react';
 import { Box, Skeleton, SxProps, Theme } from '@mui/material';
 
+type ImageVariant = 'text' | 'rectangular' | 'circular' | 'rounded';
+
 interface ImageProps {
   alt?: string;
   title?: string;
   dimensions: SxProps<Theme>;
   src?: string;
   isLoading?: boolean;
-  variant?: 'text' | 'rectangular' | 'circular' | 'rounded';
+  variant?: ImageVariant;
 }
 
 const Image: React.FC<ImageProps> = ({

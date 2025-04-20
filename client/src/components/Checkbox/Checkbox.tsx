@@ -1,39 +1,39 @@
 import {
+  Theme,
+  SxProps,
+  Tooltip,
+  useTheme,
   Typography,
   FormControlLabel,
   Checkbox as CheckboxComponent,
-  useTheme,
-  Tooltip,
-  SxProps,
-  Theme,
 } from '@mui/material';
 import React from 'react';
 import { Controller, Control, FieldValues } from 'react-hook-form';
 
+type CheckboxSize = 'small' | 'medium';
+
 interface CheckboxProps {
   name: string;
   label: string;
+  tooltip: string;
   controller: Control<FieldValues>;
-  tooltip?: string;
-  size?: 'small' | 'medium';
+  size?: CheckboxSize;
   inputStyle?: SxProps<Theme>;
   validation?: Record<string, unknown>;
   disabled?: boolean;
   required?: boolean;
-  helperText?: string | null;
 }
 
 const Checkbox: React.FC<CheckboxProps> = ({
   name,
   label,
+  tooltip,
   controller,
-  tooltip = '',
   size = 'small',
   inputStyle = {},
   validation = {},
   disabled = false,
   required = false,
-  helperText = null,
 }) => {
   const theme = useTheme();
 
@@ -42,7 +42,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
       name={name}
       control={controller}
       rules={validation}
-      render={({ field }) => (
+      render={({ field, fieldState: { error } }) => (
         <>
           <FormControlLabel
             label={label}
@@ -58,18 +58,17 @@ const Checkbox: React.FC<CheckboxProps> = ({
                   checked={Boolean(field.value)}
                   onBlur={field.onBlur}
                   id={`checkbox-${name}`}
-                  // autoComplete={field.name}
                   onChange={field.onChange}
                 />
               </Tooltip>
             }
           />
-          {helperText && (
+          {error && (
             <Typography
               sx={{ color: theme.palette.error.main }}
               variant="caption"
             >
-              {helperText}
+              {error.message}
             </Typography>
           )}
         </>

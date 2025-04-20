@@ -1,12 +1,14 @@
 import React from 'react';
 import { Box, Typography, useTheme, SxProps, Theme } from '@mui/material';
 
+type SectionTitleVariant = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'body1';
+
 interface SectionTitleProps {
   title: string;
   barStyles?: SxProps<Theme>;
   titleStyles?: SxProps<Theme>;
   containerStyles?: SxProps<Theme>;
-  variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'body1';
+  variant?: SectionTitleVariant;
 }
 
 const SectionTitle: React.FC<SectionTitleProps> = ({

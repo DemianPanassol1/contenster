@@ -1,45 +1,59 @@
 import {
   Box,
-  FormControl,
   Input,
-  InputAdornment,
-  InputLabel,
-  SxProps,
   Theme,
-  Typography,
+  SxProps,
   useTheme,
+  InputLabel,
+  Typography,
+  FormControl,
+  InputAdornment,
 } from '@mui/material';
 import {
   Control,
+  useForm,
+  useWatch,
   Controller,
   FieldErrors,
   FieldValues,
-  useForm,
   UseFormSetValue,
-  useWatch,
 } from 'react-hook-form';
+import React, { memo, useEffect } from 'react';
 import { useDebounce } from '@uidotdev/usehooks';
 import { PatternFormat } from 'react-number-format';
-import React, { memo, useCallback, useEffect } from 'react';
 
-import { useGlobalContext } from '../../contexts/global.context';
+import config from '@config';
 
-import Image from '../Image';
-import SectionTitle from '../SectionTitle';
+import Image from '@/components/Image';
+import SectionTitle from '@/components/SectionTitle';
+
+type TranslationsVariant = 'input' | 'textarea';
+type TranslationsType = 'text' | 'password' | 'number';
+
+interface StoredValue {
+  id: number | null;
+  text: string;
+  language: {
+    id: number;
+    languageCode: LanguagesCode;
+  };
+}
 
 interface TranslationsProps {
   field: string;
-  setValue: UseFormSetValue<any>;
+  setValue: UseFormSetValue<any>; // eslint-disable-line
   controller: Control<FieldValues>;
   mask?: string;
   title?: string;
   inputStyle?: SxProps<Theme>;
   containerStyle?: SxProps<Theme>;
-  type?: 'text' | 'password' | 'number';
-  variant?: 'input' | 'textarea';
-  validationOnAll?: boolean;
+  type?: TranslationsType;
+  variant?: TranslationsVariant;
   validation?: Record<string, unknown>;
-  setI18nErrors: React.Dispatch<React.SetStateAction<FieldErrors<FieldValues>[]>>;
+  setI18nErrors: React.Dispatch<
+    React.SetStateAction<FieldErrors<FieldValues>[]>
+  >;
+  acceptedLanguages?: Array<LanguagesCode>;
 }
 
 const Translations: React.FC<TranslationsProps> = ({
@@ -54,12 +68,18 @@ const Translations: React.FC<TranslationsProps> = ({
   inputStyle = {},
   validation = {},
   containerStyle = {},
-  validationOnAll = false,
+  acceptedLanguages = [config.DEFAULT_LANGUAGE],
 }) => {
-  const {
-    state: { configInfo },
-  } = useGlobalContext();
   const theme = useTheme();
+
+  const languages = (config.LANGUAGES ?? []).filter((lang) =>
+    acceptedLanguages.includes(lang.code as LanguagesCode)
+  );
+
+  const storedValues: StoredValue[] = useWatch({
+    control: controller,
+    name: field,
+  });
 
   const {
     control,
@@ -67,34 +87,41 @@ const Translations: React.FC<TranslationsProps> = ({
     clearErrors,
     formState: { errors },
     setValue: setFormValue,
-  } = useForm();
+  } = useForm({
+    defaultValues: languages.reduce(
+      (acc, elem: Language) => {
+        const key = `${field}-${elem.code}`;
+        acc[key] =
+          storedValues.find(
+            ({ language }: StoredValue) => language.id === elem.id
+          )?.text ?? '';
+        return acc;
+      },
+      {} as Record<string, string>
+    ),
+  });
 
   const values = useWatch({ control });
-  const storedValues = useWatch({ control: controller, name: field });
 
-  const arraysEqual = useCallback((arr1: string[], arr2: string[]) => {
+  const arraysEqual = (arr1: string[], arr2: string[]) => {
     if (arr1.length !== arr2.length) return false;
     return arr1
       .slice()
       .sort()
       .every((value, index) => value === arr2.slice().sort()[index]);
-  }, []);
-
-  const languages = (configInfo?.languages ?? []).filter(
-    (lang) => lang.purpose === 'both' || lang.purpose === 'console'
-  );
-
-  const i18nEnabled = languages.length > 1;
+  };
 
   useEffect(() => {
-    const aux1 = Object.values(values);
-    const aux2 = Object.values(storedValues.map((elem: any) => elem.text)) as string[];
+    const aux1 = Object.values(values) as string[];
+    const aux2 = Object.values(
+      storedValues.map((elem: StoredValue) => elem.text)
+    );
 
     if (arraysEqual(aux1, aux2)) return;
 
     const fields = languages.map((elem: Language) => {
       const storedValue = storedValues.find(
-        (stored: any) => stored.language.languageCode === elem.code
+        (stored: StoredValue) => stored.language.languageCode === elem.code
       );
 
       if (storedValue) {
@@ -120,20 +147,26 @@ const Translations: React.FC<TranslationsProps> = ({
   useEffect(() => {
     if (!storedValues.length) return;
 
-    storedValues.forEach((elem: any) => {
-      setFormValue(`${field}-${elem.language.languageCode}`, elem.text, {
-        shouldValidate: true,
-      });
+    storedValues.forEach((elem: StoredValue) => {
+      const key = `${field}-${elem.language.languageCode}`;
+
+      if (values[key] !== undefined) {
+        setFormValue(key, elem.text, { shouldValidate: true });
+      }
     });
   }, [storedValues]);
 
   useEffect(() => {
-    trigger();
+    setTimeout(() => {
+      trigger();
+    }, 150);
   }, []);
 
   useEffect(() => {
     setI18nErrors((prev) => [...prev, errors]);
   }, [errors]);
+
+  const i18nEnabled = languages.length > 1;
 
   return (
     <Box
@@ -176,12 +209,12 @@ const Translations: React.FC<TranslationsProps> = ({
       >
         {languages.map((item: Language) => (
           <Controller
-            rules={item.default || validationOnAll ? validation : {}}
+            rules={validation}
             key={`${field}-${item.code}`}
             name={`${field}-${item.code}`}
             control={control}
             render={({ field }) => {
-              const message: any = errors[field.name]?.message ?? '';
+              const message = errors[field.name]?.message ?? '';
 
               return (
                 <FormControl
@@ -200,7 +233,7 @@ const Translations: React.FC<TranslationsProps> = ({
                       alignItems: 'center',
                     }}
                   >
-                    {`${i18nEnabled ? item.name : title}${Object.keys(validation).length || validationOnAll ? ' *' : ''}`}
+                    {`${i18nEnabled ? item.name : title}${Object.keys(validation).some((v) => v === 'required') ? ' *' : ''}`}
                   </InputLabel>
 
                   {mask && type !== 'number' ? (
@@ -245,7 +278,9 @@ const Translations: React.FC<TranslationsProps> = ({
                       type={type}
                       sx={{
                         width: '100%',
-                        ...(variant === 'textarea' && { alignItems: 'flex-start' }),
+                        ...(variant === 'textarea' && {
+                          alignItems: 'flex-start',
+                        }),
                       }}
                       endAdornment={
                         i18nEnabled && (
@@ -264,7 +299,7 @@ const Translations: React.FC<TranslationsProps> = ({
                     variant="caption"
                     sx={{ color: theme.palette.error.main }}
                   >
-                    {message}
+                    {message as string}
                   </Typography>
                 </FormControl>
               );

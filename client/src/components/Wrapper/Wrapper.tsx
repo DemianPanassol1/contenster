@@ -1,25 +1,27 @@
-import { Box, Paper, useTheme } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
-import React, { useEffect, useState, ReactNode, CSSProperties } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
+import React, { useEffect, useState, ReactNode } from 'react';
+import { Box, Paper, SxProps, Theme, useTheme } from '@mui/material';
 
-import { usePermissions } from '../../utils/hooks.util';
-import { useGlobalContext } from '../../contexts/global.context';
+import { usePermission } from '@/hooks/session.hook';
+import { useGlobalContext } from '@/contexts/global.context';
 
-import Button from '../Button';
+import Button from '@/components/Button';
+
+type WrapperVariants = 'opacity' | 'left' | 'right' | 'top' | 'bottom';
 
 interface WrapperProps {
   children: ReactNode;
   delay?: number;
-  variant?: 'opacity' | 'left' | 'right' | 'top' | 'bottom';
+  variant?: WrapperVariants;
   initial?: boolean;
-  customStyles?: CSSProperties;
+  customStyles?: SxProps<Theme>;
   onSubmit?: () => void;
   onCancel?: () => void;
   hasSubmitButton?: boolean;
   hasCancelButton?: boolean;
-  customSubmitButtonStyles?: CSSProperties;
-  customCancelButtonStyles?: CSSProperties;
+  customSubmitButtonStyles?: SxProps<Theme>;
+  customCancelButtonStyles?: SxProps<Theme>;
   submitButtonContent?: string;
   cancelButtonContent?: string;
 }
@@ -27,7 +29,7 @@ interface WrapperProps {
 const Wrapper: React.FC<WrapperProps> = ({
   children,
   delay = 0,
-  variant = 'opacity',
+  variant = 'left',
   initial = false,
   customStyles = {},
   onSubmit = () => null,
@@ -45,7 +47,7 @@ const Wrapper: React.FC<WrapperProps> = ({
   const theme = useTheme();
   const { type } = useParams<{ type: string }>();
   const [view, setView] = useState(false);
-  const { canCreate, canUpdate } = usePermissions();
+  const { canCreate, canUpdate } = usePermission();
 
   useEffect(() => {
     setTimeout(() => setView(true), delay);
@@ -69,6 +71,7 @@ const Wrapper: React.FC<WrapperProps> = ({
           variant="outlined"
           sx={{ width: '100%', padding: '1.5rem 1.5rem 2rem', ...customStyles }}
           component={motion.div}
+          transition={{ delay: 0.25 }}
           variants={(() => {
             switch (variant) {
               case 'left':

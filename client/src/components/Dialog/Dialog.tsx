@@ -1,19 +1,21 @@
 import {
-  DialogActions,
-  Dialog as DialogComponent,
-  DialogContent,
-  DialogTitle,
   Slide,
   useTheme,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
+  Dialog as DialogComponent,
 } from '@mui/material';
 import React, { ReactNode } from 'react';
-import { useTranslation } from 'react-i18next';
-
 import { TransitionProps } from '@mui/material/transitions';
 
-import { useGlobalContext } from '../../contexts/global.context';
+import strings from '@/strings';
 
-import Button from '../Button';
+import { useGlobalContext } from '@/contexts/global.context';
+
+import Button from '@/components/Button';
+
+type DialogWidth = 'lg' | 'md' | 'sm' | 'xl' | 'xs';
 
 interface DialogProps {
   title: string;
@@ -21,13 +23,13 @@ interface DialogProps {
   content: string;
   loading: boolean;
   onSubmit: () => void;
-  dialogWidth?: 'lg' | 'md' | 'sm' | 'xl' | 'xs';
+  dialogWidth?: DialogWidth;
   onClose?: () => void;
 }
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
-    children: React.ReactElement<any, any>;
+    children: React.ReactElement;
   },
   ref: React.Ref<unknown>
 ) {
@@ -54,10 +56,9 @@ const Dialog: React.FC<DialogProps> = ({
     toggleDialog,
   } = useGlobalContext();
   const theme = useTheme();
-  const { t } = useTranslation(['common']);
 
   const onCloseDialog = () => {
-    toggleDialog();
+    toggleDialog(null);
     onClose();
   };
 
@@ -70,7 +71,7 @@ const Dialog: React.FC<DialogProps> = ({
       maxWidth={dialogWidth}
       onClose={onCloseDialog}
       open={dialogState === content}
-      TransitionComponent={Transition}
+      slots={{ transition: Transition }}
     >
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>{children}</DialogContent>
@@ -78,7 +79,7 @@ const Dialog: React.FC<DialogProps> = ({
         <Button
           type="button"
           variant="text"
-          content={t('common:cancel')}
+          content={strings.actions.cancel}
           onClick={onCloseDialog}
           customStyle={{
             width: 'fit-content',
@@ -91,7 +92,7 @@ const Dialog: React.FC<DialogProps> = ({
         <Button
           hasLoader
           type="button"
-          content={t('common:save')}
+          content={strings.actions.save}
           loading={loading}
           variant="contained"
           onClick={onSubmit}

@@ -1,16 +1,23 @@
+import {
+  Theme,
+  SxProps,
+  useTheme,
+  Button as ButtonComponent,
+} from '@mui/material';
 import React from 'react';
-import LoadingButton from '@mui/lab/LoadingButton';
-import { Button as ButtonComponent, SxProps, Theme, useTheme } from '@mui/material';
+
+type ButtonTypes = 'button' | 'submit' | 'reset';
+type VariantTypes = 'text' | 'outlined' | 'contained';
 
 interface ButtonProps {
   content: React.ReactNode;
   loading?: boolean;
-  type?: 'button' | 'submit' | 'reset';
+  type?: ButtonTypes;
   customStyle?: SxProps<Theme>;
   disabled?: boolean;
   hasLoader?: boolean;
   onClick?: () => void;
-  variant?: 'text' | 'outlined' | 'contained';
+  variant?: VariantTypes;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -26,7 +33,7 @@ const Button: React.FC<ButtonProps> = ({
   const theme = useTheme();
 
   return hasLoader ? (
-    <LoadingButton
+    <ButtonComponent
       fullWidth
       type={type}
       loading={loading}
@@ -40,7 +47,7 @@ const Button: React.FC<ButtonProps> = ({
       }}
     >
       {content}
-    </LoadingButton>
+    </ButtonComponent>
   ) : (
     <ButtonComponent
       fullWidth

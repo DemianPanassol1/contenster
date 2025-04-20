@@ -1,20 +1,19 @@
 import {
-  Autocomplete,
-  SxProps,
-  TextField,
   Theme,
-  Typography,
+  SxProps,
   useTheme,
+  TextField,
+  Typography,
+  Autocomplete,
 } from '@mui/material';
 import React, { useEffect } from 'react';
 import { Control, Controller, FieldValues } from 'react-hook-form';
 
-import { usePOST } from '../../utils/hooks.util';
-import { buildReqFilter } from '../../utils/functions.util';
+import { usePOST } from '@/hooks/swr.hook';
+import { buildReqFilter } from '@/utils/functions.util';
 
 interface Option {
-  label: string;
-  value: string | number;
+  data: Array<SelectOption>;
 }
 
 interface SelectProps {
@@ -23,10 +22,10 @@ interface SelectProps {
   controller: Control<FieldValues>;
   urlData?: string;
   disabled?: boolean;
-  fixedData?: Option[];
+  fixedData?: Array<SelectOption>;
   inputStyle?: SxProps<Theme>;
-  validation?: Record<string, any>;
-  bodyContent?: Record<string, any>;
+  validation?: Record<string, unknown>;
+  bodyContent?: Record<string, string | boolean | null>;
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -43,18 +42,20 @@ const Select: React.FC<SelectProps> = ({
   const theme = useTheme();
 
   const requestFilter = buildReqFilter({
-    customFields: bodyContent,
+    customFields: bodyContent as Record<string, string | null>,
   });
 
   const { data, refresh, isLoading } = !fixedData.length
-    ? usePOST(urlData, requestFilter)
+    ? usePOST<Option>(urlData, requestFilter)
     : { data: null, refresh: () => {}, isLoading: false };
 
   useEffect(() => {
     refresh();
   }, [urlData]);
 
-  const options: Option[] = [fixedData, data?.data].flat().filter(Boolean);
+  const options: Array<SelectOption> = [fixedData, data?.data ?? []]
+    .flat()
+    .filter(Boolean);
 
   return (
     <Controller

@@ -9,7 +9,6 @@ import {
   Paper,
   useTheme,
 } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { useDebounce } from '@uidotdev/usehooks';
 import React, { useEffect, useState } from 'react';
@@ -24,16 +23,21 @@ import FirstPageOutlinedIcon from '@mui/icons-material/FirstPageOutlined';
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined';
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined';
 
-import { useGlobalContext } from '../../contexts/global.context';
-import { useNavigate, usePermissions, usePOST } from '../../utils/hooks.util';
-import { buildReqFilter, formatStringToMask } from '../../utils/functions.util';
+import config from '@config';
+import { useGlobalContext } from '@/contexts/global.context';
+import { buildReqFilter, formatStringToMask } from '@/utils/functions.util';
 
-import Icon from '../Icon';
+import Icon from '@/components/Icon';
+import IconButton from '@/components/IconButton';
+
 import EmptyRow from './EmptyRow';
-import IconButton from '../IconButton';
 import DeleteDialog from './DeleteDialog';
 import ActionComponent from './ActionComponent';
 import LoadingComponent from './LoadingComponent';
+import { useNavigate } from '@/hooks/router.hook';
+import { usePermission } from '@/hooks/session.hook';
+import { usePOST } from '@/hooks/swr.hook';
+import strings from '@/strings';
 
 interface TableProps {
   urlList: string;
@@ -62,16 +66,15 @@ const Table: React.FC<TableProps> = ({
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { canCreate } = usePermissions();
+  const { canCreate } = usePermission();
   const { handleOnSubmit } = useGlobalContext();
-  const { t, i18n } = useTranslation(['common', 'validations']);
 
   const [page, setPage] = useState<number>(defaultPage);
   const [qnt, setQnt] = useState<number>(defaultPageSize);
   const [search, setSearch] = useState<string | null>(null);
   const [orderList, setOrderList] = useState<SortBy[]>([]);
+  const [contentList, setContentList] = useState<DataTable['data']>([]);
   const [deleteDialog, setDeleteDialog] = useState<{ id: number } | null>(null);
-  const [contentList, setContentList] = useState<Record<string, unknown>[]>([]);
 
   const debouncedSearch = useDebounce(search, 800);
 
@@ -94,7 +97,11 @@ const Table: React.FC<TableProps> = ({
     sortBy: orderList,
   });
 
-  const { data, isLoading, refresh } = usePOST(urlList, requestFilter, true);
+  const { data, isLoading, refresh } = usePOST<DataTable>(
+    urlList,
+    requestFilter,
+    true
+  );
 
   const handleCloseDialog = () => setDeleteDialog(null);
   const handleOpenDialog = (row: { id: number }) => setDeleteDialog(row);
@@ -108,7 +115,7 @@ const Table: React.FC<TableProps> = ({
   const handleDeleteClick = (row: { id: number }) => {
     handleOnSubmit({
       type: 'DELETE',
-      url: `${urlDelete}?id=${row.id}`,
+      endpoint: `${urlDelete}?id=${row.id}`,
       message: true,
       onSuccess: () => {
         refresh();
@@ -153,7 +160,7 @@ const Table: React.FC<TableProps> = ({
               shrink={!!search}
               htmlFor="table-filter"
             >
-              {t('common:filter')}
+              {strings.actions.filter}
             </InputLabel>
             <Input
               size="small"
@@ -164,7 +171,11 @@ const Table: React.FC<TableProps> = ({
                 <InputAdornment position="end">
                   <IconButton
                     onClick={() => setSearch(null)}
-                    tippy={t(search ? 'common:clearFilter' : 'common:filter')}
+                    tippy={
+                      search
+                        ? strings.actions.clearFilter
+                        : strings.actions.filter
+                    }
                     icon={
                       search ? (
                         <ClearIcon fontSize="small" />
@@ -183,7 +194,7 @@ const Table: React.FC<TableProps> = ({
         {hasAddButton && canCreate && (
           <IconButton
             disabled={!canCreate}
-            tippy={t('common:createRecord')}
+            tippy={strings.actions.createRecord}
             icon={<AddIcon fontSize="small" />}
             customStyles={{
               color: theme.palette.common.white,
@@ -218,11 +229,13 @@ const Table: React.FC<TableProps> = ({
           onChangeRowsPerPage={(pageQnt) => setQnt(pageQnt)}
           paginationIconFirstPage={<FirstPageOutlinedIcon />}
           paginationIconPrevious={<NavigateBeforeOutlinedIcon />}
-          onRowClicked={(row: unknown) => handleUpdateClick(row as { id: number })}
+          onRowClicked={(row: unknown) =>
+            handleUpdateClick(row as { id: number })
+          }
           paginationComponentOptions={{
-            rowsPerPageText: t('common:rowsPerPage'),
-            selectAllRowsItemText: t('common:all'),
-            rangeSeparatorText: t('common:of'),
+            rowsPerPageText: strings.common.rowsPerPage,
+            selectAllRowsItemText: strings.common.all,
+            rangeSeparatorText: strings.common.of,
           }}
           columns={
             [
@@ -276,7 +289,7 @@ const Table: React.FC<TableProps> = ({
                           return '-';
                         }
                         return new Date(row[field] as string).toLocaleString(
-                          i18n.language
+                          config.DEFAULT_LANGUAGE
                         );
                       },
                       sortable: sortable,
@@ -290,14 +303,13 @@ const Table: React.FC<TableProps> = ({
                           return '-';
                         }
 
-                        return new Date(row[field] as string).toLocaleDateString(
-                          i18n.language,
-                          {
-                            year: 'numeric',
-                            month: '2-digit',
-                            day: '2-digit',
-                          }
-                        );
+                        return new Date(
+                          row[field] as string
+                        ).toLocaleDateString(config.DEFAULT_LANGUAGE, {
+                          year: 'numeric',
+                          month: '2-digit',
+                          day: '2-digit',
+                        });
                       },
                       sortable: sortable,
                       maxWidth: width,
@@ -310,14 +322,13 @@ const Table: React.FC<TableProps> = ({
                           return '-';
                         }
 
-                        return new Date(row[field] as string).toLocaleTimeString(
-                          i18n.language,
-                          {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            second: '2-digit',
-                          }
-                        );
+                        return new Date(
+                          row[field] as string
+                        ).toLocaleTimeString(config.DEFAULT_LANGUAGE, {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          second: '2-digit',
+                        });
                       },
                       sortable: sortable,
                       maxWidth: width,
@@ -326,7 +337,10 @@ const Table: React.FC<TableProps> = ({
                     return {
                       name: name,
                       selector: (row: Record<string, unknown>) =>
-                        formatStringToMask(row[field] as string, mask as string),
+                        formatStringToMask(
+                          row[field] as string,
+                          mask as string
+                        ),
                       sortable: sortable,
                       maxWidth: width,
                     };
@@ -334,7 +348,7 @@ const Table: React.FC<TableProps> = ({
               }),
               {
                 center: true,
-                name: t('common:actions'),
+                name: strings.actions.actions,
                 maxWidth: '100px',
                 cell: (row: { id: number }) => (
                   <ActionComponent

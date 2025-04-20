@@ -1,21 +1,24 @@
 import {
-  Typography,
-  Switch as SwitchComponent,
+  Theme,
+  SxProps,
   useTheme,
+  Typography,
   FormControlLabel,
+  Switch as SwitchComponent,
 } from '@mui/material';
 import React from 'react';
 import { Controller, Control, FieldValues } from 'react-hook-form';
+
+type SizeSwitch = 'small' | 'medium';
 
 interface SwitchProps {
   name: string;
   label: string;
   controller: Control<FieldValues>;
-  size?: 'small' | 'medium';
+  size?: SizeSwitch;
   validation?: Record<string, unknown>;
-  inputStyle?: Record<string, unknown>;
+  inputStyle?: SxProps<Theme>;
   disabled?: boolean;
-  helperText?: string | null;
 }
 
 const Switch: React.FC<SwitchProps> = ({
@@ -26,7 +29,6 @@ const Switch: React.FC<SwitchProps> = ({
   validation = {},
   inputStyle = {},
   disabled = false,
-  helperText = null,
 }) => {
   const theme = useTheme();
 
@@ -35,7 +37,7 @@ const Switch: React.FC<SwitchProps> = ({
       name={name}
       control={controller}
       rules={validation}
-      render={({ field }) => (
+      render={({ field, fieldState: { error } }) => (
         <>
           <FormControlLabel
             label={label}
@@ -53,12 +55,12 @@ const Switch: React.FC<SwitchProps> = ({
               />
             }
           />
-          {helperText && (
+          {error && (
             <Typography
               variant="caption"
               sx={{ color: theme.palette.error.main }}
             >
-              {helperText}
+              {error.message}
             </Typography>
           )}
         </>

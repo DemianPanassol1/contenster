@@ -1,48 +1,47 @@
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { Box, useTheme } from '@mui/material';
 import { useLocation } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import React, { ReactNode, useEffect } from 'react';
 
-import { useGlobalContext } from '../../contexts/global.context';
-import { usePermissions, useRouteParams, useUserSession } from '../../utils/hooks.util';
+import strings from '@/strings';
+import config from '@config';
 
-import PageChip from '../PageChip';
+import PageChip from '@/components/PageChip';
+import { useRouteParams } from '@/hooks/router.hook';
+import { usePermission, useSession } from '@/hooks/session.hook';
 
 interface PageProps {
-  pageChip?: boolean;
   children: ReactNode;
+  pageChip?: boolean;
   transitionDelay?: boolean;
 }
 
 const Page: React.FC<PageProps> = ({
-  pageChip = true,
   children,
+  pageChip = true,
   transitionDelay = true,
 }) => {
-  const {
-    state: { configInfo },
-  } = useGlobalContext();
   const theme = useTheme();
+  const session = useSession();
   const location = useLocation();
-  const session = useUserSession();
-  const permissions = usePermissions();
+  const permissions = usePermission();
   const { type, slug } = useRouteParams();
-  const { t } = useTranslation(['common']);
 
   const chipLabel = (() => {
     switch (type) {
       case 'edit':
-        return t('common:edit');
+        return strings.actions.edit;
       case 'create':
-        return t('common:create');
+        return strings.actions.create;
       default:
         return '';
     }
   })();
 
   const mainChipLabel = (() => {
-    return permissions?.title ?? (slug === 'profile' ? t('common:profile') : '');
+    return (
+      permissions?.title ?? (slug === 'profile' ? strings.common.profile : '')
+    );
   })();
 
   const title = (() => {
@@ -53,13 +52,13 @@ const Page: React.FC<PageProps> = ({
     }
 
     const pageTitleMap: Record<string, string> = {
-      'sign-in': t('common:login'),
-      'reset-password': t('common:recoverPassword'),
-      'create-password': t('common:redeemPassword'),
+      'sign-in': strings.common.login,
+      'reset-password': strings.common.recoverPassword,
+      'create-password': strings.common.redeemPassword,
     };
 
     const lastPathSegment = location.pathname.split('/').pop() || '';
-    return `${configInfo?.projectName ?? ''} - ${pageTitleMap[lastPathSegment] ?? ''}`.trimEnd();
+    return `${config.PROJECT_NAME} - ${pageTitleMap[lastPathSegment] ?? ''}`.trimEnd();
   })();
 
   useEffect(() => {

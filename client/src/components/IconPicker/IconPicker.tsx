@@ -10,7 +10,6 @@ import {
   Skeleton,
   Paper,
 } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import { useDebounce } from '@uidotdev/usehooks';
 import React, { useState, ChangeEvent } from 'react';
 
@@ -19,11 +18,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined';
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined';
 
-import { usePOST } from '../../utils/hooks.util';
-import { buildReqFilter } from '../../utils/functions.util';
-import { GET_ICON_LIST } from '../../routes/contenster/global';
+import routes from '@/routes';
+import strings from '@/strings';
 
-import Icon from '../Icon';
+import { usePOST } from '@/hooks/swr.hook';
+import { buildReqFilter } from '@/utils/functions.util';
+
+import Icon from '@/components/Icon';
 
 interface IconPickerProps {
   selectedIcon: string;
@@ -31,24 +32,23 @@ interface IconPickerProps {
 }
 
 interface IconListResponse {
-  data: {
-    data: Array<{ name: string; path: string }>;
-    meta: {
-      pageNumber: number;
-      pageSize: number;
-      totalFiltered: number;
-      totalPages: number;
-      hasNextPage: boolean;
-    };
+  data: Array<{ name: string; path: string }>;
+  meta: {
+    pageNumber: number;
+    pageSize: number;
+    totalFiltered: number;
+    totalPages: number;
+    hasNextPage: boolean;
   };
-  isLoading: boolean;
 }
 
-const IconPicker: React.FC<IconPickerProps> = ({ selectedIcon, setIconValue }) => {
+const IconPicker: React.FC<IconPickerProps> = ({
+  selectedIcon,
+  setIconValue,
+}) => {
   const [qnt] = useState(12);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
-  const { t } = useTranslation(['common']);
 
   const debouncedSearch = useDebounce(search, 800);
 
@@ -66,7 +66,10 @@ const IconPicker: React.FC<IconPickerProps> = ({ selectedIcon, setIconValue }) =
     ],
   });
 
-  const { data, isLoading }: IconListResponse = usePOST(GET_ICON_LIST, requestFilter);
+  const { data, isLoading } = usePOST<IconListResponse>(
+    routes.CONTENSTER.GLOBAL.GET_ICON_LIST,
+    requestFilter
+  );
 
   const handleSearchTerm = (elem: ChangeEvent<HTMLInputElement>) => {
     setSearch(elem.target.value);
@@ -176,7 +179,7 @@ const IconPicker: React.FC<IconPickerProps> = ({ selectedIcon, setIconValue }) =
                 margin: '0.5rem 0 0',
               }}
             >
-              {t('common:noRecords')}
+              {strings.common.noRecords}
             </Typography>
           )}
         </Grid>

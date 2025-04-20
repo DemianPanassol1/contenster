@@ -1,11 +1,11 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Box, IconButton } from '@mui/material';
 
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import { usePermissions } from '../../../utils/hooks.util';
+import strings from '@/strings';
+import { usePermission } from '@/hooks/session.hook';
 
 interface ActionComponentProps {
   onUpdateClick: () => void;
@@ -20,8 +20,8 @@ const ActionComponent: React.FC<ActionComponentProps> = ({
   canUpdate = true,
   canDelete = true,
 }) => {
-  const { t } = useTranslation(['common']);
-  const { canUpdate: canUpdatePerm, canDelete: canDeletePerm } = usePermissions();
+  const { canUpdate: canUpdatePerm, canDelete: canDeletePerm } =
+    usePermission();
 
   return (
     <Box
@@ -34,7 +34,7 @@ const ActionComponent: React.FC<ActionComponentProps> = ({
         <IconButton
           size="small"
           color="info"
-          title={t('common:edit')}
+          title={strings.actions.edit}
           disabled={!canUpdatePerm}
           onClick={onUpdateClick}
         >
@@ -46,7 +46,7 @@ const ActionComponent: React.FC<ActionComponentProps> = ({
         <IconButton
           size="small"
           color="error"
-          title={t('common:delete')}
+          title={strings.actions.delete}
           disabled={!canDeletePerm}
           onClick={onDeleteClick}
         >

@@ -1,39 +1,46 @@
-import { ThemeProvider } from '@emotion/react';
-import { AnimatePresence } from 'framer-motion';
+import React from 'react';
+import { AnimatePresence } from 'motion/react';
+import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, GlobalStyles } from '@mui/material';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import { useGlobalContext } from './contexts/global.context';
+import darkTheme from '@/themes/dark.theme';
+import lightTheme from '@/themes/light.theme';
+import { useGlobalContext } from '@/contexts/global.context';
 
-import './settings/i18n.setting';
+import Error from '@/views/general/Error';
+import Auth from '@/views/public/common/Auth';
+import Admin from '@/views/private/common/Admin';
 
-import Auth from './views/common/Auth';
-import Admin from './views/common/Admin';
-import Error from './views/common/Error';
-
-import { adminViews, authViews } from './views';
+import publicContensterViews from '@/views/public/contenster';
+import privateContensterViews from '@/views/private/contenster';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Admin />,
     errorElement: <Error />,
-    children: [...adminViews],
+    children: [...privateContensterViews],
   },
   {
     path: '/auth',
     element: <Auth />,
     errorElement: <Error />,
-    children: [...authViews],
+    children: [...publicContensterViews],
   },
 ]);
 
-const App = () => {
-  const { getTheme } = useGlobalContext();
+const App: React.FC = () => {
+  const {
+    state: { theme },
+  } = useGlobalContext();
 
   return (
-    <ThemeProvider theme={getTheme()}>
-      <AnimatePresence>
+    <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+      <AnimatePresence
+        mode="wait"
+        initial={false}
+      >
         <RouterProvider router={router} />
       </AnimatePresence>
       <CssBaseline />
