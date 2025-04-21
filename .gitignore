@@ -5,8 +5,8 @@
 /client/node_modules
 /client/build
 
-/client_v2/node_modules
-/client_v2/build
+/_client_old/node_modules
+/_client_old/build
 
 # Logs
 logs
