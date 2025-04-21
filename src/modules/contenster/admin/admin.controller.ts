@@ -8,7 +8,7 @@ import { ICurrentUser } from 'src/shared/types/api.types';
 import { File } from 'src/common/decorators/file.decorator';
 import { UploadFile } from 'src/common/interceptors/upload.interceptor';
 import { CurrentUser } from 'src/common/decorators/currentUser.decorator';
-import { Authenticate } from 'src/common/interceptors/authenticate.interceptor';
+import { Authenticate } from 'src/common/guards/authenticate.guard';
 
 import { PutUserInfoReqDto } from './dto/req/putUserInfo.req.dto';
 import { GetFileByIdReqDto } from './dto/req/getFileById.req.dto';

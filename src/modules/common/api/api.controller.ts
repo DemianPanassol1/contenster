@@ -2,7 +2,7 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 import { Body, Controller, Get, Post } from '@nestjs/common';
 
 import { ApiService } from './api.service';
-import { Authorize } from 'src/common/interceptors/authorize.interceptor';
+import { Authorize } from 'src/common/guards/authorize.guard';
 
 import { GenerateTokenReqDto } from './dto/req/generateToken.req.dto';
 

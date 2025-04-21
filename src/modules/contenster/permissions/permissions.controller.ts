@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Post, Put, Query } from '@nestjs/common'
 
 import { PermissionsService } from './permissions.service';
 
-import { Authenticate } from 'src/common/interceptors/authenticate.interceptor';
+import { Authenticate } from 'src/common/guards/authenticate.guard';
 
 import { PutPermissionReqDto } from './dto/req/putRole.req.dto';
 import { GetPermissionReqDto } from './dto/req/getPermission.req.dto';

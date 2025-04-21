@@ -2,7 +2,7 @@ import { Throttle } from '@nestjs/throttler';
 import { Controller, Get, Post, Body, Delete, Query, Put } from '@nestjs/common';
 
 import { MessagesService } from './messages.service';
-import { Authorize } from 'src/common/interceptors/authorize.interceptor';
+import { Authorize } from 'src/common/guards/authorize.guard';
 
 import { GetMessageReqDto } from './dto/req/getMessage.req.dto';
 import { PutMessageReqDto } from './dto/req/putMessage.req.dto';

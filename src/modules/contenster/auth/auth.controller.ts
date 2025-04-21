@@ -2,7 +2,7 @@ import { Request } from 'express';
 import { Body, Controller, Get, Post, Req } from '@nestjs/common';
 
 import { AuthService } from './auth.service';
-import { Authorize } from 'src/common/interceptors/authorize.interceptor';
+import { Authorize } from 'src/common/guards/authorize.guard';
 
 import { SignInUserReqDto } from './dto/req/signIn.req.dto';
 import { ResetPasswordReqDto } from './dto/req/resetPassword.req.dto';

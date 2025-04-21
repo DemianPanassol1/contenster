@@ -2,7 +2,7 @@ import { Body, Controller, Post } from '@nestjs/common';
 
 import { OptionService } from './option.service';
 
-import { Authenticate } from 'src/common/interceptors/authenticate.interceptor';
+import { Authenticate } from 'src/common/guards/authenticate.guard';
 
 import { GetRoleOptionsReqDto } from './dto/req/getRoleOptions.req.dto';
 import { GetModuleOptionsReqDto } from './dto/req/getModuleOptions.req.dto';

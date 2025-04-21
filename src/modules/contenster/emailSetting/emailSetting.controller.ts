@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Query, Put, Delete } from '@nestjs/common';
 
 import { EmailSettingService } from './emailSetting.service';
-import { Authenticate } from 'src/common/interceptors/authenticate.interceptor';
+import { Authenticate } from 'src/common/guards/authenticate.guard';
 
 import { GetEmailSettingReqDto } from './dto/req/getEmailSetting.req.dto';
 import { PutEmailSettingReqDto } from './dto/req/putEmailSetting.req.dto';

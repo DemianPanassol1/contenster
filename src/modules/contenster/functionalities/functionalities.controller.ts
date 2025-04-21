@@ -3,7 +3,7 @@ import { Body, Controller, Delete, Get, Post, Put, Query, Req } from '@nestjs/co
 
 import { FunctionalitiesService } from './functionalities.service';
 
-import { Authenticate } from 'src/common/interceptors/authenticate.interceptor';
+import { Authenticate } from 'src/common/guards/authenticate.guard';
 
 import { GetFunctionalityReqDto } from './dto/req/getFunctionality.req.dto';
 import { PutFunctionalityReqDto } from './dto/req/putFunctionality.req.dto';

@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Post, Put, Query } from '@nestjs/common'
 
 import { RolesService } from './roles.service';
 
-import { Authenticate } from 'src/common/interceptors/authenticate.interceptor';
+import { Authenticate } from 'src/common/guards/authenticate.guard';
 
 import { GetRoleReqDto } from './dto/req/getRole.req.dto';
 import { PutRoleReqDto } from './dto/req/putRole.req.dto';

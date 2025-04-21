@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import { Body, Controller, Delete, Get, Post, Put, Query, Req } from '@nestjs/common';
 
-import { Authenticate } from 'src/common/interceptors/authenticate.interceptor';
+import { Authenticate } from 'src/common/guards/authenticate.guard';
 
 import { UsersService } from './users.service';
 
