@@ -11,12 +11,12 @@ import { NextFunction, Request, Response } from 'express';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { I18nValidationExceptionFilter, I18nValidationPipe } from 'nestjs-i18n';
 
-import variables from './settings';
-import { AppModule } from './modules/app.module';
-import winstonInstance from './config/winston/winston.config';
-import swaggerInstance from './config/swagger/swagger.config';
-import sessionInstance from './config/session/session.config';
-import { dbOptions, environment, HTTPS } from './config/constants/constants.config';
+import variables from 'src/settings';
+import { AppModule } from 'src/modules/app.module';
+import winstonInstance from 'src/config/winston/winston.config';
+import swaggerInstance from 'src/config/swagger/swagger.config';
+import sessionInstance from 'src/config/session/session.config';
+import { dbOptions, environment, HTTPS } from 'src/config/constants/constants.config';
 
 (async () => {
   await Promise.allSettled(

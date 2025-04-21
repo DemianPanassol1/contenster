@@ -75,6 +75,7 @@ const Main: React.FC = () => {
       }}
     >
       <Wrapper
+        variant="opacity"
         submitButtonContent={strings.common.createPasswordButton}
         cancelButtonContent={strings.actions.cancel}
         onSubmit={handleSubmit(onSubmit)}

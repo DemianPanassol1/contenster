@@ -128,6 +128,7 @@ const Main: React.FC = () => {
         }}
       />
       <Wrapper
+        variant="opacity"
         submitButtonContent={strings.actions.loginButton}
         cancelButtonContent={strings.actions.cancel}
         onSubmit={handleSubmit(onSubmit)}
