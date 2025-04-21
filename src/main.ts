@@ -65,6 +65,12 @@ import { dbOptions, environment, HTTPS } from './config/constants/constants.conf
     })(req, res, next);
   });
 
+  app.use((req: Request, _res: Response, next: NextFunction) => {
+    req.startTime = Date.now();
+
+    next();
+  });
+
   app.use(compression());
 
   app.use(session(sessionInstance()));

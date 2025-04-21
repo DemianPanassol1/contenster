@@ -1,166 +1,181 @@
 import {
-  CallHandler,
-  ExecutionContext,
+  Logger,
   HttpStatus,
   Injectable,
-  Logger,
+  CallHandler,
+  HttpException,
   NestInterceptor,
+  ExecutionContext,
 } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
-import { Repository } from 'typeorm';
+import { unlink } from 'fs/promises';
 import { Observable, of } from 'rxjs';
-import { existsSync, unlinkSync } from 'fs';
 import { Request, Response } from 'express';
 import { catchError, map } from 'rxjs/operators';
+import { ValidationError } from 'class-validator';
 import { InjectRepository } from '@nestjs/typeorm';
-import { I18nContext, I18nService } from 'nestjs-i18n';
+import { EntityPropertyNotFoundError, Repository } from 'typeorm';
+import { I18nContext, I18nValidationException } from 'nestjs-i18n';
 
-import { CoreInterceptor } from 'src/core/core.interceptor';
+import { regex } from 'src/shared/utils/regex.utils';
 import { miliToString } from 'src/shared/utils/convertion.utils';
+import { environment } from 'src/config/constants/constants.config';
 import { ErrorItem, ResponseFormat } from 'src/shared/types/api.types';
-import { environment, typeormErrors } from 'src/config/constants/constants.config';
 import { LoglevelType, RequestLog } from 'src/entities/contensterdb/requestLog.entity';
 
+type ErrorType = HttpException | I18nValidationException | EntityPropertyNotFoundError;
+
 @Injectable()
-export class ResponseInterceptor extends CoreInterceptor implements NestInterceptor {
+export class ResponseInterceptor implements NestInterceptor {
   constructor(
     private readonly logger: Logger,
-    private readonly i18n: I18nService,
-    @InjectRepository(RequestLog, 'contensterdb') private requestLogRepo: Repository<RequestLog>,
-  ) {
-    super();
-  }
+    @InjectRepository(RequestLog, 'contensterdb') private repo: Repository<RequestLog>,
+  ) {}
 
-  intercept(context: ExecutionContext, next: CallHandler): Observable<ResponseFormat<any>> {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
+    const i18n: I18nContext = I18nContext.current();
+
     const req: Request = context.switchToHttp().getRequest<Request>();
     const res: Response = context.switchToHttp().getResponse<Response>();
-
-    const now = Date.now();
 
     return next.handle().pipe(
       map((data: unknown) => {
         const statusCode = res.statusCode === HttpStatus.CREATED ? HttpStatus.OK : res.statusCode;
-        const statusDescription = HttpStatus[statusCode] || 'UNKNOWN_STATUS';
 
-        const response: ResponseFormat<unknown> = {
-          lang: I18nContext.current().lang,
-          requestId: uuidv4(),
-          statusCode: statusCode,
-          status: statusDescription,
-          body: data || null,
-          errors: { count: 0, items: [] },
-          datetime: new Date().toISOString(),
-          requestTime: miliToString(Date.now() - now),
-        };
+        res.status(statusCode);
 
-        const requestLog: Partial<RequestLog> = {
-          logLevel: LoglevelType.info,
-          requestId: response.requestId,
-          httpMethod: req.method,
-          responseTime: miliToString(Date.now() - now),
-          ipAddress: req.ip,
-          userAgent: req.headers['user-agent'],
-          responseStatusCode: response.statusCode,
-          responseBody: response,
-          requestHeader: req.headers,
-          requestBody: req.body,
-        };
+        const response = this.buildResponse(req, res, data);
 
-        this.requestLogRepo.save(requestLog);
+        this.logRequest(req, res, LoglevelType.info, response);
 
         return response;
       }),
+      catchError((error) => {
+        const statusCode = error.getStatus ? error.getStatus() : 500;
 
-      catchError((err) => {
         if (req.file) {
-          if (existsSync(req.file.path)) {
-            unlinkSync(req.file.path);
-          }
+          unlink(req.file.path).catch(() => null);
 
           req.file = null;
         }
 
-        this.logger.error(err.message, err.stack);
+        res.status(statusCode);
 
-        const statusCode = err.getStatus ? err.getStatus() : 500;
-        const statusDescription = HttpStatus[statusCode] || 'UNKNOWN_STATUS';
+        const response = this.buildErrorResponse(error, req, res, i18n);
 
-        const errors: ErrorItem[] = [];
-        const regex = /^(?=.*\.)[a-z.]+$/;
+        this.logger.error(error.message, error.stack);
 
-        if (err.name === 'HttpException') {
-          errors.push({
-            id: uuidv4(),
-            message: regex.test(err.message) ? this.i18n.t(err.message) : err.message,
-            errorType: err.name,
-          });
-        } else if (err.name === 'I18nValidationException') {
-          this.processValidationErrors(err.errors, errors, err.name);
-        } else if (typeormErrors.includes(err.name) && environment !== 'production') {
-          errors.push({
-            id: uuidv4(),
-            message: err.message,
-            errorType: err.name,
-          });
+        if (statusCode >= 500) {
+          this.logRequest(req, res, LoglevelType.error, response);
         } else {
-          errors.push({
-            id: uuidv4(),
-            message: this.i18n.t('errors.genericError'),
-            errorType: err.name,
-          });
+          this.logRequest(req, res, LoglevelType.warning, response);
         }
 
-        const errorResponse: ResponseFormat<null> = {
-          lang: I18nContext.current().lang,
-          requestId: uuidv4(),
-          statusCode: statusCode,
-          status: statusDescription,
-          body: null,
-          errors: {
-            count: errors.length,
-            items: errors,
-          },
-          datetime: new Date().toISOString(),
-          requestTime: miliToString(Date.now() - now),
-        };
-
-        const requestLog: Partial<RequestLog> = {
-          logLevel: statusCode === 500 ? LoglevelType.error : LoglevelType.warning,
-          requestId: errorResponse.requestId,
-          httpMethod: req.method,
-          responseTime: miliToString(Date.now() - now),
-          ipAddress: req.ip,
-          userAgent: req.headers['user-agent'],
-          responseStatusCode: errorResponse.statusCode,
-          responseBody: errorResponse,
-          requestHeader: req.headers,
-          requestBody: req.body,
-        };
-
-        this.requestLogRepo.save(requestLog);
-
-        return of(errorResponse);
+        return of(response);
       }),
     );
   }
 
-  private processValidationErrors(errorList: any[], errors: ErrorItem[], errorType: string) {
+  private buildResponse(req: Request, res: Response, data: unknown): ResponseFormat<unknown> {
+    return {
+      lang: I18nContext.current().lang,
+      requestId: uuidv4(),
+      statusCode: res.statusCode,
+      status: HttpStatus[res.statusCode] || 'UNKNOWN_STATUS',
+      body: data,
+      errors: { count: 0, items: [] },
+      datetime: new Date().toISOString(),
+      requestTime: miliToString(Date.now() - req.startTime),
+    };
+  }
+
+  private buildErrorResponse(error: ErrorType, req: Request, res: Response, i18n: I18nContext) {
+    const errors: ErrorItem[] = [];
+
+    if (error instanceof I18nValidationException) {
+      this.processValidationErrors(error.errors, errors, i18n);
+    } else if (error instanceof HttpException) {
+      errors.push({
+        id: uuidv4(),
+        message: regex.test(error.message) ? i18n.t(error.message) : error.message,
+        errorType: error.name,
+      });
+    } else if (error instanceof EntityPropertyNotFoundError && environment !== 'production') {
+      errors.push({
+        id: uuidv4(),
+        message: error.message,
+        errorType: error.name,
+      });
+    } else {
+      errors.push({
+        id: uuidv4(),
+        message: i18n.t('errors.genericError'),
+        errorType: 'UNKNOWN_ERROR',
+      });
+    }
+
+    return {
+      lang: I18nContext.current().lang,
+      requestId: uuidv4(),
+      statusCode: res.statusCode,
+      status: HttpStatus[res.statusCode] || 'UNKNOWN_STATUS',
+      body: null,
+      errors: {
+        count: errors.length,
+        items: errors,
+      },
+      datetime: new Date().toISOString(),
+      requestTime: miliToString(Date.now() - req.startTime),
+    };
+  }
+
+  private logRequest(
+    req: Request,
+    res: Response,
+    level: LoglevelType,
+    response: ResponseFormat<unknown>,
+  ): void {
+    try {
+      const requestLog: Partial<RequestLog> = {
+        logLevel: level,
+        ipAddress: req.ip,
+        responseBody: response,
+        requestId: uuidv4(),
+        requestBody: req.body,
+        httpMethod: req.method,
+        requestHeader: req.headers as Record<string, string | string[]>,
+        responseStatusCode: res.statusCode,
+        userAgent: req.headers['user-agent'],
+        responseTime: miliToString(Date.now() - req.startTime),
+      };
+
+      this.repo.save(requestLog);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        this.logger.error(error.message, error.stack);
+      }
+    }
+  }
+
+  private processValidationErrors(
+    errorList: ValidationError[],
+    errors: ErrorItem[],
+    i18n: I18nContext,
+  ) {
     for (const error of errorList) {
       if (error.children && error.children.length > 0) {
-        // Chama recursivamente para processar filhos
-        this.processValidationErrors(error.children, errors, errorType);
+        this.processValidationErrors(error.children, errors, i18n);
       } else if (error.constraints) {
-        // Processa constraints, traduzindo as mensagens
         for (const constraintKey in error.constraints) {
           errors.push({
             id: uuidv4(),
-            message: this.i18n.t(error.constraints[constraintKey], {
+            message: i18n.t(error.constraints[constraintKey], {
               args: {
                 property: error.property,
                 value: error.value,
               },
             }),
-            errorType,
+            errorType: 'I18nValidationException',
           });
         }
       }

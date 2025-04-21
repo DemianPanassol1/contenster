@@ -6,12 +6,12 @@ export interface ErrorItem {
   errorType: string;
 }
 
-export interface ResponseFormat<T> {
+export interface ResponseFormat<T = null> {
   lang: string;
   requestId: string;
   statusCode: number;
   status: string;
-  body: T | null;
+  body: T;
   errors: {
     count: number;
     items: ErrorItem[];
