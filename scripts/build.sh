@@ -59,7 +59,7 @@ echo -e "\n${GREEN}${BOLD}### Installation completed ###${RESET}"
 sleep 1
 
 echo -e "\n${YELLOW}${BOLD}### Building the server...${RESET}"
-npx nest build
+yarn build:server
 
 echo -e "\n${GREEN}${BOLD}### Server build completed ###${RESET}"
 sleep 1
@@ -67,7 +67,7 @@ sleep 1
 clear
 
 environment="./src/settings/$mode.json"
-settings="./client/src/config/settings.json"
+settings="./client/src/config/settings.config.json"
 
 ssl=$(cat "$environment" | grep -E '"SSL"\s*:' | awk -F': ' '{print $2}' | tr -d ',"[:space:]')
 host=$(cat "$environment" | grep -E '"HOST"\s*:' | awk -F': ' '{print $2}' | tr -d ',"[:space:]')
@@ -150,7 +150,7 @@ else
     echo -e "\n${YELLOW}${BOLD}### Skipping pm2 server start ###${RESET}"
 fi
 
-git restore client/src/config/settings.json
+git restore client/src/config/settings.config.json
 
 sleep 1
 
