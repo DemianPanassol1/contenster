@@ -30,7 +30,8 @@ export default {
   all: 'Todos',
   noRecordsFound: 'Nenhum registro encontrado',
   yesDeleteRecord: 'Sim, excluir registro',
-  deleteDialogMessage: 'Você tem certeza que deseja excluir este registro?',
+  deleteDialogMessage:
+    'Você realmente quer excluir este registro? Não será possível restaurar este item após a exclusão.',
   areYouSure: 'Você tem certeza?',
   pageNotFoundTitle: 'Página não encontrada',
   unexpectedErrorTitle: 'Erro inesperado',
@@ -43,12 +44,13 @@ export default {
   copyRight: (year: string) =>
     `Copyright © ${year}. Todos os direitos reservados`,
   loggedSuccessfully: 'Logado com sucesso!',
-  forgotPassword: 'Esqueci minha senha',
+  forgotPassword: 'Esqueceu a senha?',
   emailSentSuccess: 'Email enviado com sucesso!',
   resetPasswordButton: 'Redefinir senha',
-  resetPasswordText: 'Redefina sua senha para continuar',
+  resetPasswordText:
+    'Digite seu e-mail abaixo. Se houver uma conta associada a este endereço, enviaremos um link para redefinir sua senha.',
   createPasswordButton: 'Criar senha',
   createPasswordText: (length: string) =>
-    `Crie uma senha com pelo menos ${length} caracteres`,
+    `Digite sua nova senha abaixo. Lembre-se de usar uma senha segura com pelo menos ${length} caracteres`,
   profilePicture: 'Foto de perfil',
 };
