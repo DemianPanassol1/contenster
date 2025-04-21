@@ -9,7 +9,7 @@
     "build:server": "nest build",
     "build:client": "yarn --cwd client build",
     "app:build": "bash ./scripts/build.sh",
-    "typeorm": "npx typeorm-ts-node-commonjs",
+    "migrations:run": "bash ./scripts/migrations.sh",
     "lint": "eslint \"src/**/*.ts\"",
     "lint:fix": "eslint \"src/**/*.ts\" --fix",
     "prettier:write": "prettier --write \"src/**/*.ts\"",
