@@ -11,7 +11,7 @@ if (!folderName || !dbConfig) {
   throw Error('Erro ao obter as configurações do banco de dados');
 }
 
-export const AppDataSource = new DataSource({
+const AppDataSource = new DataSource({
   type: 'postgres',
   dropSchema: false,
   port: dbConfig.DB_PORT,
@@ -20,5 +20,7 @@ export const AppDataSource = new DataSource({
   username: dbConfig.DB_USERNAME,
   password: dbConfig.DB_PASSWORD,
   entities: [join(__dirname, '..', '..', 'entities', dbConfig.FOLDER_NAME, '*.entity.ts')],
-  migrations: [join(__dirname, '..', '..', 'migrations', dbConfig.FOLDER_NAME, '*.migration.ts')],
+  migrations: [join(__dirname, '..', '..', 'migrations', dbConfig.FOLDER_NAME, '*.ts')],
 });
+
+export { AppDataSource };
