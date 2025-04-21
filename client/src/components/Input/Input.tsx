@@ -29,6 +29,7 @@ interface InputProps {
   readOnly?: boolean;
   disabled?: boolean;
   containerStyle?: SxProps<Theme>;
+  multiline?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -42,6 +43,7 @@ const Input: React.FC<InputProps> = ({
   readOnly = false,
   disabled = false,
   containerStyle = {},
+  multiline = false,
 }) => {
   const theme = useTheme();
   const [showPassword, setShowPassword] = useState(false);
@@ -96,6 +98,8 @@ const Input: React.FC<InputProps> = ({
                       : 'password'
                     : type
                 }
+                multiline={multiline}
+                rows={multiline ? 4 : undefined}
                 size="small"
                 name={field.name}
                 readOnly={readOnly}
