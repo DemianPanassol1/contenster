@@ -23,7 +23,7 @@ import { GetFileByIdResDto } from './dto/res/getFileById.res.dto';
 import { GetIconListResDto } from './dto/res/getIconList.res.dto';
 import { DeleteFileByIdResDto } from './dto/res/deleteFileById.res.dto';
 import { PostUploadFileResDto } from './dto/res/postUploadFile.res.dto';
-import { GetModulesListResDto } from './dto/res/getModulesList.res.dto';
+import { GetMenuModulesListResDto } from './dto/res/getMenuModulesList.res.dto';
 import { PutResetPasswordResDto } from './dto/res/putResetPassword.res.dto';
 import { PostChangeUserEstablishmentResDto } from './dto/res/postChangeUserEstablishment.res.dto';
 
@@ -241,7 +241,7 @@ export class AdminService extends CoreService {
       }))
       .sort((a, b) => a.position - b.position);
 
-    return this.response(GetModulesListResDto, response);
+    return this.response(GetMenuModulesListResDto, response);
   }
 
   async getFileById(req: Request, query: GetFileByIdReqDto) {

@@ -44,7 +44,7 @@ export class FunctionalityDto {
   permissions: PermissionDto;
 }
 
-export class GetModulesListResDto {
+export class GetMenuModulesListResDto {
   @Expose()
   id: number;
 
