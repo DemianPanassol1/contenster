@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { Box, useTheme } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import React, { ReactNode, useEffect } from 'react';
@@ -69,9 +69,16 @@ const Page: React.FC<PageProps> = ({
 
   return (
     <Box
+      component={motion.section}
       exit="exit"
       initial="initial"
       animate="animate"
+      variants={{
+        initial: { opacity: 0, x: -100 },
+        animate: { opacity: 1, x: 0 },
+        exit: { opacity: 0, x: -100 },
+      }}
+      transition={{ delay: transitionDelay ? 0.25 : 0 }}
       sx={{
         flex: 1,
         padding: '0 1rem',
@@ -79,13 +86,6 @@ const Page: React.FC<PageProps> = ({
           padding: '0 1.5rem 0',
         },
       }}
-      component={motion.section}
-      variants={{
-        initial: { opacity: 0, x: -100 },
-        animate: { opacity: 1, x: 0 },
-        exit: { opacity: 0, x: -100 },
-      }}
-      transition={{ delay: transitionDelay ? 0.25 : 0 }}
     >
       {pageChip && (
         <PageChip

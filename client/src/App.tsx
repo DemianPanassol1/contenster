@@ -1,8 +1,8 @@
 import React from 'react';
 import { AnimatePresence } from 'motion/react';
+import { RouterProvider } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, GlobalStyles } from '@mui/material';
-import { RouterProvider } from 'react-router-dom';
 
 import router from './router';
 import darkTheme from '@/themes/dark.theme';
@@ -16,10 +16,7 @@ const App: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
-      <AnimatePresence
-        mode="wait"
-        initial={false}
-      >
+      <AnimatePresence>
         <RouterProvider router={router} />
       </AnimatePresence>
       <CssBaseline />
