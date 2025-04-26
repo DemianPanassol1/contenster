@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import { I18nService } from 'nestjs-i18n';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
 import variables from 'src/settings';
@@ -10,6 +11,10 @@ import { ValidateTokenResDto } from './dto/res/validateToken.res.dto';
 
 @Injectable()
 export class ApiService extends CoreService {
+  constructor(readonly i18n: I18nService) {
+    super(i18n);
+  }
+
   getValidateToken() {
     const response = { validated: true };
 
@@ -20,7 +25,7 @@ export class ApiService extends CoreService {
     const { login, password } = body;
 
     if (login !== variables.API_LOGIN || password !== variables.API_PASSWORD) {
-      throw new HttpException('Unauthorized Message', HttpStatus.UNAUTHORIZED);
+      throw new HttpException(this.i18n.t('errors.invalidApiCredentials'), HttpStatus.UNAUTHORIZED);
     }
 
     const payload = {

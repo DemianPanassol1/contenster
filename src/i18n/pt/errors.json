@@ -26,5 +26,6 @@
   "passwordsNotMatch": "Senhas não conferem",
   "usernameAlreadyExists": "Nome de usuário já existe",
   "emailAlreadyExists": "E-mail já existe",
-  "throttlerLimitExceeded": "Limite de tentativas excedido. Tente novamente mais tarde"
+  "throttlerLimitExceeded": "Limite de tentativas excedido. Tente novamente mais tarde",
+  "invalidApiCredentials": "Credenciais de API inválidas"
 }

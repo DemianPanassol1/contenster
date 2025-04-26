@@ -1,31 +1,30 @@
-import React from 'react';
 import { Box } from '@mui/material';
+import React, { useEffect } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 import { useSession } from '@/hooks/session.hook';
 
 const Auth: React.FC = () => {
   const session = useSession();
+  const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  if (session) {
-    return (
-      <Navigate
-        replace
-        to="/"
-      />
-    );
-  }
+  useEffect(() => {
+    if (session) {
+      console.log('Session exists, redirecting to home page');
 
-  if (pathname === '/auth') {
-    return (
-      <Navigate
-        replace
-        to="/auth/sign-in"
-      />
-    );
-  }
+      navigate('/', { replace: true });
+      return;
+    }
+
+    if (pathname === '/auth') {
+      console.log('No session, redirecting to sign-in page');
+
+      navigate('/auth/sign-in', { replace: true });
+      return;
+    }
+  }, [session, pathname]);
 
   return (
     <Box

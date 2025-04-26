@@ -34,6 +34,7 @@ const Admin: React.FC = () => {
       if (homePage.redirect === true) {
         Object.assign(homePage, { redirect: false });
         setHomePage(homePage);
+        console.log('Redirecting to home page: ', homePage.homePage);
         navigate(`/${homePage.homePage}`);
       }
     }
@@ -41,6 +42,8 @@ const Admin: React.FC = () => {
 
   useEffect(() => {
     const handleSessionExpired = () => {
+      console.log('handleSessionExpired triggered');
+
       setTimeout(() => {
         navigate('/auth/sign-in', { replace: true });
       }, 50);

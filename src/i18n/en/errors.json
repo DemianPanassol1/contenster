@@ -26,5 +26,6 @@
   "passwordsNotMatch": "Passwords do not match",
   "usernameAlreadyExists": "Username already exists",
   "emailAlreadyExists": "Email already exists",
-  "throttlerLimitExceeded": "Throttler limit exceeded. Please try again later"
+  "throttlerLimitExceeded": "Throttler limit exceeded. Please try again later",
+  "invalidApiCredentials": "Invalid API credentials"
 }

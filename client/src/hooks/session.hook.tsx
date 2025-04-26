@@ -2,9 +2,9 @@ import { useRouteParams } from '@/hooks/router.hook';
 
 import {
   SESSION_STATE,
+  HOMEPAGE_STATE,
   SESSION_EXPIRED_EVENT,
   SESSION_EXPIRED_EVENT_DETAIL,
-  HOMEPAGE_STATE,
 } from '@/utils/consts.util';
 
 const useSession = (): Session | null => {
