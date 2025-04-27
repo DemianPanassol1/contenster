@@ -6,6 +6,7 @@ import {
   SESSION_EXPIRED_EVENT,
   SESSION_EXPIRED_EVENT_DETAIL,
 } from '@/utils/consts.util';
+import { getDefaultPermission } from '@/utils/functions.util';
 
 const useSession = (): Session | null => {
   const session = sessionStorage.getItem(SESSION_STATE);
@@ -35,18 +36,11 @@ const usePermission = (searchSlug?: string): Permission => {
     );
   }
 
-  return (
-    session?.permissions?.find((item) => item.slug === searchSlug || slug) ?? {
-      id: 0,
-      slug: slug || '',
-      title: '',
-      canRead: true,
-      canCreate: true,
-      canUpdate: true,
-      canDelete: true,
-      type: 'general',
-    }
+  const permission = (session?.permissions ?? []).find(
+    (item) => item.slug === slug || item.slug === String(searchSlug)
   );
+
+  return permission ?? getDefaultPermission(slug || searchSlug);
 };
 
 const useHomePage = (): HomePage | null => {

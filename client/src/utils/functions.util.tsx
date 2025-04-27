@@ -125,10 +125,22 @@ const setHomePage = (homePage: HomePage): void => {
   sessionStorage.setItem(HOMEPAGE_STATE, JSON.stringify(homePage));
 };
 
+const getDefaultPermission = (slug?: string): Permission => ({
+  id: 0,
+  slug: slug || '',
+  title: '',
+  canRead: true,
+  canCreate: false,
+  canUpdate: false,
+  canDelete: false,
+  type: 'general',
+});
+
 export {
   setSession,
   setHomePage,
   buildReqFilter,
   formatStringToMask,
   handlePopulateFields,
+  getDefaultPermission,
 };
